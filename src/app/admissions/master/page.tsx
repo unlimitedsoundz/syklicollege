@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { CaretLeft, Calendar, FileText, CheckCircle, GraduationCap, Globe, Clock, ArrowRight, User, Trophy as Award } from '@phosphor-icons/react/dist/ssr';
 import TableOfContents from '@/components/course/TableOfContents';
+import AdmissionsCTA from '@/components/admissions/AdmissionsCTA';
 
 
 export const metadata = {
@@ -394,6 +395,9 @@ export default function MasterAdmissionsPage() {
                                 </div>
                             </div>
                         </section>
+
+                        {/* CTA Section */}
+                        <AdmissionsCTA />
 
                         {/* 8. Required Documents Detail */}
                         <section id="documents" className="scroll-mt-32">
