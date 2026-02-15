@@ -21,6 +21,7 @@ const nextConfig: NextConfig = {
   experimental: {
     serverActions: {
       bodySizeLimit: '5mb',
+      allowedOrigins: ['syklicollege.fi', 'www.syklicollege.fi', 'localhost:3000'],
     },
   },
 };
