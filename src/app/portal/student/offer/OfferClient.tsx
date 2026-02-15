@@ -147,6 +147,19 @@ export function OfferClient({ admission }: OfferClientProps) {
                                         </div>
                                     </div>
 
+                                    {/* Download Offer Letter button */}
+                                    {admission.offer_letter_url && (
+                                        <a
+                                            href={admission.offer_letter_url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            download
+                                            className="w-full bg-black text-white font-bold py-3 rounded-lg hover:bg-neutral-800 transition-all flex items-center justify-center gap-2 active:scale-95 text-xs uppercase tracking-widest"
+                                        >
+                                            <Download size={16} weight="bold" /> Download Offer Letter
+                                        </a>
+                                    )}
+
                                     <div className="text-center text-xs text-neutral-500 mt-6">
                                         Accepted on: {admission.accepted_at ? format(new Date(admission.accepted_at), 'PPP pp') : 'Just now'}
                                     </div>
@@ -208,8 +221,22 @@ export function OfferClient({ admission }: OfferClientProps) {
                     </div>
                 )}
 
-                {/* Info Card - Only show if not accepted */}
-                {(!isAccepted && decisionFeedback !== 'Offer Accepted') && (
+                {/* Info Card - show for pending, and a compact version for accepted */}
+                {(isAccepted || decisionFeedback === 'Offer Accepted') ? (
+                    <div className="bg-white p-6 rounded-2xl border border-neutral-100 space-y-4">
+                        <h3 className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Your Documents</h3>
+                        <ul className="space-y-3">
+                            <li className="flex gap-3">
+                                <div className="w-5 h-5 bg-neutral-100 rounded-full flex-shrink-0 flex items-center justify-center text-[10px] font-black">📄</div>
+                                <p className="text-xs font-medium text-neutral-600">Your official Letter of Offer is available above for viewing and download at any time.</p>
+                            </li>
+                            <li className="flex gap-3">
+                                <div className="w-5 h-5 bg-neutral-100 rounded-full flex-shrink-0 flex items-center justify-center text-[10px] font-black">📋</div>
+                                <p className="text-xs font-medium text-neutral-600">You may need this letter for visa applications, residence permit, or financial documentation.</p>
+                            </li>
+                        </ul>
+                    </div>
+                ) : (!isRejected && !decisionFeedback) && (
                     <div className="bg-white p-6 rounded-2xl border border-neutral-100 space-y-4">
                         <h3 className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Next Steps</h3>
                         <ul className="space-y-3">
