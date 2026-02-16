@@ -13,13 +13,15 @@ interface HousingManagementClientProps {
     availableRooms: any[];
     assignments: any[];
     buildings: any[];
+    onRefresh: () => Promise<void>;
 }
 
 export default function HousingManagementClient({
     applications,
     availableRooms,
     assignments,
-    buildings
+    buildings,
+    onRefresh
 }: HousingManagementClientProps) {
     const [selectedTab, setSelectedTab] = useState<'applications' | 'assignments' | 'buildings'>('applications');
     const [selectedBuilding, setSelectedBuilding] = useState<any>(null);
@@ -155,7 +157,7 @@ export default function HousingManagementClient({
             ]);
 
             setShowAssignModal(false);
-            window.location.reload();
+            await onRefresh();
         } catch (err: any) {
             setError(err.message || 'An error occurred');
         } finally {
@@ -193,7 +195,7 @@ export default function HousingManagementClient({
             const { error } = await supabase.from('housing_applications').delete().eq('id', id);
             if (error) throw error;
 
-            window.location.reload();
+            await onRefresh();
         } catch (err: any) {
             alert(err.message);
         } finally {
@@ -210,8 +212,15 @@ export default function HousingManagementClient({
             if (assignment) {
                 await supabase.from('housing_rooms').update({ status: 'AVAILABLE' }).eq('id', assignment.room_id);
             }
-            await supabase.from('housing_assignments').delete().eq('id', id);
-            window.location.reload();
+            // 3. Delete the assignment
+            const { error: deleteError } = await supabase
+                .from('housing_assignments')
+                .delete()
+                .eq('id', id);
+
+            if (deleteError) throw new Error(`Failed to delete assignment: ${deleteError.message}`);
+
+            await onRefresh();
         } catch (err: any) {
             alert(err.message);
         } finally {
@@ -226,7 +235,7 @@ export default function HousingManagementClient({
             const supabase = createClient();
             const { error } = await supabase.from('housing_rooms').delete().eq('id', id);
             if (error) throw error;
-            window.location.reload();
+            await onRefresh();
         } catch (err: any) {
             alert(err.message);
         } finally {
@@ -241,7 +250,7 @@ export default function HousingManagementClient({
             const supabase = createClient();
             const { error } = await supabase.from('housing_buildings').delete().eq('id', id);
             if (error) throw error;
-            window.location.reload();
+            await onRefresh();
         } catch (err: any) {
             alert(err.message);
         } finally {
@@ -256,7 +265,7 @@ export default function HousingManagementClient({
             const { error } = await supabase.from('housing_buildings').update(editBuildingData).eq('id', id);
             if (error) throw error;
             setEditingBuildingId(null);
-            window.location.reload();
+            await onRefresh();
         } catch (err: any) {
             alert(err.message);
         } finally {
@@ -271,7 +280,7 @@ export default function HousingManagementClient({
             const { error } = await supabase.from('housing_rooms').update(editRoomData).eq('id', id);
             if (error) throw error;
             setEditingRoomId(null);
-            window.location.reload();
+            await onRefresh();
         } catch (err: any) {
             alert(err.message);
         } finally {

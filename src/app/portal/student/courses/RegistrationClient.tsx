@@ -25,13 +25,15 @@ interface RegistrationClientProps {
     window: any;
     modules: any[];
     initialEnrollments: any[];
+    onRefresh: () => Promise<void>;
 }
 
 export default function RegistrationClient({
     student,
     window,
     modules,
-    initialEnrollments
+    initialEnrollments,
+    onRefresh
 }: RegistrationClientProps) {
     const router = useRouter();
     const [searchQuery, setSearchQuery] = useState('');
@@ -62,7 +64,7 @@ export default function RegistrationClient({
             if (!result.success) {
                 setError(result.error || 'Registration failed');
             } else {
-                router.refresh();
+                await onRefresh();
             }
         });
     };
@@ -79,7 +81,7 @@ export default function RegistrationClient({
             if (!result.success) {
                 setError(result.error);
             } else {
-                router.refresh();
+                await onRefresh();
             }
         });
     };

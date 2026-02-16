@@ -15,62 +15,60 @@ export default function AdminHousingPage() {
     });
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchHousingData = async () => {
-            const supabase = createClient();
-            try {
-                // Fetch all housing applications with student info (joined)
-                const { data: apps } = await supabase
-                    .from('housing_applications')
-                    .select('*, student:students(*, user:profiles(*)), semester:semesters(name), preferred_building:housing_buildings(name, campus_location)')
-                    .order('created_at', { ascending: false });
+    const fetchHousingData = async () => {
+        setLoading(true);
+        const supabase = createClient();
+        try {
+            // Fetch all housing applications with student info (joined)
+            const { data: apps } = await supabase
+                .from('housing_applications')
+                .select('*, student:students(*, user:profiles(*)), semester:semesters(name), preferred_building:housing_buildings(name, campus_location)')
+                .order('created_at', { ascending: false });
 
-                console.log('Fetched Housing Apps:', apps);
+            console.log('Fetched Housing Apps:', apps);
 
-                // Fetch all available rooms with building info
-                const { data: rooms } = await supabase
-                    .from('housing_rooms')
-                    .select('*, building:housing_buildings(*)')
-                    .eq('status', 'AVAILABLE')
-                    .order('building_id');
+            // Fetch all available rooms with building info
+            const { data: rooms } = await supabase
+                .from('housing_rooms')
+                .select('*, building:housing_buildings(*)')
+                .eq('status', 'AVAILABLE')
+                .order('building_id');
 
-                // Fetch all housing assignments with complete data
-                // Explicitly use the foreign key name if needed, but standard joining should work.
-                // Reducing complexity: fetching room and building data separately if deep nesting fails,
-                // but first trying a cleaner syntax.
-                const { data: assign, error: assignError } = await supabase
-                    .from('housing_assignments')
-                    .select(`
+            // Fetch all housing assignments with complete data
+            const { data: assign, error: assignError } = await supabase
+                .from('housing_assignments')
+                .select(`
+                    *,
+                    student:students(*, user:profiles(*)),
+                    room:housing_rooms(
                         *,
-                        student:students(*, user:profiles(*)),
-                        room:housing_rooms(
-                            *,
-                            building:housing_buildings(*)
-                        )
-                    `)
-                    .order('created_at', { ascending: false });
+                        building:housing_buildings(*)
+                    )
+                `)
+                .order('created_at', { ascending: false });
 
-                if (assignError) console.error("Error fetching assignments:", assignError);
+            if (assignError) console.error("Error fetching assignments:", assignError);
 
-                // Fetch all buildings for stats
-                const { data: bldgs } = await supabase
-                    .from('housing_buildings')
-                    .select('*')
-                    .order('name');
+            // Fetch all buildings for stats
+            const { data: bldgs } = await supabase
+                .from('housing_buildings')
+                .select('*')
+                .order('name');
 
-                setData({
-                    applications: apps || [],
-                    availableRooms: rooms || [],
-                    assignments: assign || [],
-                    buildings: bldgs || []
-                });
-            } catch (error) {
-                console.error("Error fetching housing data:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
+            setData({
+                applications: apps || [],
+                availableRooms: rooms || [],
+                assignments: assign || [],
+                buildings: bldgs || []
+            });
+        } catch (error) {
+            console.error("Error fetching housing data:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchHousingData();
     }, []);
 
@@ -99,8 +97,9 @@ export default function AdminHousingPage() {
                     availableRooms={data.availableRooms}
                     assignments={data.assignments}
                     buildings={data.buildings}
+                    onRefresh={fetchHousingData}
                 />
             </div>
-        </div>
+            );</div>
     );
 }

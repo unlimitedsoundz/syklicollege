@@ -1,43 +1,83 @@
-import { createClient } from '@/utils/supabase/server';
-import { redirect } from 'next/navigation';
+'use client';
+
+import { useState, useEffect } from 'react';
+import { createClient } from '@/utils/supabase/client';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { CaretLeft as ArrowLeft } from "@phosphor-icons/react/dist/ssr";
+import { CaretLeft as ArrowLeft, CircleNotch as Loader2 } from "@phosphor-icons/react/dist/ssr";
 import FinanceManagementClient from './FinanceManagementClient';
 
-export default async function AdminHousingFinancePage() {
-    const supabase = await createClient();
+export default function AdminHousingFinancePage() {
+    const [loading, setLoading] = useState(true);
+    const [data, setData] = useState<{
+        invoices: any[];
+        payments: any[];
+        students: any[];
+    }>({
+        invoices: [],
+        payments: [],
+        students: []
+    });
 
-    // Check authentication and admin role
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) redirect('/portal/account/login');
+    const router = useRouter();
 
-    const { data: profile } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', user.id)
-        .single();
 
-    if (profile?.role !== 'ADMIN') {
-        redirect('/portal/dashboard');
+    useEffect(() => {
+        const fetchData = async () => {
+            const supabase = createClient();
+
+            // Check authentication
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) {
+                router.push('/portal/account/login');
+                return;
+            }
+
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('role')
+                .eq('id', user.id)
+                .single();
+
+            if (profile?.role !== 'ADMIN') {
+                router.push('/portal/dashboard');
+                return;
+            }
+
+            // Fetch data
+            const [invoicesRes, paymentsRes, studentsRes] = await Promise.all([
+                supabase
+                    .from('housing_invoices')
+                    .select('*, student:students(id, student_id, user:profiles(*)), items:housing_invoice_items(*)')
+                    .order('created_at', { ascending: false }),
+                supabase
+                    .from('housing_payments')
+                    .select('*, student:students(id, user:profiles(first_name, last_name)), invoice:housing_invoices(reference_number)')
+                    .order('created_at', { ascending: false }),
+                supabase
+                    .from('students')
+                    .select('*, user:profiles(first_name, last_name)')
+                    .limit(100)
+            ]);
+
+            setData({
+                invoices: invoicesRes.data || [],
+                payments: paymentsRes.data || [],
+                students: studentsRes.data || []
+            });
+            setLoading(false);
+        };
+
+        fetchData();
+    }, [router]);
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <Loader2 className="animate-spin text-neutral-400" size={40} weight="bold" />
+            </div>
+        );
     }
-
-    // Fetch all invoices with student details
-    const { data: invoices, error: invError } = await supabase
-        .from('housing_invoices')
-        .select('*, student:students(id, student_id, user:profiles(*)), items:housing_invoice_items(*)')
-        .order('created_at', { ascending: false });
-
-    // Fetch all payments
-    const { data: payments, error: payError } = await supabase
-        .from('housing_payments')
-        .select('*, student:students(id, user:profiles(first_name, last_name)), invoice:housing_invoices(reference_number)')
-        .order('created_at', { ascending: false });
-
-    // Fetch initial students for selection
-    const { data: students } = await supabase
-        .from('students')
-        .select('*, user:profiles(first_name, last_name)')
-        .limit(100);
 
     return (
         <div className="min-h-screen bg-neutral-50/50 p-4 md:p-8 font-sans">
@@ -52,9 +92,9 @@ export default async function AdminHousingFinancePage() {
                 </div>
 
                 <FinanceManagementClient
-                    initialInvoices={invoices || []}
-                    initialPayments={payments || []}
-                    students={students || []}
+                    initialInvoices={data.invoices}
+                    initialPayments={data.payments}
+                    students={data.students}
                 />
             </div>
         </div>
