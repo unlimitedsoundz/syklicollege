@@ -1,9 +1,8 @@
 import { createClient } from '@/utils/supabase/client';
-import { createAdminClient } from '@/utils/supabase/admin';
 import { ApplicationStatus } from '@/types/database';
 
 export async function updateApplicationStatus(applicationId: string, status: ApplicationStatus) {
-    const supabase = createAdminClient();
+    const supabase = createClient();
 
     const { error } = await supabase
         .from('applications')
@@ -43,7 +42,7 @@ export async function updateApplicationStatus(applicationId: string, status: App
 }
 
 export async function deleteApplication(applicationId: string) {
-    const supabase = createAdminClient();
+    const supabase = createClient();
 
     const { error } = await supabase
         .from('applications')
@@ -58,7 +57,7 @@ export async function deleteApplication(applicationId: string) {
 }
 
 export async function updateInternalNotes(applicationId: string, notes: string) {
-    const supabase = createAdminClient();
+    const supabase = createClient();
 
     const { error } = await supabase
         .from('applications')
@@ -76,7 +75,7 @@ export async function updateInternalNotes(applicationId: string, notes: string) 
 }
 
 export async function createAdmissionOffer(applicationId: string, tuitionFee: number, deadline: string, offerType: 'DEPOSIT' | 'FULL_TUITION' = 'DEPOSIT', discountAmount: number = 0) {
-    const supabase = createAdminClient();
+    const supabase = createClient();
 
     const { error } = await supabase
         .from('admission_offers')

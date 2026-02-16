@@ -1,7 +1,7 @@
-import { createAdminClient } from '@/utils/supabase/admin';
+import { createClient } from '@/utils/supabase/client';
 
 export async function generateAndStoreOfferLetter(applicationId: string) {
-    const supabase = createAdminClient();
+    const supabase = createClient();
     try {
         const { data, error } = await supabase.functions.invoke('generate-admission-letter', {
             body: { applicationId, type: 'OFFER' }
@@ -15,7 +15,7 @@ export async function generateAndStoreOfferLetter(applicationId: string) {
 }
 
 export async function generateAndStoreAdmissionLetter(applicationId: string) {
-    const supabase = createAdminClient();
+    const supabase = createClient();
     try {
         const { data, error } = await supabase.functions.invoke('generate-admission-letter', {
             body: { applicationId }

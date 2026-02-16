@@ -1,9 +1,8 @@
 import { createClient } from '@/utils/supabase/client';
-import { createAdminClient } from '@/utils/supabase/admin';
+
 
 export async function respondToOffer(admissionId: string, decision: 'ACCEPTED' | 'REJECTED') {
     const supabase = await createClient();
-    const adminSupabase = createAdminClient();
 
     // 1. Get current user
     const { data: { user } } = await supabase.auth.getUser();
@@ -33,7 +32,7 @@ export async function respondToOffer(admissionId: string, decision: 'ACCEPTED' |
         updateData.accepted_at = new Date().toISOString();
     }
 
-    const { error: updateError } = await adminSupabase
+    const { error: updateError } = await supabase
         .from('admissions')
         .update(updateData)
         .eq('id', admissionId);
@@ -45,13 +44,13 @@ export async function respondToOffer(admissionId: string, decision: 'ACCEPTED' |
 
     // 5. Trigger next steps / notifications
     if (decision === 'ACCEPTED') {
-        await adminSupabase
+        await supabase
             .from('applications')
             .update({ status: 'OFFER_ACCEPTED' })
             .eq('user_id', user.id)
             .eq('status', 'ADMITTED');
     } else {
-        await adminSupabase
+        await supabase
             .from('applications')
             .update({ status: 'OFFER_DECLINED' })
             .eq('user_id', user.id)
@@ -63,7 +62,7 @@ export async function respondToOffer(admissionId: string, decision: 'ACCEPTED' |
 
 export async function acceptApplicationOffer(applicationId: string) {
     const supabase = await createClient();
-    const adminSupabase = createAdminClient();
+
 
     // 1. Get current user
     const { data: { user } } = await supabase.auth.getUser();
