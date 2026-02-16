@@ -59,10 +59,10 @@ export function OfferClient({ admission }: OfferClientProps) {
             {/* Left Column: PDF Preview */}
             <div className="lg:col-span-2 space-y-3">
                 <div className="bg-white border-2 border-neutral-200 rounded-xl overflow-hidden min-h-[500px] md:min-h-[700px] flex flex-col shadow-sm">
-                    <div className="p-4 border-b border-neutral-100 flex items-center justify-between bg-neutral-50/50">
+                    <div className="p-2 md:p-4 border-b border-neutral-100 flex items-center justify-between bg-neutral-50/50">
                         <div className="flex items-center gap-2">
                             <FileText size={18} weight="regular" className="text-neutral-400" />
-                            <span className="text-[10px] font-black uppercase tracking-widest text-neutral-500">
+                            <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-neutral-500">
                                 {isLetterGenerated ? 'Official Admission Letter' : 'Letter of Offer'} - {admission.student_id}
                             </span>
                         </div>
@@ -71,7 +71,7 @@ export function OfferClient({ admission }: OfferClientProps) {
                             target="_blank"
                             rel="noopener noreferrer"
                             download
-                            className="p-2 hover:bg-white rounded-lg transition-colors text-neutral-600 hover:text-black"
+                            className="p-1.5 md:p-2 hover:bg-white rounded-lg transition-colors text-neutral-600 hover:text-black"
                             title="Download PDF"
                         >
                             <Download size={18} weight="bold" />
