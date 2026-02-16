@@ -87,7 +87,7 @@ export async function acceptApplicationOffer(applicationId: string) {
     }
 
     // 3. Update Admission Offer Status
-    const { error: offerError } = await adminSupabase
+    const { error: offerError } = await supabase
         .from('admission_offers')
         .update({
             status: 'ACCEPTED',
@@ -101,7 +101,7 @@ export async function acceptApplicationOffer(applicationId: string) {
     }
 
     // 4. Update Application Status
-    const { error: appError } = await adminSupabase
+    const { error: appError } = await supabase
         .from('applications')
         .update({
             status: 'OFFER_ACCEPTED',
@@ -116,7 +116,7 @@ export async function acceptApplicationOffer(applicationId: string) {
 
     // 5. Trigger Admission Letter Generation (Edge Function)
     try {
-        const { error: funcError } = await adminSupabase.functions.invoke('generate-admission-letter', {
+        const { error: funcError } = await supabase.functions.invoke('generate-admission-letter', {
             body: { applicationId }
         });
         if (funcError) {
@@ -128,7 +128,7 @@ export async function acceptApplicationOffer(applicationId: string) {
 
     // 6. Try updating legacy admissions table
     try {
-        const { data: courseData } = await adminSupabase
+        const { data: courseData } = await supabase
             .from('applications')
             .select('course(title)')
             .eq('id', applicationId)
@@ -137,7 +137,7 @@ export async function acceptApplicationOffer(applicationId: string) {
         const courseTitle = (courseData?.course as any)?.title;
 
         if (courseTitle) {
-            await adminSupabase
+            await supabase
                 .from('admissions')
                 .update({
                     offer_status: 'ACCEPTED',

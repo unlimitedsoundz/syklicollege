@@ -317,7 +317,7 @@ function ApplicationReviewContent() {
                                             setUpdating(false);
                                         }
                                     }}
-                                    disabled={updating || (app.status !== 'ENROLLED' && app.status !== 'ADMISSION_LETTER_GENERATED' && app.status !== 'OFFER_ACCEPTED' && app.status !== 'PAYMENT_SUBMITTED')}
+                                    disabled={updating || (app.status !== 'ENROLLED' && app.status !== 'ADMISSION_LETTER_GENERATED' && app.status !== 'OFFER_ACCEPTED' && app.status !== 'PAYMENT_SUBMITTED' && app.status !== 'ADMITTED')}
                                     className="w-full text-left px-4 py-3 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-neutral-700 text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-between group"
                                 >
                                     <div className="flex items-center gap-2">

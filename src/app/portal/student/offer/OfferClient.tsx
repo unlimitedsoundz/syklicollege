@@ -3,7 +3,7 @@
 import React, { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { DownloadSimple as Download, CheckCircle, XCircle, FileText, CircleNotch as Loader2, WarningCircle as AlertCircle, Trophy as Award, Percent } from "@phosphor-icons/react/dist/ssr";
-import { respondToOffer } from './actions';
+import { acceptApplicationOffer } from './actions';
 import { format } from 'date-fns';
 
 interface OfferClientProps {
@@ -30,12 +30,19 @@ export function OfferClient({ admission }: OfferClientProps) {
         setError(null);
         startTransition(async () => {
             try {
-                const result = await respondToOffer(admission.id, decision);
-                if (result.success) {
-                    setDecisionFeedback(decision === 'ACCEPTED' ? 'Offer Accepted' : 'Offer Rejected');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    // Refresh current page to trigger Edge Function side effects via server update
-                    router.refresh();
+                if (decision === 'ACCEPTED') {
+                    // admission object here is the offer record. It has application_id.
+                    const result = await acceptApplicationOffer(admission.application_id);
+                    if (result.success) {
+                        setDecisionFeedback('Offer Accepted');
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        // Wait for DB update propagation
+                        await new Promise(resolve => setTimeout(resolve, 2000));
+                        router.refresh();
+                    }
+                } else {
+                    // Reject logic - currently placeholder in UI but we kept the button
+                    alert("Please contact admissions to decline your offer.");
                 }
             } catch (err: any) {
                 setError(err.message || 'Failed to process decision');
