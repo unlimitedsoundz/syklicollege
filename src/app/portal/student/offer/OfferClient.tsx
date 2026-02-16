@@ -4,6 +4,7 @@ import React, { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { DownloadSimple as Download, CheckCircle, XCircle, FileText, CircleNotch as Loader2, WarningCircle as AlertCircle, Trophy as Award, Percent } from "@phosphor-icons/react/dist/ssr";
 import { acceptApplicationOffer } from './actions';
+import { createClient } from '@/utils/supabase/client';
 import { format } from 'date-fns';
 
 interface OfferClientProps {
@@ -15,6 +16,7 @@ export function OfferClient({ admission }: OfferClientProps) {
     const [isPending, startTransition] = useTransition();
     const [error, setError] = useState<string | null>(null);
     const [decisionFeedback, setDecisionFeedback] = useState<string | null>(null);
+    const [generatingLetter, setGeneratingLetter] = useState(false);
 
     const hasResponded = admission.offer_status !== 'PENDING';
     const isAccepted = admission.offer_status === 'ACCEPTED';
@@ -31,21 +33,38 @@ export function OfferClient({ admission }: OfferClientProps) {
         startTransition(async () => {
             try {
                 if (decision === 'ACCEPTED') {
-                    // admission object here is the offer record. It has application_id.
                     const result = await acceptApplicationOffer(admission.application_id);
                     if (result.success) {
                         setDecisionFeedback('Offer Accepted');
+                        setGeneratingLetter(true);
                         window.scrollTo({ top: 0, behavior: 'smooth' });
-                        // Wait for DB update propagation
-                        await new Promise(resolve => setTimeout(resolve, 2000));
-                        router.refresh();
+
+                        // Poll for the admission letter to be generated (up to 30 seconds)
+                        const supabase = createClient();
+                        const maxAttempts = 10;
+                        for (let i = 0; i < maxAttempts; i++) {
+                            await new Promise(resolve => setTimeout(resolve, 3000));
+                            const { data: appCheck } = await supabase
+                                .from('applications')
+                                .select('status')
+                                .eq('id', admission.application_id)
+                                .single();
+
+                            if (appCheck?.status === 'ADMISSION_LETTER_GENERATED') {
+                                // Letter is ready — reload to show it
+                                window.location.reload();
+                                return;
+                            }
+                        }
+                        // Timeout — reload anyway to show current state
+                        window.location.reload();
                     }
                 } else {
-                    // Reject logic - currently placeholder in UI but we kept the button
                     alert("Please contact admissions to decline your offer.");
                 }
             } catch (err: any) {
                 setError(err.message || 'Failed to process decision');
+                setGeneratingLetter(false);
             }
         });
     };
@@ -152,7 +171,7 @@ export function OfferClient({ admission }: OfferClientProps) {
                                     </div>
 
                                     <div className="text-left bg-neutral-50 p-8 rounded-lg space-y-6 border border-neutral-200">
-                                        {isOfferAcceptedOnly ? (
+                                        {(isOfferAcceptedOnly || generatingLetter) ? (
                                             <div className="flex flex-col items-center py-4">
                                                 <Loader2 size={32} className="animate-spin text-neutral-400 mb-3" />
                                                 <p className="text-sm font-bold uppercase tracking-widest text-neutral-600">Generating Admission Letter...</p>

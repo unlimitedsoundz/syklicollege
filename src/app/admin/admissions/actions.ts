@@ -17,9 +17,42 @@ export async function updateApplicationStatus(applicationId: string, status: App
         throw new Error('Failed to update status');
     }
 
-    // TRIGGER LOGIC: Automatically generate Letter of Offer on approval
+    // TRIGGER LOGIC: Automatically create admission offer + generate Letter of Offer on approval
     if (status === 'ADMITTED') {
         try {
+            // Auto-create admission_offers record if one doesn't exist yet
+            const { data: existingOffer } = await supabase
+                .from('admission_offers')
+                .select('id')
+                .eq('application_id', applicationId)
+                .maybeSingle();
+
+            if (!existingOffer) {
+                // Fetch application with course to get tuition fee
+                const { data: appData } = await supabase
+                    .from('applications')
+                    .select('course_id, Course:course_id(tuitionFee)')
+                    .eq('id', applicationId)
+                    .single();
+
+                const tuitionFee = (appData as any)?.Course?.tuitionFee || '€0';
+                // Parse numeric value from tuition string like "€10,000 / year"
+                const numericFee = parseFloat(tuitionFee.replace(/[^0-9.]/g, '')) || 0;
+
+                const deadline = new Date();
+                deadline.setDate(deadline.getDate() + 30); // 30 day deadline
+
+                await supabase
+                    .from('admission_offers')
+                    .insert({
+                        application_id: applicationId,
+                        tuition_fee: numericFee,
+                        payment_deadline: deadline.toISOString(),
+                        offer_type: 'FULL',
+                        status: 'PENDING'
+                    });
+            }
+
             const { generateAndStoreOfferLetter } = await import('./pdf-actions');
             await generateAndStoreOfferLetter(applicationId);
         } catch (pdfError) {

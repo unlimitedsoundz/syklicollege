@@ -67,7 +67,7 @@ function PaymentContent() {
                 const application = applicationRaw;
                 const offer = application.offer[0];
 
-                // Security Check: Only allow if OFFER_ACCEPTED or if already ENROLLED (to view receipt)
+                // Security Check: Only allow if OFFER_ACCEPTED, ADMISSION_LETTER_GENERATED, or if already ENROLLED (to view receipt)
                 if (application.status === 'ADMITTED') {
                     router.push(`/portal/application/letter?id=${id}`);
                     return;

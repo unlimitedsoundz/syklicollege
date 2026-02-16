@@ -49,7 +49,7 @@ export default function DashboardPage() {
                 // Auto-redirect to student portal if enrolled and no urgent actions required
                 if (studentRes.data) {
                     const hasUrgentAction = (appsRes.data || []).some(app =>
-                        app.status === 'ADMITTED' || app.status === 'OFFER_ACCEPTED'
+                        app.status === 'ADMITTED' || app.status === 'OFFER_ACCEPTED' || app.status === 'ADMISSION_LETTER_GENERATED'
                     );
                     if (!hasUrgentAction) {
                         // Smoothly transition to student portal
@@ -185,6 +185,36 @@ export default function DashboardPage() {
                                 </div>
                             )}
 
+                            {/* Admission Letter Generated - Ready to Pay */}
+                            {app.status === 'ADMISSION_LETTER_GENERATED' && (
+                                <div className="flex items-start justify-between border-2 border-black p-6 md:p-8 rounded-sm text-black relative overflow-hidden bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] mb-4">
+                                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10 w-full">
+                                        <div>
+                                            <h4 className="font-black text-[12px] uppercase tracking-widest flex items-center gap-2">
+                                                <GraduationCap size={16} weight="bold" /> Admission Confirmed
+                                            </h4>
+                                            <p className="text-neutral-500 text-[10px] font-bold uppercase tracking-tight mt-1">
+                                                Your official admission letter has been issued. Complete tuition payment to finalize enrollment.
+                                            </p>
+                                        </div>
+                                        <div className="flex flex-col md:flex-row gap-2">
+                                            <Link
+                                                href="/portal/student/offer"
+                                                className="px-6 py-3 border border-neutral-200 text-neutral-600 rounded-sm text-[10px] font-black uppercase tracking-widest hover:bg-neutral-50 transition-all whitespace-nowrap text-center"
+                                            >
+                                                View Admission Letter
+                                            </Link>
+                                            <Link
+                                                href={`/portal/application/payment?id=${app.id}`}
+                                                className="bg-black text-white px-8 py-4 rounded-sm text-[10px] font-black uppercase tracking-widest hover:bg-neutral-800 transition-all whitespace-nowrap text-center shadow-lg"
+                                            >
+                                                Pay Tuition
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
                             {/* Payment Verification Pending - PAYMENT_SUBMITTED */}
                             {app.status === 'PAYMENT_SUBMITTED' && (
                                 <div className="flex items-start justify-between border border-neutral-200 p-6 md:p-8 rounded-sm text-black relative overflow-hidden bg-neutral-50 mb-4 shadow-sm">
@@ -284,10 +314,10 @@ export default function DashboardPage() {
                                         </Link>
                                     )}
 
-                                    {(app.status === 'ADMITTED' || app.status === 'OFFER_ACCEPTED') && (
+                                    {(app.status === 'ADMITTED' || app.status === 'OFFER_ACCEPTED' || app.status === 'ADMISSION_LETTER_GENERATED') && (
                                         <Link
-                                            href={app.status === 'OFFER_ACCEPTED' ? `/portal/application/payment?id=${app.id}` : '#'}
-                                            className={`px-4 py-2 rounded-sm text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 ${app.status === 'OFFER_ACCEPTED'
+                                            href={(app.status === 'OFFER_ACCEPTED' || app.status === 'ADMISSION_LETTER_GENERATED') ? `/portal/application/payment?id=${app.id}` : '#'}
+                                            className={`px-4 py-2 rounded-sm text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 ${(app.status === 'OFFER_ACCEPTED' || app.status === 'ADMISSION_LETTER_GENERATED')
                                                 ? 'bg-black text-white hover:bg-neutral-800'
                                                 : 'bg-neutral-100 text-neutral-400 cursor-not-allowed border border-neutral-200'
                                                 }`}
@@ -295,6 +325,17 @@ export default function DashboardPage() {
                                         >
                                             <CreditCard size={12} />
                                             Pay Tuition
+                                        </Link>
+                                    )}
+
+                                    {/* View Admission Letter for ADMISSION_LETTER_GENERATED */}
+                                    {app.status === 'ADMISSION_LETTER_GENERATED' && (
+                                        <Link
+                                            href="/portal/student/offer"
+                                            className="px-4 py-2 border border-neutral-200 text-neutral-600 rounded-sm text-[10px] font-bold uppercase tracking-widest hover:bg-neutral-50 transition-all flex items-center gap-2"
+                                        >
+                                            <FileText size={12} weight="bold" />
+                                            Admission Letter
                                         </Link>
                                     )}
 
