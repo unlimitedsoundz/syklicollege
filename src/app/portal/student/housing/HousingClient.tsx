@@ -71,7 +71,7 @@ export default function HousingDashboardClient({ student, application, assignmen
     const handlePayment = async () => {
         if (!selectedInvoice || !billingCountry) return;
 
-        if (paymentMethod === 'PAYGOWIRE') {
+        if (paymentMethod === 'BANK_TRANSFER') {
             setCheckoutAmount(selectedInvoice.total_amount - (selectedInvoice.paid_amount || 0));
             setShowCheckout(true);
             return;
@@ -100,7 +100,7 @@ export default function HousingDashboardClient({ student, application, assignmen
         if (!selectedInvoice) return;
         setPaying(true);
         try {
-            const result = await initiatePayment(selectedInvoice.id, 'PAYGOWIRE', details.country || 'Finland');
+            const result = await initiatePayment(selectedInvoice.id, 'BANK_TRANSFER', details.country || 'Finland');
             if (result.success && result.transactionId) {
                 // Here we verify the transaction
                 await verifyPayment(result.transactionId);

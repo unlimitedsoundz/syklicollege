@@ -156,7 +156,7 @@ export default function MasterAdmissionsPage() {
                                             <p className="font-black text-xl tracking-tight">Admission results published</p>
                                         </div>
                                         <div className="relative pl-6 before:absolute before:left-0 before:top-2 before:w-2 before:h-2 before:bg-white/30 before:rounded-full">
-                                            <span className="block text-xs font-bold uppercase tracking-wider text-white/60 mb-1">Until 26 June</span>
+                                            <span className="block text-xs font-bold uppercase tracking-wider text-white/60 mb-1">Until 26 June 2026</span>
                                             <p className="font-medium text-sm">Waiting list admissions end</p>
                                         </div>
                                     </div>
@@ -174,11 +174,11 @@ export default function MasterAdmissionsPage() {
                                     <div className="space-y-4 flex-grow">
                                         <div className="grid grid-cols-1 gap-4">
                                             <div className="bg-white p-4 rounded-xl border border-neutral-100">
-                                                <span className="block text-[10px] font-bold uppercase tracking-wider text-neutral-400">29 April</span>
+                                                <span className="block text-[10px] font-bold uppercase tracking-wider text-neutral-400">5 June 2026</span>
                                                 <p className="text-xs font-bold">Deadline to accept place</p>
                                             </div>
                                             <div className="bg-white p-4 rounded-xl border border-neutral-100">
-                                                <span className="block text-[10px] font-bold uppercase tracking-wider text-neutral-400">13 May / 14 Aug</span>
+                                                <span className="block text-[10px] font-bold uppercase tracking-wider text-neutral-400">19 June / 21 Aug</span>
                                                 <p className="text-xs font-bold">Submit certified documents</p>
                                             </div>
                                             <div className="bg-white p-4 rounded-xl border border-neutral-100">
@@ -469,13 +469,13 @@ export default function MasterAdmissionsPage() {
                             <h2 className="text-3xl font-bold mb-6 text-black">11. Evaluation & Decisions</h2>
                             <p className="text-neutral-700 mb-6 font-medium">
                                 Only complete applications are evaluated based on programme-specific criteria.
-                                Admission results will be published on <strong>8 April 2026</strong>.
+                                Decision results will be published on <strong>15 May 2026</strong>.
                             </p>
                             <div className="bg-neutral-900 text-white p-8 rounded-xl flex items-center gap-6">
                                 <Clock className="shrink-0 text-neutral-400" size={32} weight="regular" />
                                 <div>
                                     <div className="font-bold text-lg mb-1">Waiting List Procedure</div>
-                                    <div className="text-neutral-400 text-sm">Places on the waiting list may be offered until 11 June 2026. Keep an eye on your email.</div>
+                                    <div className="text-neutral-400 text-sm">Places on the waiting list may be offered until 26 June 2026. Keep an eye on your email.</div>
                                 </div>
                             </div>
                         </section>
@@ -484,8 +484,8 @@ export default function MasterAdmissionsPage() {
                         <section id="after" className="scroll-mt-32 bg-neutral-50 p-12 rounded-2xl border border-neutral-200">
                             <h2 className="text-3xl font-bold mb-6">12. After Being Admitted</h2>
                             <ol className="space-y-6 list-decimal pl-5 font-bold text-neutral-800 text-lg mb-8">
-                                <li>Accept the offer by the stated deadline (5 June).</li>
-                                <li>Submit certified documents (19 June or 21 Aug).</li>
+                                <li>Accept the offer by the stated deadline (5 June 2026).</li>
+                                <li>Submit certified documents (19 June or 21 August 2026).</li>
                                 <li>Pay tuition fees (if applicable).</li>
                                 <li>Complete enrolment and orientation.</li>
                             </ol>

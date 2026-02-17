@@ -205,6 +205,19 @@ export async function submitApplication(applicationId: string) {
         throw new Error('Failed to submit application');
     }
 
+    // 3. Trigger Notification via Edge Function
+    try {
+        await supabase.functions.invoke('send-notification', {
+            body: {
+                applicationId: applicationId,
+                type: 'APPLICATION_SUBMITTED'
+            }
+        });
+    } catch (notifyError) {
+        console.error('Failed to trigger submission notification:', notifyError);
+        // Non-blocking
+    }
+
     return { success: true };
 }
 
@@ -432,6 +445,18 @@ export async function acceptOffer(applicationId: string) {
 
     if (appError) throw new Error('Failed to update application status');
 
+    // 3. Trigger Notification via Edge Function
+    try {
+        await supabase.functions.invoke('send-notification', {
+            body: {
+                applicationId: applicationId,
+                type: 'OFFER_ACCEPTED'
+            }
+        });
+    } catch (notifyError) {
+        console.error('Failed to trigger offer acceptance notification:', notifyError);
+    }
+
     // Redirect to the payment/offer page to continue the flow
 }
 
@@ -439,8 +464,6 @@ export async function acceptOffer(applicationId: string) {
 import { sendEmail } from '@/lib/email';
 import OfferRejectionEmail from '@/emails/OfferRejectionEmail';
 import PaymentConfirmationEmail from '@/emails/PaymentConfirmationEmail';
-
-// ... (existing code: acceptOffer, etc.)
 
 export async function rejectOffer(applicationId: string) {
     const supabase = await createClient();
@@ -621,29 +644,22 @@ export async function processTuitionPayment(
         }
     });
 
-    // 5. Send Payment Confirmation Email
+    // 5. Send Payment Confirmation Email via Edge Function
     try {
-        const { data: profile } = await adminSupabase
-            .from('profiles')
-            .select('first_name')
-            .eq('id', user.id)
-            .single();
-
-        const courseTitle = app.course?.title || 'Program';
-
-        await sendEmail({
-            to: user.email!,
-            subject: `Payment Confirmation - SYKLI College`,
-            react: React.createElement(PaymentConfirmationEmail, {
-                firstName: profile?.first_name || 'Student',
-                courseTitle: courseTitle,
-                amount: amount,
-                currency: currency || 'EUR',
-                transactionId: reference,
-            })
+        await supabase.functions.invoke('send-notification', {
+            body: {
+                applicationId: applicationId,
+                type: 'PAYMENT_RECEIVED',
+                additionalData: {
+                    amount: amount,
+                    currency: currency || 'EUR',
+                    reference: reference,
+                    paymentType: 'TUITION'
+                }
+            }
         });
     } catch (emailError) {
-        console.error('Failed to send payment confirmation email:', emailError);
+        console.error('Failed to trigger payment notification:', emailError);
     }
 
     return { success: true, reference };

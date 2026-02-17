@@ -484,8 +484,8 @@ export default function PayGoWireCheckout({
                             ) : (
                                 <>
                                     {selectedCountry === 'Nigeria'
-                                        ? 'Complete Payment with FLUTTERWAVE'
-                                        : `Complete Payment with PayGoWire (${fxData.localCurrency} ${Number(fxData.localAmount).toLocaleString()})`
+                                        ? 'Complete Payment with KUDA BANK'
+                                        : `Complete Payment via Bank Transfer (${fxData.localCurrency} ${Number(fxData.localAmount).toLocaleString()})`
                                     }
                                 </>
                             )}
@@ -493,7 +493,7 @@ export default function PayGoWireCheckout({
 
                         <div className="pt-4 flex flex-col gap-2">
                             <p className="text-sm text-black font-medium text-center mt-2 max-w-sm mx-auto leading-relaxed">
-                                Your payment is protected by enterprise-grade AML and regulatory screening via the PayGoWire global network.
+                                Your payment is protected by enterprise-grade security and verified directly by the Sykli College finance team.
                             </p>
                         </div>
                     </div>
@@ -521,18 +521,18 @@ export default function PayGoWireCheckout({
                                 </div>
                                 <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
                                     <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Bank</span>
-                                    <span className="text-xs md:text-sm text-black font-normal text-right">Sterling Bank PLC</span>
+                                    <span className="text-xs md:text-sm text-black font-normal text-right">Kuda Bank</span>
                                 </div>
                                 <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
                                     <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Account Number</span>
                                     <div className="flex items-center gap-3">
-                                        <CopyButton text="8523438395" label="Account Number" />
-                                        <span className="text-lg md:text-xl text-black font-normal tracking-wider">8523438395</span>
+                                        <CopyButton text="3003469520" label="Account Number" />
+                                        <span className="text-lg md:text-xl text-black font-normal tracking-wider">3003469520</span>
                                     </div>
                                 </div>
                                 <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
                                     <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Beneficiary</span>
-                                    <span className="text-xs md:text-sm text-black font-normal text-right">Flutterwave/SYKLI Educational Services</span>
+                                    <span className="text-xs md:text-sm text-black font-normal text-right">SYKLI EDUCATIONAL SERVICES</span>
                                 </div>
                                 <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
                                     <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Reference</span>
@@ -582,15 +582,11 @@ export default function PayGoWireCheckout({
             {/* Footer Regulatory Info */}
             <div className="bg-neutral-50 border-t border-neutral-100 p-4 md:p-6 flex flex-col md:flex-row justify-between items-center gap-4">
                 <div className="flex items-center gap-2">
-                    <Image
-                        src="/images/paygowire-logo-v2.png"
-                        alt="PayGoWire"
-                        width={100}
-                        height={20}
-                        className="h-5 w-auto object-contain"
-                    />
+                    <div className="h-5 flex items-center">
+                        <span className="text-[10px] font-bold text-black uppercase tracking-widest">Kuda Bank Business</span>
+                    </div>
                     <div>
-                        <p className="text-sm text-black font-normal uppercase tracking-widest leading-none mt-0.5 border-l border-neutral-300 pl-2 ml-2">Global Education Rails</p>
+                        <p className="text-sm text-black font-normal uppercase tracking-widest leading-none mt-0.5 border-l border-neutral-300 pl-2 ml-2">Secure Education Transfer</p>
                     </div>
                 </div>
                 <div className="flex gap-6 opacity-30">

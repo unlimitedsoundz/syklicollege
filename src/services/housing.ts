@@ -58,14 +58,27 @@ export async function submitHousingApplication(data: {
 
         if (error) return { success: false, error: error.message };
 
-        // 5. Generate Initial Housing Invoice (Deposit) - Using Client Service
+        // 6. Notify Admin & Student via Edge Function
         try {
-            const { generateHousingInvoice } = await import('@/services/payment');
-            await generateHousingInvoice(student.id, application.id, [
-                { description: 'Housing Deposit (Security & Keys)', type: 'HOUSING_DEPOSIT', amount: 500 }
-            ]);
-        } catch (invError) {
-            console.error('Failed to generate invoice:', invError);
+            const { data: fullInfo } = await supabase
+                .from('housing_applications')
+                .select('*, semester:semesters(name), building:housing_buildings(name)')
+                .eq('id', application.id)
+                .single();
+
+            await supabase.functions.invoke('send-notification', {
+                body: {
+                    type: 'HOUSING_SUBMITTED',
+                    applicationId: application.application_id || undefined, // Base application ID if linked
+                    additionalData: {
+                        semesterName: fullInfo?.semester?.name || 'Unknown',
+                        preferredBuilding: fullInfo?.building?.name || 'No Preference',
+                        moveInDate: application.move_in_date,
+                    }
+                }
+            });
+        } catch (notifyError) {
+            console.error('Failed to trigger housing notification:', notifyError);
         }
 
         return { success: true, application };

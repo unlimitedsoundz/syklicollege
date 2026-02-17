@@ -170,8 +170,8 @@ export default function ApplicationProcessPage() {
                                 After Being Admitted
                             </h3>
                             <ul className="space-y-4 text-neutral-700">
-                                <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-2"></div> Accept the offer by the stated deadline (5 June).</li>
-                                <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-2"></div> Submit certified documents (19 June or 21 Aug).</li>
+                                <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-2"></div> Accept the offer by the stated deadline (5 June 2026).</li>
+                                <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-2"></div> Submit certified documents (19 June or 21 August 2026).</li>
                                 <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-2"></div> Pay tuition fees (if applicable).</li>
                                 <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-2"></div> Complete enrolment and orientation.</li>
                             </ul>

@@ -68,9 +68,9 @@ export async function initiatePayment(
 
         if (!invoice) return { success: false, error: 'Invoice not found' };
 
-        // Mock PayGoWire Interaction
-        const payGoWireTxId = `PGW-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-        const mockPaymentUrl = `https://paygowire.mock/pay/${payGoWireTxId}?amount=${invoice.total_amount}&currency=${invoice.currency}`;
+        // Mock Kuda Bank Interaction
+        const kudaTxId = `KUDA-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+        const mockPaymentUrl = `https://syklicollege.fi/portal/application/payment/verify?ref=${kudaTxId}`;
 
         // Create Payment Record
         const { error: paymentError } = await supabase
@@ -83,7 +83,7 @@ export async function initiatePayment(
                 status: 'PENDING',
                 payment_method: method,
                 billing_country: country,
-                paygowire_transaction_id: payGoWireTxId,
+                paygowire_transaction_id: kudaTxId,
                 paygowire_payment_url: mockPaymentUrl
             });
 
@@ -92,7 +92,7 @@ export async function initiatePayment(
             return { success: false, error: 'Failed to initiate payment transaction' };
         }
 
-        return { success: true, paymentUrl: mockPaymentUrl, transactionId: payGoWireTxId };
+        return { success: true, paymentUrl: mockPaymentUrl, transactionId: kudaTxId };
 
     } catch (err: any) {
         return { success: false, error: err.message };
@@ -144,10 +144,29 @@ export async function verifyPayment(
                 })
                 .eq('id', payment.invoice_id);
 
+
             if (isPaid && updatedInvoice.application_id) {
                 await supabase.from('housing_applications')
                     .update({ status: 'APPROVED' })
                     .eq('id', updatedInvoice.application_id);
+            }
+
+            // Notify Admin & Student via Edge Function
+            try {
+                await supabase.functions.invoke('send-notification', {
+                    body: {
+                        type: 'PAYMENT_RECEIVED',
+                        applicationId: updatedInvoice.application_id || undefined,
+                        additionalData: {
+                            amount: payment.amount,
+                            currency: payment.currency,
+                            reference: transactionId,
+                            paymentType: 'HOUSING'
+                        }
+                    }
+                });
+            } catch (notifyError) {
+                console.error('Failed to trigger housing payment notification:', notifyError);
             }
         }
 
@@ -287,12 +306,31 @@ export async function verifyHousingPaymentManually(invoiceId: string, amount: nu
         })
         .eq('id', invoiceId);
 
+
     // 5. Update Application if Fully Paid
     if (isFullyPaid && invoice.application_id) {
         await supabase
             .from('housing_applications')
             .update({ status: 'APPROVED' })
             .eq('id', invoice.application_id);
+    }
+
+    // 6. Notify Admin & Student via Edge Function
+    try {
+        await supabase.functions.invoke('send-notification', {
+            body: {
+                type: 'PAYMENT_RECEIVED',
+                applicationId: invoice.application_id || undefined,
+                additionalData: {
+                    amount: amount,
+                    currency: invoice.currency,
+                    reference: reference || 'MANUAL-VERIF',
+                    paymentType: 'HOUSING'
+                }
+            }
+        });
+    } catch (notifyError) {
+        console.error('Failed to trigger manual payment notification:', notifyError);
     }
 
     return { success: true };

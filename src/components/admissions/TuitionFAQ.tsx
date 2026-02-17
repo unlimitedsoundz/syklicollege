@@ -36,26 +36,25 @@ const faqs: FAQItem[] = [
         )
     },
     {
-        question: "How does the Paygowire payment process work?",
+        question: "How do I pay my tuition fees?",
         answer: (
             <div className="space-y-4">
                 <p>
-                    Sykli College partners with <strong>Paygowire</strong> to provide a secure and streamlined international
-                    payment experience. This allows you to pay in your local currency with no hidden bank fees and
-                    favourable exchange rates.
+                    Sykli College accepts tuition payments exclusively via <strong>direct bank transfer</strong>.
+                    This ensuring a secure and transparent transaction directly between the student and the institution.
                 </p>
                 <p>
                     <strong>Steps to complete your payment:</strong>
                 </p>
                 <ol className="list-decimal pl-5 space-y-2">
                     <li>Log in to your <strong>Sykli Applicant Portal</strong>.</li>
-                    <li>Navigate to the 'Payment' section and click the Paygowire link.</li>
-                    <li>Select your country of origin and preferred payment method (e.g., local bank transfer, credit card, or e-wallet).</li>
-                    <li>Review the payment instructions provided by Paygowire.</li>
+                    <li>Navigate to the 'Payment' section of your accepted application.</li>
+                    <li>Follow the provided instructions for transferring funds to our dedicated bank account.</li>
+                    <li>Upload your transaction receipt/proof of payment directly in the portal.</li>
                 </ol>
                 <p>
-                    Once received, your payment status will be updated in our portal within 2-3 business days, and you will
-                    receive an official receipt for your visa/residence permit application.
+                    Once uploaded, our finance team will verify the payment within 2-3 business days. Your admission
+                    status will be updated, and you will receive an official receipt for your visa application.
                 </p>
             </div>
         )

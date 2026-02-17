@@ -113,21 +113,14 @@ export default function TuitionPaymentPage({ admissionOffer, application }: {
     return (
         <div className="max-w-6xl mx-auto py-6 md:py-12 md:px-4 font-rubik text-black">
             <div className="mb-6 md:mb-12 text-center md:text-left bg-neutral-50 md:bg-transparent -mx-4 md:mx-0 p-6 md:p-0 border-y md:border-none border-neutral-100">
-                <h1 className="text-[20px] md:text-[24px] font-normal uppercase tracking-tighter text-black leading-tight md:leading-none">Tuition Payment via PayGoWire</h1>
+                <h1 className="text-[20px] md:text-[24px] font-normal uppercase tracking-tighter text-black leading-tight md:leading-none">Tuition Payment via Bank Transfer</h1>
                 <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-3 mt-4">
                     <p className="text-sm text-black font-normal uppercase tracking-widest">
                         Official SIS Gateway
                     </p>
                     <div className="hidden md:block h-px w-8 bg-neutral-200" />
                     <div className="flex items-center gap-2 opacity-100 transition-all">
-                        <span className="text-sm text-black font-normal uppercase tracking-widest">Powered by</span>
-                        <Image
-                            src="/images/paygowire-logo-v2.png"
-                            alt="PayGoWire"
-                            width={100}
-                            height={20}
-                            className="h-5 w-auto object-contain"
-                        />
+                        <span className="text-sm text-black font-normal uppercase tracking-widest">Via Kuda Bank Business</span>
                     </div>
                 </div>
             </div>

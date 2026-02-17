@@ -14,13 +14,13 @@ export default function AdmissionsCTA() {
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
                     <Link
-                        href="/portal/signup"
+                        href="/portal/account/register"
                         className="inline-flex items-center justify-center gap-2 bg-[#fd6402] text-black px-8 py-4 rounded-full font-bold hover:bg-white transition-all text-sm uppercase tracking-wider"
                     >
                         Create Portal Account <ArrowRight size={18} weight="bold" />
                     </Link>
                     <Link
-                        href="/portal/login"
+                        href="/portal/account/login"
                         className="inline-flex items-center justify-center gap-2 border border-white/30 hover:bg-white/10 text-white px-8 py-4 rounded-full font-bold transition-all text-sm uppercase tracking-wider"
                     >
                         <User size={18} weight="bold" /> Existing Student? Log In

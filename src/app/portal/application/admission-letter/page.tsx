@@ -146,8 +146,8 @@ function AdmissionLetterContent() {
         ? format(new Date(admission.created_at), "MMMM d, yyyy")
         : format(today, "MMMM d, yyyy");
 
-    const academicYear = "2024-2025";
-    const intake = "Spring 2025";
+    const academicYear = "2026 - 2027";
+    const intake = "Autumn 2026";
 
     // Dynamic Student ID (if available, otherwise fallback)
     const displayStudentId = student?.student_id || admission?.student_id || profile?.student_id || application.user?.student_id || "Generating...";

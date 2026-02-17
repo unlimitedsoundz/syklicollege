@@ -152,7 +152,7 @@ export default function DashboardPage() {
                                                 <CreditCard size={14} weight="bold" /> Payment Required
                                             </h4>
                                             <p className="text-neutral-900 text-[10px] font-bold uppercase tracking-tight mt-1">
-                                                Complete your tuition payment via PayGoWire to secure your enrollment.
+                                                Complete your tuition payment via Bank Transfer to secure your enrollment.
                                             </p>
                                         </div>
                                         <div className="flex flex-col md:flex-row gap-2">

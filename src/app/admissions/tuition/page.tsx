@@ -6,7 +6,7 @@ import TuitionFAQ from '@/components/admissions/TuitionFAQ';
 
 export const metadata = {
     title: 'Paying the Tuition Fee | Sykli College',
-    description: 'Structure of tuition fees, payment methods (Flywire), and refund policies for international students at Sykli College.',
+    description: 'Structure of tuition fees, payment methods (Bank Transfer), and refund policies for international students at Sykli College.',
 };
 
 const tocSections = [
@@ -39,10 +39,10 @@ export default function TuitionPaymentPage() {
             },
             {
                 "@type": "Question",
-                "name": "How does the Paygowire payment process work?",
+                "name": "How do I pay my tuition fees?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Sykli College partners with Paygowire to provide a secure international payment experience. To pay: 1) Log in to your Sykli Applicant Portal. 2) Navigate to the 'Payment' section and click the Paygowire link. 3) Select your country and payment method. 4) Complete the payment to receive an official receipt."
+                    "text": "Sykli College uses direct bank transfer for international payments. To pay: 1) Log in to your Sykli Applicant Portal. 2) Navigate to the 'Payment' section. 3) Follow the bank transfer instructions provided. 4) Submit your proof of payment in the portal to receive an official receipt."
                 }
             },
             {
@@ -408,32 +408,24 @@ export default function TuitionPaymentPage() {
                                     <div className="flex items-center gap-x-3 gap-y-2 mb-6">
                                         <div className="flex items-center gap-2">
                                             <Landmark size={28} weight="regular" className="text-black flex-shrink-0" />
-                                            <h3 className="text-xl md:text-2xl font-bold whitespace-nowrap">Partnership with</h3>
-                                        </div>
-                                        <div className="flex-shrink-0">
-                                            <Image
-                                                src="/images/paygowire-logo-v2.png"
-                                                alt="Paygowire Logo"
-                                                width={110}
-                                                height={28}
-                                                className="h-6 md:h-7 w-auto object-contain md:mt-1"
-                                            />
+                                            <h3 className="text-xl md:text-2xl font-bold whitespace-nowrap">Direct Bank Transfer</h3>
                                         </div>
                                     </div>
                                     <div className="space-y-4 text-black">
                                         <p className="text-lg">
-                                            SYKLI College has partnered with <strong>Paygowire</strong> to provide a secure and convenient method for paying tuition fees.
+                                            SYKLI College accepts tuition payments via direct bank transfer to our dedicated bank account.
                                         </p>
                                         <p>
-                                            Paying through Paygowire is simple, safe, and transparent.
+                                            This method ensures the fastest processing of your enrolment and simplifies the verification of your residence permit funds.
                                         </p>
                                         <div className="bg-white p-6 md:p-12 border border-neutral-200 shadow-sm relative group overflow-hidden">
                                             <h4 className="font-bold mb-4 uppercase tracking-wider text-sm">Detailed Payment Steps</h4>
                                             <ol className="space-y-3 list-decimal pl-5">
-                                                <li>Access the Paygowire payment portal via your Sykli Applicant dashboard.</li>
-                                                <li>Select your country of origin and the exact tuition amount.</li>
-                                                <li>Choose your preferred payment method (bank transfer, credit card, etc.).</li>
-                                                <li>Complete the payment and download your secure receipt.</li>
+                                                <li>Log in to your <strong>Sykli Applicant Portal</strong>.</li>
+                                                <li>Navigate to the 'Payment' section under your application.</li>
+                                                <li>Note the account details provided in the portal.</li>
+                                                <li>Complete the transfer and upload your transaction receipt for verification.</li>
+                                                <li>Once verified, your official Letter of Admission will be issued.</li>
                                             </ol>
                                         </div>
                                     </div>

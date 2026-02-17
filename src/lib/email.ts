@@ -47,3 +47,13 @@ export async function sendEmail({ to, subject, react, attachments }: SendEmailPa
         return { success: false, error };
     }
 }
+
+export async function notifyAdmin({ subject, react }: { subject: string; react: React.ReactElement }) {
+    const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL || 'unlymitedsoundz@gmail.com';
+    return sendEmail({
+        to: adminEmail,
+        subject: `[ADMIN ALERT] ${subject}`,
+        react: react,
+    });
+}
+
