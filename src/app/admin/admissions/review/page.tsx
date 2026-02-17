@@ -324,18 +324,62 @@ function ApplicationReviewContent() {
                                         <FileText size={14} weight="bold" />
                                         {app.status === 'ADMISSION_LETTER_GENERATED' ? 'Regenerate Admission Letter' : 'Generate Admission Letter'}
                                     </div>
-                                    {app.offer?.[0]?.document_url && (
+                                    {(app.offer?.[0]?.document_url || (app.status === 'ENROLLED' || app.status === 'ADMISSION_LETTER_GENERATED')) && (
                                         <a
-                                            href={app.offer[0].document_url}
+                                            href={(app.status === 'ENROLLED' || app.status === 'ADMISSION_LETTER_GENERATED')
+                                                ? `/portal/application/admission-letter?id=${id}`
+                                                : app.offer?.[0]?.document_url}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             onClick={(e) => e.stopPropagation()}
                                             className="p-1.5 bg-white rounded-lg border border-neutral-200 text-neutral-400 hover:text-black hover:border-black transition-all"
                                             title="View Document"
                                         >
-                                            <Download size={14} weight="bold" />
+                                            {(app.status === 'ENROLLED' || app.status === 'ADMISSION_LETTER_GENERATED')
+                                                ? <Globe size={14} weight="bold" />
+                                                : <Download size={14} weight="bold" />
+                                            }
                                         </a>
                                     )}
+                                </button>
+                            </div>
+
+                            <div className="mt-2">
+                                <button
+                                    onClick={async () => {
+                                        if (!confirm('Resend the notification email to the student?')) return;
+                                        setUpdating(true);
+                                        try {
+                                            const isAdmission = app.status === 'ENROLLED' || app.status === 'ADMISSION_LETTER_GENERATED';
+                                            const notifType = isAdmission ? 'ADMISSION_LETTER_READY' : 'OFFER_LETTER_READY';
+
+                                            // Call send-notification
+                                            // We use the client-side supabase instance which uses the anon key, 
+                                            // but the function should handle it (or we might need a server action if RLS blocks it)
+                                            // The function `send-notification` is accessible via `supabase.functions.invoke`.
+
+                                            const { data, error } = await supabase.functions.invoke('send-notification', {
+                                                body: {
+                                                    applicationId: id,
+                                                    type: notifType,
+                                                    documentUrl: app.offer?.[0]?.document_url
+                                                }
+                                            });
+
+                                            if (error) throw error;
+
+                                            alert('Email notification sent successfully.');
+                                        } catch (e: any) {
+                                            console.error(e);
+                                            alert('Error sending email: ' + e.message);
+                                        } finally {
+                                            setUpdating(false);
+                                        }
+                                    }}
+                                    disabled={updating || (app.status !== 'ADMITTED' && app.status !== 'ENROLLED' && app.status !== 'ADMISSION_LETTER_GENERATED')}
+                                    className="w-full text-left px-4 py-3 rounded-xl bg-neutral-900 hover:bg-black text-white text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2 shadow-lg shadow-neutral-200"
+                                >
+                                    <Mail size={14} weight="bold" /> Resend Notification Email
                                 </button>
                             </div>
 

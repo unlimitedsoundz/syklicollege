@@ -35,36 +35,19 @@ export function OfferClient({ admission }: OfferClientProps) {
                 if (decision === 'ACCEPTED') {
                     const result = await acceptApplicationOffer(admission.application_id);
                     if (result.success) {
-                        setDecisionFeedback('Offer Accepted');
-                        setGeneratingLetter(true);
+                        setDecisionFeedback('Offer Accepted! Redirecting to payment...');
                         window.scrollTo({ top: 0, behavior: 'smooth' });
 
-                        // Poll for the admission letter to be generated (up to 30 seconds)
-                        const supabase = createClient();
-                        const maxAttempts = 10;
-                        for (let i = 0; i < maxAttempts; i++) {
-                            await new Promise(resolve => setTimeout(resolve, 3000));
-                            const { data: appCheck } = await supabase
-                                .from('applications')
-                                .select('status')
-                                .eq('id', admission.application_id)
-                                .single();
-
-                            if (appCheck?.status === 'ADMISSION_LETTER_GENERATED') {
-                                // Letter is ready — reload to show it
-                                window.location.reload();
-                                return;
-                            }
-                        }
-                        // Timeout — reload anyway to show current state
-                        window.location.reload();
+                        // Redirect to payment page after a short delay
+                        setTimeout(() => {
+                            window.location.href = `/portal/application/payment?id=${admission.application_id}`;
+                        }, 2000);
                     }
                 } else {
                     alert("Please contact admissions to decline your offer.");
                 }
             } catch (err: any) {
                 setError(err.message || 'Failed to process decision');
-                setGeneratingLetter(false);
             }
         });
     };
@@ -86,7 +69,7 @@ export function OfferClient({ admission }: OfferClientProps) {
                             </span>
                         </div>
                         <a
-                            href={isLetterGenerated ? (admission.document_url || admission.offer_letter_url) : admission.offer_letter_url}
+                            href={admission.document_url}
                             target="_blank"
                             rel="noopener noreferrer"
                             download
@@ -98,9 +81,9 @@ export function OfferClient({ admission }: OfferClientProps) {
                     </div>
 
                     <div className="flex-1 bg-neutral-100">
-                        {(isLetterGenerated ? (admission.document_url || admission.offer_letter_url) : admission.offer_letter_url) ? (
+                        {admission.document_url ? (
                             <iframe
-                                src={`${isLetterGenerated ? (admission.document_url || admission.offer_letter_url) : admission.offer_letter_url}#toolbar=0`}
+                                src={`${admission.document_url}#toolbar=0`}
                                 className="w-full h-full border-none min-h-[600px]"
                                 title={isLetterGenerated ? "Official Admission Letter" : "Admission Offer Letter"}
                             />
@@ -208,9 +191,9 @@ export function OfferClient({ admission }: OfferClientProps) {
                                         )}
 
                                         {/* Download Offer Letter button */}
-                                        {(admission.offer_letter_url || admission.document_url) && (
+                                        {admission.document_url && (
                                             <a
-                                                href={isLetterGenerated ? (admission.document_url || admission.offer_letter_url) : admission.offer_letter_url}
+                                                href={admission.document_url}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 download
@@ -239,42 +222,54 @@ export function OfferClient({ admission }: OfferClientProps) {
                         )}
                     </div>
                 ) : (
-                    <div className="bg-white border-2 border-black p-6 rounded-xl shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] space-y-4">
+                    <div className="bg-white border-2 border-black p-4 md:p-6 rounded-xl shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] space-y-3 md:space-y-4">
                         <div className="space-y-1">
-                            <h2 className="text-lg font-black uppercase tracking-tight">Decision Required</h2>
-                            <p className="text-[10px] text-neutral-500 font-bold uppercase tracking-tight leading-relaxed">
-                                Review the formal Letter of Offer carefully. Selecting "Accept" or "Reject" is a one-time final action.
+                            <h2 className="text-base md:text-lg font-black uppercase tracking-tight">Decision Required</h2>
+                            <p className="text-[9px] md:text-[10px] text-neutral-500 font-bold uppercase tracking-tight leading-relaxed">
+                                Review the formal Letter of Offer carefully. Selecting &quot;Accept&quot; or &quot;Reject&quot; is a one-time final action.
                             </p>
                         </div>
 
                         {error && (
-                            <div className="p-3 bg-red-50 text-red-700 text-xs font-bold uppercase tracking-widest border border-red-100 rounded-lg">
+                            <div className="p-2 md:p-3 bg-red-50 text-red-700 text-[10px] md:text-xs font-bold uppercase tracking-widest border border-red-100 rounded-lg">
                                 {error}
                             </div>
                         )}
 
-                        <div className="space-y-2 pt-2">
+                        <div className="grid grid-cols-2 gap-2 md:grid-cols-1 md:gap-2 pt-1 md:pt-2">
                             <button
                                 onClick={() => handleDecision('ACCEPTED')}
                                 disabled={isPending}
-                                className="w-full bg-black text-white font-bold py-3 rounded-lg hover:bg-neutral-800 transition-all flex items-center justify-center gap-2 disabled:opacity-50 active:scale-95 text-xs uppercase tracking-widest"
+                                className="bg-black text-white font-bold py-2.5 md:py-3 rounded-lg hover:bg-neutral-800 transition-all flex items-center justify-center gap-1.5 md:gap-2 disabled:opacity-50 active:scale-95 text-[10px] md:text-xs uppercase tracking-wider md:tracking-widest"
                             >
-                                {isPending ? <Loader2 className="animate-spin" size={16} weight="bold" /> : <><CheckCircle size={16} weight="bold" /> Accept Offer</>}
+                                {isPending ? <Loader2 className="animate-spin" size={14} weight="bold" /> : <><CheckCircle size={14} weight="bold" /> Accept<span className="hidden md:inline"> Offer</span></>}
                             </button>
 
                             <button
                                 onClick={() => handleDecision('REJECTED')}
                                 disabled={isPending}
-                                className="w-full bg-white text-red-600 border-2 border-red-500/10 font-bold py-3 rounded-lg hover:bg-red-50 transition-all flex items-center justify-center gap-2 disabled:opacity-50 active:scale-95 text-xs uppercase tracking-widest"
+                                className="bg-white text-red-600 border-2 border-red-500/10 font-bold py-2.5 md:py-3 rounded-lg hover:bg-red-50 transition-all flex items-center justify-center gap-1.5 md:gap-2 disabled:opacity-50 active:scale-95 text-[10px] md:text-xs uppercase tracking-wider md:tracking-widest"
                             >
-                                {isPending ? <Loader2 className="animate-spin" size={16} weight="bold" /> : <><XCircle size={16} weight="bold" /> Reject Offer</>}
+                                {isPending ? <Loader2 className="animate-spin" size={14} weight="bold" /> : <><XCircle size={14} weight="bold" /> Reject<span className="hidden md:inline"> Offer</span></>}
                             </button>
                         </div>
 
-                        <div className="pt-4 border-t border-neutral-100">
+                        {/* Print Letter */}
+                        {admission.document_url && (
+                            <a
+                                href={admission.document_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-full bg-neutral-100 text-neutral-700 font-bold py-2 md:py-2.5 rounded-lg hover:bg-neutral-200 transition-all flex items-center justify-center gap-2 active:scale-95 text-[10px] md:text-xs uppercase tracking-wider"
+                            >
+                                <FileText size={14} weight="bold" /> Print Letter
+                            </a>
+                        )}
+
+                        <div className="pt-3 md:pt-4 border-t border-neutral-100">
                             <div className="flex items-start gap-2">
-                                <AlertCircle size={14} weight="bold" className="text-neutral-400 mt-0.5" />
-                                <p className="text-[9px] font-bold text-neutral-400 uppercase leading-snug tracking-widest">
+                                <AlertCircle size={12} weight="bold" className="text-neutral-400 mt-0.5 shrink-0" />
+                                <p className="text-[8px] md:text-[9px] font-bold text-neutral-400 uppercase leading-snug tracking-wider md:tracking-widest">
                                     BY ACCEPTING, YOU AGREE TO THE CODE OF CONDUCT, ACADEMIC REGULATIONS, AND TERMS OUTLINED IN THE OFFICIAL OFFER LETTER.
                                 </p>
                             </div>

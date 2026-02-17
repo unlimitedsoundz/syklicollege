@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Check, FileText } from "@phosphor-icons/react/dist/ssr";
@@ -35,7 +37,6 @@ export default function TuitionPaymentPage({ admissionOffer, application }: {
         setError(null);
         try {
             console.log('PaymentView: Import actions...');
-            // Use Server Action for secure Payment Recording
             const { recordTuitionPayment } = await import('./actions');
 
             console.log('PaymentView: Calling recordTuitionPayment...');
@@ -58,8 +59,8 @@ export default function TuitionPaymentPage({ admissionOffer, application }: {
             }
 
             // Success!!
-            console.log('PaymentView: Success! Refreshing...');
-            router.refresh();
+            console.log('PaymentView: Success! Navigating to receipt...');
+            router.push(`/portal/application/receipt?id=${application.id}`);
         } catch (e: any) {
             console.error('Payment Error (Caught in View):', e);
             setError(e.message || 'Payment failed');

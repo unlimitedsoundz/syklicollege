@@ -13,7 +13,8 @@ import {
     CheckCircle as CheckCircle2,
     Calendar,
     Clock,
-    CreditCard
+    CreditCard,
+    Copy,
 } from "@phosphor-icons/react/dist/ssr";
 import Image from 'next/image';
 import { countries } from '@/utils/countries';
@@ -41,6 +42,36 @@ interface PaymentMethod {
     icon: any;
     processingTime: string;
 }
+
+const CopyButton = ({ text, label }: { text: string, label: string }) => {
+    const [copied, setCopied] = useState(false);
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(text);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+
+    return (
+        <button
+            onClick={handleCopy}
+            className="flex items-center gap-1.5 text-[#00A651] hover:text-[#008c44] transition-colors text-[10px] uppercase font-bold tracking-widest bg-[#00A651]/5 hover:bg-[#00A651]/10 px-2 py-1 rounded-sm"
+            title={`Copy ${label}`}
+        >
+            {copied ? (
+                <>
+                    <CheckCircle2 size={12} weight="bold" />
+                    <span>Copied</span>
+                </>
+            ) : (
+                <>
+                    <Copy size={12} weight="bold" />
+                    <span>Copy</span>
+                </>
+            )}
+        </button>
+    );
+};
 
 export default function PayGoWireCheckout({
     amount,
@@ -467,7 +498,10 @@ export default function PayGoWireCheckout({
                             <div className="grid gap-6">
                                 <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
                                     <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Amount</span>
-                                    <span className="text-xl md:text-2xl text-black font-normal">{fxData.localCurrency} {Number(fxData.localAmount).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                                    <div className="flex items-center gap-3">
+                                        <CopyButton text={fxData.localAmount} label="Amount" />
+                                        <span className="text-xl md:text-2xl text-black font-normal">{fxData.localCurrency} {Number(fxData.localAmount).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                                    </div>
                                 </div>
                                 <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
                                     <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Bank</span>
@@ -475,7 +509,10 @@ export default function PayGoWireCheckout({
                                 </div>
                                 <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
                                     <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Account Number</span>
-                                    <span className="text-lg md:text-xl text-black font-normal tracking-wider">8523438395</span>
+                                    <div className="flex items-center gap-3">
+                                        <CopyButton text="8523438395" label="Account Number" />
+                                        <span className="text-lg md:text-xl text-black font-normal tracking-wider">8523438395</span>
+                                    </div>
                                 </div>
                                 <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
                                     <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Beneficiary</span>

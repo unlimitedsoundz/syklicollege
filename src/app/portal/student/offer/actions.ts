@@ -63,7 +63,6 @@ export async function respondToOffer(admissionId: string, decision: 'ACCEPTED' |
 export async function acceptApplicationOffer(applicationId: string) {
     const supabase = await createClient();
 
-
     // 1. Get current user
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new Error('Unauthorized');
@@ -79,7 +78,7 @@ export async function acceptApplicationOffer(applicationId: string) {
     if (fetchError || !application) throw new Error('Application not found');
 
     if (application.status !== 'ADMITTED') {
-        if (application.status === 'OFFER_ACCEPTED' || application.status === 'ADMISSION_LETTER_GENERATED' || application.status === 'ENROLLED') {
+        if (application.status === 'OFFER_ACCEPTED' || application.status === 'ENROLLED') {
             return { success: true };
         }
         throw new Error('This application is not in a state to accept an offer.');
@@ -99,7 +98,7 @@ export async function acceptApplicationOffer(applicationId: string) {
         throw new Error('Failed to update offer status');
     }
 
-    // 4. Update Application Status
+    // 4. Update Application Status to OFFER_ACCEPTED
     const { error: appError } = await supabase
         .from('applications')
         .update({
@@ -113,19 +112,10 @@ export async function acceptApplicationOffer(applicationId: string) {
         throw new Error('Failed to update application status');
     }
 
-    // 5. Trigger Admission Letter Generation (Edge Function)
-    try {
-        const { error: funcError } = await supabase.functions.invoke('generate-admission-letter', {
-            body: { applicationId }
-        });
-        if (funcError) {
-            console.error('Edge Function Error:', funcError);
-        }
-    } catch (err) {
-        console.error('Failed to trigger admission letter generation:', err);
-    }
+    // NOTE: Admission letter is NOT generated here.
+    // It is only generated after payment confirmation (see payment/actions.ts)
 
-    // 6. Try updating legacy admissions table
+    // 5. Try updating legacy admissions table
     try {
         const { data: courseData } = await supabase
             .from('applications')

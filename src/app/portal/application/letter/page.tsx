@@ -90,15 +90,19 @@ function AdmissionLetterContent() {
 
         setIsSaving(true);
         try {
-            // Use Server Action to bypass RLS and ensure atomic updates
             const { acceptApplicationOffer } = await import('@/app/portal/student/offer/actions');
             await acceptApplicationOffer(id);
 
-            alert('Offer accepted successfully! Proceeding to tuition payment.');
-            router.push(`/portal/application/payment?id=${id}`);
+            // Navigate to payment immediately
+            window.location.href = `/portal/application/payment?id=${id}`;
         } catch (err: any) {
             console.error('Error accepting offer:', err);
-            alert(err.message || 'Failed to accept offer. Please try again.');
+            // If offer was already accepted, still navigate to payment
+            if (err.message?.includes('already') || err.message?.includes('not in a state')) {
+                window.location.href = `/portal/application/payment?id=${id}`;
+            } else {
+                alert(err.message || 'Failed to accept offer. Please try again.');
+            }
         } finally {
             setIsSaving(false);
         }
@@ -135,44 +139,36 @@ function AdmissionLetterContent() {
     return (
         <div className="min-h-screen bg-neutral-50 py-12 px-4 sm:px-6">
             {/* Control Bar (Hidden on Print) */}
-            <div className="max-w-[210mm] mx-auto mb-8 flex items-center justify-between print:hidden">
-                <Link
-                    href="/portal/dashboard"
-                    className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-neutral-400 hover:text-primary transition-colors"
-                >
-                    <ChevronLeft size={14} weight="bold" />
-                    Back to Dashboard
-                </Link>
-                <div className="flex items-center gap-4">
-                    {application.admission_details?.offer_letter_url && (
-                        <a
-                            href={application.admission_details.offer_letter_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="bg-black text-white px-6 py-2 rounded-sm text-[10px] font-bold uppercase tracking-widest hover:bg-neutral-800 transition-all shadow-sm"
-                        >
-                            Download PDF
-                        </a>
-                    )}
-                    {showAcceptButton && (
+            <div className="max-w-[210mm] mx-auto mb-6 md:mb-8 print:hidden space-y-3 md:space-y-0">
+                <div className="flex items-center justify-between">
+                    <Link
+                        href="/portal/dashboard"
+                        className="flex items-center gap-1.5 text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-neutral-400 hover:text-primary transition-colors"
+                    >
+                        <ChevronLeft size={14} weight="bold" />
+                        <span className="hidden sm:inline">Back to Dashboard</span>
+                        <span className="sm:hidden">Back</span>
+                    </Link>
+                    <PrintButton />
+                </div>
+                {showAcceptButton && (
+                    <div className="grid grid-cols-2 gap-2 md:flex md:gap-3">
                         <button
                             onClick={handleAcceptOffer}
                             disabled={isSaving}
-                            className="flex items-center gap-2 bg-emerald-600 text-white px-6 py-2 rounded-sm text-[10px] font-bold uppercase tracking-widest hover:bg-emerald-700 transition-all shadow-sm disabled:opacity-50"
+                            className="flex items-center justify-center gap-1.5 bg-emerald-600 text-white px-3 md:px-6 py-2 rounded-sm text-[10px] font-bold uppercase tracking-wider md:tracking-widest hover:bg-emerald-700 transition-all shadow-sm disabled:opacity-50"
                         >
                             {isSaving ? (
                                 <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                             ) : (
-                                <CheckCircle size={16} weight="bold" />
+                                <CheckCircle size={14} weight="bold" />
                             )}
-                            Accept Offer
+                            Accept<span className="hidden md:inline"> Offer</span>
                         </button>
-                    )}
-                    {showAcceptButton && (
                         <RejectOfferButton applicationId={id} />
-                    )}
-                    <PrintButton />
-                </div>
+                    </div>
+                )}
+
             </div>
 
             {/* Letter Container */}
@@ -242,10 +238,16 @@ function AdmissionLetterContent() {
                     </div>
                 </div>
 
-                {/* 3. Offer Statement (LOCKED WORDING) */}
-                <div className="bg-black text-white p-8 mb-10 text-center rounded-sm">
-                    <p className="text-sm italic font-medium leading-relaxed">
-                        “We are pleased to inform you that you have been offered a place in the above-named programme at SYKLI College, subject to the conditions outlined in this letter.”
+                {/* 3. Offer Statement */}
+                <div className="bg-neutral-50 border border-neutral-200 p-6 md:p-8 mb-10 rounded-sm">
+                    <p className="text-sm font-bold text-neutral-900 mb-3">
+                        Dear {application.personal_info?.firstName},
+                    </p>
+                    <p className="text-sm leading-relaxed text-neutral-700 mb-3">
+                        We are pleased to inform you that, following a thorough review of your application, the Admissions Committee of SYKLI College has decided to offer you a place in the <strong>{application.course?.title}</strong> ({application.course?.degreeLevel === 'MASTER' ? "Master's Degree" : "Bachelor's Degree"}) programme for the <strong>Autumn 2026</strong> intake.
+                    </p>
+                    <p className="text-sm leading-relaxed text-neutral-600">
+                        This offer is subject to the conditions outlined below, including acceptance of the offer via the student portal and confirmation of tuition payment by the specified deadline. Upon fulfillment of these conditions, an official Letter of Admission will be issued confirming your enrollment.
                     </p>
                 </div>
 
@@ -265,7 +267,8 @@ function AdmissionLetterContent() {
 
                 {/* 5. Tuition & Financial Information */}
                 <div className="mb-10">
-                    <h4 className="text-[10px] font-bold text-neutral-900 uppercase tracking-widest mb-4 border-b border-neutral-200 pb-1">Tuition & Financial Information (Informational Only)</h4>
+                    <h4 className="text-[10px] font-bold text-neutral-900 uppercase tracking-widest mb-4 border-b border-neutral-200 pb-1">Tuition & Financial Information</h4>
+                    <p className="text-xs text-neutral-500 mb-4">The following tuition information is provided for your reference based on the programme and degree level.</p>
                     <div className="border border-neutral-100 rounded-sm overflow-hidden">
                         <table className="w-full text-sm text-left">
                             <tbody className="text-neutral-900">
@@ -275,7 +278,7 @@ function AdmissionLetterContent() {
                                 </tr>
                                 {discountAmount > 0 && (
                                     <tr className="border-b border-neutral-50 text-emerald-600 bg-emerald-50/30">
-                                        <td className="py-3 px-4">Early-bird Discount (First Academic Year only)</td>
+                                        <td className="py-3 px-4">Early Payment Discount (25%)</td>
                                         <td className="py-3 px-4 text-right font-bold">- €{discountAmount.toLocaleString()} EUR</td>
                                     </tr>
                                 )}

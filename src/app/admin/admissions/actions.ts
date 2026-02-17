@@ -28,16 +28,23 @@ export async function updateApplicationStatus(applicationId: string, status: App
                 .maybeSingle();
 
             if (!existingOffer) {
-                // Fetch application with course to get tuition fee
+                // Fetch application with course + school to compute real tuition
                 const { data: appData } = await supabase
                     .from('applications')
-                    .select('course_id, Course:course_id(tuitionFee)')
+                    .select('course_id, Course:course_id(degreeLevel, school:schoolId(slug))')
                     .eq('id', applicationId)
                     .single();
 
-                const tuitionFee = (appData as any)?.Course?.tuitionFee || '€0';
-                // Parse numeric value from tuition string like "€10,000 / year"
-                const numericFee = parseFloat(tuitionFee.replace(/[^0-9.]/g, '')) || 0;
+                const courseData = (appData as any)?.Course;
+                const degreeLevel = courseData?.degreeLevel || 'BACHELOR';
+                const schoolSlug = courseData?.school?.slug || 'technology';
+
+                // Use tuition.ts computation (source of truth)
+                const { getTuitionFee, mapSchoolToTuitionField, calculateDiscountedFee } = await import('@/utils/tuition');
+                const tuitionField = mapSchoolToTuitionField(schoolSlug);
+                const baseFee = getTuitionFee(degreeLevel, tuitionField);
+                const discountedFee = calculateDiscountedFee(baseFee);
+                const discountAmount = baseFee - discountedFee;
 
                 const deadline = new Date();
                 deadline.setDate(deadline.getDate() + 30); // 30 day deadline
@@ -46,7 +53,8 @@ export async function updateApplicationStatus(applicationId: string, status: App
                     .from('admission_offers')
                     .insert({
                         application_id: applicationId,
-                        tuition_fee: numericFee,
+                        tuition_fee: discountedFee,
+                        discount_amount: discountAmount,
                         payment_deadline: deadline.toISOString(),
                         offer_type: 'FULL',
                         status: 'PENDING'
@@ -60,15 +68,11 @@ export async function updateApplicationStatus(applicationId: string, status: App
         }
     }
 
-    // TRIGGER LOGIC: Automatically generate Admission Letter on enrollment
-    if (status === 'ENROLLED') {
-        try {
-            const { generateAndStoreAdmissionLetter } = await import('./pdf-actions');
-            await generateAndStoreAdmissionLetter(applicationId);
-        } catch (pdfError) {
-            console.error('Failed to generate automated admission letter:', pdfError);
-        }
-    }
+
+    // NOTE: Admission Letter generation for ENROLLED status has been moved
+    // to the payment action (src/app/portal/application/payment/actions.ts).
+    // It is auto-triggered only after confirmed payment.
+
 
 
     return { success: true };

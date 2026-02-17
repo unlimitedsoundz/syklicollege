@@ -221,13 +221,23 @@ function StatusBadge({ status }: { status: string }) {
         'DOCS_REQUIRED': 'bg-purple-50 text-purple-600 border-purple-100',
         'ADMITTED': 'bg-emerald-50 text-emerald-600 border-emerald-100',
         'OFFER_ACCEPTED': 'bg-emerald-900 text-white border-emerald-900',
+        'ADMISSION_LETTER_GENERATED': 'bg-teal-50 text-teal-700 border-teal-200',
         'REJECTED': 'bg-red-50 text-red-600 border-red-100',
         'OFFER_DECLINED': 'bg-red-900 text-white border-red-900',
     };
 
+    const labels: Record<string, string> = {
+        'ADMISSION_LETTER_GENERATED': 'LETTER ISSUED',
+        'PAYMENT_SUBMITTED': 'PAYMENT SENT',
+        'OFFER_ACCEPTED': 'OFFER ACCEPTED',
+        'OFFER_DECLINED': 'OFFER DECLINED',
+        'DOCS_REQUIRED': 'DOCS NEEDED',
+        'UNDER_REVIEW': 'REVIEWING',
+    };
+
     return (
         <span className={`px-2 py-1 rounded-md text-[10px] font-black uppercase tracking-tighter border ${variants[status] || variants['DRAFT']}`}>
-            {status.replace('_', ' ')}
+            {labels[status] || status.replaceAll('_', ' ')}
         </span>
     );
 }

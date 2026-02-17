@@ -17,13 +17,30 @@ export async function generateAndStoreOfferLetter(applicationId: string) {
 export async function generateAndStoreAdmissionLetter(applicationId: string) {
     const supabase = createClient();
     try {
-        const { data, error } = await supabase.functions.invoke('generate-admission-letter', {
-            body: { applicationId }
-        });
+        // UPDATE: Switch to Dynamic HTML Page (No PDF Storage)
+        const admissionLetterUrl = `https://syklicollege.fi/portal/application/admission-letter?id=${applicationId}`;
+
+        // Find the offer ID first
+        const { data: offer } = await supabase
+            .from('admission_offers')
+            .select('id')
+            .eq('application_id', applicationId)
+            .single();
+
+        if (!offer) throw new Error('No admission offer found for this application');
+
+        // Update the URL in DB
+        const { error } = await supabase
+            .from('admission_offers')
+            .update({ document_url: admissionLetterUrl })
+            .eq('id', offer.id);
+
         if (error) throw error;
-        return data;
+
+        return { success: true, url: admissionLetterUrl };
+
     } catch (e: any) {
-        console.error('Error generating admission letter:', e);
+        console.error('Error generating admission letter link:', e);
         return { success: false, error: e.message };
     }
 }

@@ -160,94 +160,54 @@ interface AdmissionLetterProps {
         program_start_date: string;
         logo_path?: string;
         signature_path?: string;
+        payment_reference?: string;
     }
 }
 
 export const AdmissionLetterPDF = ({ data }: AdmissionLetterProps) => (
     <Document>
         <Page size="A4" style={styles.page}>
-            {/* Header Area */}
-            <View style={styles.header}>
-                <View>
-                    {data.logo_path && <Image src={data.logo_path} style={styles.logo} />}
-                </View>
-                <View style={styles.contactInfo}>
-                    <Text style={{ color: '#000', fontWeight: 'bold', fontSize: 10, marginBottom: 4 }}>SYKLI College Registrar</Text>
-                    <Text>Pohjoisesplanadi 51</Text>
-                    <Text>00150 Helsinki, Finland</Text>
-                    <Text>Website: https://syklicollege.fi</Text>
-                    <Text>Email: registrar@syklicollege.fi</Text>
-                </View>
-            </View>
-
-            {/* Title Section */}
-            <Text style={styles.mainTitle}>Official Admission Letter</Text>
-
-            {/* Meta Data Box */}
-            <View style={styles.metaSection}>
-                <View style={styles.metaItem}>
-                    <Text style={styles.metaLabel}>Enrollment Date</Text>
-                    <Text style={styles.metaValue}>{data.issue_date}</Text>
-                </View>
-                <View style={styles.metaItem}>
-                    <Text style={styles.metaLabel}>Admission Reference</Text>
-                    <Text style={styles.metaValue}>{data.admission_reference}</Text>
-                </View>
-                <View style={styles.metaItem}>
-                    <Text style={styles.metaLabel}>Official Student ID</Text>
-                    <Text style={styles.metaValue}>{data.student_id}</Text>
-                </View>
-            </View>
-
-            {/* Confirmation Statement */}
-            <View style={styles.confirmationBox}>
-                <Text style={styles.confirmationText}>
-                    On behalf of the Office of the Registrar and the Academic Board of SYKLI College of Art and Design, we are pleased to formally confirm your individual admission and subsequent official enrollment as a student for the {data.program} ({data.degree_level}) program. This decision follows a rigorous and holistic review of your academic trajectory, demonstrative excellence in your chosen field, and your potential for advanced creative contribution.
-                </Text>
-                <Text style={[styles.confirmationText, { marginTop: 10 }]}>
-                    Your enrollment is finalized for the {data.academic_year} Academic Year, specifically for the {data.intake} intake period. This document certifies that you have successfully satisfied all required conditions of admission and that the necessary tuition requirements for the initial period of study have been processed and confirmed. As a member of our degree-seeking cohort, you are granted full access to the college's academic resources, infrastructure, and international support network. We welcome you to SYKLI College and look forward to supporting your professional development and academic success.
-                </Text>
-            </View>
-
-            {/* Student & Program Info */}
-            <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Academic Enrollment Details</Text>
-                <View style={styles.grid}>
-                    <View style={styles.gridItem}>
-                        <Text style={styles.gridLabel}>Full Legal Name</Text>
-                        <Text style={styles.gridValue}>{data.full_name}</Text>
-                    </View>
-                    <View style={styles.gridItem}>
-                        <Text style={styles.gridLabel}>Academic Year / Intake</Text>
-                        <Text style={styles.gridValue}>{data.academic_year} / {data.intake}</Text>
-                    </View>
-                    <View style={styles.gridItem}>
-                        <Text style={styles.gridLabel}>Program of Study</Text>
-                        <Text style={styles.gridValue}>{data.program}</Text>
-                    </View>
-                    <View style={styles.gridItem}>
-                        <Text style={styles.gridLabel}>Degree Level</Text>
-                        <Text style={styles.gridValue}>{data.degree_level}</Text>
-                    </View>
-                    <View style={styles.gridItem}>
-                        <Text style={styles.gridLabel}>Program Commencement</Text>
-                        <Text style={styles.gridValue}>{data.program_start_date}</Text>
-                    </View>
-                    <View style={styles.gridItem}>
-                        <Text style={styles.gridLabel}>Enrollment Status</Text>
-                        <Text style={[styles.gridValue, { color: '#000' }]}>FULLY ENROLLED (ACTIVE)</Text>
-                    </View>
-                </View>
-            </View>
-
+            {/* ... existing code ... */}
             {/* Tuition Confirmation */}
             <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Tuition & Financial Confirmation</Text>
+                <Text style={styles.sectionTitle}>Tuition Confirmation</Text>
                 <View style={styles.infoBlock}>
                     <Text style={{ fontSize: 9 }}>
-                        The Office of the Registrar confirms that the required tuition fees for the first academic year have been received and successfully processed. This enrollment is fully secured.
+                        The required tuition fees for the first academic year have been received and confirmed.
                     </Text>
+                    {data.payment_reference && (
+                        <Text style={{ fontSize: 8, marginTop: 4, color: '#666' }}>
+                            Official Receipt Reference: {data.payment_reference}
+                        </Text>
+                    )}
                 </View>
+            </View>
+
+            {/* Rights & Access */}
+            <View style={styles.section}>
+                <Text style={styles.sectionTitle}>Rights & Access Statement</Text>
+                <Text style={{ fontSize: 9, marginBottom: 5 }}>
+                    As an enrolled student, you are entitled to access academic systems, student services, and institutional resources in accordance with college regulations.
+                </Text>
+            </View>
+
+            {/* Next Steps */}
+            <View style={styles.section}>
+                <Text style={styles.sectionTitle}>Next Steps</Text>
+                <View style={{ marginLeft: 10 }}>
+                    <Text style={{ fontSize: 9, marginBottom: 2 }}>• Student email activation</Text>
+                    <Text style={{ fontSize: 9, marginBottom: 2 }}>• LMS access</Text>
+                    <Text style={{ fontSize: 9, marginBottom: 2 }}>• Course registration</Text>
+                    <Text style={{ fontSize: 9, marginBottom: 2 }}>• Orientation details</Text>
+                </View>
+            </View>
+
+            {/* Refund Policy */}
+            <View style={styles.section}>
+                <Text style={styles.sectionTitle}>Refund Policy</Text>
+                <Text style={{ fontSize: 9 }}>
+                    For refund policy details, please visit: https://syklicollege.fi/refund-policy
+                </Text>
             </View>
 
             {/* Official Use Statement */}

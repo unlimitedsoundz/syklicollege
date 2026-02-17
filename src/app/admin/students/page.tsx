@@ -57,7 +57,7 @@ export default function AdminStudentsPage() {
                     offer:admission_offers!application_id(*),
                     course:Course!course_id(title)
                 `)
-                .in('status', ['OFFER_ACCEPTED', 'PAYMENT_SUBMITTED'])
+                .in('status', ['OFFER_ACCEPTED', 'PAYMENT_SUBMITTED', 'ENROLLED', 'ADMISSION_LETTER_GENERATED'])
                 .order('updated_at', { ascending: false });
 
             if (appError) {
@@ -65,7 +65,13 @@ export default function AdminStudentsPage() {
             }
 
             setEnrolledStudents(students || []);
-            setPendingApplications(apps || []);
+
+            // Filter out applications that are already fully enrolled (exist in students table)
+            // This ensures that "ENROLLED" apps only appear here if they represent a data desync (missing student record)
+            const enrolledAppIds = new Set(students?.map((s: any) => s.application_id));
+            const pendingApps = apps?.filter((app: any) => !enrolledAppIds.has(app.id)) || [];
+
+            setPendingApplications(pendingApps);
 
             console.log("Fetched Data (Client):", { students, apps });
         } catch (error) {
@@ -168,6 +174,10 @@ export default function AdminStudentsPage() {
                                                 <span className="px-2 py-1 bg-emerald-100 text-emerald-700 rounded-md text-[10px] font-bold uppercase flex items-center gap-1 w-fit">
                                                     <CheckCircle size={10} weight="bold" /> Payment Success
                                                 </span>
+                                            ) : (app.status === 'ENROLLED' || app.status === 'ADMISSION_LETTER_GENERATED') ? (
+                                                <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded-md text-[10px] font-bold uppercase flex items-center gap-1 w-fit">
+                                                    <CheckCircle size={10} weight="bold" /> Payment Verified
+                                                </span>
                                             ) : (
                                                 <span className="px-2 py-1 bg-amber-100 text-amber-700 rounded-md text-[10px] font-bold uppercase flex items-center gap-1 w-fit">
                                                     <Clock size={10} weight="bold" /> Offer Accepted
@@ -180,19 +190,19 @@ export default function AdminStudentsPage() {
                                         <td className="p-4 text-right">
                                             <button
                                                 onClick={() => handleApproveTuition(app.id)}
-                                                disabled={actionLoading === app.id || app.status !== 'PAYMENT_SUBMITTED'}
-                                                className={`px-3 py-2 rounded-sm text-[10px] font-bold uppercase tracking-widest transition-colors flex items-center gap-2 ml-auto ${app.status === 'PAYMENT_SUBMITTED'
+                                                disabled={actionLoading === app.id || (app.status !== 'PAYMENT_SUBMITTED' && app.status !== 'ENROLLED' && app.status !== 'ADMISSION_LETTER_GENERATED')}
+                                                className={`px-3 py-2 rounded-sm text-[10px] font-bold uppercase tracking-widest transition-colors flex items-center gap-2 ml-auto ${app.status === 'PAYMENT_SUBMITTED' || app.status === 'ENROLLED' || app.status === 'ADMISSION_LETTER_GENERATED'
                                                     ? 'bg-emerald-600 text-white hover:bg-emerald-700'
                                                     : 'bg-neutral-900 text-white hover:bg-neutral-700 opacity-50'
                                                     } ${actionLoading === app.id ? 'opacity-50 cursor-not-allowed' : ''}`}
-                                                title={app.status === 'PAYMENT_SUBMITTED' ? 'Finalize Enrollment' : 'Waiting for student payment'}
+                                                title={app.status === 'PAYMENT_SUBMITTED' || app.status === 'ENROLLED' || app.status === 'ADMISSION_LETTER_GENERATED' ? 'Finalize Enrollment' : 'Waiting for student payment'}
                                             >
                                                 {actionLoading === app.id ? (
                                                     <Loader2 size={12} className="animate-spin" />
                                                 ) : (
                                                     <CreditCard size={12} weight="bold" />
                                                 )}
-                                                {actionLoading === app.id ? 'Processing...' : (app.status === 'PAYMENT_SUBMITTED' ? 'Confirm & Enroll' : 'Wait for Payment')}
+                                                {actionLoading === app.id ? 'Processing...' : (app.status === 'PAYMENT_SUBMITTED' || app.status === 'ENROLLED' || app.status === 'ADMISSION_LETTER_GENERATED' ? 'Confirm & Enroll' : 'Wait for Payment')}
                                             </button>
                                         </td>
                                     </tr>

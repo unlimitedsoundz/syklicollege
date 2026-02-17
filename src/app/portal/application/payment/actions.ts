@@ -44,25 +44,53 @@ export async function recordTuitionPayment(
             throw new Error(`DB Insert Failed: ${paymentError.message}`);
         }
 
-        // 3. Update Application Status
-        const { error: appError } = await supabase
-            .from('applications')
-            .update({
-                status: 'PAYMENT_SUBMITTED',
-                updated_at: new Date().toISOString()
-            })
-            .eq('id', applicationId);
+        // 3. AUTO-ENROLL: Create Student Record & Generate ID
+        // We reuse the Admin Action 'enrollStudent' to ensure consistency (creates student record, generates ID, updates profile)
+        const { enrollStudent } = await import('@/app/admin/students/actions');
+        const enrollmentResult = await enrollStudent(applicationId);
 
-        if (appError) {
-            console.error('App update failed', appError);
-            throw new Error(`App Update Failed: ${appError.message}`);
+        if (!enrollmentResult.success) {
+            console.error('Auto-enrollment failed:', enrollmentResult.error);
+            // We don't throw here to avoid failing the payment confirmation to the user, 
+            // but we log it. The admin might need to manually enroll if this fails.
+        } else {
+            console.log('Auto-enrollment successful:', enrollmentResult.studentId);
         }
 
-        // 4. Update Offer Status
+        // 4. Update Offer Status to PAID
         await supabase
             .from('admission_offers')
-            .update({ status: 'ACCEPTED' })
+            .update({ status: 'PAID' })
             .eq('id', offerId);
+
+        // 5. AUTO-TRIGGER: Generate Official Admission Letter
+        // 5. UPDATE: Use Dynamic Admission Letter Page (No PDF Storage)
+        const admissionLetterUrl = `https://syklicollege.fi/portal/application/admission-letter?id=${applicationId}`;
+
+        try {
+            // Update the offer record with the dynamic link so it appears in Admin/Student portal
+            const { error: updateLinkError } = await supabase
+                .from('admission_offers')
+                .update({ document_url: admissionLetterUrl })
+                .eq('id', offerId);
+
+            if (updateLinkError) console.error('Failed to update admission offer link:', updateLinkError);
+
+            console.log('Admission Letter Link updated:', admissionLetterUrl);
+
+            // Trigger Email Notification
+            await supabase.functions.invoke('send-notification', {
+                body: {
+                    applicationId,
+                    type: 'ADMISSION_LETTER_READY',
+                    documentUrl: admissionLetterUrl
+                }
+            });
+            console.log('Notification triggered with dynamic link.');
+
+        } catch (letterErr) {
+            console.error('Failed to send email or update link (non-blocking):', letterErr);
+        }
 
         return { success: true };
 

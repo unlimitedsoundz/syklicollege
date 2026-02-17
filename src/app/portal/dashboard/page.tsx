@@ -49,7 +49,7 @@ export default function DashboardPage() {
                 // Auto-redirect to student portal if enrolled and no urgent actions required
                 if (studentRes.data) {
                     const hasUrgentAction = (appsRes.data || []).some(app =>
-                        app.status === 'ADMITTED' || app.status === 'OFFER_ACCEPTED' || app.status === 'ADMISSION_LETTER_GENERATED'
+                        app.status === 'ADMITTED' || app.status === 'OFFER_ACCEPTED'
                     );
                     if (!hasUrgentAction) {
                         // Smoothly transition to student portal
@@ -185,36 +185,6 @@ export default function DashboardPage() {
                                 </div>
                             )}
 
-                            {/* Admission Letter Generated - Ready to Pay */}
-                            {app.status === 'ADMISSION_LETTER_GENERATED' && (
-                                <div className="flex items-start justify-between border-2 border-black p-6 md:p-8 rounded-sm text-black relative overflow-hidden bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] mb-4">
-                                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10 w-full">
-                                        <div>
-                                            <h4 className="font-black text-[12px] uppercase tracking-widest flex items-center gap-2">
-                                                <GraduationCap size={16} weight="bold" /> Admission Confirmed
-                                            </h4>
-                                            <p className="text-neutral-500 text-[10px] font-bold uppercase tracking-tight mt-1">
-                                                Your official admission letter has been issued. Complete tuition payment to finalize enrollment.
-                                            </p>
-                                        </div>
-                                        <div className="flex flex-col md:flex-row gap-2">
-                                            <Link
-                                                href="/portal/student/offer"
-                                                className="px-6 py-3 border border-neutral-200 text-neutral-600 rounded-sm text-[10px] font-black uppercase tracking-widest hover:bg-neutral-50 transition-all whitespace-nowrap text-center"
-                                            >
-                                                View Admission Letter
-                                            </Link>
-                                            <Link
-                                                href={`/portal/application/payment?id=${app.id}`}
-                                                className="bg-black text-white px-8 py-4 rounded-sm text-[10px] font-black uppercase tracking-widest hover:bg-neutral-800 transition-all whitespace-nowrap text-center shadow-lg"
-                                            >
-                                                Pay Tuition
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-
                             {/* Payment Verification Pending - PAYMENT_SUBMITTED */}
                             {app.status === 'PAYMENT_SUBMITTED' && (
                                 <div className="flex items-start justify-between border border-neutral-200 p-6 md:p-8 rounded-sm text-black relative overflow-hidden bg-neutral-50 mb-4 shadow-sm">
@@ -273,11 +243,11 @@ export default function DashboardPage() {
                                         )}
                                     </div>
                                     <div className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-widest leading-none mt-1">
-                                        <span className={`${app.status === 'ADMITTED' || app.status === 'OFFER_ACCEPTED' || app.status === 'ENROLLED' || app.status === 'PAYMENT_SUBMITTED' ? 'text-black' :
+                                        <span className={`${app.status === 'ADMITTED' || app.status === 'OFFER_ACCEPTED' || app.status === 'ENROLLED' ? 'text-black' :
                                             app.status === 'REJECTED' ? 'text-neutral-500' :
                                                 'text-neutral-600'
                                             }`}>
-                                            {app.status.replace('_', ' ')}
+                                            {app.status.replaceAll('_', ' ')}
                                         </span>
                                         <span className="text-neutral-400">Updated: {formatToDDMMYYYY(app.updated_at)}</span>
                                     </div>
@@ -314,44 +284,35 @@ export default function DashboardPage() {
                                         </Link>
                                     )}
 
-                                    {(app.status === 'ADMITTED' || app.status === 'OFFER_ACCEPTED' || app.status === 'ADMISSION_LETTER_GENERATED') && (
-                                        <Link
-                                            href={(app.status === 'OFFER_ACCEPTED' || app.status === 'ADMISSION_LETTER_GENERATED') ? `/portal/application/payment?id=${app.id}` : '#'}
-                                            className={`px-4 py-2 rounded-sm text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 ${(app.status === 'OFFER_ACCEPTED' || app.status === 'ADMISSION_LETTER_GENERATED')
-                                                ? 'bg-black text-white hover:bg-neutral-800'
-                                                : 'bg-neutral-100 text-neutral-400 cursor-not-allowed border border-neutral-200'
-                                                }`}
-                                            onClick={(e) => app.status === 'ADMITTED' && e.preventDefault()}
-                                        >
-                                            <CreditCard size={12} />
-                                            Pay Tuition
-                                        </Link>
+                                    {app.status === 'OFFER_ACCEPTED' && (
+                                        <div className="flex gap-2">
+                                            <Link
+                                                href={`/portal/application/letter?id=${app.id}`}
+                                                className="px-4 py-2 border border-black text-black rounded-sm text-[10px] font-bold uppercase tracking-widest hover:bg-neutral-50 transition-all flex items-center gap-2"
+                                            >
+                                                <FileText size={12} weight="bold" />
+                                                View Offer
+                                            </Link>
+                                            <Link
+                                                href={`/portal/application/payment?id=${app.id}`}
+                                                className="px-4 py-2 bg-black text-white rounded-sm text-[10px] font-black uppercase tracking-widest hover:bg-neutral-800 transition-all flex items-center gap-2"
+                                            >
+                                                <CreditCard size={12} weight="bold" />
+                                                Pay Tuition
+                                            </Link>
+                                        </div>
                                     )}
 
-                                    {/* View Admission Letter for ADMISSION_LETTER_GENERATED */}
-                                    {app.status === 'ADMISSION_LETTER_GENERATED' && (
-                                        <Link
-                                            href="/portal/student/offer"
-                                            className="px-4 py-2 border border-neutral-200 text-neutral-600 rounded-sm text-[10px] font-bold uppercase tracking-widest hover:bg-neutral-50 transition-all flex items-center gap-2"
-                                        >
-                                            <FileText size={12} weight="bold" />
-                                            Admission Letter
-                                        </Link>
-                                    )}
-
-                                    {/* Enrolled State */}
+                                    {/* Enrolled State — Admission Letter + Receipt + Portal */}
                                     {app.status === 'ENROLLED' && (
                                         <div className="flex gap-2">
-                                            {app.admission_details?.admission_letter_url && (
-                                                <a
-                                                    href={app.admission_details.admission_letter_url}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="px-4 py-2 border border-emerald-600 text-emerald-600 rounded-sm text-[10px] font-bold uppercase tracking-widest hover:bg-emerald-50 transition-all flex items-center gap-2"
-                                                >
-                                                    Admission Letter
-                                                </a>
-                                            )}
+                                            <Link
+                                                href={`/portal/application/admission-letter?id=${app.id}`}
+                                                className="px-4 py-2 border border-emerald-600 text-emerald-600 rounded-sm text-[10px] font-bold uppercase tracking-widest hover:bg-emerald-50 transition-all flex items-center gap-2"
+                                            >
+                                                <FileText size={12} weight="bold" />
+                                                Admission Letter
+                                            </Link>
                                             <Link
                                                 href={`/portal/application/receipt?id=${app.id}`}
                                                 className="px-4 py-2 border border-neutral-200 text-neutral-600 rounded-sm text-[10px] font-bold uppercase tracking-widest hover:bg-neutral-50 transition-all flex items-center gap-2"
@@ -369,16 +330,15 @@ export default function DashboardPage() {
                                         </div>
                                     )}
 
-                                    {/* Offer Letter link for other states if available */}
-                                    {app.status !== 'ENROLLED' && app.admission_details?.offer_letter_url && (
-                                        <a
-                                            href={app.admission_details.offer_letter_url}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="px-4 py-2 border border-neutral-200 text-neutral-500 rounded-sm text-[10px] font-bold uppercase tracking-widest hover:bg-neutral-50 transition-all"
+                                    {/* View Offer Letter link for non-enrolled states */}
+                                    {(app.status === 'OFFER_ACCEPTED' || app.status === 'PAYMENT_SUBMITTED') && (
+                                        <Link
+                                            href={`/portal/application/letter?id=${app.id}`}
+                                            className="px-4 py-2 border border-neutral-200 text-neutral-500 rounded-sm text-[10px] font-bold uppercase tracking-widest hover:bg-neutral-50 transition-all flex items-center gap-2"
                                         >
+                                            <FileText size={12} weight="bold" />
                                             Offer Letter
-                                        </a>
+                                        </Link>
                                     )}
 
                                     {/* Delete Button for non-enrolled */}
