@@ -615,7 +615,10 @@ export async function processTuitionPayment(
         }
     }
 
-    // 4. AUTO-TRIGGER ADMISSION LETTER & ENROLLMENT
+    // 4. AUTO-TRIGGER ADMISSION LETTER & ENROLLMENT (DISABLED FOR MANUAL ADMIN REVIEW)
+    // The flow now stops at PAYMENT_SUBMITTED. An admin must manually approve via the dashboard
+    // which triggers the 'enrollStudent' action to finalize status to ENROLLED and generate the letter.
+    /*
     try {
         const { generateAndStoreAdmissionLetter } = await import('@/app/admin/admissions/pdf-actions');
         await generateAndStoreAdmissionLetter(applicationId);
@@ -630,6 +633,7 @@ export async function processTuitionPayment(
         console.error('Failed to auto-generate admission letter after payment:', pdfError);
         // We still consider the payment successful
     }
+    */
 
     // 4. Audit Log for Compliance
     await adminSupabase.from('audit_logs').insert({

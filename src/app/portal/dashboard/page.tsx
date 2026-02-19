@@ -67,7 +67,7 @@ export default function DashboardPage() {
     }
 
     return (
-        <div className="space-y-4">
+        <div className="space-y-8">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <div className="flex items-center gap-2">
@@ -92,8 +92,8 @@ export default function DashboardPage() {
                 )}
             </div>
 
-            {/* Enrolled Student Alert Card */}
-            {student && (
+            {/* Enrolled Student Alert Card - Only show if fully ENROLLED (Admin approved) */}
+            {student && applications.some(app => app.id === student.application_id && app.status === 'ENROLLED') && (
                 <div className="flex items-start justify-between border-2 border-black p-6 md:p-8 rounded-sm text-black relative overflow-hidden bg-neutral-50">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10 w-full">
                         <div>
@@ -186,13 +186,6 @@ export default function DashboardPage() {
                                             </p>
                                         </div>
                                         <div className="flex flex-col md:flex-row items-center gap-3">
-                                            <Link
-                                                href={`/portal/application/receipt?id=${app.id}`}
-                                                className="px-4 py-2 border border-neutral-200 text-neutral-600 rounded-sm text-[10px] font-black uppercase tracking-widest hover:bg-neutral-50 transition-all whitespace-nowrap text-center flex items-center gap-2"
-                                            >
-                                                <FileText size={12} weight="bold" />
-                                                View Receipt
-                                            </Link>
                                             <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-neutral-200 whitespace-nowrap">
                                                 <span className="w-2 h-2 bg-black rounded-full animate-pulse" />
                                                 <span className="text-[10px] font-black uppercase tracking-widest text-black">Verifying</span>
@@ -350,7 +343,7 @@ export default function DashboardPage() {
                 </div>
             )}
 
-            <div className="mt-12 pt-6 border-t border-neutral-200 text-center">
+            <div className="mt-16 pt-8 text-center">
                 <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-semibold flex flex-wrap justify-center gap-6">
                     <Link href="/student-handbook" className="hover:text-black transition-colors">Student Handbook</Link>
                     <Link href="/code-of-conduct" className="hover:text-black transition-colors">Code of Conduct</Link>

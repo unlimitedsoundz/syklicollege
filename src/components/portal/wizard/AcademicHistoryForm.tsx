@@ -61,7 +61,7 @@ export default function AcademicHistoryForm({ applicationId, initialData, onUpda
     };
 
     return (
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="space-y-4">
                 {fields.map((field, index) => (
                     <div key={field.id} className="p-6 bg-white border border-neutral-100 rounded-sm space-y-6 relative group">
@@ -181,7 +181,7 @@ export default function AcademicHistoryForm({ applicationId, initialData, onUpda
                 <button
                     type="submit"
                     disabled={isSaving}
-                    className="w-full flex items-center justify-center gap-2 bg-[#00A651] text-white px-8 py-4 rounded-sm text-xs font-semibold uppercase tracking-widest hover:bg-[#008c44] transition-all disabled:opacity-50"
+                    className="w-full flex items-center justify-center gap-2 bg-primary text-white px-8 py-4 rounded-sm text-xs font-black uppercase tracking-widest hover:bg-blue-700 transition-all disabled:opacity-50"
                 >
                     {isSaving ? (
                         <>

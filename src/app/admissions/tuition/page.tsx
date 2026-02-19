@@ -42,7 +42,7 @@ export default function TuitionPaymentPage() {
                 "name": "How do I pay my tuition fees?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Sykli College uses direct bank transfer for international payments. To pay: 1) Log in to your Sykli Applicant Portal. 2) Navigate to the 'Payment' section. 3) Follow the bank transfer instructions provided. 4) Submit your proof of payment in the portal to receive an official receipt."
+                    "text": "Sykli College partners with Paygowire for secure international tuition payments. To pay: 1) Log in to your Sykli Applicant Portal. 2) Negotiate to the 'Payment' section. 3) You will be redirected to the secure Paygowire gateway. 4) Select your country and preferred payment method to complete the transfer."
                 }
             },
             {
@@ -405,37 +405,133 @@ export default function TuitionPaymentPage() {
                             </h2>
                             <div className="space-y-8">
                                 <div className="bg-neutral-50 p-6 md:p-12 rounded-2xl border border-neutral-200">
-                                    <div className="flex items-center gap-x-3 gap-y-2 mb-6">
-                                        <div className="flex items-center gap-2">
-                                            <Landmark size={28} weight="regular" className="text-black flex-shrink-0" />
-                                            <h3 className="text-xl md:text-2xl font-bold whitespace-nowrap">Direct Bank Transfer</h3>
+                                    <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-12">
+                                        <div className="max-w-xl">
+                                            <p className="text-lg text-black leading-relaxed mb-4">
+                                                SYKLI College partners with <strong>Paygowire</strong> to provide students with a secure, convenient, and transparent way to pay tuition and related academic fees using local and international payment options.
+                                            </p>
+                                            <p className="text-black leading-relaxed">
+                                                All tuition payments are processed through Paygowire to ensure accurate tracking, faster confirmation, and proper allocation to the student’s account.
+                                            </p>
+                                        </div>
+                                        <div className="relative w-48 h-12 md:w-64 md:h-16 shrink-0 bg-white p-4 rounded-xl shadow-sm border border-neutral-100">
+                                            <Image
+                                                src="/images/paygowire-logo-v2.png"
+                                                alt="Paygowire"
+                                                fill
+                                                className="object-contain p-2"
+                                            />
                                         </div>
                                     </div>
-                                    <div className="space-y-4 text-black">
-                                        <p className="text-lg">
-                                            SYKLI College accepts tuition payments via direct bank transfer to our dedicated bank account.
-                                        </p>
-                                        <p>
-                                            This method ensures the fastest processing of your enrolment and simplifies the verification of your residence permit funds.
-                                        </p>
-                                        <div className="bg-white p-6 md:p-12 border border-neutral-200 shadow-sm relative group overflow-hidden">
-                                            <h4 className="font-bold mb-4 uppercase tracking-wider text-sm">Detailed Payment Steps</h4>
-                                            <ol className="space-y-3 list-decimal pl-5">
-                                                <li>Log in to your <strong>Sykli Applicant Portal</strong>.</li>
-                                                <li>Navigate to the 'Payment' section under your application.</li>
-                                                <li>Note the account details provided in the portal.</li>
-                                                <li>Complete the transfer and upload your transaction receipt for verification.</li>
-                                                <li>Once verified, your official Letter of Admission will be issued.</li>
-                                            </ol>
+
+                                    {/* Step by Step */}
+                                    <div className="bg-white p-6 md:p-12 border border-neutral-200 shadow-sm rounded-xl">
+                                        <h3 className="text-xl font-bold mb-8 uppercase tracking-tight">Step-by-Step Payment Process</h3>
+
+                                        <div className="space-y-8">
+                                            <div className="flex gap-4">
+                                                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm">1</div>
+                                                <div>
+                                                    <h4 className="font-bold text-black mb-1">Accept Your Offer</h4>
+                                                    <p className="text-sm text-neutral-600">Once you accept your offer of admission through the SYKLI College portal, you will be automatically redirected to the Paygowire payment page.</p>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex gap-4">
+                                                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm">2</div>
+                                                <div>
+                                                    <h4 className="font-bold text-black mb-1">Choose Where You’re Paying From</h4>
+                                                    <p className="text-sm text-neutral-600">Select the country from which you will be making your payment. Paygowire will display the available local payment options and instructions specific to your selected country.</p>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex gap-4">
+                                                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm">3</div>
+                                                <div>
+                                                    <h4 className="font-bold text-black mb-1">Review Payment Details</h4>
+                                                    <p className="text-sm text-neutral-600 mb-4">Confirm the following details before proceeding:</p>
+                                                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 text-[10px] font-bold uppercase tracking-widest text-neutral-500">
+                                                        <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-neutral-300 rounded-full"></div> Your full name</li>
+                                                        <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-neutral-300 rounded-full"></div> Student ID</li>
+                                                        <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-neutral-300 rounded-full"></div> Programme of study</li>
+                                                        <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-neutral-300 rounded-full"></div> Amount payable</li>
+                                                        <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-neutral-300 rounded-full"></div> Payment reference</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex gap-4">
+                                                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm">4</div>
+                                                <div>
+                                                    <h4 className="font-bold text-black mb-1">Select Your Payment Method</h4>
+                                                    <p className="text-sm text-neutral-600">Choose one of the available payment methods provided by Paygowire, such as local bank transfer or other supported channels, depending on your country of residence.</p>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex gap-4">
+                                                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm">5</div>
+                                                <div>
+                                                    <h4 className="font-bold text-black mb-1">Complete the Payment</h4>
+                                                    <p className="text-sm text-neutral-600">Follow the on-screen instructions to complete your payment securely.</p>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex gap-4">
+                                                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm">6</div>
+                                                <div>
+                                                    <h4 className="font-bold text-black mb-1">Payment Confirmation</h4>
+                                                    <p className="text-sm text-neutral-600 mb-4">Once payment is successfully received and confirmed:</p>
+                                                    <ul className="space-y-3">
+                                                        <li className="flex items-center gap-3 text-xs font-bold text-black uppercase tracking-tight">
+                                                            <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                                                            Your payment status will be updated automatically
+                                                        </li>
+                                                        <li className="flex items-center gap-3 text-xs font-bold text-black uppercase tracking-tight">
+                                                            <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                                                            An official receipt will be issued
+                                                        </li>
+                                                        <li className="flex items-center gap-3 text-xs font-bold text-black uppercase tracking-tight">
+                                                            <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                                                            Your Admission Letter will be automatically generated and made available in your student portal
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
+                                <div className="grid md:grid-cols-2 gap-6">
+                                    <div className="bg-neutral-50 p-8 md:p-12 rounded-2xl border border-neutral-200">
+                                        <h3 className="text-xl font-bold mb-4 flex items-center gap-2 uppercase tracking-tight">
+                                            <RefreshCw size={24} /> Processing Time
+                                        </h3>
+                                        <p className="text-black leading-relaxed">
+                                            Most payments are confirmed within <strong>24–72 hours</strong>, depending on the selected payment method.
+                                        </p>
+                                        <p className="text-[10px] text-neutral-500 mt-6 italic font-bold uppercase tracking-widest">
+                                            Students should retain their payment reference and proof of payment until confirmation is completed.
+                                        </p>
+                                    </div>
+
+                                    <div className="bg-black text-white p-8 md:p-12 rounded-2xl">
+                                        <h3 className="text-xl font-bold mb-4 uppercase tracking-tight">
+                                            Need Help With Payment?
+                                        </h3>
+                                        <p className="text-white/80 leading-relaxed mb-8 text-sm">
+                                            If you experience any difficulty during the payment process or have questions regarding your tuition payment, please contact the Admissions Office through your student portal or via email.
+                                        </p>
+                                        <a href="mailto:admissions@syklicollege.fi" className="inline-block bg-white text-black px-6 py-3 rounded-sm text-[10px] font-black uppercase tracking-widest hover:bg-neutral-200 transition-colors">
+                                            Email Admissions
+                                        </a>
+                                    </div>
+                                </div>
+
                                 <div className="bg-neutral-50 p-6 pl-12 md:p-12 md:pl-20 rounded-2xl border border-neutral-200 border-l-4 border-l-black">
-                                    <h3 className="text-xl font-bold mb-4">Important: Residence Permits & Deadlines</h3>
+                                    <h3 className="text-xl font-bold mb-4 text-black uppercase tracking-tight">Important: Residence Permits & Deadlines</h3>
                                     <div className="space-y-4 text-black">
                                         <p className="text-sm leading-relaxed">
-                                            If you are applying for a residence permit, but have not yet paid the tuition fee, please make sure you have sufficient funds to cover the tuition fee and living expenses in Finland according to the Finnish Migration Services instructions:{' '}
+                                            If you are applying for a residence permit, please make sure you have sufficient funds to cover the tuition fee and living expenses in Finland according to the Finnish Migration Services instructions:{' '}
                                             <a
                                                 href="https://migri.fi/en/residence-permit-application-for-studies"
                                                 target="_blank"
@@ -445,30 +541,13 @@ export default function TuitionPaymentPage() {
                                                 Finnish Migration Services (Migri)
                                             </a>.
                                         </p>
-                                        <p className="text-sm font-bold">
+                                        <p className="text-sm font-bold uppercase tracking-tight">
                                             Please remember to start the process for obtaining a residence permit as soon as possible.
                                         </p>
                                         <p className="text-sm">
                                             The due date for the second academic year’s tuition fee payment is <strong>15th of September</strong>.
                                         </p>
-                                        <p className="text-xs text-neutral-500 italic">
-                                            If you have any questions about the tuition fee payment, please contact{' '}
-                                            <a href="mailto:admissions@syklicollege.fi" className="underline font-bold text-black">
-                                                admissions@syklicollege.fi
-                                            </a>
-                                        </p>
                                     </div>
-                                </div>
-
-                                <div className="bg-black text-white p-6 md:p-12 rounded-2xl">
-                                    <div className="flex items-center gap-3 mb-4">
-                                        <RefreshCw size={24} weight="bold" className="text-white" />
-                                        <h3 className="text-xl font-bold">Payment Confirmation & Enrolment</h3>
-                                    </div>
-                                    <p className="text-white/90 leading-relaxed">
-                                        Tuition fees must be fully paid and received by SYKLI College before a student can enrol as an attending student.
-                                        <strong> Enrolment cannot be completed until payment has been confirmed.</strong>
-                                    </p>
                                 </div>
                             </div>
                         </section>

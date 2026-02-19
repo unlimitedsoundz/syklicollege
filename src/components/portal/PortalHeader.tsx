@@ -108,7 +108,7 @@ export default function PortalHeader() {
 
     return (
         <>
-            <header className={`bg-white sticky top-0 z-50 border-b border-black transition-transform duration-300 ${isVisible || mobileMenuOpen ? 'translate-y-0' : '-translate-y-full'
+            <header className={`bg-white sticky top-0 z-50 transition-transform duration-300 ${isVisible || mobileMenuOpen ? 'translate-y-0' : '-translate-y-full'
                 }`}>
                 <div className="container mx-auto px-4 h-16 flex items-center justify-between">
                     <div className="flex items-center gap-8">
@@ -122,8 +122,8 @@ export default function PortalHeader() {
                                         key={item.href}
                                         href={item.href}
                                         className={`px-3 py-1 rounded text-xs font-semibold uppercase tracking-widest transition-colors ${isActive
-                                            ? 'bg-neutral-100 text-black'
-                                            : 'text-black hover:opacity-70 hover:bg-neutral-50'
+                                            ? 'bg-black text-white'
+                                            : 'text-black hover:opacity-70 hover:bg-black/5'
                                             }`}
                                     >
                                         {item.name}

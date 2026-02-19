@@ -22,7 +22,8 @@ export function OfferClient({ admission }: OfferClientProps) {
     const isAccepted = admission.offer_status === 'ACCEPTED' || admission.offer_status === 'PAID';
     const isRejected = admission.offer_status === 'REJECTED';
     const isOfferAcceptedOnly = isAccepted && admission.application_status === 'OFFER_ACCEPTED';
-    const isLetterGenerated = admission.application_status === 'ADMISSION_LETTER_GENERATED';
+    // If payment is submitted, do not consider letter "generated" for UI purposes to prevent "Pay Tuition" button from showing
+    const isLetterGenerated = admission.application_status === 'ADMISSION_LETTER_GENERATED' && admission.application_status !== 'PAYMENT_SUBMITTED';
 
     const handleDecision = async (decision: 'ACCEPTED' | 'REJECTED') => {
         if (!confirm(`Are you sure you want to ${decision.toLowerCase()} this admission offer? This action cannot be undone.`)) {
@@ -53,7 +54,7 @@ export function OfferClient({ admission }: OfferClientProps) {
     };
 
     const handlePayment = () => {
-        router.push(`/portal/student/finance`);
+        router.push(`/portal/application/payment?id=${admission.application_id}`);
     };
 
     return (
@@ -69,12 +70,20 @@ export function OfferClient({ admission }: OfferClientProps) {
                             </span>
                         </div>
                         <a
-                            href={admission.document_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            download
-                            className="p-1.5 md:p-2 hover:bg-white rounded-lg transition-colors text-neutral-600 hover:text-black"
-                            title="Download PDF"
+                            href={admission.application_status === 'PAYMENT_SUBMITTED' ? '#' : admission.document_url}
+                            target={admission.application_status === 'PAYMENT_SUBMITTED' ? undefined : "_blank"}
+                            rel={admission.application_status === 'PAYMENT_SUBMITTED' ? undefined : "noopener noreferrer"}
+                            download={admission.application_status !== 'PAYMENT_SUBMITTED'}
+                            className={`p-1.5 md:p-2 rounded-lg transition-colors ${admission.application_status === 'PAYMENT_SUBMITTED'
+                                ? 'text-neutral-300 cursor-not-allowed'
+                                : 'text-neutral-600 hover:text-black hover:bg-white'
+                                }`}
+                            title={admission.application_status === 'PAYMENT_SUBMITTED' ? "Access Locked" : "View Letter"}
+                            onClick={(e) => {
+                                if (admission.application_status === 'PAYMENT_SUBMITTED') {
+                                    e.preventDefault();
+                                }
+                            }}
                         >
                             <Download size={18} weight="bold" />
                         </a>
@@ -182,7 +191,7 @@ export function OfferClient({ admission }: OfferClientProps) {
 
                                     {/* Action Buttons Based on Status */}
                                     <div className="space-y-3">
-                                        {isLetterGenerated && (
+                                        {isLetterGenerated && admission.application_status !== 'PAYMENT_SUBMITTED' && (
                                             <button
                                                 onClick={handlePayment}
                                                 className="w-full bg-emerald-600 text-white font-bold py-4 rounded-xl hover:bg-emerald-700 transition-all flex items-center justify-center gap-3 shadow-lg shadow-emerald-200 group active:scale-[0.98]"
@@ -192,16 +201,46 @@ export function OfferClient({ admission }: OfferClientProps) {
                                             </button>
                                         )}
 
-                                        {/* Download Offer Letter button */}
+                                        {admission.application_status === 'PAYMENT_SUBMITTED' && (
+                                            <div className="space-y-3">
+                                                <div className="w-full bg-amber-50 text-amber-800 font-bold py-3 rounded-lg flex items-center justify-center gap-2 border border-amber-200 text-center px-4 mb-3">
+                                                    <Loader2 size={14} className="animate-spin text-amber-600" />
+                                                    <span className="text-[9px] uppercase tracking-wider">Verification Pending</span>
+                                                </div>
+
+                                                <button disabled className="w-full bg-neutral-50 text-neutral-400 font-bold py-3 rounded-lg flex items-center justify-center gap-2 cursor-not-allowed text-[10px] uppercase tracking-widest border border-neutral-100">
+                                                    <FileText size={14} weight="bold" /> Admission Letter <span className="text-[9px] opacity-60">(Locked)</span>
+                                                </button>
+
+                                                <button disabled className="w-full bg-neutral-50 text-neutral-400 font-bold py-3 rounded-lg flex items-center justify-center gap-2 cursor-not-allowed text-[10px] uppercase tracking-widest border border-neutral-100">
+                                                    <FileText size={14} weight="bold" /> View Receipt <span className="text-[9px] opacity-60">(Locked)</span>
+                                                </button>
+
+                                                <button disabled className="w-full bg-neutral-50 text-neutral-400 font-bold py-3 rounded-lg flex items-center justify-center gap-2 cursor-not-allowed text-[10px] uppercase tracking-widest border border-neutral-100">
+                                                    <CheckCircle size={14} weight="bold" /> Enter Portal <span className="text-[9px] opacity-60">(Locked)</span>
+                                                </button>
+                                            </div>
+                                        )}
+
+                                        {/* Download Offer Letter button - Disable if Pending */}
                                         {admission.document_url && (
                                             <a
-                                                href={admission.document_url}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                download
-                                                className="w-full bg-black text-white font-bold py-3 rounded-lg hover:bg-neutral-800 transition-all flex items-center justify-center gap-2 active:scale-95 text-xs uppercase tracking-widest"
+                                                href={admission.application_status === 'PAYMENT_SUBMITTED' ? '#' : admission.document_url}
+                                                target={admission.application_status === 'PAYMENT_SUBMITTED' ? undefined : "_blank"}
+                                                rel={admission.application_status === 'PAYMENT_SUBMITTED' ? undefined : "noopener noreferrer"}
+                                                download={admission.application_status !== 'PAYMENT_SUBMITTED'}
+                                                className={`w-full font-bold py-3 rounded-lg transition-all flex items-center justify-center gap-2 active:scale-95 text-xs uppercase tracking-widest ${admission.application_status === 'PAYMENT_SUBMITTED'
+                                                    ? 'bg-neutral-100 text-neutral-400 cursor-not-allowed'
+                                                    : 'bg-black text-white hover:bg-neutral-800'
+                                                    }`}
+                                                onClick={(e) => {
+                                                    if (admission.application_status === 'PAYMENT_SUBMITTED') {
+                                                        e.preventDefault();
+                                                    }
+                                                }}
                                             >
-                                                <Download size={16} weight="bold" /> Download {isLetterGenerated ? 'Admission Letter' : 'Offer Letter'}
+                                                <FileText size={16} weight="bold" /> View {isLetterGenerated ? 'Admission Letter' : 'Offer Letter'}
+                                                {admission.application_status === 'PAYMENT_SUBMITTED' && ' (Locked)'}
                                             </a>
                                         )}
                                     </div>
@@ -264,7 +303,7 @@ export function OfferClient({ admission }: OfferClientProps) {
                                 rel="noopener noreferrer"
                                 className="w-full bg-neutral-100 text-neutral-700 font-bold py-2 md:py-2.5 rounded-lg hover:bg-neutral-200 transition-all flex items-center justify-center gap-2 active:scale-95 text-[10px] md:text-xs uppercase tracking-wider"
                             >
-                                <FileText size={14} weight="bold" /> Print Letter
+                                <FileText size={14} weight="bold" /> View Letter
                             </a>
                         )}
 

@@ -27,12 +27,30 @@ export async function enrollStudent(applicationId: string) {
         const user = application.user;
         const currentYear = new Date().getFullYear();
 
-        // 2. Generate Student ID (if not exists)
-        // Format: SYK-YEAR-RANDOM (4 digits)
-        const studentId = `SYK-${currentYear}-${Math.floor(1000 + Math.random() * 9000)}`;
+        // 2. Student ID Handling
+        // Use existing student_id from profile if available, otherwise generate
+        let studentId = user.student_id;
+        if (!studentId) {
+            studentId = `SK${currentYear}${Math.floor(1000 + Math.random() * 9000)}`;
+        }
 
-        // 3. Generate Institutional Email
-        const institutionalEmail = `${user.first_name.toLowerCase()}.${user.last_name.toLowerCase()}@syklicollege.fi`;
+        // 3. Generate Unique Institutional Email
+        let institutionalEmail = `${user.first_name.toLowerCase()}.${user.last_name.toLowerCase()}@syklicollege.fi`;
+
+        // Sanitize (remove spaces, etc.)
+        institutionalEmail = institutionalEmail.replace(/\s+/g, '');
+
+        // Check if email already exists in students table
+        const { data: existingEmail } = await supabase
+            .from('students')
+            .select('institutional_email')
+            .eq('institutional_email', institutionalEmail)
+            .maybeSingle();
+
+        if (existingEmail) {
+            // Append a random number if conflict
+            institutionalEmail = `${user.first_name.toLowerCase()}.${user.last_name.toLowerCase()}${Math.floor(Math.random() * 100)}@syklicollege.fi`.replace(/\s+/g, '');
+        }
 
         // 4. Create Student Record
         const { data: student, error: studentError } = await supabase
@@ -55,13 +73,19 @@ export async function enrollStudent(applicationId: string) {
 
         if (studentError) {
             console.error('Enrollment: Failed to create student record', studentError);
-            return { success: false, error: 'Failed to create student record' };
+            return { success: false, error: `Failed to create student record: ${studentError.message}` };
         }
 
-        // 5. Update Application Status
+
+        // 5. Update Application Status & Document Flags
         const { error: updateError } = await supabase
             .from('applications')
-            .update({ status: 'ENROLLED' })
+            .update({
+                status: 'ENROLLED',
+                admission_letter_generated: true,
+                receipt_generated: true,
+                updated_at: new Date().toISOString()
+            })
             .eq('id', applicationId);
 
         if (updateError) {
@@ -73,6 +97,35 @@ export async function enrollStudent(applicationId: string) {
             .from('profiles')
             .update({ role: 'STUDENT', student_id: studentId })
             .eq('id', user.id);
+
+        // 7. Verify Payment Record (Atomic Update)
+        const { data: offer } = await supabase
+            .from('admission_offers')
+            .select('id')
+            .eq('application_id', applicationId)
+            .maybeSingle();
+
+        if (offer) {
+            await supabase
+                .from('tuition_payments')
+                .update({ status: 'verified' })
+                .eq('offer_id', offer.id)
+                .eq('status', 'PENDING_VERIFICATION');
+        }
+
+        // 8. Trigger Post-Enrollment Actions (Docs & Email)
+        try {
+            const { generateAndStoreAdmissionLetter, generateAndStoreReceipt } = await import('../admissions/pdf-actions');
+            await generateAndStoreAdmissionLetter(applicationId);
+            await generateAndStoreReceipt(applicationId);
+
+            // Trigger Welcome Email (Edge Function)
+            await supabase.functions.invoke('resend-welcome-email', {
+                body: { applicationId, type: 'ENROLLMENT_CONFIRMED' }
+            });
+        } catch (postError) {
+            console.error('Enrollment: Post-action error', postError);
+        }
 
         console.log('Enrollment: Success for', user.email);
         return { success: true, studentId };

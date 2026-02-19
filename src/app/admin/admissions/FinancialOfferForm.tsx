@@ -31,9 +31,8 @@ export function FinancialOfferForm({ applicationId, baseTuition, programYears }:
 
         setIsSubmitting(true);
         try {
-            // Map FIRST_YEAR to 'DEPOSIT' (internally) or just 'FIRST_YEAR' if we want to change DB enum
-            // For now let's use FIRST_YEAR and update the action to handle it
-            await createAdmissionOffer(applicationId, discountedFee, deadline, offerType as any, discountAmount);
+            const mappedOfferType = offerType === 'FULL_PROGRAM' ? 'FULL_TUITION' : 'DEPOSIT';
+            await createAdmissionOffer(applicationId, discountedFee, deadline, mappedOfferType, discountAmount);
         } catch (error) {
             console.error(error);
             alert('Failed to issue financial offer');

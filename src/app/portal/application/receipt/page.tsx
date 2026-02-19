@@ -46,6 +46,7 @@ function ReceiptContent() {
 
                 if (error || !applicationRaw || !applicationRaw.offer?.[0]) {
                     setData(null);
+                    setLoading(false);
                     return;
                 }
 
@@ -71,6 +72,18 @@ function ReceiptContent() {
         fetchData();
     }, [id, router]);
 
+    // Redirect if not eligible - Moved ABOVE early returns to satisfy Rules of Hooks
+    useEffect(() => {
+        if (!loading && data) {
+            const application = data;
+            const payment = application.offer?.[0]?.payments?.[0];
+
+            if (!payment || (application.status !== 'ENROLLED' && application.status !== 'PAYMENT_SUBMITTED')) {
+                router.push(`/portal/application/payment?id=${id}`);
+            }
+        }
+    }, [loading, data, id, router]);
+
     if (loading) {
         return (
             <div className="flex items-center justify-center min-h-[60vh]">
@@ -88,15 +101,40 @@ function ReceiptContent() {
     const offer = application.offer[0];
     const payment = offer.payments?.[0]; // Assuming single payment for now
 
-    if (!payment) {
-        router.push(`/portal/application/payment?id=${id}`);
+    if (!payment || (application.status !== 'ENROLLED' && application.status !== 'PAYMENT_SUBMITTED')) {
         return null;
+    }
+
+
+    // Locks the receipt page if passing through verification
+    if (application.status === 'PAYMENT_SUBMITTED') {
+        return (
+            <div className="flex items-center justify-center min-h-[60vh] font-rubik px-4">
+                <div className="max-w-md w-full bg-white border border-neutral-200 p-8 rounded-sm text-center shadow-sm">
+                    <div className="w-12 h-12 bg-amber-50 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-4 border border-amber-100">
+                        <Suspense><div className="w-5 h-5 border-2 border-amber-600 border-t-transparent rounded-full animate-spin"></div></Suspense>
+                    </div>
+                    <h2 className="text-lg font-black uppercase tracking-tight text-neutral-900 mb-2">Payment Under Review</h2>
+                    <p className="text-xs text-neutral-500 font-medium leading-relaxed mb-8">
+                        Your transaction has been recorded (Ref: <span className="font-mono text-black">{payment.transaction_reference}</span>).<br />
+                        The official receipt will be available here once our finance team confirms the funds.
+                    </p>
+                    <Link
+                        href="/portal/dashboard"
+                        className="block w-full bg-black text-white px-6 py-3 rounded-sm text-[10px] font-black uppercase tracking-widest hover:bg-neutral-800 transition-all border border-black"
+                    >
+                        Return to Dashboard
+                    </Link>
+                </div>
+            </div>
+        );
     }
 
     // Calculate years paid
     const yearsPaid = Math.max(1, Math.round(payment.amount / offer.tuition_fee));
     const intake = admission?.intake || 'Autumn 2026';
     const academicYear = admission?.academic_year || '2026/2027';
+    const isPending = application.status === 'PAYMENT_SUBMITTED';
 
     return (
         <div className="min-h-screen bg-neutral-100/50 py-6 md:py-12 px-4 sm:px-6 font-rubik">
@@ -114,6 +152,12 @@ function ReceiptContent() {
 
             {/* Document Container */}
             <div className="w-full max-w-[210mm] mx-auto bg-white print:shadow-none p-6 md:p-8 border border-neutral-200 print:border-0 relative overflow-hidden">
+
+                {isPending && (
+                    <div className="absolute top-12 right-12 opacity-10 pointer-events-none z-0 border-[8px] border-black p-4 rotate-[-15deg]">
+                        <span className="text-6xl font-black uppercase tracking-widest text-black">PENDING</span>
+                    </div>
+                )}
 
                 {/* Header Header */}
                 <div className="flex flex-col md:flex-row justify-between items-start mb-8 gap-6 relative z-10 border-b-2 border-black pb-6">
@@ -170,10 +214,17 @@ function ReceiptContent() {
                                 </div>
                                 <div>
                                     <div className="text-[9px] font-bold text-neutral-400 uppercase mb-0.5">Status</div>
-                                    <div className="inline-flex items-center gap-1.5 text-xs font-black text-emerald-600 uppercase">
-                                        <div className="w-1.5 h-1.5 bg-emerald-600 rounded-full" />
-                                        Verified & Completed
-                                    </div>
+                                    {isPending ? (
+                                        <div className="inline-flex items-center gap-1.5 text-xs font-black text-amber-600 uppercase">
+                                            <div className="w-1.5 h-1.5 bg-amber-600 rounded-full animate-pulse" />
+                                            Pending Verification
+                                        </div>
+                                    ) : (
+                                        <div className="inline-flex items-center gap-1.5 text-xs font-black text-emerald-600 uppercase">
+                                            <div className="w-1.5 h-1.5 bg-emerald-600 rounded-full" />
+                                            Verified & Completed
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -241,11 +292,6 @@ function ReceiptContent() {
                     </p>
                 </div>
 
-                <div className="absolute bottom-[20mm] left-0 right-0 text-center px-8">
-                    <div className="text-[8px] font-bold uppercase tracking-[0.3em] text-black border-t border-neutral-100 pt-8">
-                        SYKLI COLLEGE OF ART AND DESIGN | EDUCATION FOR THE FUTURE
-                    </div>
-                </div>
             </div>
             {/* Print Styles */}
             <style dangerouslySetInnerHTML={{

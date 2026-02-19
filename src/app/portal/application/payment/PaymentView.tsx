@@ -66,8 +66,21 @@ export default function TuitionPaymentPage({ admissionOffer, application }: {
             }
 
             // Success!!
-            console.log('PaymentView: Success! Navigating to receipt...');
-            router.push(`/portal/application/receipt?id=${application.id}`);
+            console.log('PaymentView: Success! Reinforcing application status update...');
+
+            // Extra safety: Update application status directly from client to ensure DB is in sync
+            // before redirecting, just in case edge function update had any replication lag or issue.
+            await supabase
+                .from('applications')
+                .update({
+                    status: 'PAYMENT_SUBMITTED',
+                    updated_at: new Date().toISOString()
+                })
+                .eq('id', application.id);
+
+            console.log('PaymentView: Status reinforced. Redirecting to dashboard...');
+            // Force full page reload to ensure all states (DB, Cache, UI) are completely fresh
+            window.location.href = '/portal/dashboard';
         } catch (e: any) {
             console.error('Payment Error (Caught in View):', e);
             setError(e.message || 'Payment failed');
@@ -83,27 +96,20 @@ export default function TuitionPaymentPage({ admissionOffer, application }: {
                     <Check size={40} weight="bold" />
                 </div>
                 <h2 className="text-2xl font-normal text-black mb-4 uppercase tracking-tighter">
-                    {isEnrolled ? 'Tuition Paid Successfully' : 'Payment Received'}
+                    {isEnrolled ? 'Tuition Paid Successfully' : 'Payment Verification Pending'}
                 </h2>
                 <p className="text-sm text-neutral-600 mb-8 max-w-[280px] mx-auto leading-relaxed">
                     {isEnrolled
                         ? <>Your enrollment is now confirmed. Welcome to <span className="font-semibold text-black">Sykli College</span>.</>
-                        : <>Your payment has been recorded and is currently being <span className="font-semibold text-black">verified by our admissions team</span>. You will be notified once your enrollment is finalized.</>
+                        : <>Your payment has been recorded and is currently under review. <span className="font-semibold text-black">Access to student services is paused</span> until our finance team verifies the transaction.</>
                     }
                 </p>
                 <div className="flex flex-col gap-3">
                     <button
-                        onClick={() => router.push(`/portal/application/receipt?id=${application.id}`)}
-                        className="w-full bg-black text-white px-8 py-4 rounded-sm text-[10px] font-black uppercase tracking-widest hover:bg-neutral-800 transition-all shadow-lg shadow-black/5 flex items-center justify-center gap-2"
-                    >
-                        <FileText size={14} weight="bold" />
-                        View Receipt
-                    </button>
-                    <button
                         onClick={() => router.push('/portal/dashboard')}
-                        className="w-full border border-neutral-200 text-neutral-600 px-8 py-4 rounded-sm text-[10px] font-bold uppercase tracking-widest hover:bg-neutral-50 transition-all"
+                        className="w-full bg-black text-white px-8 py-4 rounded-sm text-[10px] font-black uppercase tracking-widest transition-all hover:bg-neutral-800 shadow-lg shadow-black/5"
                     >
-                        Go to Dashboard
+                        Return to Dashboard
                     </button>
                 </div>
             </div>
@@ -113,14 +119,14 @@ export default function TuitionPaymentPage({ admissionOffer, application }: {
     return (
         <div className="max-w-6xl mx-auto py-6 md:py-12 md:px-4 font-rubik text-black">
             <div className="mb-6 md:mb-12 text-center md:text-left bg-neutral-50 md:bg-transparent -mx-4 md:mx-0 p-6 md:p-0 border-y md:border-none border-neutral-100">
-                <h1 className="text-[20px] md:text-[24px] font-normal uppercase tracking-tighter text-black leading-tight md:leading-none">Tuition Payment via Bank Transfer</h1>
+                <h1 className="text-[20px] md:text-[24px] font-normal uppercase tracking-tighter text-black leading-tight md:leading-none">Tuition Payment via PAYGOWIRE</h1>
                 <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-3 mt-4">
                     <p className="text-sm text-black font-normal uppercase tracking-widest">
                         Official SIS Gateway
                     </p>
                     <div className="hidden md:block h-px w-8 bg-neutral-200" />
                     <div className="flex items-center gap-2 opacity-100 transition-all">
-                        <span className="text-sm text-black font-normal uppercase tracking-widest">Via Kuda Bank Business</span>
+                        <span className="text-sm text-black font-normal uppercase tracking-widest">Via Paygowire Gateway</span>
                     </div>
                 </div>
             </div>

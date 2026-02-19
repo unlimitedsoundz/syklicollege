@@ -48,7 +48,7 @@ export default function WelcomeStep({ instructions, nextStepHref }: Props) {
             <div className="pt-8 border-t border-neutral-100 flex justify-end">
                 <Link
                     href={nextStepHref}
-                    className="w-full flex items-center justify-center gap-2 bg-white border border-primary text-primary px-8 py-4 rounded-sm text-xs font-semibold uppercase tracking-widest hover:bg-neutral-50 transition-all text-center"
+                    className="w-full flex items-center justify-center gap-2 bg-primary text-white px-8 py-4 rounded-sm text-xs font-black uppercase tracking-widest hover:bg-blue-700 transition-all text-center shadow-lg"
                 >
                     Begin Application
                     <CaretRight size={16} weight="bold" />

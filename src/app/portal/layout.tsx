@@ -43,17 +43,27 @@ export default function PortalLayout({ children }: { children: ReactNode }) {
                     // Even if we have a Supabase user, we verify the profile exists in DB
                     const { data: prof, error: profError } = await supabase
                         .from('profiles')
-                        .select('id, role')
+                        .select('id, role, portal_access_disabled')
                         .eq('id', sbUser.id)
                         .single();
 
                     console.log('[PortalLayout] Profile Check:', {
                         hasProfile: !!prof,
                         role: prof?.role,
+                        disabled: prof?.portal_access_disabled,
                         error: profError
                     });
 
                     if (prof) {
+                        if (prof.portal_access_disabled) {
+                            // Redirect to forbidden or show blocking UI
+                            // For now, simple redirect to a generic error or login with param
+                            // But cleaner to just not authorize and maybe show an error state
+                            // Let's redirect to /portal/access-denied (we need to create this or use login)
+                            router.push('/portal/account/login?error=AccessDisabled');
+                            return;
+                        }
+
                         setAuthorized(true);
                         setLoading(false);
                         return;
@@ -97,7 +107,7 @@ export default function PortalLayout({ children }: { children: ReactNode }) {
     return (
         <div className={`min-h-screen bg-white flex flex-col font-open-sans text-base`} data-theme="portal">
             <PortalHeader />
-            <main className="flex-1 container mx-auto px-4 py-4 md:py-8">
+            <main className="flex-1 container mx-auto px-4 py-8 md:py-16">
                 {children}
             </main>
             <footer className="bg-black text-white py-12">

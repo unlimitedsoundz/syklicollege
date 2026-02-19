@@ -68,9 +68,9 @@ export async function initiatePayment(
 
         if (!invoice) return { success: false, error: 'Invoice not found' };
 
-        // Mock Kuda Bank Interaction
-        const kudaTxId = `KUDA-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-        const mockPaymentUrl = `https://syklicollege.fi/portal/application/payment/verify?ref=${kudaTxId}`;
+        // Mock PayGoWire Interaction
+        const pgwTxId = `PGW-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+        const mockPaymentUrl = `https://syklicollege.fi/portal/application/payment/verify?ref=${pgwTxId}`;
 
         // Create Payment Record
         const { error: paymentError } = await supabase
@@ -83,7 +83,7 @@ export async function initiatePayment(
                 status: 'PENDING',
                 payment_method: method,
                 billing_country: country,
-                paygowire_transaction_id: kudaTxId,
+                paygowire_transaction_id: pgwTxId,
                 paygowire_payment_url: mockPaymentUrl
             });
 
@@ -92,7 +92,7 @@ export async function initiatePayment(
             return { success: false, error: 'Failed to initiate payment transaction' };
         }
 
-        return { success: true, paymentUrl: mockPaymentUrl, transactionId: kudaTxId };
+        return { success: true, paymentUrl: mockPaymentUrl, transactionId: pgwTxId };
 
     } catch (err: any) {
         return { success: false, error: err.message };
@@ -230,16 +230,77 @@ export async function reconcilePayment(paymentId: string) {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new Error('Not authenticated');
 
-    const { error } = await supabase
+    // 1. Fetch Payment and Invoice Data
+    const { data: payment, error: fetchError } = await supabase
+        .from('housing_payments')
+        .select('*, invoice:housing_invoices(*)')
+        .eq('id', paymentId)
+        .single();
+
+    if (fetchError || !payment) throw new Error(`Payment not found: ${fetchError?.message}`);
+    if (payment.status === 'COMPLETED') return { success: true };
+
+    const invoice = payment.invoice;
+    if (!invoice) throw new Error('Invoice not found for this payment');
+
+    // 2. Update Payment Status
+    const { error: paymentUpdateError } = await supabase
         .from('housing_payments')
         .update({
             status: 'COMPLETED',
             paid_at: new Date().toISOString(),
-            metadata: { reconciled_by: user.id, reconciled_at: new Date().toISOString() }
+            verified: true,
+            metadata: {
+                ...payment.metadata,
+                reconciled_by: user.id,
+                reconciled_at: new Date().toISOString()
+            }
         })
         .eq('id', paymentId);
 
-    if (error) throw error;
+    if (paymentUpdateError) throw paymentUpdateError;
+
+    // 3. Update Invoice Status
+    const newPaidAmount = (invoice.paid_amount || 0) + payment.amount;
+    const isFullyPaid = newPaidAmount >= invoice.total_amount;
+
+    const { error: invoiceUpdateError } = await supabase
+        .from('housing_invoices')
+        .update({
+            paid_amount: newPaidAmount,
+            status: isFullyPaid ? 'PAID' : 'PARTIALLY_PAID',
+            updated_at: new Date().toISOString()
+        })
+        .eq('id', invoice.id);
+
+    if (invoiceUpdateError) throw invoiceUpdateError;
+
+    // 4. Update Application if Fully Paid
+    if (isFullyPaid && invoice.application_id) {
+        await supabase
+            .from('housing_applications')
+            .update({ status: 'APPROVED' })
+            .eq('id', invoice.application_id);
+    }
+
+    // 5. Notify Student via Edge Function
+    try {
+        await supabase.functions.invoke('send-notification', {
+            body: {
+                type: 'PAYMENT_RECEIVED',
+                applicationId: invoice.application_id || undefined,
+                additionalData: {
+                    amount: payment.amount,
+                    currency: payment.currency,
+                    reference: payment.paygowire_transaction_id || payment.id,
+                    paymentType: 'HOUSING'
+                }
+            }
+        });
+    } catch (notifyError) {
+        console.error('Failed to trigger reconcile notification:', notifyError);
+    }
+
     return { success: true };
 }
 
@@ -272,7 +333,7 @@ export async function verifyHousingPaymentManually(invoiceId: string, amount: nu
     if (!invoice) throw new Error('Invoice not found');
 
     // 3. Create Manual Payment Record
-    const { data: payment, error: paymentError } = await supabase
+    await supabase
         .from('housing_payments')
         .insert({
             invoice_id: invoiceId,
@@ -283,15 +344,13 @@ export async function verifyHousingPaymentManually(invoiceId: string, amount: nu
             payment_method: method,
             billing_country: 'Manual Verification',
             paid_at: new Date().toISOString(),
+            verified: true,
             metadata: {
                 verified_by: user.id,
-                manual_reference: reference || 'Manual Admin Action'
+                manual_reference: reference || 'Manual Admin Action',
+                verification_date: new Date().toISOString()
             }
-        })
-        .select()
-        .single();
-
-    if (paymentError) throw new Error(`Failed to record payment: ${paymentError.message}`);
+        });
 
     // 4. Update Invoice Status
     const newPaidAmount = (invoice.paid_amount || 0) + amount;
@@ -336,57 +395,3 @@ export async function verifyHousingPaymentManually(invoiceId: string, amount: nu
     return { success: true };
 }
 
-export async function initiateManualPayment(
-    invoiceId: string,
-    file: File
-): Promise<{ success: boolean; error?: string }> {
-    const supabase = createClient();
-    try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { success: false, error: 'Not authenticated' };
-
-        // 1. Upload File
-        const fileExt = file.name.split('.').pop();
-        const fileName = `${user.id}/${invoiceId}_${Date.now()}.${fileExt}`;
-        const { error: uploadError, data: uploadData } = await supabase.storage
-            .from('housing_payments')
-            .upload(fileName, file);
-
-        if (uploadError) {
-            throw new Error(`Upload failed: ${uploadError.message}`);
-        }
-
-        // 2. Get Invoice Details
-        const { data: invoice } = await supabase
-            .from('housing_invoices')
-            .select('student_id, total_amount, paid_amount, currency')
-            .eq('id', invoiceId)
-            .single();
-
-        if (!invoice) throw new Error('Invoice not found');
-
-        // 3. Create Payment Record
-        const { error: paymentError } = await supabase
-            .from('housing_payments')
-            .insert({
-                invoice_id: invoiceId,
-                student_id: invoice.student_id,
-                amount: invoice.total_amount - (invoice.paid_amount || 0),
-                currency: invoice.currency,
-                status: 'PENDING',
-                payment_method: 'BANK_TRANSFER',
-                billing_country: 'Manual Upload',
-                metadata: {
-                    proof_path: uploadData.path,
-                    original_name: file.name
-                }
-            });
-
-        if (paymentError) throw paymentError;
-
-        return { success: true };
-
-    } catch (err: any) {
-        return { success: false, error: err.message };
-    }
-}

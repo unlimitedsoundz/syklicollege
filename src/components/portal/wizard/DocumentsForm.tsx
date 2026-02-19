@@ -93,7 +93,7 @@ export default function DocumentsForm({ applicationId, existingDocuments, onUpda
     };
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-8">
             <div className="grid grid-cols-1 gap-4">
                 {DOCUMENT_TYPES.map((docType) => {
                     const doc = existingDocuments.find(d => d.type === docType.type);
@@ -174,7 +174,7 @@ export default function DocumentsForm({ applicationId, existingDocuments, onUpda
                         setIsSaving(false);
                     }}
                     disabled={!allRequiredUploaded || isSaving}
-                    className="w-full flex items-center justify-center gap-2 bg-[#00A651] text-white px-8 py-4 rounded-sm text-xs font-semibold uppercase tracking-widest hover:bg-[#008c44] transition-all disabled:opacity-50"
+                    className="w-full flex items-center justify-center gap-2 bg-primary text-white px-8 py-4 rounded-sm text-xs font-black uppercase tracking-widest hover:bg-blue-700 transition-all disabled:opacity-50"
                 >
                     {isSaving ? (
                         <>

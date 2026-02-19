@@ -16,11 +16,11 @@ interface AcademicDashboardProps {
 
 export default function AcademicDashboard({ student }: AcademicDashboardProps) {
     return (
-        <div className="space-y-4 md:space-y-6">
+        <div className="space-y-8">
             {/* Header */}
             <div>
-                <h1 className="text-xl md:text-2xl font-bold uppercase tracking-tight text-neutral-900 leading-none mb-2">Student Portal</h1>
-                <p className="text-black text-[10px] md:text-xs font-semibold uppercase tracking-widest">
+                <h1 className="text-xl md:text-2xl font-black uppercase tracking-tighter text-neutral-900 leading-none mb-1">Student Portal</h1>
+                <p className="text-neutral-500 text-[10px] md:text-xs font-bold uppercase tracking-widest">
                     Academic Year 2026-2027 • Sem 1
                 </p>
             </div>

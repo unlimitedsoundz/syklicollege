@@ -64,7 +64,7 @@ export default function ContactDetailsForm({ applicationId, initialData, default
     };
 
     return (
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 border border-neutral-100 rounded-sm">
                 <div className="md:col-span-2">
                     <label className="block text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-1">Email Address</label>
@@ -185,7 +185,7 @@ export default function ContactDetailsForm({ applicationId, initialData, default
                 <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full flex items-center justify-center gap-2 bg-[#00A651] text-white px-8 py-4 rounded-sm text-xs font-semibold uppercase tracking-widest hover:bg-[#008c44] transition-all disabled:opacity-50"
+                    className="w-full flex items-center justify-center gap-2 bg-primary text-white px-8 py-4 rounded-sm text-xs font-black uppercase tracking-widest hover:bg-blue-700 transition-all disabled:opacity-50"
                 >
                     {isSubmitting ? (
                         <>

@@ -174,23 +174,23 @@ export default function ReviewStep({ application }: Props) {
             </div>
 
             {/* Attestation & Submit */}
-            <div className="p-6 bg-primary/5 border border-primary/10 rounded-lg space-y-4">
-                <div className="space-y-1 mb-4">
-                    <h4 className="text-sm font-semibold uppercase tracking-widest text-neutral-700">Final Declaration</h4>
-                    <p className="text-[#2d2d2d] text-xs font-medium leading-relaxed uppercase tracking-tight">
+            <div className="p-6 bg-neutral-50 border border-neutral-100 rounded-sm space-y-6">
+                <div className="space-y-2">
+                    <h4 className="text-sm font-black uppercase tracking-widest text-neutral-900 leading-none">Final Declaration</h4>
+                    <p className="text-neutral-500 text-[10px] font-bold uppercase tracking-tight leading-relaxed">
                         I certify that the information provided is accurate and complete.
                     </p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <label className="flex items-center gap-3 cursor-pointer group py-3 outline-none">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <label className="flex items-center gap-3 cursor-pointer group outline-none">
                         <input
                             type="checkbox"
                             checked={isAttested}
                             onChange={(e) => setIsAttested(e.target.checked)}
-                            className="appearance-none w-6 h-6 border-2 border-neutral-300 rounded-md checked:bg-primary checked:border-primary transition-all cursor-pointer relative after:content-['✓'] after:absolute after:inset-0 after:flex after:items-center after:justify-center after:text-white after:opacity-0 checked:after:opacity-100 after:font-bold"
+                            className="appearance-none w-5 h-5 border-2 border-neutral-300 rounded-sm checked:bg-black checked:border-black transition-all cursor-pointer relative after:content-['✓'] after:absolute after:inset-0 after:flex after:items-center after:justify-center after:text-white after:opacity-0 checked:after:opacity-100 after:font-bold after:text-xs"
                         />
-                        <span className="text-xs font-semibold uppercase tracking-widest transition-colors group-hover:text-primary">
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-900 transition-colors group-hover:text-black">
                             I verify that all data is correct
                         </span>
                     </label>
@@ -198,8 +198,8 @@ export default function ReviewStep({ application }: Props) {
                     <button
                         type="submit"
                         disabled={!isAttested || isSubmitting}
-                        className={`w-full py-4 rounded-lg font-bold uppercase tracking-widest transition-all text-xs flex items-center justify-center gap-3 shadow-lg ${isAttested && !isSubmitting
-                            ? 'bg-primary text-white hover:bg-blue-700 hover:-translate-y-0.5'
+                        className={`w-full py-4 rounded-sm font-black uppercase tracking-widest transition-all text-xs flex items-center justify-center gap-3 ${isAttested && !isSubmitting
+                            ? 'bg-primary text-white hover:bg-blue-700 hover:-translate-y-0.5 shadow-lg'
                             : 'bg-neutral-200 text-neutral-500 cursor-not-allowed'
                             }`}
                     >
@@ -207,7 +207,7 @@ export default function ReviewStep({ application }: Props) {
                         {!isSubmitting && <CaretRight size={16} weight="bold" />}
                     </button>
                     {!isAttested && (
-                        <p className="text-center text-[10px] font-semibold uppercase tracking-widest text-neutral-400">
+                        <p className="text-center text-[9px] font-bold uppercase tracking-widest text-neutral-400">
                             Check verification box to enable submission
                         </p>
                     )}

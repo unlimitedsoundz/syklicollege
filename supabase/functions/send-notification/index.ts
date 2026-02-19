@@ -167,11 +167,12 @@ serve(async (req) => {
 
             case 'PAYMENT_RECEIVED':
                 studentSubject = "Payment Confirmation - SYKLI College";
+                const isHousing = additionalData?.paymentType === 'HOUSING';
                 studentHtml = `
                     <h1>Payment Successful</h1>
                     <p>Hello ${firstName}, we have successfully received your payment of <strong>${additionalData?.amount} ${additionalData?.currency || 'EUR'}</strong>.</p>
                     <p><strong>Reference:</strong> ${additionalData?.reference || 'N/A'}</p>
-                    <p>Your enrollment status has been updated accordingly.</p>
+                    <p>Your ${isHousing ? 'housing application' : 'enrollment'} status has been updated accordingly.</p>
                 `;
                 adminSubject = `Payment Received: ${fullName}`;
                 adminHtml = `
@@ -222,7 +223,7 @@ serve(async (req) => {
                 </div>
                 <hr style="border: 0; border-top: 1px solid #f0f0f0; margin: 40px 0;">
                 <div style="text-align: center; color: #888; font-size: 12px;">
-                    <p>&copy; ${new Date().getFullYear()} SYKLI College of Art and Design</p>
+                    <p>&copy; ${new Date().getFullYear()} SYKLI College</p>
                     <p>Helsinki, Finland | info@syklicollege.fi</p>
                 </div>
             </div>

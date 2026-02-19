@@ -125,6 +125,8 @@ export default function FinanceManagementClient({
             case 'PAID':
             case 'COMPLETED':
                 return 'bg-green-100 text-green-700 border-green-200';
+            case 'PENDING_VERIFICATION':
+                return 'bg-blue-100 text-blue-700 border-blue-200 ring-2 ring-blue-500 ring-opacity-20';
             case 'PENDING':
             case 'PROCESSING':
                 return 'bg-amber-100 text-amber-700 border-amber-200';
@@ -318,21 +320,42 @@ export default function FinanceManagementClient({
                                         <p className="font-black">€{Number(pay.amount).toLocaleString()}</p>
                                     </td>
                                     <td className="py-4 px-2">
-                                        <span className={`px-2 py-1 border-2 rounded-sm text-[8px] font-black uppercase ${getStatusColor(pay.status)}`}>
-                                            {pay.status}
-                                        </span>
+                                        <div className="flex items-center gap-2">
+                                            <span className={`px-2 py-1 border-2 rounded-sm text-[8px] font-black uppercase ${getStatusColor(pay.status)}`}>
+                                                {pay.status}
+                                            </span>
+                                            {pay.verified && (
+                                                <span title="Verified by Admin">
+                                                    <CheckCircle size={14} weight="fill" className="text-green-500" />
+                                                </span>
+                                            )}
+                                        </div>
+                                        {pay.metadata?.proof_path && (
+                                            <a
+                                                href={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/housing_payments/${pay.metadata.proof_path}`}
+                                                target="_blank"
+                                                className="text-[8px] font-black text-blue-600 hover:underline flex items-center gap-1 mt-1"
+                                            >
+                                                <FileText size={10} /> View Proof
+                                            </a>
+                                        )}
                                     </td>
                                     <td className="py-4 px-2 text-[10px] font-bold text-neutral-500 uppercase">
                                         {formatToDDMMYYYY(pay.created_at)}
                                     </td>
                                     <td className="py-4 px-2 text-right">
-                                        <button
-                                            onClick={() => handleReconcile(pay.id)}
-                                            disabled={pay.status === 'COMPLETED' || loading}
-                                            className="p-2 border border-neutral-200 rounded-sm hover:border-green-500 hover:text-green-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                                        >
-                                            <CheckCircle size={14} weight="bold" />
-                                        </button>
+                                        <div className="flex justify-end gap-2">
+                                            {(pay.status === 'PENDING_VERIFICATION' || pay.status === 'PENDING') && (
+                                                <button
+                                                    onClick={() => handleReconcile(pay.id)}
+                                                    disabled={loading}
+                                                    title="Verify & Reconcile"
+                                                    className="p-2 border-2 border-green-500 text-green-600 rounded-sm hover:bg-green-50 transition-all disabled:opacity-50"
+                                                >
+                                                    <CheckCircle size={14} weight="bold" />
+                                                </button>
+                                            )}
+                                        </div>
                                     </td>
                                 </tr>
                             ))

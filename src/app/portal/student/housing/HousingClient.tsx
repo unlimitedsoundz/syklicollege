@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
-import { House as Home, Bed, CurrencyEur as DollarSign, CheckCircle, Clock, Warning as AlertTriangle, Calendar, Building as Building2, CreditCard, CaretRight as ChevronRight, UploadSimple as Upload } from "@phosphor-icons/react/dist/ssr";
+import { House as Home, Bed, CurrencyEur as DollarSign, CheckCircle, Clock, Warning as AlertTriangle, Calendar, Building as Building2, CreditCard, CaretRight as ChevronRight } from "@phosphor-icons/react/dist/ssr";
 import { formatToDDMMYYYY } from '@/utils/date';
 import { HousingApplication, HousingAssignment, HousingDeposit, HousingBuilding, Semester, HousingInvoice, PaymentMethod } from '@/types/database';
 import { submitHousingApplication } from '@/services/housing';
-import { initiatePayment, verifyPayment, initiateManualPayment } from '@/services/payment';
+import { initiatePayment, verifyPayment } from '@/services/payment';
 import PayGoWireCheckout from '../../application/payment/PayGoWireCheckout';
 
 interface HousingDashboardClientProps {
@@ -104,7 +104,10 @@ export default function HousingDashboardClient({ student, application, assignmen
             if (result.success && result.transactionId) {
                 // Here we verify the transaction
                 await verifyPayment(result.transactionId);
-                window.location.reload();
+                setSuccess(true);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
             } else {
                 alert('Payment failed: ' + result.error);
                 setPaying(false);
@@ -119,7 +122,7 @@ export default function HousingDashboardClient({ student, application, assignmen
     const pendingInvoice = invoices.find(inv => inv.status !== 'PAID' && inv.status !== 'CANCELLED');
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-8">
             <div>
                 <h1 className="text-2xl font-black uppercase tracking-tighter mb-0.5 leading-none">Housing & Accommodation</h1>
                 <p className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">
@@ -129,7 +132,7 @@ export default function HousingDashboardClient({ student, application, assignmen
 
             {/* PAYMENT ALERT / INVOICE SECTION */}
             {pendingInvoice && (
-                <div className="bg-blue-50 border-2 border-blue-500 p-5 rounded-sm mb-6 shadow-sm">
+                <div className="bg-blue-50 border-2 border-blue-500 p-5 rounded-sm shadow-sm">
                     <div className="flex items-start justify-between">
                         <div>
                             <h3 className="text-lg font-black uppercase text-blue-900 mb-2">Payment Required</h3>
@@ -158,7 +161,7 @@ export default function HousingDashboardClient({ student, application, assignmen
 
             {showCheckout && selectedInvoice && (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-                    <div className="bg-white w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-sm relative">
+                    <div className="bg-white w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-sm relative">
                         <button
                             onClick={() => setShowCheckout(false)}
                             className="absolute right-6 top-6 z-10 p-2 bg-neutral-100 rounded-full hover:bg-neutral-200 transition-colors"

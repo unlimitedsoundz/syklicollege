@@ -146,7 +146,7 @@ export default function HousingManagementClient({
                         description: `Monthly Rent - Room ${room.room_number}`,
                         amount: room.monthly_rate,
                         quantity: 1,
-                        item_type: 'RENT'
+                        item_type: 'MONTHLY_RENT'
                     });
 
                 if (itemError) console.error("Failed to create invoice item:", itemError);

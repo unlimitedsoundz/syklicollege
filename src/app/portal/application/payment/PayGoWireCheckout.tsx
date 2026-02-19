@@ -484,8 +484,8 @@ export default function PayGoWireCheckout({
                             ) : (
                                 <>
                                     {selectedCountry === 'Nigeria'
-                                        ? 'Complete Payment with KUDA BANK'
-                                        : `Complete Payment via Bank Transfer (${fxData.localCurrency} ${Number(fxData.localAmount).toLocaleString()})`
+                                        ? 'Complete Payment'
+                                        : `Complete Payment via PAYGOWIRE (${fxData.localCurrency} ${Number(fxData.localAmount).toLocaleString()})`
                                     }
                                 </>
                             )}
@@ -521,7 +521,7 @@ export default function PayGoWireCheckout({
                                 </div>
                                 <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
                                     <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Bank</span>
-                                    <span className="text-xs md:text-sm text-black font-normal text-right">Kuda Bank</span>
+                                    <span className="text-xs md:text-sm text-black font-normal text-right">KUDA BANK</span>
                                 </div>
                                 <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
                                     <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Account Number</span>
@@ -583,10 +583,10 @@ export default function PayGoWireCheckout({
             <div className="bg-neutral-50 border-t border-neutral-100 p-4 md:p-6 flex flex-col md:flex-row justify-between items-center gap-4">
                 <div className="flex items-center gap-2">
                     <div className="h-5 flex items-center">
-                        <span className="text-[10px] font-bold text-black uppercase tracking-widest">Kuda Bank Business</span>
+                        <span className="text-[8px] font-bold text-black uppercase tracking-widest">Paygowire Secure Transfer</span>
                     </div>
                     <div>
-                        <p className="text-sm text-black font-normal uppercase tracking-widest leading-none mt-0.5 border-l border-neutral-300 pl-2 ml-2">Secure Education Transfer</p>
+                        <p className="text-[10px] text-black font-normal uppercase tracking-widest leading-none mt-0.5 border-l border-neutral-300 pl-2 ml-2">Secure Education Rails</p>
                     </div>
                 </div>
                 <div className="flex gap-6 opacity-30">

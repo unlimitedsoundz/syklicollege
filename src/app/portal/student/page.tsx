@@ -58,6 +58,15 @@ export default function StudentPortalPage() {
                     // If no student record, redirect back to application dashboard
                     // This is a normal state for applicants who haven't been enrolled yet
                     router.push('/portal/dashboard');
+                } else if (studentData.user?.portal_access_disabled) {
+                    // Start of Selection
+                    // Security Check: If portal access is explicitly disabled by admin
+                    console.log('Redirecting disabled student to dashboard');
+                    router.push('/portal/dashboard');
+                } else if (studentData.application?.status === 'PAYMENT_SUBMITTED') {
+                    // Security Check: If payment is pending verification, they are not yet fully enrolled students
+                    console.log('Redirecting pending student to dashboard');
+                    router.push('/portal/dashboard');
                 } else {
                     setStudent(studentData);
                 }

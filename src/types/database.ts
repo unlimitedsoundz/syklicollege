@@ -137,6 +137,7 @@ export interface Profile {
     country_of_residence: string | null;
     date_of_birth?: string | null;
     student_id: string | null;
+    portal_access_disabled?: boolean;
     created_at: string;
 }
 
@@ -194,7 +195,7 @@ export interface TuitionPayment {
 export interface Student {
     id: string; // UUID
     user_id: string;
-    student_id: string; // "SYK-2024-001"
+    student_id: string; // "SK20261234"
     application_id: string;
     program_id: string; // course_id
     enrollment_status: 'ACTIVE' | 'SUSPENDED' | 'GRADUATED' | 'WITHDRAWN';

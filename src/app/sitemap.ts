@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 
 export const dynamic = "force-static";
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = 'https://www.sykli.fi';
+    const baseUrl = 'https://www.syklicollege.fi';
 
     // Core pages with highest priority
     const corePages = [
@@ -72,5 +72,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
         ...studentPages,
         ...institutionalPages,
         ...legalPages,
-    ];
+    ].map(item => ({
+        ...item,
+        url: item.url.endsWith('/') ? item.url : `${item.url}/`
+    }));
 }

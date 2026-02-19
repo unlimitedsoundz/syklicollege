@@ -29,9 +29,6 @@ export function Footer() {
                             <a href="https://www.linkedin.com/company/sykli-college" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors text-white" aria-label="LinkedIn">
                                 <Linkedin size={18} weight="fill" />
                             </a>
-                            <a href="https://www.tiktok.com/@syklicollege" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors text-white" aria-label="TikTok">
-                                <TikTok size={18} weight="fill" />
-                            </a>
                         </div>
                     </div>
                 </div>

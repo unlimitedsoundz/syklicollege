@@ -55,7 +55,11 @@ export default function AdminStudentsPage() {
                 .select(`
                     *,
                     user:profiles(first_name, last_name, email),
-                    program:Course(title)
+                    program:Course(title),
+                    offer:admission_offers(
+                        id,
+                        payments:tuition_payments(transaction_reference, created_at, amount, status)
+                    )
                 `)
                 // .in('status', ['OFFER_ACCEPTED', 'PAYMENT_SUBMITTED', 'ENROLLED', 'ADMISSION_LETTER_GENERATED']) // Removed filter to catch ALL potential stuck states
                 .neq('status', 'REJECTED') // Optional: exclude rejected keys to keep list clean, but keep everything else
@@ -114,6 +118,27 @@ export default function AdminStudentsPage() {
         }
     };
 
+    const getPaymentInfo = (app: any) => {
+        // Check all common ways the data might be keyed
+        const rawOffer = app.offer || app.admission_offers || app.admission_offer;
+        const offers = Array.isArray(rawOffer) ? rawOffer : (rawOffer ? [rawOffer] : []);
+
+        if (offers.length === 0) return { ref: 'N/A', date: 'N/A' };
+
+        // Flatten all payments from all offers
+        const allPayments = offers.flatMap((o: any) => {
+            const rawPayments = o.payments || o.tuition_payments || o.tuition_payment;
+            return Array.isArray(rawPayments) ? rawPayments : (rawPayments ? [rawPayments] : []);
+        }).sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+
+        if (allPayments.length === 0) return { ref: 'N/A', date: 'N/A' };
+
+        return {
+            ref: allPayments[0].transaction_reference || 'N/A',
+            date: formatToDDMMYYYY(allPayments[0].created_at)
+        };
+    };
+
     if (loading) {
         return (
             <div className="flex items-center justify-center py-20">
@@ -162,7 +187,8 @@ export default function AdminStudentsPage() {
                                     <th className="p-4 font-bold text-neutral-600 text-xs uppercase">Applicant</th>
                                     <th className="p-4 font-bold text-neutral-600 text-xs uppercase">Program</th>
                                     <th className="p-4 font-bold text-neutral-600 text-xs uppercase">Offer Status</th>
-                                    <th className="p-4 font-bold text-neutral-600 text-xs uppercase">Tuition Fee</th>
+                                    <th className="p-4 font-bold text-neutral-600 text-xs uppercase">Payment Ref</th>
+                                    <th className="p-4 font-bold text-neutral-600 text-xs uppercase">Submitted</th>
                                     <th className="p-4 font-bold text-neutral-600 text-xs uppercase text-right">Action</th>
                                 </tr>
                             </thead>
@@ -174,7 +200,7 @@ export default function AdminStudentsPage() {
                                             <div className="text-xs text-neutral-500">{app.user?.email || app.personal_info?.email || 'No Email'}</div>
                                         </td>
                                         <td className="p-4 text-xs font-medium text-neutral-600">
-                                            {app.course?.title}
+                                            {app.program?.title}
                                         </td>
                                         <td className="p-4">
                                             {app.status === 'PAYMENT_SUBMITTED' ? (
@@ -191,25 +217,28 @@ export default function AdminStudentsPage() {
                                                 </span>
                                             )}
                                         </td>
-                                        <td className="p-4 text-xs font-bold text-neutral-900">
-                                            €{app.offer?.[0]?.tuition_fee}
+                                        <td className="p-4 text-xs font-mono text-neutral-500 uppercase">
+                                            {getPaymentInfo(app).ref}
+                                        </td>
+                                        <td className="p-4 text-xs text-neutral-500">
+                                            {getPaymentInfo(app).date}
                                         </td>
                                         <td className="p-4 text-right">
                                             <button
                                                 onClick={() => handleApproveTuition(app.id)}
-                                                disabled={actionLoading === app.id || (app.status !== 'PAYMENT_SUBMITTED' && app.status !== 'ENROLLED' && app.status !== 'ADMISSION_LETTER_GENERATED')}
-                                                className={`px-3 py-2 rounded-sm text-[10px] font-bold uppercase tracking-widest transition-colors flex items-center gap-2 ml-auto ${app.status === 'PAYMENT_SUBMITTED' || app.status === 'ENROLLED' || app.status === 'ADMISSION_LETTER_GENERATED'
+                                                disabled={actionLoading === app.id || !['OFFER_ACCEPTED', 'PAYMENT_SUBMITTED', 'ENROLLED', 'ADMISSION_LETTER_GENERATED'].includes(app.status)}
+                                                className={`px-3 py-2 rounded-sm text-[10px] font-bold uppercase tracking-widest transition-colors flex items-center gap-2 ml-auto ${['OFFER_ACCEPTED', 'PAYMENT_SUBMITTED', 'ENROLLED', 'ADMISSION_LETTER_GENERATED'].includes(app.status)
                                                     ? 'bg-emerald-600 text-white hover:bg-emerald-700'
                                                     : 'bg-neutral-900 text-white hover:bg-neutral-700 opacity-50'
                                                     } ${actionLoading === app.id ? 'opacity-50 cursor-not-allowed' : ''}`}
-                                                title={app.status === 'PAYMENT_SUBMITTED' || app.status === 'ENROLLED' || app.status === 'ADMISSION_LETTER_GENERATED' ? 'Finalize Enrollment' : 'Waiting for student payment'}
+                                                title={['OFFER_ACCEPTED', 'PAYMENT_SUBMITTED', 'ENROLLED', 'ADMISSION_LETTER_GENERATED'].includes(app.status) ? 'Finalize Enrollment' : 'Waiting for student payment'}
                                             >
                                                 {actionLoading === app.id ? (
                                                     <Loader2 size={12} className="animate-spin" />
                                                 ) : (
                                                     <CreditCard size={12} weight="bold" />
                                                 )}
-                                                {actionLoading === app.id ? 'Processing...' : (app.status === 'PAYMENT_SUBMITTED' || app.status === 'ENROLLED' || app.status === 'ADMISSION_LETTER_GENERATED' ? 'Confirm & Enroll' : 'Wait for Payment')}
+                                                {actionLoading === app.id ? 'Processing...' : (['OFFER_ACCEPTED', 'PAYMENT_SUBMITTED', 'ENROLLED', 'ADMISSION_LETTER_GENERATED'].includes(app.status) ? (app.status === 'OFFER_ACCEPTED' ? 'Manual Enroll' : 'Confirm & Enroll') : 'Wait for Payment')}
                                             </button>
                                         </td>
                                     </tr>

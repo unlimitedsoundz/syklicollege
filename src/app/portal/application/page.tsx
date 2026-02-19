@@ -179,21 +179,21 @@ function ApplicationWizardContent() {
         <div className="max-w-5xl mx-auto">
             {/* Header */}
             <div className="mb-8 border-b border-neutral-200 pb-6 text-neutral-900">
-                <div className="flex items-center gap-2 text-sm text-[#2d2d2d] mb-2">
+                <div className="flex items-center gap-2 text-[10px] text-neutral-500 mb-2 uppercase font-bold tracking-widest">
                     <Link href="/portal/dashboard" className="hover:text-black transition-colors">Dashboard</Link>
-                    <ChevronRight size={14} weight="bold" />
-                    <span className="font-medium">Application #{application.application_number || application.id.slice(0, 8)}</span>
+                    <ChevronRight size={10} weight="bold" />
+                    <span className="text-black">Application #{application.application_number || application.id.slice(0, 8)}</span>
                 </div>
-                <h1 className="text-xl font-semibold tracking-tight uppercase">
+                <h1 className="text-2xl font-black tracking-tighter uppercase leading-none mb-1">
                     {application.course?.title}
                     {application.course?.duration && (
-                        <span className="text-[#2d2d2d] font-medium lowercase"> — {application.course.duration}</span>
+                        <span className="text-neutral-500 font-bold lowercase"> — {application.course.duration}</span>
                     )}
                     {application.course?.school && (
-                        <span className="text-[#2d2d2d] font-medium lowercase"> — {application.course.school.name}</span>
+                        <span className="text-neutral-500 font-bold lowercase"> — {application.course.school.name}</span>
                     )}
                 </h1>
-                <p className="text-[#2d2d2d] font-semibold tracking-tight text-xs uppercase">Step {currentStepId} / {stepsConf.length}: {currentStep.name}</p>
+                <p className="text-neutral-500 font-bold tracking-widest text-[10px] uppercase">Step {currentStepId} / {stepsConf.length}: {currentStep.name}</p>
             </div>
 
             {application.status === 'ADMITTED' && (
@@ -234,15 +234,15 @@ function ApplicationWizardContent() {
                         const isClickable = !step.isLocked;
                         const content = (
                             <div
-                                className={`flex items-center gap-2 p-2 rounded-sm text-[10px] font-semibold transition-all ${step.status === 'current' ? 'border border-primary text-primary' :
-                                    step.status === 'completed' ? 'text-primary hover:bg-neutral-50' : 'text-[#2d2d2d]'
+                                className={`flex items-center gap-2 p-2 rounded-sm text-[10px] font-bold transition-all ${step.status === 'current' ? 'bg-black text-white shadow-sm' :
+                                    step.status === 'completed' ? 'text-black hover:bg-neutral-50' : 'text-neutral-400'
                                     } ${!isClickable ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                             >
-                                <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${step.status === 'current' ? 'border-primary' : 'border-current'
+                                <div className={`w-4 h-4 rounded-full border flex items-center justify-center text-[9px] ${step.status === 'current' ? 'border-white' : 'border-current'
                                     }`}>
                                     {step.id}
                                 </div>
-                                <span className="uppercase tracking-widest">{step.name}</span>
+                                <span className="uppercase tracking-widest font-black">{step.name}</span>
                             </div>
                         );
 

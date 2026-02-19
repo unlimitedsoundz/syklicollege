@@ -40,8 +40,8 @@ const faqs: FAQItem[] = [
         answer: (
             <div className="space-y-4">
                 <p>
-                    Sykli College accepts tuition payments exclusively via <strong>direct bank transfer</strong>.
-                    This ensuring a secure and transparent transaction directly between the student and the institution.
+                    Sykli College partners with <strong>Paygowire</strong> to process tuition payments securely and efficiently
+                    for international students.
                 </p>
                 <p>
                     <strong>Steps to complete your payment:</strong>
@@ -49,12 +49,13 @@ const faqs: FAQItem[] = [
                 <ol className="list-decimal pl-5 space-y-2">
                     <li>Log in to your <strong>Sykli Applicant Portal</strong>.</li>
                     <li>Navigate to the 'Payment' section of your accepted application.</li>
-                    <li>Follow the provided instructions for transferring funds to our dedicated bank account.</li>
-                    <li>Upload your transaction receipt/proof of payment directly in the portal.</li>
+                    <li>Click 'Proceed to Payment' to be redirected to the secure <strong>Paygowire gateway</strong>.</li>
+                    <li>Select your country and preferred payment method (Bank Transfer, Credit Card, etc.).</li>
+                    <li>Follow the on-screen instructions to finalize your payment.</li>
                 </ol>
                 <p>
-                    Once uploaded, our finance team will verify the payment within 2-3 business days. Your admission
-                    status will be updated, and you will receive an official receipt for your visa application.
+                    Once the payment is completed, your status will clear automatically, and you will receive an official
+                    receipt for your residence permit application.
                 </p>
             </div>
         )

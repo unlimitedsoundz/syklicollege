@@ -51,7 +51,7 @@ Deno.serve(async (req) => {
             .insert({
                 offer_id: offerId,
                 amount: amount,
-                status: 'COMPLETED',
+                status: 'PENDING_VERIFICATION',
                 payment_method: details.method,
                 transaction_reference: reference,
                 country: details.country,
@@ -61,65 +61,33 @@ Deno.serve(async (req) => {
 
         if (paymentError) throw paymentError;
 
-        // 3. AUTO-ENROLL
-        const { data: application, error: appError } = await adminClient
+        // 3. Update Application Status to PAYMENT_SUBMITTED (No Auto-Enroll)
+        // This triggers the "Pending Verification" UI in the PaymentView
+        const { error: appError } = await adminClient
             .from('applications')
-            .select(`*, user:profiles!user_id(*), course:Course(*)`)
-            .eq('id', applicationId)
-            .single();
+            .update({ status: 'PAYMENT_SUBMITTED' })
+            .eq('id', applicationId);
 
-        if (!appError && application) {
-            const studentId = `SK${Math.floor(1000000 + Math.random() * 9000000)}`;
-            const appUser = application.user;
-            const institutionalEmail = `${appUser.first_name.toLowerCase()}.${appUser.last_name.toLowerCase()}@syklicollege.fi`;
+        if (appError) throw appError;
 
-            // Create Student Record
-            const { error: studentError } = await adminClient
-                .from('students')
-                .upsert({
-                    user_id: appUser.id,
-                    student_id: studentId,
-                    application_id: application.id,
-                    program_id: application.course_id,
-                    institutional_email: institutionalEmail,
-                    personal_email: appUser.email,
-                    enrollment_status: 'ACTIVE',
-                    start_date: new Date().toISOString(),
-                    expected_graduation_date: new Date(new Date().setFullYear(new Date().getFullYear() + 3)).toISOString()
-                }, { onConflict: 'application_id' });
-
-            if (!studentError) {
-                // Update Application Status
-                await adminClient.from('applications').update({ status: 'ENROLLED' }).eq('id', applicationId);
-                // Update User Profile Role
-                await adminClient.from('profiles').update({ role: 'STUDENT', student_id: studentId }).eq('id', appUser.id);
-            }
-        }
-
-        // 4. Update Offer Status
-        await adminClient
-            .from('admission_offers')
-            .update({ status: 'PAID' })
-            .eq('id', offerId);
-
-        // 5. Update Offer Document URL (Admission Letter)
-        const admissionLetterUrl = `https://syklicollege.fi/portal/application/admission-letter/?id=${applicationId}`;
-        await adminClient
-            .from('admission_offers')
-            .update({ document_url: admissionLetterUrl })
-            .eq('id', offerId);
-
-        // 6. Trigger Notification
+        // 4. Notify Admin
         try {
-            await supabaseClient.functions.invoke('send-notification', {
+            await adminClient.functions.invoke('send-notification', {
                 body: {
-                    applicationId,
-                    type: 'ADMISSION_LETTER_READY',
-                    documentUrl: admissionLetterUrl
+                    type: 'PAYMENT_RECEIVED',
+                    applicationId: applicationId,
+                    additionalData: {
+                        amount: amount,
+                        currency: details.currency,
+                        reference: reference,
+                        paymentType: 'TUITION'
+                    }
                 }
             });
-        } catch (e) {
-            console.error('Notification failed', e);
+            console.log('Admin notification triggered for payment:', reference);
+        } catch (notifyError) {
+            console.error('Failed to trigger admin notification:', notifyError);
+            // We don't fail the whole request if notification fails
         }
 
         return new Response(JSON.stringify({ success: true, reference }), {

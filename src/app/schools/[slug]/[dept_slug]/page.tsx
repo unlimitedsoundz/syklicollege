@@ -1,6 +1,6 @@
 
 import { createStaticClient } from '@/lib/supabase/static';
-export const revalidate = 0;
+// Static export does not support revalidate = 0
 import Link from 'next/link';
 import Image from 'next/image';
 import { Department, School, Faculty, Course } from '@/types/database';
@@ -19,10 +19,10 @@ export async function generateStaticParams() {
 }
 
 interface Props {
-    params: {
+    params: Promise<{
         slug: string; // school slug
         dept_slug: string;
-    };
+    }>;
 }
 
 export async function generateMetadata({ params }: Props) {
@@ -65,12 +65,16 @@ export default async function DepartmentDetailPage({ params }: Props) {
         notFound();
     }
 
-    const dept = deptData as Department & { school: School };
+    const deptRaw = deptData as any;
+    const school = Array.isArray(deptRaw.school) ? deptRaw.school[0] : deptRaw.school;
 
-    // Verify school slug link validity (optional but good for SEO structure validity)
-    if (dept.school.slug !== slug) {
+    if (!school || school.slug !== slug) {
+        if (!school) console.error('School data missing for dept:', dept_slug);
+        else if (school.slug !== slug) console.error(`Slug mismatch: expected ${slug}, got ${school.slug}`);
         notFound();
     }
+
+    const dept = { ...deptRaw, school } as Department & { school: School };
 
     // 2. Fetch Related Faculty
     const { data: faculty } = await supabase

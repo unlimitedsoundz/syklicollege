@@ -25,8 +25,12 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+    metadataBase: new URL('https://www.syklicollege.fi'),
     title: "SYKLI College — Study in Finland in English | Bachelor's & Master's Programmes",
     description: "SYKLI College in Helsinki, Finland. Bachelor's and Master's programmes taught in English in sustainability, technology, business, and arts. Apply now for Autumn 2026.",
+    alternates: {
+        canonical: '/',
+    },
 };
 
 export default function RootLayout({
@@ -44,8 +48,8 @@ export default function RootLayout({
                             "@context": "https://schema.org",
                             "@type": "EducationalOrganization",
                             "name": "SYKLI College",
-                            "url": "https://www.sykli.fi",
-                            "logo": "https://www.sykli.fi/logo.png",
+                            "url": "https://www.syklicollege.fi",
+                            "logo": "https://www.syklicollege.fi/logo.png",
                             "sameAs": [
                                 "https://www.facebook.com/syklicollege",
                                 "https://www.instagram.com/syklicollege",
@@ -62,7 +66,7 @@ export default function RootLayout({
                                 "@type": "ContactPoint",
                                 "telephone": "+358-20-4721-739",
                                 "contactType": "admissions",
-                                "email": "admissions@sykli.fi"
+                                "email": "admissions@syklicollege.fi"
                             }
                         })
                     }}

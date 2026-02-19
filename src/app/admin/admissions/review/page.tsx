@@ -10,6 +10,7 @@ import {
     regenerateOfferLetter,
     generateAdmissionLetterAction
 } from '../actions';
+import { togglePortalAccess } from '@/app/admin/user-actions';
 import Link from 'next/link';
 import { useState, useEffect, use, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -266,11 +267,53 @@ function ApplicationReviewContent() {
                                 <StatusBtn label="Move to Review" status="UNDER_REVIEW" currentStatus={app.status} variant="warning" onClick={handleUpdateStatus} disabled={updating} />
                                 <StatusBtn label="Request Documents" status="DOCS_REQUIRED" currentStatus={app.status} variant="purple" onClick={handleUpdateStatus} disabled={updating} />
                                 <StatusBtn label="Admit Student" status="ADMITTED" currentStatus={app.status} variant="success" onClick={handleUpdateStatus} disabled={updating} />
-                                {app.status === 'PAYMENT_SUBMITTED' && (
+                                {(app.status === 'PAYMENT_SUBMITTED' || app.status === 'OFFER_ACCEPTED' || app.status === 'ADMISSION_LETTER_GENERATED') && (
                                     <StatusBtn label="Finalize Enrollment" status="ENROLLED" currentStatus={app.status} variant="success" onClick={handleUpdateStatus} disabled={updating} />
                                 )}
                                 <StatusBtn label="Reject Application" status="REJECTED" currentStatus={app.status} variant="danger" onClick={handleUpdateStatus} disabled={updating} />
                             </div>
+                        </div>
+
+                        {/* Access Control */}
+                        <div className="space-y-3 pt-6 border-t border-neutral-100">
+                            <span className="text-[10px] font-black text-neutral-400 uppercase tracking-widest block mb-2">Access Control</span>
+                            <button
+                                onClick={async () => {
+                                    const currentDisabled = app.user?.portal_access_disabled || false;
+                                    const action = currentDisabled ? 'Enable' : 'Disable';
+
+                                    if (!confirm(`Are you sure you want to ${action} portal access for this student?`)) return;
+
+                                    setUpdating(true);
+                                    try {
+                                        // Use userId which might be app.user.id or app.user_id
+                                        const userId = app.user?.id || app.user_id;
+                                        if (!userId) {
+                                            alert("No user associated with this application");
+                                            return;
+                                        }
+
+                                        const result = await togglePortalAccess(userId, !currentDisabled);
+                                        if (result.success) {
+                                            alert(`Portal access ${action}d successfully. reloading...`);
+                                            await fetchData();
+                                        } else {
+                                            alert('Error: ' + result.error);
+                                        }
+                                    } catch (e: any) {
+                                        alert('Error: ' + e.message);
+                                    } finally {
+                                        setUpdating(false);
+                                    }
+                                }}
+                                disabled={updating || !app.user_id}
+                                className={`w-full text-left px-5 py-3.5 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${app.user?.portal_access_disabled
+                                    ? 'bg-red-50 text-red-700 hover:bg-red-600 hover:text-white'
+                                    : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-900 hover:text-white'
+                                    }`}
+                            >
+                                {app.user?.portal_access_disabled ? 'Enable Portal Access' : 'Disable Portal Access'}
+                            </button>
                         </div>
 
                         {/* Document & Offer Management */}
