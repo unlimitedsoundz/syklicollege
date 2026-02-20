@@ -139,6 +139,15 @@ export default function PayGoWireCheckout({
             if (country === 'Finland') methods.push({ id: 'nordea', name: 'Nordea Online', description: 'Local Finnish bank login', type: 'BANK', icon: BankIcon, processingTime: 'Instant' });
         } else if (country === 'Nigeria') {
             methods.unshift({ id: 'ng_bank', name: 'Bank Transfer', description: 'Pay via local NGN routing', type: 'BANK', icon: BankIcon, processingTime: '2-4 hours' });
+        } else if (country === 'United Arab Emirates') {
+            methods.unshift({
+                id: 'flutterwave_uae',
+                name: 'Flutterwave (UAE)',
+                description: 'Secure instant payment for UAE residents',
+                type: 'CARD',
+                icon: CreditCard,
+                processingTime: 'Instant'
+            });
         } else if (country === 'United States') {
             methods.push({ id: 'ach', name: 'ACH Direct Debit', description: 'Low fee US bank pull', type: 'BANK', icon: BankIcon, processingTime: '3-5 business days' });
         } else {
@@ -174,6 +183,7 @@ export default function PayGoWireCheckout({
         if (selectedCountry === 'India') { rate = 89.42; localCurrency = 'INR'; }
         else if (selectedCountry === 'Nigeria') { rate = 1620.50; localCurrency = 'NGN'; }
         else if (selectedCountry === 'United States') { rate = 1.08; localCurrency = 'USD'; }
+        else if (selectedCountry === 'United Arab Emirates') { rate = 3.97; localCurrency = 'AED'; }
         else if (['France', 'Germany', 'Finland'].includes(selectedCountry)) { rate = 1.0; localCurrency = 'EUR'; }
 
         return {
@@ -467,7 +477,10 @@ export default function PayGoWireCheckout({
 
                         <button
                             onClick={() => {
-                                if (selectedCountry === 'Nigeria') {
+                                if (selectedMethod?.id === 'flutterwave_uae') {
+                                    window.open('https://flutterwave.com/pay/sykli', '_blank');
+                                    handleConfirmPayment();
+                                } else if (selectedCountry === 'Nigeria') {
                                     handleStepChange('BANK_INSTRUCTIONS');
                                 } else {
                                     handleConfirmPayment();
@@ -483,9 +496,11 @@ export default function PayGoWireCheckout({
                                 </>
                             ) : (
                                 <>
-                                    {selectedCountry === 'Nigeria'
-                                        ? 'Complete Payment'
-                                        : `Complete Payment via PAYGOWIRE (${fxData.localCurrency} ${Number(fxData.localAmount).toLocaleString()})`
+                                    {selectedMethod?.id === 'flutterwave_uae'
+                                        ? 'Pay via Flutterwave (UAE)'
+                                        : selectedCountry === 'Nigeria'
+                                            ? 'Complete Payment'
+                                            : `Complete Payment via PAYGOWIRE (${fxData.localCurrency} ${Number(fxData.localAmount).toLocaleString()})`
                                     }
                                 </>
                             )}
