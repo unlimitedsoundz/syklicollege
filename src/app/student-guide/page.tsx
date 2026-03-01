@@ -138,7 +138,7 @@ export default function StudentGuidePage() {
 
                             <div className="grid md:grid-cols-2 gap-6 mb-8">
                                 {[
-                                    { title: "Bachelor’s Degree", href: "/admissions/bachelor", image: "/images/guide/bachelor_group.png" },
+                                    { title: "Bachelor’s Degree", href: "/admissions/bachelor", image: "/images/1772347933107-019ca82a-97ab-7f5f-8189-a00c3e10b2a6.png" },
                                     { title: "Master’s Degree", href: "/admissions/master", image: "/images/student-guide-hero.png" }
                                 ].map((item) => (
                                     <Link key={item.title} href={item.href} className="group bg-neutral-100 rounded-2xl overflow-hidden block">
