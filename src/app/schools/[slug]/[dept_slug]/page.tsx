@@ -221,38 +221,39 @@ export default async function DepartmentDetailPage({ params }: Props) {
                                 <Link
                                     href={`/studies/${course.slug}`}
                                     key={course.id}
-                                    className="block p-8 rounded-lg border border-neutral-200 bg-white"
+                                    style={{ backgroundColor: heroColor, borderColor: 'rgba(255,255,255,0.1)' }}
+                                    className="block p-8 rounded-lg border hover:opacity-90 transition-opacity"
                                 >
                                     <div className="flex justify-between items-start">
                                         <div>
-                                            <h3 className="text-xl font-bold text-neutral-900 mb-1">{course.title}</h3>
-                                            <p className="text-neutral-500 text-sm line-clamp-2 mb-4">{course.description}</p>
+                                            <h3 className="text-xl font-bold text-white mb-1">{course.title}</h3>
+                                            <p className="text-white/70 text-sm line-clamp-2 mb-4">{course.description}</p>
 
                                             {/* Program Details Grid */}
-                                            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 text-sm mt-4 pt-4">
+                                            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 text-sm mt-4 pt-4 border-t border-white/10">
                                                 <div>
-                                                    <p className="text-neutral-400 uppercase tracking-wider text-[10px] font-bold mb-1">Code</p>
-                                                    <p className="font-semibold text-neutral-900">{parseInt(course.id.substring(0, 5), 16).toString().substring(0, 5).padStart(5, '0')}</p>
+                                                    <p className="text-white/50 uppercase tracking-wider text-[10px] font-bold mb-1">Code</p>
+                                                    <p className="font-semibold text-white">{parseInt(course.id.substring(0, 5), 16).toString().substring(0, 5).padStart(5, '0')}</p>
                                                 </div>
                                                 <div>
-                                                    <p className="text-neutral-400 uppercase tracking-wider text-[10px] font-bold mb-1">Start</p>
-                                                    <p className="font-semibold text-neutral-900">August 2026</p>
+                                                    <p className="text-white/50 uppercase tracking-wider text-[10px] font-bold mb-1">Start</p>
+                                                    <p className="font-semibold text-white">August 2026</p>
                                                 </div>
                                                 <div>
-                                                    <p className="text-neutral-400 uppercase tracking-wider text-[10px] font-bold mb-1">Campus</p>
-                                                    <p className="font-semibold text-neutral-900">Helsinki</p>
+                                                    <p className="text-white/50 uppercase tracking-wider text-[10px] font-bold mb-1">Campus</p>
+                                                    <p className="font-semibold text-white">Helsinki</p>
                                                 </div>
                                                 <div>
-                                                    <p className="text-neutral-400 uppercase tracking-wider text-[10px] font-bold mb-1">Length</p>
-                                                    <p className="font-semibold text-neutral-900">{course.duration}</p>
+                                                    <p className="text-white/50 uppercase tracking-wider text-[10px] font-bold mb-1">Length</p>
+                                                    <p className="font-semibold text-white">{course.duration}</p>
                                                 </div>
                                                 <div>
-                                                    <p className="text-neutral-400 uppercase tracking-wider text-[10px] font-bold mb-1">Credential</p>
-                                                    <p className="font-semibold text-neutral-900 text-xs">{course.degreeLevel === 'BACHELOR' ? "Bachelor's Degree" : "Master's Degree"}</p>
+                                                    <p className="text-white/50 uppercase tracking-wider text-[10px] font-bold mb-1">Credential</p>
+                                                    <p className="font-semibold text-white text-xs">{course.degreeLevel === 'BACHELOR' ? "Bachelor's Degree" : "Master's Degree"}</p>
                                                 </div>
                                                 <div>
-                                                    <p className="text-neutral-400 uppercase tracking-wider text-[10px] font-bold mb-1">Tuition (2026-2027)</p>
-                                                    <p className="font-semibold text-neutral-900 text-xs">{getEstimatedTuitionFee(slug, course.degreeLevel)}</p>
+                                                    <p className="text-white/50 uppercase tracking-wider text-[10px] font-bold mb-1">Tuition (2026-2027)</p>
+                                                    <p className="font-semibold text-white text-xs">{getEstimatedTuitionFee(slug, course.degreeLevel)}</p>
                                                 </div>
                                             </div>
                                         </div>
