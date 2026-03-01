@@ -208,7 +208,7 @@ export default async function DepartmentDetailPage({ params }: Props) {
                                             <p className="text-neutral-500 text-sm line-clamp-2 mb-4">{course.description}</p>
 
                                             {/* Program Details Grid */}
-                                            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-sm mt-4 pt-4 border-t border-neutral-100">
+                                            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-sm mt-4 pt-4">
                                                 <div>
                                                     <p className="text-neutral-400 uppercase tracking-wider text-[10px] font-bold mb-1">Code</p>
                                                     <p className="font-semibold text-neutral-900">{parseInt(course.id.substring(0, 5), 16).toString().substring(0, 5).padStart(5, '0')}</p>
