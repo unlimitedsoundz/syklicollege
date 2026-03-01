@@ -53,7 +53,7 @@ export default function InternationalGuidePage() {
             {/* Hero Section */}
             <div className="w-full h-[60vh] relative bg-neutral-900 overflow-hidden">
                 <Image
-                    src="/images/1770771721770-019c4a37-870f-7df8-812a-5bad23d5cb9f.png"
+                    src="/images/1772303673036-019ca586-9fe2-7f1c-8ac6-b2e61a8c6451.png"
                     alt="International Students"
                     fill
                     priority
