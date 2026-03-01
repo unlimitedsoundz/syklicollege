@@ -54,6 +54,27 @@ export async function generateMetadata({ params }: Props) {
     };
 }
 
+function getEstimatedTuitionFee(schoolSlug: string, degreeLevel: string) {
+    if (degreeLevel === 'BACHELOR') {
+        switch (schoolSlug) {
+            case 'business': return '€4 000 / year';
+            case 'arts': return '€4 000 / year';
+            case 'technology': return '€6 000 / year';
+            case 'science': return '€7 500 / year';
+            default: return 'Contact Admissions';
+        }
+    } else if (degreeLevel === 'MASTER') {
+        switch (schoolSlug) {
+            case 'business': return '€6 000 / year';
+            case 'arts': return '€6 000 / year';
+            case 'technology': return '€6 000 / year';
+            case 'science': return '€9 500 / year';
+            default: return 'Contact Admissions';
+        }
+    }
+    return 'Contact Admissions';
+}
+
 export default async function DepartmentDetailPage({ params }: Props) {
     const resolvedParams = await params;
     const { slug, dept_slug } = resolvedParams;
@@ -208,7 +229,7 @@ export default async function DepartmentDetailPage({ params }: Props) {
                                             <p className="text-neutral-500 text-sm line-clamp-2 mb-4">{course.description}</p>
 
                                             {/* Program Details Grid */}
-                                            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-sm mt-4 pt-4">
+                                            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 text-sm mt-4 pt-4">
                                                 <div>
                                                     <p className="text-neutral-400 uppercase tracking-wider text-[10px] font-bold mb-1">Code</p>
                                                     <p className="font-semibold text-neutral-900">{parseInt(course.id.substring(0, 5), 16).toString().substring(0, 5).padStart(5, '0')}</p>
@@ -228,6 +249,10 @@ export default async function DepartmentDetailPage({ params }: Props) {
                                                 <div>
                                                     <p className="text-neutral-400 uppercase tracking-wider text-[10px] font-bold mb-1">Credential</p>
                                                     <p className="font-semibold text-neutral-900 text-xs">{course.degreeLevel === 'BACHELOR' ? "Bachelor's Degree" : "Master's Degree"}</p>
+                                                </div>
+                                                <div>
+                                                    <p className="text-neutral-400 uppercase tracking-wider text-[10px] font-bold mb-1">Tuition (2026-2027)</p>
+                                                    <p className="font-semibold text-neutral-900 text-xs">{getEstimatedTuitionFee(slug, course.degreeLevel)}</p>
                                                 </div>
                                             </div>
                                         </div>
