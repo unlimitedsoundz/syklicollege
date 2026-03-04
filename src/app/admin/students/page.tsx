@@ -42,7 +42,7 @@ export default function AdminStudentsPage() {
                     *,
                     user:profiles(first_name, last_name, email),
                     program:Course(title),
-                    application:applications!application_id(personal_info)
+                    application:applications!application_id(personal_info, status)
                 `)
                 .order('created_at', { ascending: false });
 
@@ -70,10 +70,16 @@ export default function AdminStudentsPage() {
                 if (!studentError) setError(appError.message);
             }
 
-            setEnrolledStudents(students || []);
+            // Only show students whose linked application is fully ENROLLED in the Active list
+            const activeStudents = (students || []).filter((s: any) => {
+                const appStatus = s.application?.status;
+                return appStatus === 'ENROLLED';
+            });
 
-            // Filter out applications that are already fully enrolled (exist in students table)
-            const enrolledAppIds = new Set(students?.map((s: any) => s.application_id));
+            setEnrolledStudents(activeStudents);
+
+            // Filter out applications that are already fully enrolled (exist in students table WITH ENROLLED status)
+            const enrolledAppIds = new Set(activeStudents.map((s: any) => s.application_id));
 
             // Define statuses that should appear in Pending list
             // We include ENROLLED and ADMISSION_LETTER_GENERATED here because if they are NOT in enrolledAppIds, they are "Stuck" and need manual repair.
