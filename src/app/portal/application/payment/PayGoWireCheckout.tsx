@@ -13,7 +13,6 @@ import {
     CheckCircle as CheckCircle2,
     Calendar,
     Clock,
-    CreditCard,
     Copy,
 } from "@phosphor-icons/react/dist/ssr";
 import Image from 'next/image';
@@ -144,26 +143,23 @@ export default function PayGoWireCheckout({
                 id: 'flutterwave_uae',
                 name: 'Flutterwave (UAE)',
                 description: 'Secure instant payment for UAE residents',
-                type: 'CARD',
-                icon: CreditCard,
+                type: 'WALLET',
+                icon: Wallet,
+                processingTime: 'Instant'
+            });
+        } else if (country === 'Cameroon') {
+            methods.unshift({
+                id: 'flutterwave_cm_momo',
+                name: 'Mobile Money (Cameroon)',
+                description: 'MTN MoMo, Orange Money',
+                type: 'WALLET',
+                icon: Wallet,
                 processingTime: 'Instant'
             });
         } else if (country === 'United States') {
             methods.push({ id: 'ach', name: 'ACH Direct Debit', description: 'Low fee US bank pull', type: 'BANK', icon: BankIcon, processingTime: '3-5 business days' });
         } else {
             methods.push({ id: 'wire', name: 'International Wire', description: 'SWIFT / SWIFT-gpi transfer', type: 'BANK', icon: BankIcon, processingTime: '3-5 business days' });
-        }
-
-        // Add Credit Card for all countries EXCEPT Nigeria
-        if (country !== 'Nigeria') {
-            methods.unshift({
-                id: 'credit_card',
-                name: 'Credit / Debit Card',
-                description: 'Visa, Mastercard, AMEX',
-                type: 'CARD',
-                icon: CreditCard,
-                processingTime: 'Instant'
-            });
         }
 
         return methods;
@@ -184,6 +180,7 @@ export default function PayGoWireCheckout({
         else if (selectedCountry === 'Nigeria') { rate = 1620.50; localCurrency = 'NGN'; }
         else if (selectedCountry === 'United States') { rate = 1.08; localCurrency = 'USD'; }
         else if (selectedCountry === 'United Arab Emirates') { rate = 3.97; localCurrency = 'AED'; }
+        else if (selectedCountry === 'Cameroon') { rate = 655.96; localCurrency = 'XAF'; }
         else if (['France', 'Germany', 'Finland'].includes(selectedCountry)) { rate = 1.0; localCurrency = 'EUR'; }
 
         return {
@@ -477,7 +474,7 @@ export default function PayGoWireCheckout({
 
                         <button
                             onClick={() => {
-                                if (selectedMethod?.id === 'flutterwave_uae') {
+                                if (selectedMethod?.id === 'flutterwave_uae' || selectedMethod?.id === 'flutterwave_cm_momo') {
                                     window.open('https://flutterwave.com/pay/Kestora', '_blank');
                                     handleConfirmPayment();
                                 } else if (selectedCountry === 'Nigeria') {
@@ -498,9 +495,11 @@ export default function PayGoWireCheckout({
                                 <>
                                     {selectedMethod?.id === 'flutterwave_uae'
                                         ? 'Pay via Flutterwave (UAE)'
-                                        : selectedCountry === 'Nigeria'
-                                            ? 'Complete Payment'
-                                            : `Complete Payment via PAYGOWIRE (${fxData.localCurrency} ${Number(fxData.localAmount).toLocaleString()})`
+                                        : selectedMethod?.id === 'flutterwave_cm_momo'
+                                            ? 'Pay via Mobile Money (Flutterwave)'
+                                            : selectedCountry === 'Nigeria'
+                                                ? 'Complete Payment'
+                                                : `Complete Payment via PAYGOWIRE (${fxData.localCurrency} ${Number(fxData.localAmount).toLocaleString()})`
                                     }
                                 </>
                             )}

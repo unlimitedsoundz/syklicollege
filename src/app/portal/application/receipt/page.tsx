@@ -164,9 +164,9 @@ function ReceiptContent() {
             'nordea': 'Nordea Online',
             'ng_bank': 'Bank Transfer',
             'flutterwave_uae': 'Flutterwave',
+            'flutterwave_cm_momo': 'Mobile Money (Cameroon)',
             'ach': 'ACH Direct Debit',
             'wire': 'International Wire',
-            'credit_card': 'Credit / Debit Card',
             'paygowire': 'Paygowire' // fallback
         };
         const name = methods[methodId.toLowerCase()] || methodId.replace(/_/g, ' ');
