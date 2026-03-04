@@ -10,7 +10,7 @@ const stories = [
         name: 'Uchida Ideguchi',
         programme: "Bachelor's in International Business",
         quote: "Kestora College provided me with a unique multidisciplinary environment where I could combine my interest in tech with business strategy. The practical projects were eye-opening.",
-        image: '/images/admissions/student_stories_1.png'
+        image: '/images/student-story-1.png'
     },
     {
         id: 2,

@@ -73,11 +73,11 @@ const faqs: FAQItem[] = [
                 </p>
                 <ul className="list-disc pl-5 space-y-2">
                     <li>You must accept your study offer within <strong>14 days</strong> of receiving the admission letter.</li>
-                    <li>The full (discounted) payment must reach Kestora College's account within <strong>21 days</strong> of the admission offer.</li>
+                    <li>The full (discounted) payment must reach Kestora College's account within <strong>7 days</strong> of the admission offer.</li>
                     <li>This discount applies ONLY to the first academic year and cannot be combined with other tuition fee waivers.</li>
                 </ul>
                 <p>
-                    If the payment is not received by the 21st day, the discount is voided, and the full standard fee will be
+                    If the payment is not received by the 7th day, the discount is voided, and the full standard fee will be
                     required to confirm your enrolment.
                 </p>
             </div>
@@ -149,6 +149,22 @@ const faqs: FAQItem[] = [
                 </p>
             </div>
         )
+    },
+    {
+        question: "Is there a tuition deposit required?",
+        answer: (
+            <div className="space-y-4">
+                <p>
+                    Yes. Depending on your program and applicant status, Kestora College may require a non-refundable tuition
+                    <strong> deposit</strong> to secure your place in the program after you receive an offer of admission.
+                </p>
+                <p>
+                    This deposit is fully credited toward your first-year tuition fee. The specific deposit amount and the
+                    deadline for payment will be clearly outlined in your official Admission Letter and accepted offer
+                    details in the applicant portal.
+                </p>
+            </div>
+        )
     }
 ];
 
@@ -162,23 +178,27 @@ export default function TuitionFAQ() {
     return (
         <div className="space-y-0">
             {faqs.map((faq, index) => (
-                <div key={index} className="bg-white transition-all">
+                <div key={index} className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all mb-4 overflow-hidden">
                     <button
                         onClick={() => toggle(index)}
-                        className="w-full flex items-center justify-between py-6 text-left hover:text-neutral-600 transition-colors focus:outline-none group"
+                        className="w-full flex items-center justify-between py-6 px-6 text-left hover:bg-indigo-50/50 transition-colors focus:outline-none group"
                     >
-                        <span className="text-lg font-bold text-black pl-2">{faq.question}</span>
+                        <span className="text-lg font-bold text-indigo-950">{faq.question}</span>
                         {openIndex === index ? (
-                            <Minus className="text-black shrink-0" size={20} weight="bold" />
+                            <div className="bg-indigo-100 text-indigo-700 p-1.5 rounded-full shrink-0">
+                                <Minus size={20} weight="bold" />
+                            </div>
                         ) : (
-                            <Plus className="text-black shrink-0 group-hover:scale-110 transition-transform" size={20} weight="bold" />
+                            <div className="bg-indigo-50 text-indigo-600 p-1.5 rounded-full shrink-0 group-hover:bg-indigo-100 group-hover:text-indigo-800 transition-colors">
+                                <Plus className="group-hover:scale-110 transition-transform" size={20} weight="bold" />
+                            </div>
                         )}
                     </button>
                     <div
-                        className={`transition-all duration-300 ease-in-out ${openIndex === index ? 'max-h-[1000px] opacity-100 mb-8' : 'max-h-0 opacity-0'
+                        className={`transition-all duration-300 ease-in-out ${openIndex === index ? 'max-h-[1000px] opacity-100 pb-6' : 'max-h-0 opacity-0'
                             } overflow-hidden`}
                     >
-                        <div className="text-black leading-relaxed pl-2 pr-4">
+                        <div className="text-indigo-900 leading-relaxed px-6 border-t border-indigo-50 pt-6">
                             {faq.answer}
                         </div>
                     </div>

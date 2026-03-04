@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { FloppyDisk as Save, UploadSimple as Upload } from "@phosphor-icons/react/dist/ssr";
 import Image from 'next/image';
 
-import { uploadToHosting } from '@/utils/hostingUpload';
+// Image upload is handled via Supabase Storage in handleSubmit
 
 interface DepartmentFormProps {
     department: any;
@@ -45,21 +45,35 @@ export default function DepartmentForm({ department, schools, facultyMembers }: 
                 updatedAt: new Date().toISOString(),
             };
 
-            // Handle Image Upload (Hostinger PHP)
+            // Handle Image Upload (Supabase Storage)
             const imageFile = formData.get('image') as File;
             if (imageFile && imageFile.size > 0) {
-                console.log('--- Starting image upload to hosting ---');
+                console.log('--- Starting image upload to Supabase ---');
                 try {
-                    const imageUrl = await uploadToHosting(imageFile);
-                    if (imageUrl) {
-                        console.log('✅ Image upload successful:', imageUrl);
-                        updateData.imageUrl = imageUrl;
-                    } else {
-                        console.warn('⚠️ Image upload returned no URL');
+                    const fileExt = imageFile.name.split('.').pop();
+                    const fileName = `${department.slug}-${Date.now()}.${fileExt}`;
+                    const filePath = `departments/${fileName}`;
+
+                    const { error: uploadError, data: uploadData } = await supabase.storage
+                        .from('content')
+                        .upload(filePath, imageFile, {
+                            cacheControl: '3600',
+                            upsert: true
+                        });
+
+                    if (uploadError) {
+                        throw uploadError;
                     }
-                } catch (uploadError) {
-                    console.error('❌ Hosting upload error:', uploadError);
-                    alert('Image upload failed, but attempting to save other changes.');
+
+                    const { data: { publicUrl } } = supabase.storage
+                        .from('content')
+                        .getPublicUrl(filePath);
+
+                    console.log('✅ Image upload successful:', publicUrl);
+                    updateData.imageUrl = publicUrl;
+                } catch (uploadError: any) {
+                    console.error('❌ Supabase storage upload error:', uploadError);
+                    alert(`Image upload failed: ${uploadError?.message || 'Unknown error'}. Attempting to save other changes.`);
                 }
             }
 
@@ -76,11 +90,12 @@ export default function DepartmentForm({ department, schools, facultyMembers }: 
             }
 
             console.log('✅ Department updated successfully:', data);
+            alert('Department details and image updated successfully!');
 
             // Give it a small delay for DB consistency before redirect
             setTimeout(() => {
                 window.location.href = '/admin/departments';
-            }, 500);
+            }, 800);
         } catch (error: any) {
             console.error('Error saving department:', error);
             alert(error.message || 'Error saving department. Please try again.');

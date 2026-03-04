@@ -36,16 +36,16 @@ export default async function AboutPage() {
                 }
             }} />
 
-            {/* 1. HERO SECTION (Yellow Background) */}
-            <section className="bg-[#f3e600] text-black">
+            {/* 1. HERO SECTION (Solid Yellow) */}
+            <section className="bg-[#f3e600] text-black overflow-hidden">
                 <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-32 pb-4 h-auto min-h-[600px] md:pt-48 lg:h-[600px] lg:py-0 relative mb-12">
                     {/* Left Content */}
                     <div className="lg:w-1/2 space-y-2 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
 
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight pt-8">
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight pt-8 text-black">
                             About Kestora College
                         </h1>
-                        <p className="text-[21px] text-neutral-800 max-w-xl leading-relaxed">
+                        <p className="text-[21px] text-neutral-800 max-w-xl leading-relaxed mt-6">
                             Learn about Kestora College, an independent higher education institution based in Helsinki, Finland, focused on sustainability, innovation, and practical learning. Kestora College brings together academic knowledge and real-world application to prepare students for global careers.
                         </p>
                     </div>
@@ -53,7 +53,7 @@ export default async function AboutPage() {
                     {/* Right Image */}
                     <div className="lg:w-1/2 h-full w-full relative mt-4 lg:mt-0 lg:translate-y-16 z-20 flex justify-center lg:block">
                         <div className="h-full">
-                            <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800 shadow-2xl">
+                            <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800 shadow-2xl rounded-tr-[4rem] rounded-bl-[4rem] overflow-hidden">
                                 <Image
                                     src="/images/about-hero.jpg"
                                     alt="Kestora College – Helsinki Campus main building"
@@ -62,9 +62,7 @@ export default async function AboutPage() {
                                     className="object-cover opacity-90"
                                     sizes="(max-width: 1024px) 368px, 50vw"
                                 />
-                                <div className="absolute inset-0 bg-neutral-800 -z-10 flex items-center justify-center text-neutral-500 font-bold tracking-widest uppercase">
-                                    About Hero Image
-                                </div>
+                                <div className="absolute inset-0 bg-neutral-900/10 mix-blend-multiply"></div>
                             </div>
                         </div>
                     </div>
@@ -76,24 +74,24 @@ export default async function AboutPage() {
                 {/* Content Sections: Philosophy, Mission & Approach */}
                 <section className="mb-32">
                     <div className="grid lg:grid-cols-2 gap-16 mb-24">
-                        <div>
-                            <h2 className="text-3xl font-bold mb-8">Our Philosophy</h2>
-                            <p className="text-lg text-neutral-800 leading-relaxed">
+                        <div className="bg-gradient-to-br from-indigo-50 to-blue-50 p-12 rounded-3xl shadow-sm text-indigo-950">
+                            <h2 className="text-3xl font-bold mb-8 text-indigo-900">Our Philosophy</h2>
+                            <p className="text-lg text-indigo-800 leading-relaxed">
                                 Kestora College is inspired by the Nordic tradition of Sivistys — a holistic approach to education that combines personal development, critical thinking, and social responsibility.
                             </p>
-                            <p className="text-lg text-neutral-800 leading-relaxed mt-4">
+                            <p className="text-lg text-indigo-800 leading-relaxed mt-4">
                                 We believe that meaningful learning happens where theory meets practice. Our educational approach emphasizes applied learning, project-based collaboration, and real-world problem solving. From the beginning of their studies, students engage with practical challenges, multidisciplinary thinking, and internationally oriented learning environments.
                             </p>
-                            <p className="text-lg text-neutral-800 leading-relaxed mt-4">
+                            <p className="text-lg text-indigo-800 leading-relaxed mt-4">
                                 Our programmes are designed to support independent thinking, innovation, and lifelong learning in a rapidly changing world.
                             </p>
                         </div>
-                        <div>
-                            <h2 className="text-3xl font-bold mb-8">Our Mission</h2>
-                            <p className="text-lg text-neutral-800 leading-relaxed mb-6">
+                        <div className="bg-gradient-to-br from-purple-50 to-fuchsia-50 p-12 rounded-3xl shadow-sm text-purple-950">
+                            <h2 className="text-3xl font-bold mb-8 text-purple-900">Our Mission</h2>
+                            <p className="text-lg text-purple-800 leading-relaxed mb-6">
                                 Our mission is to empower future professionals with the skills, knowledge, and ethical awareness needed to contribute responsibly to society and the global economy.
                             </p>
-                            <p className="text-md font-bold text-neutral-900 mb-4 text-sm uppercase tracking-wider">As an independent higher education institution, Kestora College provides:</p>
+                            <p className="text-md font-bold text-purple-900 mb-4 text-sm uppercase tracking-wider">As an independent higher education institution, Kestora College provides:</p>
                             <ul className="space-y-3 mb-8">
                                 {[
                                     "English-taught Bachelor’s and Master’s level studies",
@@ -101,38 +99,40 @@ export default async function AboutPage() {
                                     "Practice-oriented learning models",
                                     "An international student community in Helsinki"
                                 ].map((item, i) => (
-                                    <li key={i} className="flex items-start gap-3 text-neutral-800">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-[#f3e600] mt-2 shrink-0" />
+                                    <li key={i} className="flex items-start gap-3 text-purple-800">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-purple-500 mt-2 shrink-0" />
                                         <span>{item}</span>
                                     </li>
                                 ))}
                             </ul>
-                            <p className="text-lg text-neutral-800 leading-relaxed">
+                            <p className="text-lg text-purple-800 leading-relaxed">
                                 We aim to equip students with competencies that support sustainable development, innovation, and professional growth across diverse fields and industries.
                             </p>
                         </div>
                     </div>
 
                     <div className="mb-24">
-                        <div className="max-w-3xl">
-                            <h2 className="text-3xl font-bold mb-8">Our Academic Approach</h2>
-                            <p className="text-lg text-neutral-800 leading-relaxed mb-6">
+                        <div className="max-w-4xl mx-auto text-center">
+                            <h2 className="text-3xl font-bold mb-8 text-indigo-950">Our Academic Approach</h2>
+                            <p className="text-lg text-indigo-900 leading-relaxed mb-10">
                                 Kestora College promotes:
                             </p>
-                            <ul className="grid md:grid-cols-2 gap-6 mb-8">
+                            <ul className="grid md:grid-cols-2 gap-6 mb-12 text-left">
                                 {[
-                                    "Learning through real-world projects",
-                                    "Collaboration with external partners and industry networks",
-                                    "Multidisciplinary study opportunities",
-                                    "A balance between academic foundations and applied skills"
+                                    { text: "Learning through real-world projects", color: "from-blue-500 to-indigo-500" },
+                                    { text: "Collaboration with external partners and industry networks", color: "from-purple-500 to-fuchsia-500" },
+                                    { text: "Multidisciplinary study opportunities", color: "from-pink-500 to-rose-500" },
+                                    { text: "A balance between academic foundations and applied skills", color: "from-amber-500 to-orange-500" }
                                 ].map((item, i) => (
-                                    <li key={i} className="flex items-start gap-4 p-4 bg-neutral-50 border border-neutral-100">
-                                        <span className="text-[#f3e600] font-bold text-xl leading-none">/</span>
-                                        <span className="text-neutral-800 font-medium">{item}</span>
+                                    <li key={i} className="flex items-center gap-6 p-8 bg-white rounded-3xl shadow-lg transform hover:-translate-y-1 transition-transform">
+                                        <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center shrink-0 shadow-inner`}>
+                                            <span className="text-white font-bold text-xl leading-none">/</span>
+                                        </div>
+                                        <span className="text-indigo-950 font-bold text-lg">{item.text}</span>
                                     </li>
                                 ))}
                             </ul>
-                            <p className="text-lg text-neutral-800 leading-relaxed">
+                            <p className="text-lg text-indigo-900 leading-relaxed bg-indigo-50 p-8 rounded-3xl">
                                 Our campus in Helsinki offers a supportive environment where students, educators, and partners collaborate to explore contemporary challenges and future-oriented solutions.
                             </p>
                         </div>
@@ -140,27 +140,35 @@ export default async function AboutPage() {
 
                     {/* Specialized Campuses */}
                     <div className="mb-32">
-                        <h2 className="text-3xl font-bold mb-12 text-center">Our Specialized Campuses</h2>
-                        <div className="grid md:grid-cols-2 gap-8 text-black">
-                            <div className="bg-neutral-50 p-10 border border-neutral-100 flex flex-col justify-between">
-                                <h3 className="text-xl font-bold mb-4">School of Arts & Design</h3>
-                                <p className="text-neutral-600 mb-6">Preparing students for international careers in the creative industries, from digital design to contemporary architecture.</p>
-                                <Link href="/schools/arts" className="text-sm font-bold flex items-center gap-2 hover:gap-3 transition-all">Explore Campus <ArrowRight size={14} weight="bold" /></Link>
+                        <h2 className="text-3xl font-bold mb-12 text-center text-indigo-950">Our Specialized Campuses</h2>
+                        <div className="grid md:grid-cols-2 gap-8">
+                            <div className="bg-gradient-to-br from-rose-50 to-pink-100 p-10 rounded-3xl shadow-md flex flex-col justify-between transform hover:-translate-y-2 transition-all duration-300">
+                                <div>
+                                    <h3 className="text-2xl font-bold mb-4 text-rose-900">School of Arts & Design</h3>
+                                    <p className="text-rose-800 mb-8 leading-relaxed">Preparing students for international careers in the creative industries, from digital design to contemporary architecture.</p>
+                                </div>
+                                <Link href="/schools/arts" className="text-sm font-bold flex items-center gap-2 text-rose-600 hover:text-rose-900 transition-colors uppercase tracking-wider">Explore Campus <ArrowRight size={16} weight="bold" /></Link>
                             </div>
-                            <div className="bg-neutral-50 p-10 border border-neutral-100 flex flex-col justify-between">
-                                <h3 className="text-xl font-bold mb-4">School of Business</h3>
-                                <p className="text-neutral-600 mb-6">Empowering future leaders with English-taught programmes in international management, finance, and entrepreneurship.</p>
-                                <Link href="/schools/business" className="text-sm font-bold flex items-center gap-2 hover:gap-3 transition-all">Explore Campus <ArrowRight size={14} weight="bold" /></Link>
+                            <div className="bg-gradient-to-br from-blue-50 to-indigo-100 p-10 rounded-3xl shadow-md flex flex-col justify-between transform hover:-translate-y-2 transition-all duration-300">
+                                <div>
+                                    <h3 className="text-2xl font-bold mb-4 text-indigo-900">School of Business</h3>
+                                    <p className="text-indigo-800 mb-8 leading-relaxed">Empowering future leaders with English-taught programmes in international management, finance, and entrepreneurship.</p>
+                                </div>
+                                <Link href="/schools/business" className="text-sm font-bold flex items-center gap-2 text-indigo-600 hover:text-indigo-900 transition-colors uppercase tracking-wider">Explore Campus <ArrowRight size={16} weight="bold" /></Link>
                             </div>
-                            <div className="bg-neutral-50 p-10 border border-neutral-100 flex flex-col justify-between">
-                                <h3 className="text-xl font-bold mb-4">School of Technology</h3>
-                                <p className="text-neutral-600 mb-6">Specializing in the development of smart infrastructure, automation, and industrial engineering solutions.</p>
-                                <Link href="/schools/technology" className="text-sm font-bold flex items-center gap-2 hover:gap-3 transition-all">Explore Campus <ArrowRight size={14} weight="bold" /></Link>
+                            <div className="bg-gradient-to-br from-emerald-50 to-teal-100 p-10 rounded-3xl shadow-md flex flex-col justify-between transform hover:-translate-y-2 transition-all duration-300">
+                                <div>
+                                    <h3 className="text-2xl font-bold mb-4 text-teal-900">School of Technology</h3>
+                                    <p className="text-teal-800 mb-8 leading-relaxed">Specializing in the development of smart infrastructure, automation, and industrial engineering solutions.</p>
+                                </div>
+                                <Link href="/schools/technology" className="text-sm font-bold flex items-center gap-2 text-teal-600 hover:text-teal-900 transition-colors uppercase tracking-wider">Explore Campus <ArrowRight size={16} weight="bold" /></Link>
                             </div>
-                            <div className="bg-neutral-50 p-10 border border-neutral-100 flex flex-col justify-between">
-                                <h3 className="text-xl font-bold mb-4">School of Science</h3>
-                                <p className="text-neutral-600 mb-6">Focusing on applied scientific research, data-driven innovation, and the development of transformative materials.</p>
-                                <Link href="/schools/science" className="text-sm font-bold flex items-center gap-2 hover:gap-3 transition-all">Explore Campus <ArrowRight size={14} weight="bold" /></Link>
+                            <div className="bg-gradient-to-br from-amber-50 to-orange-100 p-10 rounded-3xl shadow-md flex flex-col justify-between transform hover:-translate-y-2 transition-all duration-300">
+                                <div>
+                                    <h3 className="text-2xl font-bold mb-4 text-orange-900">School of Science</h3>
+                                    <p className="text-orange-800 mb-8 leading-relaxed">Focusing on applied scientific research, data-driven innovation, and the development of transformative materials.</p>
+                                </div>
+                                <Link href="/schools/science" className="text-sm font-bold flex items-center gap-2 text-orange-600 hover:text-orange-900 transition-colors uppercase tracking-wider">Explore Campus <ArrowRight size={16} weight="bold" /></Link>
                             </div>
                         </div>
                     </div>
@@ -169,21 +177,21 @@ export default async function AboutPage() {
 
 
 
-            {/* Key Figures - Yellow Background Redesign - Full Width */}
-            <div className="py-24 bg-[#f3e600] text-black w-full">
+            {/* Key Figures - Vibrant Gradient */}
+            <div className="py-24 bg-gradient-to-r from-[#fd6402] to-amber-500 text-white w-full">
                 <div className="container mx-auto px-4">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-16 text-center max-w-5xl mx-auto">
                         <div className="space-y-3">
                             <div className="text-6xl md:text-7xl font-bold tracking-tight">2.4k</div>
-                            <div className="text-sm font-bold uppercase tracking-[0.2em] text-black/60">Students</div>
+                            <div className="text-sm font-bold uppercase tracking-[0.2em] text-white/80">Students</div>
                         </div>
                         <div className="space-y-3">
                             <div className="text-6xl md:text-7xl font-bold tracking-tight">250</div>
-                            <div className="text-sm font-bold uppercase tracking-[0.2em] text-black/60">Faculty</div>
+                            <div className="text-sm font-bold uppercase tracking-[0.2em] text-white/80">Faculty</div>
                         </div>
                         <div className="space-y-3">
                             <div className="text-6xl md:text-7xl font-bold tracking-tight">60+</div>
-                            <div className="text-sm font-bold uppercase tracking-[0.2em] text-black/60">Countries</div>
+                            <div className="text-sm font-bold uppercase tracking-[0.2em] text-white/80">Countries</div>
                         </div>
                     </div>
                 </div>
@@ -194,39 +202,38 @@ export default async function AboutPage() {
                 {/* Partnerships Section */}
                 <section className="mb-32">
                     <div className="grid lg:grid-cols-2 gap-24 items-center">
-                        <div className="space-y-8">
-                            <h2 className="text-3xl font-bold">Industry & Research Partnerships</h2>
-                            <p className="text-lg text-neutral-800 leading-relaxed">
+                        <div className="space-y-8 bg-gradient-to-br from-indigo-50 to-purple-50 p-12 rounded-3xl shadow-sm text-indigo-950">
+                            <h2 className="text-3xl font-bold text-indigo-900 mb-6">Industry & Research Partnerships</h2>
+                            <p className="text-lg text-indigo-800 leading-relaxed">
                                 We don't just study the future; we build it. Kestora College maintains strategic partnerships with over 200 global companies and research institutions. Our students have direct access to internships, joint research projects, and innovation labs that bridge the gap between academic theory and market-ready solutions.
                             </p>
-                            <div className="grid grid-cols-2 gap-8 pt-4">
+                            <div className="grid grid-cols-2 gap-8 pt-8 border-t border-indigo-200 mt-8">
                                 <div>
-                                    <div className="text-xl font-bold mb-1">Global Network</div>
-                                    <p className="text-sm text-neutral-500">Member of the World Federation of Sustainability Colleges.</p>
+                                    <div className="text-xl font-bold mb-2 text-indigo-900">Global Network</div>
+                                    <p className="text-sm text-indigo-700 leading-relaxed">Member of the World Federation of Sustainability Colleges.</p>
                                 </div>
                                 <div>
-                                    <div className="text-xl font-bold mb-1">Employment Rate</div>
-                                    <p className="text-sm text-neutral-500">92% of graduates find relevant employment within 6 months.</p>
+                                    <div className="text-xl font-bold mb-2 text-indigo-900">Employment Rate</div>
+                                    <p className="text-sm text-indigo-700 leading-relaxed">92% of graduates find relevant employment within 6 months.</p>
                                 </div>
                             </div>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             {[
-                                { src: "/images/about/yoga-class.jpg", alt: "Students practicing yoga in the Wellness Center", credit: "Tuuli Rantanen" },
-                                { src: "/images/about/art-gallery.jpg", alt: "Student artwork displayed in the campus gallery", credit: "Oskar Heikkilä" },
-                                { src: "/images/about/communal-kitchen.jpg", alt: "Students cooking together in the communal kitchen", credit: "Maija Lehtinen" },
-                                { src: "/images/about/student-collab.jpg", alt: "Students working together in a collaborative study space", credit: "Juha Koivisto" },
+                                { src: "/images/about/yoga-class.png", alt: "Students practicing yoga in the Wellness Center", credit: "Tuuli Rantanen", color: "from-rose-400 to-pink-600" },
+                                { src: "/images/about/art-gallery.jpg", alt: "Student artwork displayed in the campus gallery", credit: "Oskar Heikkilä", color: "from-blue-400 to-indigo-600" },
+                                { src: "/images/about/communal-kitchen.jpg", alt: "Students cooking together in the communal kitchen", credit: "Maija Lehtinen", color: "from-amber-400 to-orange-600" },
+                                { src: "/images/about/student-collab.jpg", alt: "Students working together in a collaborative study space", credit: "Juha Koivisto", color: "from-emerald-400 to-teal-600" },
                             ].map((img, index) => (
-                                <div key={index}>
-                                    <div className="bg-neutral-100 aspect-square w-full rounded-none relative overflow-hidden">
-                                        <Image
-                                            src={img.src}
-                                            alt={img.alt}
-                                            fill
-                                            className="object-cover"
-                                            sizes="(max-width: 768px) 50vw, 25vw"
-                                        />
-                                    </div>
+                                <div key={index} className="relative group rounded-3xl overflow-hidden shadow-lg h-64 md:h-auto md:aspect-square">
+                                    <div className={`absolute inset-0 bg-gradient-to-br ${img.color} opacity-40 mix-blend-multiply group-hover:opacity-10 transition-opacity z-10 duration-500`}></div>
+                                    <Image
+                                        src={img.src}
+                                        alt={img.alt}
+                                        fill
+                                        className="object-cover transform group-hover:scale-105 transition-transform duration-700"
+                                        sizes="(max-width: 768px) 50vw, 25vw"
+                                    />
                                 </div>
                             ))}
                         </div>

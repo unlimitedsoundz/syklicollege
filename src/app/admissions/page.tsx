@@ -95,7 +95,7 @@ export default function AdmissionsPage() {
                         <div className="h-full">
                             <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800">
                                 <Image
-                                    src="/images/admissions/hero-new.jpg"
+                                    src="/images/admissions-hero.png"
                                     alt="International students exploring Kestora College campus"
                                     fill
                                     priority
@@ -216,9 +216,9 @@ export default function AdmissionsPage() {
                             </p>
                             <div className="grid md:grid-cols-3 gap-8">
                                 {[
-                                    { title: "Industry Collaboration", image: "/images/pexels-fauxels-3184291--1-.jpg", desc: "Work on real projects with our global partners.", credit: "Fauxels" },
+                                    { title: "Industry Collaboration", image: "/images/about/student-collab.jpg", desc: "Work on real projects with our global partners.", credit: "Kestora College" },
                                     { title: "Alumni Networks", image: "/images/admissions/alumni_success.png", desc: "Connect with graduates working in leading industries.", credit: "Saara Virtanen" },
-                                    { title: "Career Services", image: "/images/admissions/career_tools_digital.png", desc: "Expert guidance for your professional journey.", credit: "Markus Hakala" }
+                                    { title: "Career Services", image: "/images/admissions-hero.png", desc: "Expert guidance for your professional journey.", credit: "Markus Hakala" }
                                 ].map(item => (
                                     <div key={item.title} className="bg-neutral-100 flex flex-col group">
                                         <div className="h-56 w-full relative overflow-hidden">
@@ -345,8 +345,8 @@ export default function AdmissionsPage() {
                                 {[
                                     { title: "Professional Modules", image: "/images/admissions/lifelong_learning_adult.png", desc: "Deepen your expertise with specialized short courses.", credit: "Timo Partanen" },
                                     { title: "Online Learning", image: "/images/admissions/online_learning.png", desc: "Flexible content accessible from anywhere in the world.", credit: "Emma Laakso" },
-                                    { title: "Campus Workshops", image: "/images/admissions/workshop.png", desc: "Hands-on learning in our state-of-the-art labs.", credit: "Janne Salmi" },
-                                    { title: "Custom Training", image: "/images/admissions/custom_training.png", desc: "Tailored solutions for organizational growth.", credit: "Sonja Mikkola" }
+                                    { title: "Campus Workshops", image: "/images/campus-workshops.png", desc: "Hands-on learning in our state-of-the-art labs.", credit: "Janne Salmi" },
+                                    { title: "Custom Training", image: "/images/custom-training.png", desc: "Tailored solutions for organizational growth.", credit: "Sonja Mikkola" }
                                 ].map(item => (
                                     <div key={item.title} className="flex flex-col md:flex-row bg-neutral-100 overflow-hidden group">
                                         <div className="md:w-1/3 h-48 md:h-auto relative overflow-hidden">

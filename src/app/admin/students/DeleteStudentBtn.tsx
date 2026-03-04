@@ -1,41 +1,32 @@
-import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Trash } from "@phosphor-icons/react";
+import { Trash, CircleNotch as Loader2 } from "@phosphor-icons/react";
+import { deleteStudent } from './actions';
 
 export default function DeleteStudentBtn({ id }: { id: string }) {
     const router = useRouter();
     const [isDeleting, setIsDeleting] = useState(false);
 
     const handleDelete = async () => {
-        if (!confirm('Are you sure you want to delete this student record? This will also remove all their registrations.')) {
+        if (!confirm('Are you sure you want to delete this student record? This will revert their status and allow for re-enrollment if needed.')) {
             return;
         }
 
         setIsDeleting(true);
-        const supabase = createClient();
 
         try {
-            // 1. Delete associated module enrollments first (SIS integrity)
-            const { error: enrollmentError } = await supabase
-                .from('module_enrollments')
-                .delete()
-                .eq('student_id', id);
+            const result = await deleteStudent(id);
 
-            if (enrollmentError) throw new Error(`Failed to clear enrollments: ${enrollmentError.message}`);
-
-            // 2. Delete the student record from SIS
-            const { error } = await supabase
-                .from('students')
-                .delete()
-                .eq('id', id);
-
-            if (error) throw error;
-
-            router.refresh();
+            if (result.success) {
+                router.refresh();
+                // We might need a manual window.location.reload() if refresh doesn't catch all state changes
+                // but router.refresh() is the standard Next.js way.
+            } else {
+                alert(`Failed to delete student: ${result.error}`);
+            }
         } catch (error: any) {
             console.error('Delete Student Error:', error);
-            alert(`Failed to delete student: ${error.message}`);
+            alert(`An unexpected error occurred: ${error.message}`);
         } finally {
             setIsDeleting(false);
         }
@@ -48,7 +39,11 @@ export default function DeleteStudentBtn({ id }: { id: string }) {
             className="text-neutral-400 hover:text-red-600 transition-colors p-1 disabled:opacity-50"
             title="Delete Student"
         >
-            <Trash size={14} weight="bold" />
+            {isDeleting ? (
+                <Loader2 size={14} weight="bold" className="animate-spin" />
+            ) : (
+                <Trash size={14} weight="bold" />
+            )}
         </button>
     );
 }

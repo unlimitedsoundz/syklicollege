@@ -122,7 +122,7 @@ export default function BachelorsGuidePage() {
                                 <div className="border-t border-neutral-100 pt-4 mt-4">
                                     <h4 className="font-bold text-[#fd6402] mb-2">Early Payment Discount (25%)</h4>
                                     <p className="text-sm text-neutral-600 mb-2">
-                                        New Bachelor’s students may receive a <strong>25% reduction</strong> on the first year’s fee if paid by the deadline (typically within 21 days of acceptance).
+                                        New Bachelor’s students may receive a <strong>25% reduction</strong> on the first year’s fee if paid by the deadline (typically within 7 days of acceptance).
                                     </p>
                                     <p className="text-xs text-neutral-500">Check your admission email for specific dates.</p>
                                 </div>

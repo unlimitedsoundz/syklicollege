@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { CaretLeft, Calendar, FileText, CheckCircle, GraduationCap, Globe, Clock, ArrowRight, User, Trophy as Award } from '@phosphor-icons/react/dist/ssr';
 import TableOfContents from '@/components/course/TableOfContents';
 import AdmissionsCTA from '@/components/admissions/AdmissionsCTA';
+import MasterFAQ from '@/components/admissions/MasterFAQ';
 
 
 export const metadata = {
@@ -23,6 +24,7 @@ const tocSections = [
     { id: 'gmat', title: 'GMAT/GRE', content: '' },
     { id: 'decisions', title: 'Decisions', content: '' },
     { id: 'after', title: 'After Admission', content: '' },
+    { id: 'faq', title: 'FAQ', content: '' },
 ];
 
 
@@ -91,99 +93,96 @@ export default function MasterAdmissionsPage() {
 
                         {/* 1. Admissions Schedule */}
                         <section id="schedule" className="scroll-mt-32">
-                            <h2 className="text-3xl font-bold mb-8 text-black pb-10 pl-2">
+                            <h2 className="text-3xl font-bold mb-8 text-indigo-950 pb-10 pl-2">
                                 1. Admissions Schedule (Updated)
                             </h2>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {/* PHASE 1: APPLICATION */}
-                                <div className="bg-neutral-50 rounded-2xl p-8 border border-neutral-100 flex flex-col h-full hover:border-black transition-colors group">
+                                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-8 text-indigo-950 shadow-sm transition-all group hover:shadow-md">
                                     <div className="flex items-center gap-3 mb-6">
-                                        <div className="w-10 h-10 bg-black text-white rounded-lg flex items-center justify-center font-bold text-sm">01</div>
+                                        <div className="w-10 h-10 bg-indigo-600 text-white rounded-xl flex items-center justify-center font-bold text-sm shadow-sm">01</div>
                                         <div>
-                                            <h3 className="font-bold uppercase tracking-widest text-xs text-neutral-400">Application Phase</h3>
+                                            <h3 className="font-bold uppercase tracking-widest text-xs text-indigo-600">Application Phase</h3>
                                             <p className="text-lg font-bold">Submit Your Interest</p>
                                         </div>
                                     </div>
-                                    <div className="space-y-6 flex-grow">
-                                        <div className="relative pl-6 before:absolute before:left-0 before:top-2 before:w-2 before:h-2 before:bg-black before:rounded-full">
-                                            <span className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-1">1 Dec 2025</span>
+                                    <div className="space-y-6 flex-grow text-indigo-900">
+                                        <div className="relative pl-6 before:absolute before:left-0 before:top-2 before:w-2 before:h-2 before:bg-indigo-400 before:rounded-full">
+                                            <span className="block text-xs font-bold uppercase tracking-wider text-indigo-600 mb-1">1 Dec 2025</span>
                                             <p className="font-medium text-sm">Application period opens at 09:00 UTC+2</p>
                                         </div>
-                                        <div className="relative pl-6 before:absolute before:left-0 before:top-2 before:w-2 before:h-2 before:bg-neutral-300 before:rounded-full">
-                                            <span className="block text-xs font-bold uppercase tracking-wider text-black mb-1">31 March 2026</span>
+                                        <div className="relative pl-6 before:absolute before:left-0 before:top-2 before:w-2 before:h-2 before:bg-indigo-400 before:rounded-full">
+                                            <span className="block text-xs font-bold uppercase tracking-wider text-indigo-600 mb-1">31 March 2026</span>
                                             <p className="font-bold text-sm">Application closes at 15:00 UTC+2</p>
                                         </div>
-                                        <div className="relative pl-6 before:absolute before:left-0 before:top-2 before:w-2 before:h-2 before:bg-neutral-300 before:rounded-full">
-                                            <span className="block text-xs font-bold uppercase tracking-wider text-black mb-1">7 April 2026</span>
+                                        <div className="relative pl-6 before:absolute before:left-0 before:top-2 before:w-2 before:h-2 before:bg-indigo-400 before:rounded-full">
+                                            <span className="block text-xs font-bold uppercase tracking-wider text-indigo-600 mb-1">7 April 2026</span>
                                             <p className="font-bold text-sm">Final deadline to upload all documents (15:00 UTC+2)</p>
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* PHASE 2: EVALUATION */}
-                                <div className="bg-neutral-50 rounded-2xl p-8 border border-neutral-100 flex flex-col h-full hover:border-black transition-colors group">
+                                <div className="bg-gradient-to-br from-purple-50 to-fuchsia-50 rounded-3xl p-8 text-purple-950 shadow-sm transition-all group hover:shadow-md">
                                     <div className="flex items-center gap-3 mb-6">
-                                        <div className="w-10 h-10 bg-neutral-200 text-black rounded-lg flex items-center justify-center font-bold text-sm">02</div>
+                                        <div className="w-10 h-10 bg-purple-600 text-white rounded-xl flex items-center justify-center font-bold text-sm shadow-sm">02</div>
                                         <div>
-                                            <h3 className="font-bold uppercase tracking-widest text-xs text-neutral-400">Evaluation Phase</h3>
+                                            <h3 className="font-bold uppercase tracking-widest text-xs text-purple-600">Evaluation Phase</h3>
                                             <p className="text-lg font-bold">Academic Review</p>
                                         </div>
                                     </div>
-                                    <div className="space-y-6 flex-grow">
-                                        <div className="relative pl-6 before:absolute before:left-0 before:top-2 before:w-2 before:h-2 before:bg-neutral-400 before:rounded-full">
-                                            <span className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-1">Jan – Mar 2026</span>
+                                    <div className="space-y-6 flex-grow text-purple-900">
+                                        <div className="relative pl-6 before:absolute before:left-0 before:top-2 before:w-2 before:h-2 before:bg-purple-400 before:rounded-full">
+                                            <span className="block text-xs font-bold uppercase tracking-wider text-purple-600 mb-1">Jan – Mar 2026</span>
                                             <p className="font-medium text-sm leading-relaxed">Applications are carefully evaluated by the admissions committee and faculty.</p>
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* PHASE 3: RESULTS */}
-                                <div className="bg-black text-white rounded-2xl p-8 flex flex-col h-full shadow-2xl transform md:scale-[1.02] relative z-10">
-                                    <div className="absolute top-6 right-6">
-                                        <Award className="text-white/20" size={40} weight="bold" />
-                                    </div>
+                                <div className="bg-gradient-to-br from-emerald-600 to-teal-700 text-white rounded-3xl p-8 flex flex-col h-full shadow-lg transform md:scale-[1.02] relative z-10">
                                     <div className="flex items-center gap-3 mb-6">
-                                        <div className="w-10 h-10 bg-white text-black rounded-lg flex items-center justify-center font-bold text-sm">03</div>
+                                        <div className="w-10 h-10 bg-white text-teal-700 rounded-xl flex items-center justify-center font-bold text-sm shadow-sm">03</div>
                                         <div>
-                                            <h3 className="font-bold uppercase tracking-widest text-xs text-white/50">Results Phase</h3>
+                                            <h3 className="font-bold uppercase tracking-widest text-xs text-teal-100">Results Phase</h3>
                                             <p className="text-lg font-bold">Selection Decisions</p>
                                         </div>
                                     </div>
                                     <div className="space-y-6 flex-grow">
                                         <div className="relative pl-6 before:absolute before:left-0 before:top-2 before:w-2 before:h-2 before:bg-white before:rounded-full">
-                                            <span className="block text-xs font-bold uppercase tracking-wider text-white/60 mb-1">15 May 2026</span>
+                                            <span className="block text-xs font-bold uppercase tracking-wider text-teal-100 mb-1">Within 1 Week</span>
                                             <p className="font-black text-xl tracking-tight">Admission results published</p>
                                         </div>
-                                        <div className="relative pl-6 before:absolute before:left-0 before:top-2 before:w-2 before:h-2 before:bg-white/30 before:rounded-full">
-                                            <span className="block text-xs font-bold uppercase tracking-wider text-white/60 mb-1">Until 26 June 2026</span>
+                                        <div className="relative pl-6 before:absolute before:left-0 before:top-2 before:w-2 before:h-2 before:bg-white/50 before:rounded-full">
+                                            <span className="block text-xs font-bold uppercase tracking-wider text-teal-100 mb-1">Until 26 June 2026</span>
                                             <p className="font-medium text-sm">Waiting list admissions end</p>
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* PHASE 4: ENROLLMENT */}
-                                <div className="bg-neutral-50 rounded-2xl p-8 border border-neutral-100 flex flex-col h-full hover:border-black transition-colors group">
+                                <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-3xl p-8 text-orange-950 shadow-sm transition-all group hover:shadow-md">
                                     <div className="flex items-center gap-3 mb-6">
-                                        <div className="w-10 h-10 bg-neutral-200 text-black rounded-lg flex items-center justify-center font-bold text-sm">04</div>
+                                        <div className="w-10 h-10 bg-orange-500 text-white rounded-xl flex items-center justify-center font-bold text-sm shadow-sm">04</div>
                                         <div>
-                                            <h3 className="font-bold uppercase tracking-widest text-xs text-neutral-400">Enrollment Phase</h3>
+                                            <h3 className="font-bold uppercase tracking-widest text-xs text-orange-600">Enrollment Phase</h3>
                                             <p className="text-lg font-bold">Journey Begins</p>
                                         </div>
                                     </div>
                                     <div className="space-y-4 flex-grow">
                                         <div className="grid grid-cols-1 gap-4">
-                                            <div className="bg-white p-4 rounded-xl border border-neutral-100">
-                                                <span className="block text-[10px] font-bold uppercase tracking-wider text-neutral-400">5 June 2026</span>
+                                            <div className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl shadow-sm text-orange-900">
+                                                <span className="block text-[10px] font-bold uppercase tracking-wider text-orange-600">5 June 2026</span>
                                                 <p className="text-xs font-bold">Deadline to accept place</p>
                                             </div>
-                                            <div className="bg-white p-4 rounded-xl border border-neutral-100">
-                                                <span className="block text-[10px] font-bold uppercase tracking-wider text-neutral-400">19 June / 21 Aug</span>
+                                            <div className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl shadow-sm text-orange-900">
+                                                <span className="block text-[10px] font-bold uppercase tracking-wider text-orange-600">19 June / 21 Aug</span>
                                                 <p className="text-xs font-bold">Submit certified documents</p>
                                             </div>
-                                            <div className="bg-white p-4 rounded-xl border border-neutral-100">
-                                                <span className="block text-[10px] font-bold uppercase tracking-wider text-neutral-400">Aug – Sep</span>
-                                                <p className="text-xs font-black uppercase text-primary">Studies Start</p>
+                                            <div className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl shadow-sm text-orange-900">
+                                                <span className="block text-[10px] font-bold uppercase tracking-wider text-orange-600">Aug – Sep</span>
+                                                <p className="text-xs font-black uppercase text-orange-500">Studies Start</p>
                                             </div>
                                         </div>
                                     </div>
@@ -193,80 +192,80 @@ export default function MasterAdmissionsPage() {
 
                         {/* 2. Study Options */}
                         <section id="study-options" className="scroll-mt-32">
-                            <h2 className="text-3xl font-bold mb-6 text-black">2. Study Options</h2>
-                            <p className="text-lg text-neutral-700 mb-6">
+                            <h2 className="text-3xl font-bold mb-6 text-indigo-950">2. Study Options</h2>
+                            <p className="text-lg text-indigo-900 mb-6">
                                 Kestora College offers Master’s programmes in several fields. Applicants may apply to a maximum of <strong>two programmes</strong> per application.
                             </p>
                             <div className="grid md:grid-cols-3 gap-6">
-                                <div className="p-6 bg-neutral-50 rounded-xl transition-colors">
-                                    <h3 className="font-bold text-xl mb-2">Business & Economics</h3>
-                                    <p className="text-sm text-neutral-600">MSc in Accounting & Finance, Strategic Management, etc.</p>
+                                <div className="p-8 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-3xl text-indigo-950 shadow-sm transition-colors">
+                                    <h3 className="font-bold text-xl mb-2 text-indigo-800">Business & Economics</h3>
+                                    <p className="text-sm text-indigo-900 leading-relaxed">MSc in Accounting & Finance, Strategic Management, etc.</p>
                                 </div>
-                                <div className="p-6 bg-neutral-50 rounded-xl transition-colors">
-                                    <h3 className="font-bold text-xl mb-2">Art & Design</h3>
-                                    <p className="text-sm text-neutral-600">MA in Design, Architecture, and Visual Arts</p>
+                                <div className="p-8 bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl text-purple-950 shadow-sm transition-colors">
+                                    <h3 className="font-bold text-xl mb-2 text-purple-800">Art & Design</h3>
+                                    <p className="text-sm text-purple-900 leading-relaxed">MA in Design, Architecture, and Visual Arts</p>
                                 </div>
-                                <div className="p-6 bg-neutral-50 rounded-xl transition-colors">
-                                    <h3 className="font-bold text-xl mb-2">Technology & Engineering</h3>
-                                    <p className="text-sm text-neutral-600">MSc in Engineering, Computer Science, Data Analytics</p>
+                                <div className="p-8 bg-gradient-to-br from-pink-50 to-rose-50 rounded-3xl text-pink-950 shadow-sm transition-colors">
+                                    <h3 className="font-bold text-xl mb-2 text-pink-800">Technology & Engineering</h3>
+                                    <p className="text-sm text-pink-900 leading-relaxed">MSc in Engineering, Computer Science, Data Analytics</p>
                                 </div>
                             </div>
                         </section>
 
                         {/* 3. Scholarships & Tuition Fees */}
                         <section id="scholarships" className="scroll-mt-32">
-                            <h2 className="text-3xl font-bold mb-8 text-black pb-10 pl-2">
+                            <h2 className="text-3xl font-bold mb-8 text-indigo-950 pb-10 pl-2">
                                 3. Scholarships and Tuition Fees
                             </h2>
                             <div className="grid md:grid-cols-2 gap-12 items-start">
                                 <div className="space-y-6">
-                                    <p className="text-lg text-neutral-700 leading-relaxed">
+                                    <p className="text-lg text-indigo-900 leading-relaxed">
                                         At Kestora College, we believe in rewarding academic excellence and supporting students through various financial aid options.
                                         Our scholarship programme is designed to help international talent thrive in Finland.
                                     </p>
                                     <ul className="space-y-4">
                                         <li className="flex gap-4 items-start">
-                                            <div className="w-1.5 h-1.5 bg-black mt-2 flex-shrink-0" />
+                                            <div className="w-1.5 h-1.5 bg-indigo-500 rounded-full mt-2 flex-shrink-0" />
                                             <div>
-                                                <strong className="block text-black">Merit-Based Scholarships</strong>
-                                                <span className="text-neutral-600 text-sm">Awarded to top-performing applicants based on previous academic records.</span>
+                                                <strong className="block text-indigo-950">Merit-Based Scholarships</strong>
+                                                <span className="text-indigo-900 text-sm">Awarded to top-performing applicants based on previous academic records.</span>
                                             </div>
                                         </li>
                                         <li className="flex gap-4 items-start">
-                                            <div className="w-1.5 h-1.5 bg-black mt-2 flex-shrink-0" />
+                                            <div className="w-1.5 h-1.5 bg-indigo-500 rounded-full mt-2 flex-shrink-0" />
                                             <div>
-                                                <strong className="block text-black">Performance Waivers</strong>
-                                                <span className="text-neutral-600 text-sm">Maintain a 3.5 GPA and 55 ECTS/year for a 50% waiver from the 2nd year onwards.</span>
+                                                <strong className="block text-indigo-950">Performance Waivers</strong>
+                                                <span className="text-indigo-900 text-sm">Maintain a 3.5 GPA and 55 ECTS/year for a 50% waiver from the 2nd year onwards.</span>
                                             </div>
                                         </li>
                                     </ul>
-                                    <Link href="/admissions/tuition" className="inline-flex items-center gap-2 text-black font-bold border-b-2 border-black hover:pb-1 transition-all">
+                                    <Link href="/admissions/tuition" className="inline-flex items-center gap-2 text-indigo-600 font-bold hover:text-indigo-800 transition-colors">
                                         See detailed tuition info <ArrowRight size={16} weight="bold" />
                                     </Link>
                                 </div>
 
-                                <div className="bg-neutral-100 p-12 pl-16 rounded-xl shadow-sm">
-                                    <h3 className="font-bold text-sm mb-6 uppercase tracking-wider text-black">Discounted Fees (1st Year Only)</h3>
+                                <div className="bg-gradient-to-br from-amber-50 to-orange-50 text-orange-950 p-12 pl-16 rounded-3xl shadow-sm">
+                                    <h3 className="font-bold text-sm mb-6 uppercase tracking-wider text-orange-800">Discounted Fees (1st Year Only)</h3>
                                     <div className="space-y-4">
-                                        <div className="flex justify-between">
-                                            <span className="text-neutral-700">Business</span>
-                                            <span className="font-bold text-black">€4 500</span>
+                                        <div className="flex justify-between border-b border-orange-100 pb-2">
+                                            <span className="text-orange-900">Business</span>
+                                            <span className="font-bold text-orange-950">€4 500</span>
+                                        </div>
+                                        <div className="flex justify-between border-b border-orange-100 pb-2">
+                                            <span className="text-orange-900">Arts and Architecture</span>
+                                            <span className="font-bold text-orange-950">€4 500</span>
+                                        </div>
+                                        <div className="flex justify-between border-b border-orange-100 pb-2">
+                                            <span className="text-orange-900">Technology & Engineering</span>
+                                            <span className="font-bold text-orange-950">€4 500</span>
                                         </div>
                                         <div className="flex justify-between">
-                                            <span className="text-neutral-700">Arts and Architecture</span>
-                                            <span className="font-bold text-black">€4 500</span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                            <span className="text-neutral-700">Technology & Engineering</span>
-                                            <span className="font-bold text-black">€4 500</span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                            <span className="text-neutral-700">Science</span>
-                                            <span className="font-bold text-black">€7 125</span>
+                                            <span className="text-orange-900">Science</span>
+                                            <span className="font-bold text-orange-950">€7 125</span>
                                         </div>
                                     </div>
-                                    <div className="mt-8 p-4 bg-white/50 rounded-lg text-xs text-neutral-500 italic">
-                                        * Early Payment Discount (25%) applies to the first year tuition fee when paid within 21 days.
+                                    <div className="mt-8 p-4 bg-white/60 backdrop-blur-sm rounded-xl text-xs text-orange-800 italic shadow-sm">
+                                        * Early Payment Discount (25%) applies to the first year tuition fee when paid within 7 days.
                                     </div>
                                 </div>
                             </div>
@@ -274,58 +273,58 @@ export default function MasterAdmissionsPage() {
 
                         {/* 4. General Eligibility */}
                         <section id="eligibility" className="scroll-mt-32">
-                            <h2 className="text-3xl font-bold mb-6 text-black">4. General Eligibility Criteria</h2>
-                            <div className="bg-neutral-900 text-white p-12 rounded-2xl">
+                            <h2 className="text-3xl font-bold mb-6 text-indigo-950">4. General Eligibility Criteria</h2>
+                            <div className="bg-indigo-950 text-white p-12 rounded-3xl shadow-xl">
                                 <ul className="space-y-4 text-lg">
                                     <li className="flex gap-4 items-start">
-                                        <GraduationCap className="mt-1 shrink-0 text-neutral-400" size={24} weight="regular" />
+                                        <GraduationCap className="mt-1 shrink-0 text-indigo-300" size={24} weight="regular" />
                                         <span>Hold a Bachelor’s degree (180 ECTS) or equivalent.</span>
                                     </li>
                                     <li className="flex gap-4 items-start">
-                                        <Globe className="mt-1 shrink-0 text-neutral-400" size={24} weight="regular" />
+                                        <Globe className="mt-1 shrink-0 text-indigo-300" size={24} weight="regular" />
                                         <span>Degree must enable eligibility for Master’s study in the awarding country.</span>
                                     </li>
                                     <li className="flex gap-4 items-start">
-                                        <FileText className="mt-1 shrink-0 text-neutral-400" size={24} weight="regular" />
+                                        <FileText className="mt-1 shrink-0 text-indigo-300" size={24} weight="regular" />
                                         <span>Only long-cycle degrees are considered in place of a Bachelor’s (e.g., certain professional degrees).</span>
                                     </li>
                                 </ul>
-                                <div className="mt-8 pt-6 border-t border-white/20 text-neutral-300 text-sm">
-                                    <strong>Important:</strong> Previous Master’s degrees alone do not qualify you for admission.
+                                <div className="mt-8 pt-6 border-t border-white/20 text-indigo-200 text-sm">
+                                    <strong className="text-white">Important:</strong> Previous Master’s degrees alone do not qualify you for admission.
                                 </div>
                             </div>
                         </section>
 
                         {/* 5. Field-Specific Requirements */}
                         <section id="field-reqs" className="scroll-mt-32">
-                            <h2 className="text-3xl font-bold mb-6 text-black">5. Field-Specific Requirements</h2>
+                            <h2 className="text-3xl font-bold mb-6 text-indigo-950">5. Field-Specific Requirements</h2>
                             <div className="space-y-6">
-                                <div className="p-6 bg-neutral-50 rounded-xl">
-                                    <h3 className="font-bold text-lg mb-2">Art and Design</h3>
-                                    <p className="text-neutral-700">Applicants without a formal Bachelor’s degree may apply if they have equivalent skills, proven through portfolios, work experience, or other studies.</p>
+                                <div className="p-8 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-3xl text-indigo-950 shadow-sm transition-colors">
+                                    <h3 className="font-bold text-lg mb-2 text-indigo-800">Art and Design</h3>
+                                    <p className="text-indigo-900">Applicants without a formal Bachelor’s degree may apply if they have equivalent skills, proven through portfolios, work experience, or other studies.</p>
                                 </div>
-                                <div className="p-6 bg-neutral-50 rounded-xl">
-                                    <h3 className="font-bold text-lg mb-2">Business and Economics</h3>
-                                    <p className="text-neutral-700">Some programmes require GMAT or GRE scores.</p>
+                                <div className="p-8 bg-gradient-to-r from-purple-50 to-fuchsia-50 rounded-3xl text-purple-950 shadow-sm transition-colors">
+                                    <h3 className="font-bold text-lg mb-2 text-purple-800">Business and Economics</h3>
+                                    <p className="text-purple-900">Some programmes require GMAT or GRE scores.</p>
                                 </div>
-                                <div className="p-6 bg-neutral-50 rounded-xl">
-                                    <h3 className="font-bold text-lg mb-2">Technology/Engineering</h3>
-                                    <p className="text-neutral-700">Some may require relevant coursework or skills in mathematics, programming, or design.</p>
+                                <div className="p-8 bg-gradient-to-r from-pink-50 to-rose-50 rounded-3xl text-pink-950 shadow-sm transition-colors">
+                                    <h3 className="font-bold text-lg mb-2 text-pink-800">Technology/Engineering</h3>
+                                    <p className="text-pink-900">Some may require relevant coursework or skills in mathematics, programming, or design.</p>
                                 </div>
-                                <div className="p-6 bg-neutral-50 rounded-xl">
-                                    <h3 className="font-bold text-lg mb-2">Science</h3>
-                                    <p className="text-neutral-700">Requires a relevant Bachelor’s degree in natural sciences, physics, chemistry, or environmental science.</p>
+                                <div className="p-8 bg-gradient-to-r from-amber-50 to-orange-50 rounded-3xl text-orange-950 shadow-sm transition-colors">
+                                    <h3 className="font-bold text-lg mb-2 text-orange-800">Science</h3>
+                                    <p className="text-orange-900">Requires a relevant Bachelor’s degree in natural sciences, physics, chemistry, or environmental science.</p>
                                 </div>
                             </div>
                         </section>
 
                         {/* 6. Incomplete Degree */}
                         <section id="incomplete" className="scroll-mt-32">
-                            <h2 className="text-3xl font-bold mb-6 text-black">6. Applying with an Incomplete Degree</h2>
-                            <p className="text-neutral-700 mb-4">
+                            <h2 className="text-3xl font-bold mb-6 text-indigo-950">6. Applying with an Incomplete Degree</h2>
+                            <p className="text-indigo-900 mb-4">
                                 You may apply before your Bachelor’s degree is complete if you will graduate by <strong>31 July 2026</strong>.
                             </p>
-                            <ul className="list-disc pl-5 space-y-2 text-neutral-700">
+                            <ul className="list-disc pl-5 space-y-2 text-indigo-900">
                                 <li>Admission is conditional upon submission of certified final degree documents by <strong>14 August 2026</strong>.</li>
                                 <li>Failure to submit by the deadline will cancel your study right.</li>
                             </ul>
@@ -333,64 +332,64 @@ export default function MasterAdmissionsPage() {
 
                         {/* 7. Application Steps */}
                         <section id="steps" className="scroll-mt-32">
-                            <h2 className="text-3xl font-bold mb-8 text-black pb-10 pl-2">
+                            <h2 className="text-3xl font-bold mb-8 text-indigo-950 pb-10 pl-2">
                                 7. Application Steps
                             </h2>
                             <div className="space-y-8">
                                 <div className="flex gap-6">
-                                    <div className="text-5xl font-bold text-neutral-200">01</div>
+                                    <div className="text-5xl font-bold text-indigo-200">01</div>
                                     <div>
-                                        <h3 className="text-xl font-bold mb-4">Prepare in Advance</h3>
-                                        <ul className="space-y-2 text-neutral-700 text-sm">
-                                            <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-1.5"></div> Check programme-specific eligibility</li>
-                                            <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-1.5"></div> Prepare official documents and translations</li>
-                                            <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-1.5"></div> Schedule language tests (TOEFL/IELTS) and GMAT/GRE if required</li>
+                                        <h3 className="text-xl font-bold mb-4 text-indigo-950">Prepare in Advance</h3>
+                                        <ul className="space-y-2 text-indigo-900 text-sm">
+                                            <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-indigo-500 mt-1.5"></div> Check programme-specific eligibility</li>
+                                            <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-indigo-500 mt-1.5"></div> Prepare official documents and translations</li>
+                                            <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-indigo-500 mt-1.5"></div> Schedule language tests (TOEFL/IELTS) and GMAT/GRE if required</li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div className="flex gap-6">
-                                    <div className="text-5xl font-bold text-neutral-200">02</div>
+                                    <div className="text-5xl font-bold text-indigo-200">02</div>
                                     <div>
-                                        <h3 className="text-xl font-bold mb-4">Fill in the Online Application</h3>
-                                        <p className="mb-2 font-medium">Application period: 1 Dec 2025 – 31 March 2026</p>
-                                        <ul className="space-y-2 text-neutral-700 text-sm">
-                                            <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-1.5"></div> Only one form per applicant</li>
-                                            <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-1.5"></div> Can include two programmes ranked by preference</li>
-                                            <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-1.5"></div> Edit application until closing date</li>
+                                        <h3 className="text-xl font-bold mb-4 text-indigo-950">Fill in the Online Application</h3>
+                                        <p className="mb-2 font-medium text-indigo-900">Application period: 1 Dec 2025 – 31 March 2026</p>
+                                        <ul className="space-y-2 text-indigo-900 text-sm">
+                                            <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-indigo-500 mt-1.5"></div> Only one form per applicant</li>
+                                            <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-indigo-500 mt-1.5"></div> Can include two programmes ranked by preference</li>
+                                            <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-indigo-500 mt-1.5"></div> Edit application until closing date</li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div className="flex gap-6">
-                                    <div className="text-5xl font-bold text-neutral-200">03</div>
+                                    <div className="text-5xl font-bold text-indigo-200">03</div>
                                     <div>
-                                        <h3 className="text-xl font-bold mb-4">Application Fee</h3>
+                                        <h3 className="text-xl font-bold mb-4 text-indigo-950">Application Fee</h3>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm mb-4">
-                                            <div className="p-4 bg-neutral-900 text-white rounded-lg">
-                                                <div className="font-bold opacity-80">Non-EU/EEA/Swiss</div>
-                                                <div className="text-xl font-bold mt-1">Free</div>
+                                            <div className="p-6 bg-indigo-950 text-white rounded-3xl shadow-md">
+                                                <div className="font-bold text-indigo-300">Non-EU/EEA/Swiss</div>
+                                                <div className="text-2xl font-bold mt-1">Free</div>
                                             </div>
-                                            <div className="p-4 bg-neutral-50 rounded-lg border border-neutral-200">
-                                                <div className="font-bold text-neutral-500">EU/EEA/Swiss</div>
-                                                <div className="text-xl font-bold mt-1">Free</div>
+                                            <div className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 text-indigo-950 rounded-3xl shadow-sm">
+                                                <div className="font-bold text-indigo-600">EU/EEA/Swiss</div>
+                                                <div className="text-2xl font-bold mt-1">Free</div>
                                             </div>
                                         </div>
-                                        <p className="text-sm text-neutral-500">No payment required to submit your application.</p>
+                                        <p className="text-sm text-indigo-600">No payment required to submit your application.</p>
                                     </div>
                                 </div>
                                 <div className="flex gap-6">
-                                    <div className="text-5xl font-bold text-neutral-200">04</div>
+                                    <div className="text-5xl font-bold text-indigo-200">04</div>
                                     <div>
-                                        <h3 className="text-xl font-bold mb-4">Upload Required Documents</h3>
-                                        <p className="mb-4 font-bold text-black">Deadline: 7 April 2026 at 15:00 (UTC+2)</p>
-                                        <ul className="grid sm:grid-cols-2 gap-2 text-sm text-neutral-700 mb-4">
-                                            <li className="flex gap-2 items-center text-neutral-600"><FileText size={16} weight="regular" /> Bachelor’s degree & transcripts</li>
-                                            <li className="flex gap-2 items-center"><FileText size={16} weight="regular" /> Proof of English proficiency (optional)</li>
-                                            <li className="flex gap-2 items-center"><FileText size={16} weight="regular" /> Passport or official ID</li>
-                                            <li className="flex gap-2 items-center"><FileText size={16} weight="regular" /> CV, Motivation Letter</li>
-                                            <li className="flex gap-2 items-center"><FileText size={16} weight="regular" /> Portfolio (if required)</li>
-                                            <li className="flex gap-2 items-center text-neutral-600"><FileText size={16} weight="regular" /> GMAT/GRE (if required)</li>
+                                        <h3 className="text-xl font-bold mb-4 text-indigo-950">Upload Required Documents</h3>
+                                        <p className="mb-4 font-bold text-indigo-800">Deadline: 7 April 2026 at 15:00 (UTC+2)</p>
+                                        <ul className="grid sm:grid-cols-2 gap-2 text-sm text-indigo-900 mb-4">
+                                            <li className="flex gap-2 items-center"><FileText size={16} weight="regular" className="text-indigo-500" /> Bachelor’s degree & transcripts</li>
+                                            <li className="flex gap-2 items-center"><FileText size={16} weight="regular" className="text-indigo-500" /> Proof of English proficiency (optional)</li>
+                                            <li className="flex gap-2 items-center"><FileText size={16} weight="regular" className="text-indigo-500" /> International passport only</li>
+                                            <li className="flex gap-2 items-center"><FileText size={16} weight="regular" className="text-indigo-500" /> CV, Motivation Letter</li>
+                                            <li className="flex gap-2 items-center"><FileText size={16} weight="regular" className="text-indigo-500" /> Portfolio (if required)</li>
+                                            <li className="flex gap-2 items-center"><FileText size={16} weight="regular" className="text-indigo-500" /> GMAT/GRE (if required)</li>
                                         </ul>
-                                        <p className="text-xs text-neutral-500">File format: PDF only, named appropriately (e.g., CV-Lastname-Firstname.pdf)</p>
+                                        <p className="text-xs text-indigo-500">File format: PDF only, named appropriately (e.g., CV-Lastname-Firstname.pdf)</p>
                                     </div>
                                 </div>
                             </div>
@@ -401,40 +400,40 @@ export default function MasterAdmissionsPage() {
 
                         {/* 8. Required Documents Detail */}
                         <section id="documents" className="scroll-mt-32">
-                            <h2 className="text-3xl font-bold mb-6 text-black">8. Required Documents Explained</h2>
+                            <h2 className="text-3xl font-bold mb-6 text-indigo-950">8. Required Documents Explained</h2>
                             <div className="grid gap-6 md:grid-cols-2">
-                                <div className="bg-neutral-50 p-6 rounded-xl">
-                                    <h4 className="font-bold mb-2">Certified Educational Documents</h4>
-                                    <p className="text-sm text-neutral-600">Must be submitted after admission decision by 13 May or 14 August 2026.</p>
+                                <div className="bg-gradient-to-br from-indigo-50 to-purple-50 p-8 rounded-3xl text-indigo-950 shadow-sm">
+                                    <h4 className="font-bold mb-2 text-indigo-800">Certified Educational Documents</h4>
+                                    <p className="text-sm text-indigo-900">Must be submitted after admission decision by 13 May or 14 August 2026.</p>
                                 </div>
-                                <div className="bg-neutral-50 p-6 rounded-xl">
-                                    <h4 className="font-bold mb-2">Translations</h4>
-                                    <p className="text-sm text-neutral-600">Non-English/Finnish/Swedish documents require official translations.</p>
+                                <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-8 rounded-3xl text-purple-950 shadow-sm">
+                                    <h4 className="font-bold mb-2 text-purple-800">Translations</h4>
+                                    <p className="text-sm text-purple-900">Non-English/Finnish/Swedish documents require official translations.</p>
                                 </div>
-                                <div className="bg-neutral-50 p-6 rounded-xl">
-                                    <h4 className="font-bold mb-2">Passport/ID</h4>
-                                    <p className="text-sm text-neutral-600">Color PDF of the personal information page.</p>
+                                <div className="bg-gradient-to-br from-pink-50 to-rose-50 p-8 rounded-3xl text-pink-950 shadow-sm">
+                                    <h4 className="font-bold mb-2 text-pink-800">Passport/ID</h4>
+                                    <p className="text-sm text-pink-900">Color PDF of the personal information page.</p>
                                 </div>
                             </div>
                         </section>
 
                         {/* 9. Language Requirements */}
                         <section id="language" className="scroll-mt-32">
-                            <h2 className="text-3xl font-bold mb-6 text-black">9. Language Requirements</h2>
-                            <div className="border border-neutral-200 rounded-2xl p-12">
-                                <h3 className="font-bold text-xl mb-6">Language Proficiency Details</h3>
+                            <h2 className="text-3xl font-bold mb-6 text-indigo-950">9. Language Requirements</h2>
+                            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 text-indigo-950 rounded-3xl p-12 shadow-sm">
+                                <h3 className="font-bold text-xl mb-6 text-indigo-800">Language Proficiency Details</h3>
                                 <div className="space-y-4">
-                                    <p className="text-neutral-700 leading-relaxed">
+                                    <p className="text-indigo-900 leading-relaxed">
                                         English language proficiency is mandatory for all Master’s programmes taught in English. You must demonstrate your skills through an accepted language test or previous studies.
                                     </p>
                                     <ul className="space-y-4 pt-4">
                                         <li className="flex items-start gap-4 pl-1">
-                                            <div className="font-bold min-w-[120px]">Tests</div>
-                                            <div className="text-neutral-600 text-sm">Acceptable tests: IELTS Academic, TOEFL iBT, PTE Academic, or C1 Advanced/C2 Proficiency.</div>
+                                            <div className="font-bold min-w-[120px] text-indigo-800">Tests</div>
+                                            <div className="text-indigo-900 text-sm">Acceptable tests: IELTS Academic, TOEFL iBT, PTE Academic, or C1 Advanced/C2 Proficiency.</div>
                                         </li>
                                         <li className="flex items-start gap-4 pl-1">
-                                            <div className="font-bold min-w-[120px]">Exemptions</div>
-                                            <div className="text-neutral-600 text-sm">Applicants who have completed a degree in English in an EU/EEA country, Australia, Canada, New Zealand, or the USA may be exempt.</div>
+                                            <div className="font-bold min-w-[120px] text-indigo-800">Exemptions</div>
+                                            <div className="text-indigo-900 text-sm">Applicants who have completed a degree in English in an EU/EEA country, Australia, Canada, New Zealand, or the USA may be exempt.</div>
                                         </li>
                                     </ul>
                                 </div>
@@ -443,22 +442,22 @@ export default function MasterAdmissionsPage() {
 
                         {/* 10. GMAT/GRE */}
                         <section id="gmat" className="scroll-mt-32">
-                            <h2 className="text-3xl font-bold mb-6 text-black">10. GMAT and GRE Requirements</h2>
-                            <div className="bg-neutral-50 p-12 rounded-2xl border border-neutral-100">
-                                <p className="text-neutral-700 mb-6">
+                            <h2 className="text-3xl font-bold mb-6 text-indigo-950">10. GMAT and GRE Requirements</h2>
+                            <div className="bg-gradient-to-br from-purple-50 to-fuchsia-50 p-12 rounded-3xl text-purple-950 shadow-sm">
+                                <p className="text-purple-900 mb-6 font-medium">
                                     Certain programmes in <strong>Business and Economics</strong> require a GMAT (Classic or Focus Edition) or GRE General Test score.
                                 </p>
                                 <ul className="space-y-4">
                                     <li className="flex gap-4 items-center">
-                                        <CheckCircle className="text-black" size={20} weight="bold" />
-                                        <span className="text-neutral-700">Minimum Focus Edition score: 555</span>
+                                        <CheckCircle className="text-purple-600" size={24} weight="fill" />
+                                        <span className="text-purple-950 font-bold">Minimum Focus Edition score: 555</span>
                                     </li>
                                     <li className="flex gap-4 items-center">
-                                        <CheckCircle className="text-black" size={20} weight="bold" />
-                                        <span className="text-neutral-700">GRE General Test equivalent accepted</span>
+                                        <CheckCircle className="text-purple-600" size={24} weight="fill" />
+                                        <span className="text-purple-950 font-bold">GRE General Test equivalent accepted</span>
                                     </li>
                                 </ul>
-                                <p className="mt-8 text-sm text-neutral-500 italic">
+                                <p className="mt-8 text-sm text-purple-700 italic">
                                     * Scores must be sent directly by the testing organization to Kestora College.
                                 </p>
                             </div>
@@ -466,38 +465,44 @@ export default function MasterAdmissionsPage() {
 
                         {/* 11. Evaluation & Decisions */}
                         <section id="decisions" className="scroll-mt-32">
-                            <h2 className="text-3xl font-bold mb-6 text-black">11. Evaluation & Decisions</h2>
-                            <p className="text-neutral-700 mb-6 font-medium">
+                            <h2 className="text-3xl font-bold mb-6 text-indigo-950">11. Evaluation & Decisions</h2>
+                            <p className="text-indigo-900 mb-6 font-medium">
                                 Only complete applications are evaluated based on programme-specific criteria.
-                                Decision results will be published on <strong>15 May 2026</strong>.
+                                Decision results will be published <strong className="text-indigo-950">within less than a week of submitting application</strong>.
                             </p>
-                            <div className="bg-neutral-900 text-white p-8 rounded-xl flex items-center gap-6">
-                                <Clock className="shrink-0 text-neutral-400" size={32} weight="regular" />
+                            <div className="bg-indigo-950 text-white p-8 rounded-3xl shadow-lg flex items-center gap-6">
+                                <Clock className="shrink-0 text-indigo-400" size={32} weight="regular" />
                                 <div>
                                     <div className="font-bold text-lg mb-1">Waiting List Procedure</div>
-                                    <div className="text-neutral-400 text-sm">Places on the waiting list may be offered until 26 June 2026. Keep an eye on your email.</div>
+                                    <div className="text-indigo-300 text-sm">Places on the waiting list may be offered until 26 June 2026. Keep an eye on your email.</div>
                                 </div>
                             </div>
                         </section>
 
                         {/* 12. After Being Admitted */}
-                        <section id="after" className="scroll-mt-32 bg-neutral-50 p-12 rounded-2xl border border-neutral-200">
-                            <h2 className="text-3xl font-bold mb-6">12. After Being Admitted</h2>
-                            <ol className="space-y-6 list-decimal pl-5 font-bold text-neutral-800 text-lg mb-8">
+                        <section id="after" className="scroll-mt-32 bg-gradient-to-br from-amber-50 to-orange-50 p-12 rounded-3xl text-orange-950 shadow-sm">
+                            <h2 className="text-3xl font-bold mb-6 text-orange-900">12. After Being Admitted</h2>
+                            <ol className="space-y-6 list-decimal pl-5 font-bold text-orange-950 text-lg mb-8">
                                 <li>Accept the offer by the stated deadline (5 June 2026).</li>
                                 <li>Submit certified documents (19 June or 21 August 2026).</li>
                                 <li>Pay tuition fees (if applicable).</li>
                                 <li>Complete enrolment and orientation.</li>
                             </ol>
-                            <div className="bg-white p-6 rounded-xl border border-neutral-200">
-                                <h4 className="font-bold mb-2 flex items-center gap-2"><Globe size={20} /> International Students</h4>
-                                <p className="text-neutral-700 text-sm mb-4">
+                            <div className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-sm">
+                                <h4 className="font-bold mb-2 flex items-center gap-2 text-orange-900"><Globe size={24} className="text-orange-500" /> International Students</h4>
+                                <p className="text-orange-950 text-sm mb-6 leading-relaxed">
                                     Moving to Finland requires planning. Read our comprehensive guide on residence permits, housing, and arrival.
                                 </p>
-                                <Link href="/student-guide/international" className="text-sm font-bold underline hover:text-[#fd6402] transition-colors">
-                                    Open International Student Guide
+                                <Link href="/student-guide/international" className="inline-flex items-center gap-2 font-bold text-orange-600 hover:text-orange-800 transition-colors uppercase tracking-wider text-sm">
+                                    Open International Student Guide <ArrowRight size={16} weight="bold" />
                                 </Link>
                             </div>
+                        </section>
+
+                        {/* 13. FAQ */}
+                        <section id="faq" className="scroll-mt-32">
+                            <h2 className="text-3xl font-bold mb-6 text-indigo-950">13. Frequently Asked Questions</h2>
+                            <MasterFAQ />
                         </section>
 
                     </main>

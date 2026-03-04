@@ -18,10 +18,10 @@ export const TUITION_FEES: Record<DegreeLevel, Record<TuitionField, number>> = {
 };
 
 export const EARLY_PAYMENT_DISCOUNT_PERCENT = 25;
-export const EARLY_PAYMENT_WINDOW_DAYS = 21;
+export const EARLY_PAYMENT_WINDOW_DAYS = 7;
 
 /**
- * Checks if the current date is within the early payment window (21 days)
+ * Checks if the current date is within the early payment window (7 days)
  * from the offer creation date.
  */
 export function isWithinEarlyPaymentWindow(offerCreatedAt: string): boolean {

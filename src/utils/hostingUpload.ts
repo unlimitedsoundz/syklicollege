@@ -9,9 +9,8 @@ export async function uploadToHosting(file: File): Promise<string | null> {
     formData.append('file', file);
 
     try {
-        // In development, Next.js dev server cannot handle POST to .php files
-        // We use a internal API route for dev, and the PHP script for production (Hostinger)
-        const endpoint = process.env.NODE_ENV === 'development' ? '/api/upload' : '/upload.php';
+        // We use the PHP script for production (Hostinger) and local environments as requested
+        const endpoint = '/upload.php';
 
         const response = await fetch(endpoint, {
             method: 'POST',

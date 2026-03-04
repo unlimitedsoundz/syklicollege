@@ -5,7 +5,7 @@ import { FloppyDisk as Save, UploadSimple as Upload } from "@phosphor-icons/reac
 import Image from 'next/image';
 
 import { createClient } from '@/utils/supabase/client';
-import { uploadToHosting } from '@/utils/hostingUpload';
+// Image upload is handled via Supabase Storage in handleSubmit
 
 interface DepartmentFormProps {
     department: any;
@@ -44,12 +44,31 @@ export default function DepartmentForm({ department, schools, facultyMembers }: 
                 headOfDepartmentId: (formData.get('headOfDepartmentId') as string) || null,
             };
 
-            // Handle Image Upload (Hostinger PHP)
+            // Handle Image Upload (Supabase Storage)
             const imageFile = formData.get('image') as File;
             if (imageFile && imageFile.size > 0) {
-                const imageUrl = await uploadToHosting(imageFile);
-                if (imageUrl) {
-                    updateData.imageUrl = imageUrl;
+                try {
+                    const fileExt = imageFile.name.split('.').pop();
+                    const fileName = `${department.slug}-${Date.now()}.${fileExt}`;
+                    const filePath = `departments/${fileName}`;
+
+                    const { error: uploadError } = await supabase.storage
+                        .from('content')
+                        .upload(filePath, imageFile, {
+                            cacheControl: '3600',
+                            upsert: true
+                        });
+
+                    if (uploadError) throw uploadError;
+
+                    const { data: { publicUrl } } = supabase.storage
+                        .from('content')
+                        .getPublicUrl(filePath);
+
+                    updateData.imageUrl = publicUrl;
+                } catch (uploadError: any) {
+                    console.error('❌ Supabase storage upload error:', uploadError);
+                    alert(`Image upload failed: ${uploadError?.message || 'Unknown error'}`);
                 }
             }
 

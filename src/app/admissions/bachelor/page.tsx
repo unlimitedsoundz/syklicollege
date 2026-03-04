@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, CheckCircle, Globe, Users, BookOpen, Briefcase, GraduationCap, Calendar, MapPin } from '@phosphor-icons/react/dist/ssr';
+import BachelorFAQ from '@/components/admissions/BachelorFAQ';
 
 import TableOfContents from '@/components/course/TableOfContents';
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema';
@@ -25,6 +26,7 @@ const tocSections = [
     { id: 'scholarships', title: 'Scholarships & Tuition Fees', content: '' },
     { id: 'admissions', title: 'Admission Info', content: '' },
     { id: 'events', title: 'Fairs & Events', content: '' },
+    { id: 'faq', title: 'FAQ', content: '' },
     { id: 'more', title: 'Learn More', content: '' },
 ];
 
@@ -200,7 +202,7 @@ export default function BachelorAdmissionsPage() {
                             </div>
                             <div className="w-full lg:h-full order-1 md:order-2 relative h-[250px] md:h-full">
                                 <Image
-                                    src="/images/admissions/scholarships.jpg"
+                                    src="/images/scholarships.png"
                                     alt="Scholarships"
                                     fill
                                     className="object-cover rounded-2xl shadow-lg border border-neutral-100"
@@ -260,6 +262,14 @@ export default function BachelorAdmissionsPage() {
                                     />
                                 </div>
                             </div>
+                        </section>
+
+                        {/* FAQ */}
+                        <section id="faq" className="scroll-mt-32">
+                            <h2 className="text-3xl font-bold mb-8 text-black">
+                                Frequently Asked Questions
+                            </h2>
+                            <BachelorFAQ />
                         </section>
 
                         {/* Learn More */}

@@ -38,22 +38,7 @@
     "createdAt": "2026-01-29T11:48:32.821",
     "updatedAt": "2026-01-29T11:48:32.821"
   }
-]3:T3d2b,[
-  {
-    "id": "f8b84d66-1c62-44ee-9d53-ff441761303d",
-    "name": "Marketing",
-    "slug": "marketing",
-    "description": "The Department of Marketing is at the forefront of consumer research and brand strategy. We explore customer behavior, digital marketing, and market analytics. Our curriculum encourages creativity and data-driven decision-making. Students learn to build strong brands, design customer-centric experiences, and develop marketing strategies that drive growth and engagement in competitive markets.",
-    "schoolId": "a54123ea-caae-40ec-b3b0-d2c1d91528ca",
-    "createdAt": "2026-01-28T13:40:27.727",
-    "updatedAt": "2026-01-28T13:40:27.576",
-    "imageUrl": "/images/departments/marketing.jpg",
-    "headOfDepartmentId": "98a97da9-436b-420c-81fe-69c19f34bba8",
-    "school": {
-      "name": "School of Business",
-      "slug": "business"
-    }
-  },
+]3:T4086,[
   {
     "id": "a4923b7e-0425-43d7-88ee-90fc7eab1165",
     "name": "Data Science & Artificial Intelligence",
@@ -62,7 +47,7 @@
     "schoolId": "3592d39b-e747-44c4-ab63-2fa22a1cc49a",
     "createdAt": "2026-02-17T23:14:53.836",
     "updatedAt": "2026-02-17T23:14:53.836",
-    "imageUrl": "/images/departments/google-deepmind-Q86ppaC72Hw-unsplash.jpg",
+    "imageUrl": "/images/school-science.png",
     "headOfDepartmentId": "6da81094-1de3-4a5f-a240-16f423a165ca",
     "school": {
       "name": "School of Science",
@@ -76,8 +61,8 @@
     "description": "Fostering innovation and leadership in the evolving digital economy.",
     "schoolId": "a54123ea-caae-40ec-b3b0-d2c1d91528ca",
     "createdAt": "2026-02-17T23:14:53.836",
-    "updatedAt": "2026-02-17T23:14:53.836",
-    "imageUrl": "/images/departments/vitaly-gariev-VbrnX-G07LM-unsplash.jpg",
+    "updatedAt": "2026-03-01T10:29:26.953",
+    "imageUrl": "https://mrqzlmkdhzwvbpljikjz.supabase.co/storage/v1/object/public/content/departments/entrepreneurship-digital-1772360966953.png",
     "headOfDepartmentId": "e6f80964-427b-42dc-89af-80b6d5801b45",
     "school": {
       "name": "School of Business",
@@ -85,15 +70,15 @@
     }
   },
   {
-    "id": "a4e247de-8e3b-4bcb-8422-45f7672b29a9",
-    "name": "Management Studies",
-    "slug": "management",
-    "description": "The Department of Management Studies explores the human side of business. We focus on organizational behavior, leadership, strategy, and international business.",
+    "id": "f8b84d66-1c62-44ee-9d53-ff441761303d",
+    "name": "Marketing",
+    "slug": "marketing",
+    "description": "The Department of Marketing is at the forefront of consumer research and brand strategy. We explore customer behavior, digital marketing, and market analytics. Our curriculum encourages creativity and data-driven decision-making. Students learn to build strong brands, design customer-centric experiences, and develop marketing strategies that drive growth and engagement in competitive markets.",
     "schoolId": "a54123ea-caae-40ec-b3b0-d2c1d91528ca",
-    "createdAt": "2026-01-28T13:40:27.458",
-    "updatedAt": "2026-01-28T13:40:27.199",
-    "imageUrl": "/images/departments/management.jpg",
-    "headOfDepartmentId": "a62234bf-b1b6-47dd-b472-3811e2d3eb14",
+    "createdAt": "2026-01-28T13:40:27.727",
+    "updatedAt": "2026-03-01T10:39:57.873",
+    "imageUrl": "https://mrqzlmkdhzwvbpljikjz.supabase.co/storage/v1/object/public/content/departments/marketing-1772361597874.jpg",
+    "headOfDepartmentId": "98a97da9-436b-420c-81fe-69c19f34bba8",
     "school": {
       "name": "School of Business",
       "slug": "business"
@@ -115,48 +100,33 @@
     }
   },
   {
-    "id": "d7c5058b-cb0e-40d7-8f29-07c845012260",
-    "name": "Art and Media",
-    "slug": "art-media",
-    "description": "The Department of Art and Media is a vibrant hub for interdisciplinary creative practice. We explore the convergence of visual arts, photography, digital media, and cultural studies. Our programs are designed to nurture artistic expression while providing a solid theoretical foundation. Students are encouraged to experiment with new media formats, engage in critical discourse, and develop a unique artistic voice that resonates in a rapidly evolving digital landscape.",
-    "schoolId": "75aa8b88-a35d-4e3e-8447-7b4df3031baf",
-    "createdAt": "2026-01-28T12:44:47.528",
-    "updatedAt": "2026-01-28T13:40:24.893",
-    "imageUrl": "/images/departments/art-media.png",
-    "headOfDepartmentId": "9260850f-7051-4c0c-a357-396ec42a48f9",
-    "school": {
-      "name": "School of Arts, Design and Architecture",
-      "slug": "arts"
-    }
-  },
-  {
-    "id": "e7916805-7852-413b-81a6-768470bd804d",
-    "name": "Economics",
-    "slug": "economics",
-    "description": "Our Department of Economics is dedicated to understanding the mechanisms that drive prosperity and well-being. We offer deep training in micro- and macroeconomics, econometrics, and policy analysis.",
+    "id": "a4e247de-8e3b-4bcb-8422-45f7672b29a9",
+    "name": "Management Studies",
+    "slug": "management",
+    "description": "The Department of Management Studies explores the human side of business. We focus on organizational behavior, leadership, strategy, and international business.",
     "schoolId": "a54123ea-caae-40ec-b3b0-d2c1d91528ca",
-    "createdAt": "2026-01-28T13:40:26.402",
-    "updatedAt": "2026-01-28T13:40:26.243",
-    "imageUrl": "/images/departments/economics.png",
-    "headOfDepartmentId": "8ac4a4b7-3d05-46a1-b2d3-d7d1d600b158",
+    "createdAt": "2026-01-28T13:40:27.458",
+    "updatedAt": "2026-03-01T10:38:03.391",
+    "imageUrl": "https://mrqzlmkdhzwvbpljikjz.supabase.co/storage/v1/object/public/content/departments/management-1772361483392.png",
+    "headOfDepartmentId": "a62234bf-b1b6-47dd-b472-3811e2d3eb14",
     "school": {
       "name": "School of Business",
       "slug": "business"
     }
   },
   {
-    "id": "41d4364d-4db1-4087-a7d5-0ea37a70d5c5",
-    "name": "Department of Automation & Control Engineering",
-    "slug": "automation-control",
-    "description": "The Department of Automation & Control Engineering at SYKLI College focuses on intelligent systems that enable machines, processes, and industries to operate efficiently, safely, and autonomously.",
-    "schoolId": "c710bc8b-2fae-43ce-bd5f-9cc289190754",
-    "createdAt": "2026-01-28T13:40:28.898",
-    "updatedAt": "2026-01-28T13:40:28.745",
-    "imageUrl": "/images/departments/automation-control.png",
-    "headOfDepartmentId": "3c4cca91-8905-44cd-bd91-a271e1ee03d2",
+    "id": "d7c5058b-cb0e-40d7-8f29-07c845012260",
+    "name": "Art and Media",
+    "slug": "art-media",
+    "description": "The Department of Art and Media is a vibrant hub for interdisciplinary creative practice. We explore the convergence of visual arts, photography, digital media, and cultural studies. Our programs are designed to nurture artistic expression while providing a solid theoretical foundation. Students are encouraged to experiment with new media formats, engage in critical discourse, and develop a unique artistic voice that resonates in a rapidly evolving digital landscape.",
+    "schoolId": "75aa8b88-a35d-4e3e-8447-7b4df3031baf",
+    "createdAt": "2026-01-28T12:44:47.528",
+    "updatedAt": "2026-03-01T10:41:15.816",
+    "imageUrl": "https://mrqzlmkdhzwvbpljikjz.supabase.co/storage/v1/object/public/content/departments/art-media-1772361675817.png",
+    "headOfDepartmentId": "9260850f-7051-4c0c-a357-396ec42a48f9",
     "school": {
-      "name": "School of Technology",
-      "slug": "technology"
+      "name": "School of Arts, Design and Architecture",
+      "slug": "arts"
     }
   },
   {
@@ -166,12 +136,57 @@
     "description": "In the Department of Information and Service Management, we bridge the gap between business strategy and technology. Our focus areas include business analytics, supply chain management, and information systems.",
     "schoolId": "a54123ea-caae-40ec-b3b0-d2c1d91528ca",
     "createdAt": "2026-01-28T13:40:26.98",
-    "updatedAt": "2026-01-28T13:40:26.823",
-    "imageUrl": "/images/departments/info-service.png",
+    "updatedAt": "2026-03-01T10:36:26.241",
+    "imageUrl": "https://mrqzlmkdhzwvbpljikjz.supabase.co/storage/v1/object/public/content/departments/info-service-1772361386242.png",
     "headOfDepartmentId": "674f5e52-be05-4444-a1f3-a010218c467e",
     "school": {
       "name": "School of Business",
       "slug": "business"
+    }
+  },
+  {
+    "id": "e7916805-7852-413b-81a6-768470bd804d",
+    "name": "Economics",
+    "slug": "economics",
+    "description": "Our Department of Economics is dedicated to understanding the mechanisms that drive prosperity and well-being. We offer deep training in micro- and macroeconomics, econometrics, and policy analysis.",
+    "schoolId": "a54123ea-caae-40ec-b3b0-d2c1d91528ca",
+    "createdAt": "2026-01-28T13:40:26.402",
+    "updatedAt": "2026-03-01T10:37:00.136",
+    "imageUrl": "https://mrqzlmkdhzwvbpljikjz.supabase.co/storage/v1/object/public/content/departments/economics-1772361420136.png",
+    "headOfDepartmentId": "8ac4a4b7-3d05-46a1-b2d3-d7d1d600b158",
+    "school": {
+      "name": "School of Business",
+      "slug": "business"
+    }
+  },
+  {
+    "id": "8ed55fac-7d4a-41eb-a37a-a7b04ef3ce48",
+    "name": "Film, Television and Scenography",
+    "slug": "film-tv",
+    "description": "The Department of Film, Television and Scenography provides world-class education in the cinematic arts. From screenwriting and directing to production design and cinematography, our courses cover every aspect of visual storytelling.",
+    "schoolId": "75aa8b88-a35d-4e3e-8447-7b4df3031baf",
+    "createdAt": "2026-01-28T13:40:25.802",
+    "updatedAt": "2026-03-01T10:42:19.921",
+    "imageUrl": "https://mrqzlmkdhzwvbpljikjz.supabase.co/storage/v1/object/public/content/departments/film-tv-1772361739921.png",
+    "headOfDepartmentId": "2ff042bc-2982-45a9-9164-ae16d2343e86",
+    "school": {
+      "name": "School of Arts, Design and Architecture",
+      "slug": "arts"
+    }
+  },
+  {
+    "id": "41d4364d-4db1-4087-a7d5-0ea37a70d5c5",
+    "name": "Department of Automation & Control Engineering",
+    "slug": "automation-control",
+    "description": "The Department of Automation & Control Engineering at SYKLI College focuses on intelligent systems that enable machines, processes, and industries to operate efficiently, safely, and autonomously.",
+    "schoolId": "c710bc8b-2fae-43ce-bd5f-9cc289190754",
+    "createdAt": "2026-01-28T13:40:28.898",
+    "updatedAt": "2026-03-01T10:43:19.192",
+    "imageUrl": "https://mrqzlmkdhzwvbpljikjz.supabase.co/storage/v1/object/public/content/departments/automation-control-1772361799192.png",
+    "headOfDepartmentId": "3c4cca91-8905-44cd-bd91-a271e1ee03d2",
+    "school": {
+      "name": "School of Technology",
+      "slug": "technology"
     }
   },
   {
@@ -187,21 +202,6 @@
     "school": {
       "name": "School of Business",
       "slug": "business"
-    }
-  },
-  {
-    "id": "8ed55fac-7d4a-41eb-a37a-a7b04ef3ce48",
-    "name": "Film, Television and Scenography",
-    "slug": "film-tv",
-    "description": "The Department of Film, Television and Scenography provides world-class education in the cinematic arts. From screenwriting and directing to production design and cinematography, our courses cover every aspect of visual storytelling.",
-    "schoolId": "75aa8b88-a35d-4e3e-8447-7b4df3031baf",
-    "createdAt": "2026-01-28T13:40:25.802",
-    "updatedAt": "2026-01-28T13:40:25.639",
-    "imageUrl": "/images/departments/film-tv.png",
-    "headOfDepartmentId": "2ff042bc-2982-45a9-9164-ae16d2343e86",
-    "school": {
-      "name": "School of Arts, Design and Architecture",
-      "slug": "arts"
     }
   },
   {
@@ -250,44 +250,14 @@
     }
   },
   {
-    "id": "53f2bb00-e442-4543-a4b9-4904104471f6",
-    "name": "Design",
-    "slug": "design",
-    "description": "At the Department of Design, we believe in the power of design to solve complex problems and improve quality of life. Our comprehensive programs cover industrial design, fashion, textile design, and service design. We merge traditional craftsmanship with cutting-edge technology, preparing students to become visionary leaders in the creative industries. Collaborative projects with industry partners provide real-world experience, ensuring our graduates are ready to drive innovation.",
-    "schoolId": "75aa8b88-a35d-4e3e-8447-7b4df3031baf",
-    "createdAt": "2026-01-28T12:44:47.528",
-    "updatedAt": "2026-01-28T13:40:25.33",
-    "imageUrl": "/images/departments/design.png",
-    "headOfDepartmentId": "3a5f7062-328e-43f2-bbda-706d9773b243",
-    "school": {
-      "name": "School of Arts, Design and Architecture",
-      "slug": "arts"
-    }
-  },
-  {
-    "id": "3d3d899f-a537-4b0c-991f-1c35996d5449",
-    "name": "Architecture",
-    "slug": "architecture",
-    "description": "The Department of Architecture combines artistic creativity with technical proficiency. Our curriculum emphasizes sustainable design, urban planning, and the preservation of architectural heritage.",
-    "schoolId": "75aa8b88-a35d-4e3e-8447-7b4df3031baf",
-    "createdAt": "2026-01-28T12:44:47.528",
-    "updatedAt": "2026-01-28T13:40:24.037",
-    "imageUrl": "/images/departments/architecture.png",
-    "headOfDepartmentId": "66419dca-fbfb-4acd-a70d-2d8034be0129",
-    "school": {
-      "name": "School of Arts, Design and Architecture",
-      "slug": "arts"
-    }
-  },
-  {
     "id": "0cd264ab-2d6b-4c2c-9663-bacc1bdbbbd3",
     "name": "Finance",
     "slug": "finance",
     "description": "The Department of Finance provides advanced education in asset pricing, corporate finance, and risk management. We combine theoretical rigor with practical application, utilizing modern financial tools and market data.",
     "schoolId": "a54123ea-caae-40ec-b3b0-d2c1d91528ca",
     "createdAt": "2026-01-28T13:40:26.701",
-    "updatedAt": "2026-01-28T13:40:26.526",
-    "imageUrl": "https://mrqzlmkdhzwvbpljikjz.supabase.co/storage/v1/object/public/content/6qkbmdm9mrr.jpg",
+    "updatedAt": "2026-03-01T10:44:46.456",
+    "imageUrl": "https://mrqzlmkdhzwvbpljikjz.supabase.co/storage/v1/object/public/content/departments/finance-1772361886456.png",
     "headOfDepartmentId": "21cbcd05-c31f-4777-a005-7f14d9203b20",
     "school": {
       "name": "School of Business",
@@ -301,12 +271,42 @@
     "description": "The Department of Energy and Mechanical Engineering focuses on sustainable energy conversion and machine design. We cover thermodynamics, fluid mechanics, and marine technology.",
     "schoolId": "c710bc8b-2fae-43ce-bd5f-9cc289190754",
     "createdAt": "2026-01-28T13:40:31.083",
-    "updatedAt": "2026-01-28T13:40:30.923",
-    "imageUrl": "/images/departments/energy-mechanical.jpg",
+    "updatedAt": "2026-03-01T10:47:03.111",
+    "imageUrl": "https://mrqzlmkdhzwvbpljikjz.supabase.co/storage/v1/object/public/content/departments/energy-mechanical-1772362023112.jpg",
     "headOfDepartmentId": "b2a4d842-f76d-49fa-b0e4-b521820f5858",
     "school": {
       "name": "School of Technology",
       "slug": "technology"
+    }
+  },
+  {
+    "id": "3d3d899f-a537-4b0c-991f-1c35996d5449",
+    "name": "Architecture",
+    "slug": "architecture",
+    "description": "The Department of Architecture combines artistic creativity with technical proficiency. Our curriculum emphasizes sustainable design, urban planning, and the preservation of architectural heritage.",
+    "schoolId": "75aa8b88-a35d-4e3e-8447-7b4df3031baf",
+    "createdAt": "2026-01-28T12:44:47.528",
+    "updatedAt": "2026-03-01T10:40:42.512",
+    "imageUrl": "https://mrqzlmkdhzwvbpljikjz.supabase.co/storage/v1/object/public/content/departments/architecture-1772361642513.png",
+    "headOfDepartmentId": "66419dca-fbfb-4acd-a70d-2d8034be0129",
+    "school": {
+      "name": "School of Arts, Design and Architecture",
+      "slug": "arts"
+    }
+  },
+  {
+    "id": "53f2bb00-e442-4543-a4b9-4904104471f6",
+    "name": "Design",
+    "slug": "design",
+    "description": "At the Department of Design, we believe in the power of design to solve complex problems and improve quality of life. Our comprehensive programs cover industrial design, fashion, textile design, and service design. We merge traditional craftsmanship with cutting-edge technology, preparing students to become visionary leaders in the creative industries. Collaborative projects with industry partners provide real-world experience, ensuring our graduates are ready to drive innovation.",
+    "schoolId": "75aa8b88-a35d-4e3e-8447-7b4df3031baf",
+    "createdAt": "2026-01-28T12:44:47.528",
+    "updatedAt": "2026-03-01T10:41:47.552",
+    "imageUrl": "https://mrqzlmkdhzwvbpljikjz.supabase.co/storage/v1/object/public/content/departments/design-1772361707553.png",
+    "headOfDepartmentId": "3a5f7062-328e-43f2-bbda-706d9773b243",
+    "school": {
+      "name": "School of Arts, Design and Architecture",
+      "slug": "arts"
     }
   },
   {
@@ -339,6 +339,6 @@
       "slug": "science"
     }
   }
-]0:{"buildId":"yHMBqJF04MljerQYFbtjB","rsc":["$","$1","c",{"children":[["$","div",null,{"className":"p-8 font-mono text-sm","children":[["$","h1",null,{"className":"text-2xl font-bold mb-4","children":"Database Debugger"}],["$","div",null,{"className":"grid grid-cols-2 gap-8","children":[["$","div",null,{"children":[["$","h2",null,{"className":"text-xl font-bold mb-2","children":["Schools (",4,")"]}],["$","pre",null,{"className":"bg-gray-100 p-4 rounded overflow-auto h-96","children":"$2"}]]}],["$","div",null,{"children":[["$","h2",null,{"className":"text-xl font-bold mb-2","children":["Departments (",20,")"]}],["$","pre",null,{"className":"bg-gray-100 p-4 rounded overflow-auto h-96","children":"$3"}]]}]]}]]}],null,"$L4"]}],"loading":null,"isPartial":false}
+]0:{"buildId":"RUB5ySmOo84W385w6ehre","rsc":["$","$1","c",{"children":[["$","div",null,{"className":"p-8 font-mono text-sm","children":[["$","h1",null,{"className":"text-2xl font-bold mb-4","children":"Database Debugger"}],["$","div",null,{"className":"grid grid-cols-2 gap-8","children":[["$","div",null,{"children":[["$","h2",null,{"className":"text-xl font-bold mb-2","children":["Schools (",4,")"]}],["$","pre",null,{"className":"bg-gray-100 p-4 rounded overflow-auto h-96","children":"$2"}]]}],["$","div",null,{"children":[["$","h2",null,{"className":"text-xl font-bold mb-2","children":["Departments (",20,")"]}],["$","pre",null,{"className":"bg-gray-100 p-4 rounded overflow-auto h-96","children":"$3"}]]}]]}]]}],null,"$L4"]}],"loading":null,"isPartial":false}
 4:["$","$L5",null,{"children":["$","$6",null,{"name":"Next.MetadataOutlet","children":"$@7"}]}]
 7:null
