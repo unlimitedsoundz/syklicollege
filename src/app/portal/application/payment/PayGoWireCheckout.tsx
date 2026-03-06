@@ -546,7 +546,7 @@ export default function PayGoWireCheckout({
                                 </div>
                                 <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
                                     <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Beneficiary</span>
-                                    <span className="text-xs md:text-sm text-black font-normal text-right">Kestora EDUCATIONAL SERVICES</span>
+                                    <span className="text-xs md:text-sm text-black font-normal text-right">SYKLI EDUCATIONAL SERVICES</span>
                                 </div>
                                 <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
                                     <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Reference</span>
