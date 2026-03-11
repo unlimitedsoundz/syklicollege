@@ -139,21 +139,21 @@ export default function TuitionPaymentPage({ admissionOffer, application }: {
             <div className="mb-6 md:mb-12 text-center md:text-left bg-neutral-50 md:bg-transparent -mx-4 md:mx-0 p-6 md:p-0 border-y md:border-none border-neutral-100">
                 <div className="mb-4 flex justify-center md:justify-start">
                     <Image
-                        src="/images/paygowire-logo-v2.png"
-                        alt="Paygowire Logo"
+                        src="https://cdn.brandfetch.io/id1L6oKjVX/theme/dark/logo.svg?c=1bxid64Mup7aczewSAYMX&t=1667924686641"
+                        alt="Flywire Logo"
                         width={120}
                         height={40}
                         className="h-8 w-auto object-contain"
                     />
                 </div>
-                <h1 className="text-[20px] md:text-[24px] font-normal uppercase tracking-tighter text-black leading-tight md:leading-none">Tuition Payment via PAYGOWIRE</h1>
+                <h1 className="text-[20px] md:text-[24px] font-normal uppercase tracking-tighter text-black leading-tight md:leading-none">Tuition Payment via FLYWIRE</h1>
                 <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-3 mt-4">
                     <p className="text-sm text-black font-normal uppercase tracking-widest">
                         Official SIS Gateway
                     </p>
                     <div className="hidden md:block h-px w-8 bg-neutral-200" />
                     <div className="flex items-center gap-2 opacity-100 transition-all">
-                        <span className="text-sm text-black font-normal uppercase tracking-widest">Via Paygowire Gateway</span>
+                        <span className="text-sm text-black font-normal uppercase tracking-widest">Via Flywire Gateway</span>
                     </div>
                 </div>
             </div>
@@ -174,7 +174,7 @@ export default function TuitionPaymentPage({ admissionOffer, application }: {
                         className={`p-5 md:p-6 border-2 text-left transition-all rounded-sm ${paymentType === 'first_year' ? 'border-black bg-neutral-50' : 'border-neutral-100 hover:border-neutral-200'}`}
                     >
                         <div className="font-bold text-base md:text-lg mb-1 uppercase tracking-tight">Pay First Year</div>
-                        <p className="text-[11px] md:text-sm text-black leading-relaxed">Pay the full first year tuition fee via PayGoWire.</p>
+                        <p className="text-[11px] md:text-sm text-black leading-relaxed">Pay the full first year tuition fee via Flywire.</p>
                     </button>
                 </div>
             </div>

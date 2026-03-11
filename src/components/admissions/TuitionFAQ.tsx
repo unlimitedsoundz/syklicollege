@@ -40,7 +40,7 @@ const faqs: FAQItem[] = [
         answer: (
             <div className="space-y-4">
                 <p>
-                    Kestora College partners with <strong>Paygowire</strong> to process tuition payments securely and efficiently
+                    Kestora College partners with <strong><a href="https://www.flywire.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-indigo-700 transition-colors">Flywire</a></strong> to process tuition payments securely and efficiently
                     for international students.
                 </p>
                 <p>
@@ -49,7 +49,7 @@ const faqs: FAQItem[] = [
                 <ol className="list-decimal pl-5 space-y-2">
                     <li>Log in to your <strong>Kestora Applicant Portal</strong>.</li>
                     <li>Navigate to the 'Payment' section of your accepted application.</li>
-                    <li>Click 'Proceed to Payment' to be redirected to the secure <strong>Paygowire gateway</strong>.</li>
+                    <li>Click 'Proceed to Payment' to be redirected to the secure <strong>Flywire gateway</strong>.</li>
                     <li>Select your country and preferred payment method (Bank Transfer, Credit Card, etc.).</li>
                     <li>Follow the on-screen instructions to finalize your payment.</li>
                 </ol>

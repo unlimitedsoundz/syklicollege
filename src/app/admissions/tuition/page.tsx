@@ -43,7 +43,7 @@ export default function TuitionPaymentPage() {
                 "name": "How do I pay my tuition fees?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Kestora College partners with Paygowire for secure international tuition payments. To pay: 1) Log in to your Kestora Applicant Portal. 2) Negotiate to the 'Payment' section. 3) You will be redirected to the secure Paygowire gateway. 4) Select your country and preferred payment method to complete the transfer."
+                    "text": "Kestora College partners with Flywire for secure international tuition payments. To pay: 1) Log in to your Kestora Applicant Portal. 2) Navigate to the 'Payment' section. 3) You will be redirected to the secure Flywire gateway. 4) Select your country and preferred payment method to complete the transfer."
                 }
             },
             {
@@ -446,16 +446,16 @@ export default function TuitionPaymentPage() {
                                     <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-12">
                                         <div className="max-w-xl">
                                             <p className="text-lg text-black leading-relaxed mb-4">
-                                                Kestora College partners with <strong>Paygowire</strong> to provide students with a secure, convenient, and transparent way to pay tuition and related academic fees using local and international payment options.
+                                                Kestora College partners with <strong><a href="https://www.flywire.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-emerald-700 transition-colors">Flywire</a></strong> to provide students with a secure, convenient, and transparent way to pay tuition and related academic fees using local and international payment options.
                                             </p>
                                             <p className="text-black leading-relaxed">
-                                                All tuition payments are processed through Paygowire to ensure accurate tracking, faster confirmation, and proper allocation to the student’s account.
+                                                All tuition payments are processed through Flywire to ensure accurate tracking, faster confirmation, and proper allocation to the student’s account.
                                             </p>
                                         </div>
                                         <div className="relative w-48 h-12 md:w-64 md:h-16 shrink-0 bg-white p-4 rounded-xl shadow-sm">
                                             <Image
-                                                src="/images/paygowire-logo-v2.png"
-                                                alt="Paygowire"
+                                                src="https://cdn.brandfetch.io/id1L6oKjVX/theme/dark/logo.svg?c=1bxid64Mup7aczewSAYMX&t=1667924686641"
+                                                alt="Flywire"
                                                 fill
                                                 className="object-contain p-2"
                                             />
@@ -471,7 +471,7 @@ export default function TuitionPaymentPage() {
                                                 <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 text-white flex items-center justify-center font-bold text-sm shadow-md">1</div>
                                                 <div>
                                                     <h4 className="font-bold text-black mb-1">Accept Your Offer</h4>
-                                                    <p className="text-sm text-neutral-600">Once you accept your offer of admission through the Kestora College portal, you will be automatically redirected to the Paygowire payment page.</p>
+                                                    <p className="text-sm text-neutral-600">Once you accept your offer of admission through the Kestora College portal, you will be automatically redirected to the Flywire payment page.</p>
                                                 </div>
                                             </div>
 
@@ -479,7 +479,7 @@ export default function TuitionPaymentPage() {
                                                 <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 text-white flex items-center justify-center font-bold text-sm shadow-md">2</div>
                                                 <div>
                                                     <h4 className="font-bold text-black mb-1">Choose Where You’re Paying From</h4>
-                                                    <p className="text-sm text-neutral-600">Select the country from which you will be making your payment. Paygowire will display the available local payment options and instructions specific to your selected country.</p>
+                                                    <p className="text-sm text-neutral-600">Select the country from which you will be making your payment. Flywire will display the available local payment options and instructions specific to your selected country.</p>
                                                 </div>
                                             </div>
 
@@ -502,7 +502,7 @@ export default function TuitionPaymentPage() {
                                                 <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 text-white flex items-center justify-center font-bold text-sm shadow-md">4</div>
                                                 <div>
                                                     <h4 className="font-bold text-black mb-1">Select Your Payment Method</h4>
-                                                    <p className="text-sm text-neutral-600">Choose one of the available payment methods provided by Paygowire, such as local bank transfer or other supported channels, depending on your country of residence.</p>
+                                                    <p className="text-sm text-neutral-600">Choose one of the available payment methods provided by Flywire, such as local bank transfer or other supported channels, depending on your country of residence.</p>
                                                 </div>
                                             </div>
 

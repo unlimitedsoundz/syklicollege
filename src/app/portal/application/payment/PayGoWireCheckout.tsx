@@ -499,7 +499,7 @@ export default function PayGoWireCheckout({
                                             ? 'Pay via Mobile Money (Flutterwave)'
                                             : selectedCountry === 'Nigeria'
                                                 ? 'Complete Payment'
-                                                : `Complete Payment via PAYGOWIRE (${fxData.localCurrency} ${Number(fxData.localAmount).toLocaleString()})`
+                                                : `Complete Payment via FLYWIRE (${fxData.localCurrency} ${Number(fxData.localAmount).toLocaleString()})`
                                     }
                                 </>
                             )}
@@ -597,7 +597,7 @@ export default function PayGoWireCheckout({
             <div className="bg-neutral-50 border-t border-neutral-100 p-4 md:p-6 flex flex-col md:flex-row justify-between items-center gap-4">
                 <div className="flex items-center gap-2">
                     <div className="h-5 flex items-center">
-                        <span className="text-[8px] font-bold text-black uppercase tracking-widest">Paygowire Secure Transfer</span>
+                        <span className="text-[8px] font-bold text-black uppercase tracking-widest">Flywire Secure Transfer</span>
                     </div>
                     <div>
                         <p className="text-[10px] text-black font-normal uppercase tracking-widest leading-none mt-0.5 border-l border-neutral-300 pl-2 ml-2">Secure Education Rails</p>

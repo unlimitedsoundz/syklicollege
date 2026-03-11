@@ -167,10 +167,10 @@ function ReceiptContent() {
             'flutterwave_cm_momo': 'Mobile Money (Cameroon)',
             'ach': 'ACH Direct Debit',
             'wire': 'International Wire',
-            'paygowire': 'Paygowire' // fallback
+            'paygowire': 'Flywire' // fallback
         };
         const name = methods[methodId.toLowerCase()] || methodId.replace(/_/g, ' ');
-        return `Paygowire - ${name}`;
+        return `Flywire - ${name}`;
     };
 
     return (
