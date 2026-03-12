@@ -70,7 +70,7 @@ const CopyButton = ({ text, label }: { text: string, label: string }) => {
     return (
         <button
             onClick={handleCopy}
-            className="flex items-center gap-1.5 text-[#00A651] hover:text-[#008c44] transition-colors text-[10px] uppercase font-bold tracking-widest bg-[#00A651]/5 hover:bg-[#00A651]/10 px-2 py-1 rounded-sm"
+            className="flex items-center gap-1.5 text-[#2541B2] hover:text-[#1a3399] transition-colors text-[10px] uppercase font-bold tracking-widest bg-[#2541B2]/5 hover:bg-[#2541B2]/10 px-2 py-1 rounded-sm"
             title={`Copy ${label}`}
         >
             {copied ? (
@@ -137,7 +137,7 @@ export default function PayGoWireCheckout({
             methods.push({ id: 'sepa', name: 'SEPA Transfer', description: 'Direct Euro bank transfer', type: 'BANK', icon: BankIcon, processingTime: '1 business day' });
             if (country === 'Finland') methods.push({ id: 'nordea', name: 'Nordea Online', description: 'Local Finnish bank login', type: 'BANK', icon: BankIcon, processingTime: 'Instant' });
         } else if (country === 'Nigeria') {
-            methods.unshift({ id: 'ng_bank', name: 'Bank Transfer', description: 'Pay via local NGN routing', type: 'BANK', icon: BankIcon, processingTime: '2-4 hours' });
+            methods.unshift({ id: 'ng_bank', name: 'Online Bank Transfer in Nigerian Naira (NGN)', description: 'Pay via local NGN routing (Kuda Bank)', type: 'BANK', icon: BankIcon, processingTime: '2-4 hours' });
         } else if (country === 'United Arab Emirates') {
             methods.unshift({
                 id: 'flutterwave_uae',
@@ -162,6 +162,10 @@ export default function PayGoWireCheckout({
             methods.push({ id: 'wire', name: 'International Wire', description: 'SWIFT / SWIFT-gpi transfer', type: 'BANK', icon: BankIcon, processingTime: '3-5 business days' });
         }
 
+        methods.push({ id: 'eur_wire', name: 'Bank Transfer in Euros (EUR)', description: 'Pay in EUR via Nordea', type: 'BANK', icon: BankIcon, processingTime: '7-14 days' });
+        methods.push({ id: 'gbp_wire', name: 'International Bank Transfer in British Pounds (GBP)', description: 'Pay in GBP via Barclays Bank', type: 'BANK', icon: BankIcon, processingTime: '10-15 days' });
+        methods.push({ id: 'usd_wire', name: 'International Bank Transfer in US Dollars (USD)', description: 'Pay in USD via Bank of America', type: 'BANK', icon: BankIcon, processingTime: '10-15 business days' });
+
         return methods;
     };
 
@@ -176,20 +180,29 @@ export default function PayGoWireCheckout({
         let rate = 1.0;
         let localCurrency = defaultCurrency;
 
-        if (selectedCountry === 'India') { rate = 89.42; localCurrency = 'INR'; }
+        if (selectedMethod?.id === 'usd_wire') { rate = 1.08; localCurrency = 'USD'; }
+        else if (selectedMethod?.id === 'eur_wire') { rate = 1.0; localCurrency = 'EUR'; }
+        else if (selectedMethod?.id === 'gbp_wire') { rate = 0.85; localCurrency = 'GBP'; }
         else if (selectedCountry === 'Nigeria') { rate = 1620.50; localCurrency = 'NGN'; }
+        else if (selectedCountry === 'India') { rate = 89.42; localCurrency = 'INR'; }
         else if (selectedCountry === 'United States') { rate = 1.08; localCurrency = 'USD'; }
         else if (selectedCountry === 'United Arab Emirates') { rate = 3.97; localCurrency = 'AED'; }
         else if (selectedCountry === 'Cameroon') { rate = 655.96; localCurrency = 'XAF'; }
         else if (['France', 'Germany', 'Finland'].includes(selectedCountry)) { rate = 1.0; localCurrency = 'EUR'; }
 
+        // Special handling for EUR wire method which has a flat 25 EUR fee
+        let localAmount = (amount * rate).toFixed(2);
+        if (selectedMethod?.id === 'eur_wire') {
+            localAmount = (amount + 25).toFixed(2);
+        }
+
         return {
-            localAmount: (amount * rate).toFixed(2),
+            localAmount,
             localCurrency,
             rate,
             fee: (amount * 0.015).toFixed(2) // 1.5% simulated fee
         };
-    }, [selectedCountry, amount, defaultCurrency]);
+    }, [selectedCountry, amount, defaultCurrency, selectedMethod]);
 
     const handleConfirmPayment = async () => {
         if (!selectedCountry || !selectedMethod || !fxData) return;
@@ -238,10 +251,10 @@ export default function PayGoWireCheckout({
                     return (
                         <div
                             key={s.id}
-                            className={`flex items-center gap-1.5 whitespace-nowrap text-[10px] md:text-sm font-bold uppercase tracking-widest transition-colors duration-300 ${isActive ? 'text-[#00A651]' : 'text-neutral-400'
+                            className={`flex items-center gap-1.5 whitespace-nowrap text-[10px] md:text-sm font-bold uppercase tracking-widest transition-colors duration-300 ${isActive ? 'text-[#2541B2]' : 'text-neutral-400'
                                 }`}
                         >
-                            <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[8px] border ${isActive ? 'border-[#00A651] bg-[#00A651] text-white' : 'border-neutral-300'}`}>{idx + 1}</span>
+                            <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[8px] border ${isActive ? 'border-[#2541B2] bg-[#2541B2] text-white' : 'border-neutral-300'}`}>{idx + 1}</span>
                             <span className="hidden sm:inline">{s.label}</span>
                             {idx < 3 && <ArrowRight size={10} weight="bold" className="text-neutral-300 ml-1" />}
                         </div>
@@ -277,7 +290,7 @@ export default function PayGoWireCheckout({
             {/* Progress Bar */}
             <div className="h-1 w-full bg-neutral-100 overflow-hidden">
                 <div
-                    className="h-full bg-[#00A651] transition-all duration-700 ease-in-out shadow-[0_0_8px_rgba(0,166,81,0.4)]"
+                    className="h-full bg-[#2541B2] transition-all duration-700 ease-in-out shadow-[0_0_8px_rgba(0,166,81,0.4)]"
                     style={{ width: `${progress}%` }}
                 />
             </div>
@@ -297,7 +310,7 @@ export default function PayGoWireCheckout({
                                 <Globe className="absolute left-4 top-1/2 -translate-y-1/2 text-black pointer-events-none" size={18} />
                                 <select
                                     id="country-select"
-                                    className="w-full pl-12 pr-10 py-4 bg-white border border-neutral-200 rounded-sm focus:outline-none focus:ring-2 focus:ring-[#00A651]/10 focus:border-[#00A651] transition-all font-normal text-sm text-black appearance-none cursor-pointer"
+                                    className="w-full pl-12 pr-10 py-4 bg-white border border-neutral-200 rounded-sm focus:outline-none focus:ring-2 focus:ring-[#2541B2]/10 focus:border-[#2541B2] transition-all font-normal text-sm text-black appearance-none cursor-pointer"
                                     value={selectedCountry || ''}
                                     onChange={(e) => setSelectedCountry(e.target.value)}
                                 >
@@ -315,7 +328,7 @@ export default function PayGoWireCheckout({
                         <button
                             disabled={!selectedCountry || loadingStep === 'COUNTRY'}
                             onClick={() => handleStepChange('METHOD')}
-                            className="w-full bg-[#00A651] text-white py-4 md:py-5 rounded-sm font-normal uppercase tracking-widest text-sm hover:bg-[#008c44] transition-all flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-full bg-[#2541B2] text-white py-4 md:py-5 rounded-sm font-normal uppercase tracking-widest text-sm hover:bg-[#1a3399] transition-all flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {loadingStep === 'COUNTRY' ? (
                                 <>
@@ -343,7 +356,7 @@ export default function PayGoWireCheckout({
 
                         <div>
                             <h2 className="text-[18px] font-normal text-black mb-2">Choose Payment Method</h2>
-                            <p className="text-sm text-black font-medium lowercase">Available rails for <span className="text-[#00A651] font-normal uppercase">{selectedCountry}</span></p>
+                            <p className="text-sm text-black font-medium lowercase">Available rails for <span className="text-[#2541B2] font-normal uppercase">{selectedCountry}</span></p>
                         </div>
 
                         <div className="space-y-3">
@@ -357,13 +370,13 @@ export default function PayGoWireCheckout({
                                             handleStepChange('FX');
                                         }}
                                         className={`w-full flex items-center justify-between p-3 md:p-5 rounded-sm border-2 transition-all group ${selectedMethod?.id === method.id
-                                            ? 'border-[#00A651] bg-blue-50/30'
+                                            ? 'border-[#2541B2] bg-blue-50/30'
                                             : 'border-neutral-100 hover:border-neutral-300'
                                             }`}
                                     >
                                         <div className="flex items-center gap-4">
-                                            <div className="p-3 bg-neutral-100 rounded-sm group-hover:bg-[#00A651]/10 transition-colors">
-                                                <Icon size={20} className="text-black group-hover:text-[#00A651]" />
+                                            <div className="p-3 bg-neutral-100 rounded-sm group-hover:bg-[#2541B2]/10 transition-colors">
+                                                <Icon size={20} className="text-black group-hover:text-[#2541B2]" />
                                             </div>
                                             <div className="text-left">
                                                 <p className="font-normal text-black">{method.name}</p>
@@ -374,7 +387,7 @@ export default function PayGoWireCheckout({
                                             <div className="text-sm font-normal text-black uppercase tracking-widest flex items-center gap-1 justify-end">
                                                 <div className="w-3">
                                                     {(loadingStep === 'METHOD' && selectedMethod?.id === method.id) && (
-                                                        <div className="w-3 h-3 border-2 border-[#00A651]/30 border-t-[#00A651] rounded-full animate-spin" />
+                                                        <div className="w-3 h-3 border-2 border-[#2541B2]/30 border-t-[#2541B2] rounded-full animate-spin" />
                                                     )}
                                                 </div>
                                                 <Clock size={12} weight="bold" /> {method.processingTime}
@@ -405,7 +418,7 @@ export default function PayGoWireCheckout({
 
                             <div className="grid grid-cols-2 gap-4 md:gap-8">
                                 <div>
-                                    <p className="text-[10px] md:text-sm font-normal text-[#00A651] uppercase tracking-widest mb-1">Local Amount</p>
+                                    <p className="text-[10px] md:text-sm font-normal text-[#2541B2] uppercase tracking-widest mb-1">Local Amount</p>
                                     <p className="text-2xl md:text-3xl font-normal">{fxData.localCurrency} {Number(fxData.localAmount).toLocaleString()}</p>
                                 </div>
                                 <div className="text-right">
@@ -417,7 +430,7 @@ export default function PayGoWireCheckout({
                             <div className="pt-6 border-t border-neutral-100 space-y-3">
                                 <div className="flex justify-between text-xs md:text-sm font-medium">
                                     <span className="text-black">Execution Rate</span>
-                                    <span className="text-[#00A651] font-normal">1 EUR = {fxData.rate} {fxData.localCurrency}</span>
+                                    <span className="text-[#2541B2] font-normal">1 EUR = {fxData.rate} {fxData.localCurrency}</span>
                                 </div>
                                 <div className="flex justify-between text-xs md:text-sm font-normal pt-2 border-t border-neutral-100">
                                     <span>Total Payable</span>
@@ -436,7 +449,7 @@ export default function PayGoWireCheckout({
                         <button
                             disabled={loadingStep === 'FX'}
                             onClick={() => handleStepChange('CONFIRM')}
-                            className="w-full bg-[#00A651] text-white py-4 md:py-5 rounded-sm font-normal uppercase tracking-widest text-sm hover:bg-[#008c44] transition-all flex items-center justify-center gap-2 group disabled:opacity-70"
+                            className="w-full bg-[#2541B2] text-white py-4 md:py-5 rounded-sm font-normal uppercase tracking-widest text-sm hover:bg-[#1a3399] transition-all flex items-center justify-center gap-2 group disabled:opacity-70"
                         >
                             {loadingStep === 'FX' ? (
                                 <>
@@ -477,14 +490,14 @@ export default function PayGoWireCheckout({
                                 if (selectedMethod?.id === 'flutterwave_uae' || selectedMethod?.id === 'flutterwave_cm_momo') {
                                     window.open('https://flutterwave.com/pay/Kestora', '_blank');
                                     handleConfirmPayment();
-                                } else if (selectedCountry === 'Nigeria') {
+                                } else if (selectedMethod?.id === 'ng_bank' || selectedMethod?.id === 'usd_wire' || selectedMethod?.id === 'eur_wire' || selectedMethod?.id === 'gbp_wire' || selectedMethod?.id === 'wire' || selectedMethod?.id === 'sepa') {
                                     handleStepChange('BANK_INSTRUCTIONS');
                                 } else {
                                     handleConfirmPayment();
                                 }
                             }}
                             disabled={isProcessing || loadingStep === 'CONFIRM'}
-                            className="w-full bg-[#00A651] text-white py-5 md:py-6 rounded-sm font-normal uppercase tracking-widest text-sm hover:bg-[#008c44] transition-all flex items-center justify-center gap-3 shadow-lg shadow-emerald-500/20 disabled:opacity-50"
+                            className="w-full bg-[#2541B2] text-white py-5 md:py-6 rounded-sm font-normal uppercase tracking-widest text-sm hover:bg-[#1a3399] transition-all flex items-center justify-center gap-3 shadow-lg shadow-blue-900/20 disabled:opacity-50"
                         >
                             {isProcessing || loadingStep === 'CONFIRM' ? (
                                 <>
@@ -517,7 +530,7 @@ export default function PayGoWireCheckout({
                     <div className="space-y-6 md:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 font-roboto">
                         <div className="text-center space-y-4">
                             <h2 className="text-[18px] font-normal text-black leading-relaxed">
-                                Transfer the exact amount including decimals, before <span className="font-medium text-[#00A651]">{expiryString}</span>
+                                Transfer the exact amount including decimals, before <span className="font-medium text-[#2541B2]">{expiryString}</span>
                             </h2>
                             <p className="text-sm text-black max-w-lg mx-auto">
                                 To ensure your payment is processed automatically, please use the exact provided account details below.
@@ -533,52 +546,209 @@ export default function PayGoWireCheckout({
                                         <span className="text-xl md:text-2xl text-black font-normal">{fxData.localCurrency} {Number(fxData.localAmount).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                                     </div>
                                 </div>
-                                <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
-                                    <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Bank</span>
-                                    <span className="text-xs md:text-sm text-black font-normal text-right">KUDA BANK</span>
-                                </div>
-                                <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
-                                    <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Account Number</span>
-                                    <div className="flex items-center gap-3">
-                                        <CopyButton text="3003469520" label="Account Number" />
-                                        <span className="text-lg md:text-xl text-black font-normal tracking-wider">3003469520</span>
-                                    </div>
-                                </div>
-                                <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
-                                    <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Beneficiary</span>
-                                    <span className="text-xs md:text-sm text-black font-normal text-right">SYKLI EDUCATIONAL SERVICES</span>
-                                </div>
-                                <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
-                                    <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Reference</span>
-                                    <span className="text-xs md:text-sm text-black font-normal">{paymentReference || '1774261321084'}</span>
-                                </div>
-                                <div className="flex justify-between items-center">
-                                    <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Expiration Date</span>
-                                    <span className="text-xs md:text-sm text-black font-normal text-right">{expiryString}</span>
-                                </div>
+                                {selectedMethod?.id === 'usd_wire' ? (
+                                    <>
+                                        <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Bank</span>
+                                            <span className="text-xs md:text-sm text-black font-normal text-right">BANK OF AMERICA</span>
+                                        </div>
+                                        <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Routing Number</span>
+                                            <div className="flex items-center gap-3">
+                                                <CopyButton text="026042178" label="Routing Number" />
+                                                <span className="text-lg md:text-xl text-black font-normal tracking-wider">026042178</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Account Number</span>
+                                            <div className="flex items-center gap-3">
+                                                <CopyButton text="71366156442596" label="Account Number" />
+                                                <span className="text-lg md:text-xl text-black font-normal tracking-wider">71366156442596</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Wire Routing</span>
+                                            <div className="flex items-center gap-3">
+                                                <CopyButton text="026534741" label="Wire Routing" />
+                                                <span className="text-lg md:text-xl text-black font-normal tracking-wider">026534741</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Beneficiary</span>
+                                            <span className="text-xs md:text-sm text-black font-normal text-right">SYKLI EDUCATIONAL SERVICES</span>
+                                        </div>
+                                        <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Reference</span>
+                                            <span className="text-xs md:text-sm text-black font-normal">{paymentReference || '1774261321084'}</span>
+                                        </div>
+                                        <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Processing Time</span>
+                                            <span className="text-xs md:text-sm text-black font-normal text-right">10-15 Business Days</span>
+                                        </div>
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Currency</span>
+                                            <span className="text-xs md:text-sm text-black font-normal text-right">USD</span>
+                                        </div>
+                                    </>
+                                ) : selectedMethod?.id === 'eur_wire' ? (
+                                    <>
+                                        <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Bank</span>
+                                            <span className="text-xs md:text-sm text-black font-normal text-right">NORDEA</span>
+                                        </div>
+                                        <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">IBAN</span>
+                                            <div className="flex items-center gap-3">
+                                                <CopyButton text="FI71 0395 6387 6849 73" label="IBAN" />
+                                                <span className="text-lg md:text-xl text-black font-normal tracking-wider">FI71 0395 6387 6849 73</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Account Number</span>
+                                            <div className="flex items-center gap-3">
+                                                <CopyButton text="87684973" label="Account Number" />
+                                                <span className="text-lg md:text-xl text-black font-normal tracking-wider">87684973</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Beneficiary</span>
+                                            <span className="text-xs md:text-sm text-black font-normal text-right">SYKLI EDUCATIONAL SERVICES</span>
+                                        </div>
+                                        <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Reference</span>
+                                            <span className="text-xs md:text-sm text-black font-normal">{paymentReference || '1774261321084'}</span>
+                                        </div>
+                                        <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Processing Time</span>
+                                            <span className="text-xs md:text-sm text-black font-normal text-right">7-14 Days</span>
+                                        </div>
+                                        <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Transfer Fee</span>
+                                            <span className="text-xs md:text-sm text-black font-normal text-right">Includes 25,00 € fee</span>
+                                        </div>
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Currency</span>
+                                            <span className="text-xs md:text-sm text-black font-normal text-right">EUR</span>
+                                        </div>
+                                    </>
+                                ) : selectedMethod?.id === 'gbp_wire' ? (
+                                    <>
+                                        <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Bank Namne</span>
+                                            <span className="text-xs md:text-sm text-black font-normal text-right">BARCLAYS BANK</span>
+                                        </div>
+                                        <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">IBAN</span>
+                                            <div className="flex items-center gap-3">
+                                                <CopyButton text="GB22BARC20037841813253" label="IBAN" />
+                                                <span className="text-lg md:text-xl text-black font-normal tracking-wider">GB22BARC20037841813253</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">SWIFT/BIC</span>
+                                            <div className="flex items-center gap-3">
+                                                <CopyButton text="BARCGB22" label="SWIFT/BIC" />
+                                                <span className="text-lg md:text-xl text-black font-normal tracking-wider">BARCGB22</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Beneficiary</span>
+                                            <span className="text-xs md:text-sm text-black font-normal text-right">SYKLI EDUCATIONAL SERVICES</span>
+                                        </div>
+                                        <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Reference</span>
+                                            <span className="text-xs md:text-sm text-black font-normal">{paymentReference || '1774261321084'}</span>
+                                        </div>
+                                        <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Processing Time</span>
+                                            <span className="text-xs md:text-sm text-black font-normal text-right">10-15 Days</span>
+                                        </div>
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Currency</span>
+                                            <span className="text-xs md:text-sm text-black font-normal text-right">GBP</span>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Bank</span>
+                                            <span className="text-xs md:text-sm text-black font-normal text-right">KUDA BANK</span>
+                                        </div>
+                                        <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Account Number</span>
+                                            <div className="flex items-center gap-3">
+                                                <CopyButton text="3003469520" label="Account Number" />
+                                                <span className="text-lg md:text-xl text-black font-normal tracking-wider">3003469520</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Beneficiary</span>
+                                            <span className="text-xs md:text-sm text-black font-normal text-right">SYKLI EDUCATIONAL SERVICES</span>
+                                        </div>
+                                        <div className="flex justify-between items-center border-b border-neutral-200 pb-3 md:pb-4">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Reference</span>
+                                            <span className="text-xs md:text-sm text-black font-normal">{paymentReference || '1774261321084'}</span>
+                                        </div>
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-[10px] md:text-sm text-neutral-500 uppercase tracking-widest">Expiration Date</span>
+                                            <span className="text-xs md:text-sm text-black font-normal text-right">{expiryString}</span>
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         </div>
 
                         <div className="bg-amber-50 border border-amber-100 p-4 rounded-sm flex gap-3 text-amber-800">
                             <Info size={18} className="shrink-0 mt-0.5" />
                             <p className="text-sm font-normal">
-                                <strong>No split payments are allowed.</strong> Please transfer the single lump sum of {fxData.localCurrency} {Number(fxData.localAmount).toLocaleString()}.
+                                <strong>No split payments are allowed.</strong> Please transfer the single lump sum of {fxData.localCurrency} {Number(fxData.localAmount).toLocaleString()}.{selectedMethod?.id === 'eur_wire' && <> This amount <strong>includes a 25,00 € processing fee</strong>.</>}
                             </p>
                         </div>
 
                         <div className="text-sm text-neutral-500 leading-relaxed bg-white border border-neutral-100 p-6 rounded-sm">
-                            <p className="mb-4">
-                                You have until <strong>{expiryString}</strong> to complete your payment via Online Bank Transfer.
-                            </p>
-                            <p>
-                                We recommend making a NIBSS Instant Payment (NIP), offered by most banks, as other bank transfers can take longer to be received. To ensure your payment can be processed successfully, transfer the exact amount, otherwise your payment will be rejected. If the transaction is above the limit established by your bank for online transfers, reach out to your bank to increase your limit; if your bank is unable to raise your limit, create a new Payment Request for an amount that aligns with your bank's limits.
-                            </p>
+                            {selectedMethod?.id === 'usd_wire' ? (
+                                <>
+                                    <p className="mb-4">
+                                        Please complete your USD wire transfer via <strong>Bank of America</strong>. Processing takes <strong>10-15 business days</strong>.
+                                    </p>
+                                    <p>
+                                        Ensure you use the correct routing and wire routing numbers provided above. Contact your bank if you need assistance initiating an international USD wire transfer. Transfer the exact amount to avoid processing delays.
+                                    </p>
+                                </>
+                            ) : selectedMethod?.id === 'eur_wire' ? (
+                                <>
+                                    <p className="mb-4">
+                                        Please complete your EUR bank transfer to <strong>Nordea</strong> using the IBAN provided above. Processing takes <strong>7-14 days</strong>.
+                                    </p>
+                                    <p>
+                                        A <strong>25,00 €</strong> processing fee is included in the total amount. Please ensure you transfer the exact amount using the IBAN and account number provided. Contact your bank if you need assistance initiating an international EUR transfer.
+                                    </p>
+                                </>
+                            ) : selectedMethod?.id === 'gbp_wire' ? (
+                                <>
+                                    <p className="mb-4">
+                                        Please complete your GBP bank transfer to <strong>Barclays Bank</strong> using the IBAN provided above. Processing takes <strong>10-15 days</strong>.
+                                    </p>
+                                    <p>
+                                        Please ensure you transfer the exact amount using the IBAN and SWIFT/BIC code provided. Contact your bank if you need assistance initiating an international GBP transfer.
+                                    </p>
+                                </>
+                            ) : (
+                                <>
+                                    <p className="mb-4">
+                                        You have until <strong>{expiryString}</strong> to complete your payment via Online Bank Transfer.
+                                    </p>
+                                    <p>
+                                        We recommend making a NIBSS Instant Payment (NIP), offered by most banks, as other bank transfers can take longer to be received. To ensure your payment can be processed successfully, transfer the exact amount, otherwise your payment will be rejected. If the transaction is above the limit established by your bank for online transfers, reach out to your bank to increase your limit; if your bank is unable to raise your limit, create a new Payment Request for an amount that aligns with your bank's limits.
+                                    </p>
+                                </>
+                            )}
                         </div>
 
                         <button
                             onClick={handleConfirmPayment}
                             disabled={isProcessing}
-                            className="w-full bg-[#00A651] text-white py-5 rounded-sm font-normal uppercase tracking-widest text-sm hover:bg-[#008c44] transition-all flex items-center justify-center gap-3 disabled:opacity-50"
+                            className="w-full bg-[#2541B2] text-white py-5 rounded-sm font-normal uppercase tracking-widest text-sm hover:bg-[#1a3399] transition-all flex items-center justify-center gap-3 disabled:opacity-50"
                         >
                             {isProcessing ? (
                                 <>
