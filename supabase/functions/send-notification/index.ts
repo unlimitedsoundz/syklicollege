@@ -32,11 +32,11 @@ serve(async (req) => {
 
         // If applicationId is provided but no record, fetch it
         if (!applicationData && applicationId) {
-            const { data: app } = await supabase
-                .from('applications')
-                .select('*, user:profiles(*), course:Course(title)')
-                .eq('id', applicationId)
-                .single();
+                const { data: app } = await supabase
+                    .from('applications')
+                    .select('*, user:profiles(*), course:Course(name)')
+                    .eq('id', applicationId)
+                    .single();
 
             if (app) {
                 applicationData = {
@@ -45,7 +45,7 @@ serve(async (req) => {
                     first_name: app.user?.first_name || app.personal_info?.firstName,
                     last_name: app.user?.last_name || app.personal_info?.lastName,
                     student_id: app.user?.student_id,
-                    course_title: app.course?.title
+                    course_title: app.course?.name
                 };
             }
         } else if (table === 'tuition_payments' && record) {
@@ -70,7 +70,7 @@ serve(async (req) => {
                         first_name: app.user?.first_name || app.personal_info?.firstName,
                         last_name: app.user?.last_name || app.personal_info?.lastName,
                         student_id: app.user?.student_id,
-                        course_title: app.course?.title
+                        course_title: app.course?.name
                     };
                 }
             }
@@ -179,7 +179,7 @@ serve(async (req) => {
                     <p>We are delighted to inform you that you have been offered a conditional place to study at Kestora University.</p>
                     <div style="margin: 20px 0;">
                         <p><strong>Your Offer Details:</strong></p>
-                        <p>Programme: ${applicationData?.course?.title || 'Your Degree Programme'}</p>
+                        <p>Programme: ${applicationData?.course?.name || 'Your Degree Programme'}</p>
                         <p>Intake: August 2026 (Autumn Semester)</p>
                         <p>Status: Conditional Offer</p>
                     </div>
@@ -233,7 +233,7 @@ serve(async (req) => {
                     <p>We are delighted to officially confirm your admission to Kestora University following the successful confirmation of your tuition payment.</p>
                     <p>You have been admitted to study:</p>
                     <div style="margin: 20px 0;">
-                        <p>Programme: ${applicationData?.course?.title || 'Your Degree Programme'}</p>
+                        <p>Programme: ${applicationData?.course?.name || 'Your Degree Programme'}</p>
                         <p>Intake: ${applicationData?.intake || 'August 2026 (Autumn Semester)'}</p>
                         <p>Student ID: ${applicationData?.student_id || ''}</p>
                     </div>
