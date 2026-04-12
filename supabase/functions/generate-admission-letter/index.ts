@@ -137,7 +137,7 @@ serve(async (req) => {
         // =====================================================
         // SECTION 1: HEADER — Institution + Address
         // =====================================================
-        page.drawText('KESTORA COLLEGE', { x: margin, y, size: 14, font: boldFont, color: black });
+        page.drawText('SYKLI COLLEGE', { x: margin, y, size: 14, font: boldFont, color: black });
         y -= 16;
         page.drawText('\u2013 Helsinki Campus', { x: margin, y, size: 9, font: regularFont, color: darkGrey });
 
