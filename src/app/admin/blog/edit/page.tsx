@@ -8,8 +8,8 @@ import { createClient } from '@/utils/supabase/client';
 import Link from 'next/link';
 import { ArrowLeft, Upload } from "@phosphor-icons/react";
 
-const ReactQuill = Dynamic(() => import('react-quill-new'), { ssr: false });
-import 'react-quill-new/dist/quill.snow.css';
+const ReactQuill = Dynamic(() => import('react-quill'), { ssr: false });
+import 'react-quill/dist/quill.snow.css';
 
 interface FormData {
     title: string;
@@ -63,6 +63,12 @@ export default function EditBlogPost() {
                     const quill = quillRef.current?.getEditor();
                     const range = quill.getSelection();
                     quill.insertEmbed(range.index, 'image', publicUrl);
+                    // Add alt text to the inserted image
+                    const img = quill.root.querySelector(`img[src="${publicUrl}"]`);
+                    if (img) {
+                        const alt = prompt('Enter alt text for the image:', 'Image description');
+                        img.alt = alt || 'Image';
+                    }
                 }
                 setUploading(false);
             }

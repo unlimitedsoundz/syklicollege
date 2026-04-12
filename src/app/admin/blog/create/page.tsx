@@ -8,8 +8,8 @@ import { createClient } from '@/utils/supabase/client';
 import Link from 'next/link';
 import { ArrowLeft, Upload } from "@phosphor-icons/react";
 
-const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
-import 'react-quill-new/dist/quill.snow.css';
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+import 'react-quill/dist/quill.snow.css';
 
 interface FormData {
     title: string;
@@ -29,6 +29,14 @@ export default function CreateBlogPost() {
     const { register, handleSubmit, setValue, watch } = useForm<FormData>();
 
     const content = watch('content');
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            import('quill').then((Quill) => {
+                Quill.register('modules/imageResize', QuillImageResize.default || QuillImageResize);
+            });
+        }
+    }, []);
 
     const imageHandler = () => {
         const input = document.createElement('input');
@@ -57,6 +65,12 @@ export default function CreateBlogPost() {
                     const quill = quillRef.current?.getEditor();
                     const range = quill.getSelection();
                     quill.insertEmbed(range.index, 'image', publicUrl);
+                    // Add alt text to the inserted image
+                    const img = quill.root.querySelector(`img[src="${publicUrl}"]`);
+                    if (img) {
+                        const alt = prompt('Enter alt text for the image:', 'Image description');
+                        img.alt = alt || 'Image';
+                    }
                 }
                 setUploading(false);
             }
@@ -171,6 +185,14 @@ export default function CreateBlogPost() {
                                 handlers: {
                                     image: imageHandler
                                 }
+                            },
+                            imageResize: {
+                                displayStyles: {
+                                    backgroundColor: 'black',
+                                    border: 'none',
+                                    color: 'white'
+                                },
+                                modules: ['Resize', 'DisplaySize']
                             }
                         }}
                     />
