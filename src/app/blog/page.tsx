@@ -61,6 +61,7 @@ export default function BlogPage() {
                     <h3 className="mt-6 font-bold">About the Author</h3>
                     <p>Adekunle Amosun is from Ondo State, Nigeria. He is currently in his second year of the Design program at Kestora University. He has a technical background with a bachelor's degree in Computer Science from Adeleke University, Nigeria.</p>
                     <p>He is a student ambassador who enjoys traveling, playing basketball, and board games during his free time.</p>
+                    <Image src="https://pbs.twimg.com/media/GgyJRSJW4AA4cDa.jpg" alt="Author Image" width={250} height={250} className="w-auto h-auto mb-4 mx-auto" />
                 </div>
 
                 {/* Related Links */}
