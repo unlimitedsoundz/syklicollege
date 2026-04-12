@@ -179,7 +179,7 @@ serve(async (req) => {
                     <p>We are delighted to inform you that you have been offered a conditional place to study at Kestora University.</p>
                     <div style="margin: 20px 0;">
                         <p><strong>Your Offer Details:</strong></p>
-                        <p>Programme: ${applicationData?.course_title || 'Your Degree Programme'}</p>
+                        <p>Programme: ${applicationData?.course?.title || 'Your Degree Programme'}</p>
                         <p>Intake: August 2026 (Autumn Semester)</p>
                         <p>Status: Conditional Offer</p>
                     </div>
@@ -233,7 +233,7 @@ serve(async (req) => {
                     <p>We are delighted to officially confirm your admission to Kestora University following the successful confirmation of your tuition payment.</p>
                     <p>You have been admitted to study:</p>
                     <div style="margin: 20px 0;">
-                        <p>Programme: ${applicationData?.course_title || 'Your Degree Programme'}</p>
+                        <p>Programme: ${applicationData?.course?.title || 'Your Degree Programme'}</p>
                         <p>Intake: ${applicationData?.intake || 'August 2026 (Autumn Semester)'}</p>
                         <p>Student ID: ${applicationData?.student_id || ''}</p>
                     </div>
