@@ -36,7 +36,7 @@ export default function NewsletterEmail({
                         <Section className="bg-white p-[30px] text-center border-b border-solid border-[#eeeeee]">
                             <Img
                                 src="https://kestora.online/logo-kestora.png"
-                                width="160"
+                                width="200"
                                 alt="Kestora University"
                                 className="my-0 mx-auto"
                             />
@@ -45,9 +45,10 @@ export default function NewsletterEmail({
                         {/* Hero Image */}
                         <Section className="p-0">
                             <Img
-                                src="https://kestora.online/images/international-students.png"
+                                src="https://kestora.online/images/scholarships.png"
                                 width="600"
-                                alt="International Students"
+                                height="150"
+                                alt="Scholarships"
                                 className="w-full h-auto block"
                             />
                         </Section>

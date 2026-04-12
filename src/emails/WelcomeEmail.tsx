@@ -36,10 +36,19 @@ export default function WelcomeEmail({
                         <Section className="mt-[32px]">
                             <Img
                                 src="https://kestora.online/logo-kestora.png" // Replace with actual logo URL
-                                width="32"
-                                height="32"
+                                width="64"
+                                height="64"
                                 alt="Kestora University"
                                 className="my-0 mx-auto"
+                            />
+                        </Section>
+                        <Section className="mt-[16px]">
+                            <Img
+                                src="https://kestora.online/images/scholarships.png"
+                                width="465"
+                                height="150"
+                                alt="Scholarships"
+                                className="w-full object-cover"
                             />
                         </Section>
 

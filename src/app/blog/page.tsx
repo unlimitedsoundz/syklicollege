@@ -29,6 +29,7 @@ export default function BlogPage() {
 
                     <h3>Winter Beauty</h3>
                     <p>Photo: Mika Laine</p>
+                    <Image src="https://i.pinimg.com/1200x/37/11/55/371155bcc5861f19f08e03cacba45e10.jpg" alt="Winter Beauty" width={1200} height={1200} className="w-full h-auto mb-4" />
                     <h3>WINTER IN FINLAND</h3>
                     <p>Coming from Nigeria, I was used to just two seasons: the dry (harmattan) and the wet (rainy) seasons. Experiencing all four seasons in Finland for the first time was both fascinating and surprising. Each season has its own charm, and the speed at which temperatures shift throughout the year is remarkable.</p>
 
