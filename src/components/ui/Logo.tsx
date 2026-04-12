@@ -12,7 +12,7 @@ export function Logo({ className = "", onClick }: { className?: string, onClick?
         >
             <div className={`relative transition-all duration-300 ${isDarkBackground ? 'brightness-0 invert' : ''}`}>
                 <Image
-                    src="https://kestora.online/logo-kestora.png"
+                    src="/logo-kestora.png"
                     alt="Kestora University"
                     width={120}
                     height={120}

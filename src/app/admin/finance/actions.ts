@@ -38,7 +38,7 @@ export async function pushInvoice(applicationId: string, customFee: number, invo
         .select(`
             *,
             course:Course(title),
-            user:profiles(first_name, last_name, id)
+            user:profiles(first_name, last_name, email, id)
         `)
         .eq('id', applicationId)
         .single();
@@ -52,34 +52,7 @@ export async function pushInvoice(applicationId: string, customFee: number, invo
     // Send email notification to student
     try {
         await sendEmail({
-            to: application.user.id, // Assuming user.id is email? Wait, no, profiles.id is user id, but email is in auth.
-            // Actually, need to get the email from auth.users or from profiles if stored.
-            // Assuming profiles has email, or get from auth.
-            // In Supabase, email is in auth.users, but for simplicity, let's assume we store email in profiles or fetch it.
-
-            // Actually, looking at the code, applications have user_id, profiles have id which is user_id.
-            // But email is not in profiles. I need to get it from auth.
-            // For now, let's assume we need to fetch the user email.
-
-            // Since it's client-side, we can't access auth.users directly.
-            // Perhaps store email in profiles.
-
-            // Let me check profiles table structure.
-
-            // From other code, it uses user?.email, so probably profiles has email.
-
-            // In dashboard, it uses profile?.first_name || user?.email, so user has email.
-
-            // But in server action, we can fetch.
-
-            // Actually, in Supabase, to get email, we can use auth.admin.getUserById or something, but since it's client, perhaps profiles has email field.
-
-            // Looking at other emails, they pass email.
-
-            // For now, I'll assume profiles has email field.
-
-            to: application.contact_details?.email || application.user?.email || 'student@kestora.online', // Adjust as needed
-
+            to: application.user?.email || application.contact_details?.email || 'tuition@kestora.online',
             subject: `Your ${invoiceType} Invoice is Ready`,
             react: InvoiceReadyEmail({
                 firstName: application.personal_info?.firstName || application.user?.first_name || 'Student',

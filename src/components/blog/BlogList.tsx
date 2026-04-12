@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { createClient } from '@/utils/supabase/client';
@@ -12,23 +13,32 @@ export default function BlogList() {
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const postsPerPage = 9;
+    const searchParams = useSearchParams();
+    const tag = searchParams.get('tag');
 
     useEffect(() => {
         async function fetchPosts() {
             const supabase = createClient();
 
-            const { data: blogData } = await supabase
+            let query = supabase
                 .from('blogs')
                 .select('*')
                 .eq('published', true)
                 .order('publishDate', { ascending: false });
+
+            if (tag) {
+                query = query.contains('tags', tag);
+            }
+
+            const { data: blogData } = await query;
 
             setPosts(blogData || []);
             setLoading(false);
         }
 
         fetchPosts();
-    }, []);
+        setCurrentPage(1);
+    }, [tag]);
 
     const totalPages = Math.ceil(posts.length / postsPerPage);
     const startIndex = (currentPage - 1) * postsPerPage;
@@ -90,13 +100,26 @@ export default function BlogList() {
                                     {post.title}
                                 </h2>
 
-                            <p className="text-neutral-600 text-sm line-clamp-3 mb-6 flex-1">
+                            <p className="text-neutral-600 text-sm line-clamp-3 mb-4 flex-1">
                                 {post.excerpt || post.content?.replace(/<[^>]*>/g, '').slice(0, 150)}...
                             </p>
 
-                                <div className="mt-auto flex items-center text-xs font-bold uppercase tracking-wider text-black">
-                                    Read more <ArrowRight size={14} weight="bold" className="ml-2 transform group-hover:translate-x-1 transition-transform" />
+                            {post.tags && post.tags.length > 0 && (
+                                <div className="flex flex-wrap gap-1 mb-3">
+                                    {post.tags.slice(0, 3).map((tag, index) => (
+                                        <span
+                                            key={index}
+                                            className="inline-block bg-black text-white text-xs px-2 py-1 rounded-full capitalize"
+                                        >
+                                            {tag}
+                                        </span>
+                                    ))}
                                 </div>
+                            )}
+
+                            <div className="mt-auto flex items-center text-xs font-bold uppercase tracking-wider text-black">
+                                Read more <ArrowRight size={14} weight="bold" className="ml-2 transform group-hover:translate-x-1 transition-transform" />
+                            </div>
                             </div>
                         </Link>
                     );

@@ -53,7 +53,9 @@ export default function EditBlogPost() {
                     .from('blog-images')
                     .upload(fileName, file);
 
-                if (!error) {
+                if (error) {
+                    alert('Error uploading image: ' + error.message);
+                } else {
                     const { data: { publicUrl } } = supabase.storage
                         .from('blog-images')
                         .getPublicUrl(fileName);
@@ -86,10 +88,14 @@ export default function EditBlogPost() {
     const onSubmit = async (data: FormData) => {
         const supabase = createClient();
         const cleanedContent = data.content
+            .replace(/&nbsp;/g, ' ') // ✅ MAIN FIX: Replace non-breaking spaces with normal spaces
+            .replace(/\s+/g, ' ')   // Normalize spacing
             .replace(/—/g, '')
             .replace(/word-break:\s*break-all;?/gi, '')
             .replace(/overflow-wrap:\s*anywhere;?/gi, '')
-            .replace(/white-space:\s*pre-wrap;?/gi, '');
+            .replace(/white-space:\s*pre-wrap;?/gi, '')
+            .replace(/style="[^"]*"/gi, '') // Remove inline styles
+            .replace(/<p><\/p>/g, ''); // Remove empty paragraphs
         const { error } = await supabase.from('blogs').update({
             ...data,
             content: cleanedContent,
@@ -165,7 +171,9 @@ export default function EditBlogPost() {
                     <ReactQuill
                         ref={quillRef}
                         value={content}
-                        onChange={(value) => setValue('content', value)}
+                        onChange={(value) => {
+                            setValue('content', value);
+                        }}
                         theme="snow"
                         modules={{
                             toolbar: {
@@ -186,7 +194,7 @@ export default function EditBlogPost() {
                                 handlers: {
                                     image: imageHandler
                                 }
-                            },
+                            }
                         }}
                     />
                 </div>

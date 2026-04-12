@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { CaretLeft } from "@phosphor-icons/react/dist/ssr";
@@ -37,14 +38,34 @@ export default function BlogPage() {
                 </div>
             </section>
 
-            <div className="container mx-auto px-4 py-6 max-w-3xl">
-                <Link href="/" className="text-neutral-500 hover:text-black font-bold uppercase tracking-wider text-sm inline-flex items-center gap-2 transition-colors">
-                    <CaretLeft size={16} weight="bold" /> Back to Home
-                </Link>
+            {/* Breadcrumb Navigation */}
+            <div className="container mx-auto px-4 py-6 max-w-6xl">
+                <nav aria-label="Breadcrumb" className="flex items-center space-x-2 text-sm">
+                    <Link
+                        href="/"
+                        className="text-neutral-500 hover:text-black transition-colors font-medium"
+                    >
+                        Home
+                    </Link>
+                    <span className="text-neutral-400">/</span>
+                    <span className="text-neutral-900 font-medium">Blog</span>
+                </nav>
+
+                {/* Alternative: Compact back navigation */}
+                <div className="mt-4">
+                    <Link href="/" className="text-neutral-600 hover:text-black font-semibold inline-flex items-center gap-2 transition-colors group">
+                        <CaretLeft size={16} weight="bold" className="group-hover:-translate-x-1 transition-transform" />
+                        Back to Home
+                        <span className="text-neutral-400">•</span>
+                        <span className="text-neutral-500 text-xs uppercase tracking-wide">University</span>
+                    </Link>
+                </div>
             </div>
 
             <div className="container mx-auto px-4 py-8 md:py-16 max-w-6xl">
-                <BlogList />
+                <Suspense fallback={<div>Loading blogs...</div>}>
+                    <BlogList />
+                </Suspense>
 
                 {/* Related Links */}
                 <div className="mt-16 pt-10">
