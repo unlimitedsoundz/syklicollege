@@ -191,7 +191,7 @@ export default async function CourseDetailPage({ params }: Props) {
                             </div>
 
                             <Link
-                                href="/admissions"
+                                href={`/portal/apply?program=${course.slug}`}
                                 className="block w-full bg-neutral-900 text-white text-center py-4 rounded-none font-bold hover:bg-neutral-800 transition-colors"
                             >
                                 Apply Now

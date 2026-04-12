@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Course } from '@/types/database';
 import { ArrowRight, BookOpen, Lightning as Zap } from "@phosphor-icons/react/dist/ssr";
 import { getTuitionFee, calculateDiscountedFee, mapSchoolToTuitionField } from '@/utils/tuition';
@@ -9,14 +9,26 @@ import { useRouter } from 'next/navigation';
 
 interface CourseSelectorProps {
     initialCourses: (Course & { school: { name: string, slug: string } | null })[];
+    initialSelected?: string | null;
 }
 
-export default function CourseSelector({ initialCourses }: CourseSelectorProps) {
+export default function CourseSelector({ initialCourses, initialSelected }: CourseSelectorProps) {
     const [filter, setFilter] = useState<'ALL' | 'BACHELOR' | 'MASTER'>('ALL');
     const [searchQuery, setSearchQuery] = useState('');
     const [isSubmitting, setIsSubmitting] = useState<string | null>(null);
+    const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
     const router = useRouter();
     const supabase = createClient();
+
+    // Pre-select course if initialSelected is provided
+    useEffect(() => {
+        if (initialSelected) {
+            const course = initialCourses.find(c => c.slug === initialSelected);
+            if (course) {
+                setSelectedCourse(course.id);
+            }
+        }
+    }, [initialSelected, initialCourses]);
 
     const handleSelectProgramme = async (courseId: string) => {
         setIsSubmitting(courseId);

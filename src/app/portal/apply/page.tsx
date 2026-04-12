@@ -2,14 +2,17 @@
 
 import { useState, useEffect } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import CourseSelector from './CourseSelector';
 
 export default function ApplyPage() {
     const [courses, setCourses] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const router = useRouter();
+    const searchParams = useSearchParams();
     const supabase = createClient();
+
+    const initialProgram = searchParams.get('program');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -59,7 +62,7 @@ export default function ApplyPage() {
                 Ensure you meet the minimum entry requirements listed in the programme details.
             </p>
 
-            <CourseSelector initialCourses={courses} />
+            <CourseSelector initialCourses={courses} initialSelected={initialProgram} />
         </div>
     );
 }

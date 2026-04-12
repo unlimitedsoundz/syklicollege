@@ -10,7 +10,7 @@ DECLARE
 BEGIN
     LOOP
         new_id := 'KC' || LPAD(floor(random() * 10000000)::text, 7, '0');
-        
+
         -- Check all unique constraints across ALL tables
         SELECT EXISTS (
             SELECT 1 FROM public.profiles WHERE student_id = new_id
@@ -21,7 +21,7 @@ BEGIN
             UNION ALL
             SELECT 1 FROM public.admissions WHERE student_id = new_id
         ) INTO id_exists;
-        
+
         EXIT WHEN NOT id_exists;
     END LOOP;
     RETURN new_id;
@@ -42,7 +42,7 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION set_application_number()
 RETURNS TRIGGER AS $$
 BEGIN
-    IF NEW.application_number IS NULL OR NEW.application_number NOT LIKE 'KC%' OR LENGTH(NEW.application_number) != 9 THEN
+    IF NEW.application_number IS NULL OR NEW.application_number NOT LIKE 'KC%' OR LENGTH(NEW.application_number) != 8 THEN
         NEW.application_number := generate_student_id();
     END IF;
     RETURN NEW;
@@ -65,35 +65,18 @@ BEGIN
     ) ON COMMIT DROP;
 
     -- a. Build mapping from profiles (primary source of truth)
-    FOR row_record IN 
-        SELECT id, student_id FROM public.profiles 
-        WHERE student_id IS NULL 
-           OR student_id LIKE 'SK%' 
-           OR student_id NOT LIKE 'KC%' 
-           OR LENGTH(student_id) != 9 
+    FOR row_record IN
+        SELECT id, student_id FROM public.profiles
+        WHERE student_id IS NULL
+            OR student_id LIKE 'SK%'
+            OR student_id NOT LIKE 'KC%'
+            OR LENGTH(student_id) != 8
     LOOP
         -- Determine new ID
-        IF row_record.student_id LIKE 'SK%' AND LENGTH(row_record.student_id) = 9 THEN
-            new_val := 'KC' || SUBSTRING(row_record.student_id FROM 3);
-            
-            -- Check if this specific KC ID is already taken by someone else
-            SELECT EXISTS (
-                SELECT 1 FROM public.profiles WHERE student_id = new_val AND id != row_record.id
-                UNION ALL
-                SELECT 1 FROM public.applications WHERE application_number = new_val AND user_id != row_record.id
-                UNION ALL
-                SELECT 1 FROM public.students WHERE student_id = new_val AND user_id != row_record.id
-                UNION ALL
-                SELECT 1 FROM public.admissions WHERE student_id = new_val AND user_id != row_record.id
-                UNION ALL
-                SELECT 1 FROM id_map WHERE new_id = new_val
-            ) INTO collision;
-
-            IF collision THEN
-                new_val := generate_student_id();
-            END IF;
-        ELSE
+        IF row_record.student_id LIKE 'SK%' OR LENGTH(row_record.student_id) != 8 OR row_record.student_id NOT LIKE 'KC%' THEN
             new_val := generate_student_id();
+        ELSE
+            new_val := row_record.student_id; -- Keep if already correct
         END IF;
 
         INSERT INTO id_map (user_id, old_id, new_id)
@@ -121,11 +104,11 @@ BEGIN
 
     -- e. Apply mapping to students (lowercase SIS table)
     -- We update individually to handle cases where a user might have multiple records
-    FOR row_record IN 
+    FOR row_record IN
         SELECT id, user_id, student_id FROM public.students
     LOOP
         -- If this record needs updating
-        IF row_record.student_id NOT LIKE 'KC%' OR LENGTH(row_record.student_id) != 9 THEN
+        IF row_record.student_id NOT LIKE 'KC%' OR LENGTH(row_record.student_id) != 8 THEN
             -- Check if we have a map for this user
             SELECT new_id INTO new_val FROM id_map WHERE user_id = row_record.user_id;
             
