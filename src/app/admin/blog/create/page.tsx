@@ -63,9 +63,14 @@ export default function CreateBlogPost() {
 
     const onSubmit = async (data: FormData) => {
         const supabase = createClient();
+            const cleanedContent = data.content
+                .replace(/—/g, '')
+                .replace(/word-break:\s*break-all;?/gi, '')
+                .replace(/overflow-wrap:\s*anywhere;?/gi, '')
+                .replace(/white-space:\s*pre-wrap;?/gi, '');
             const { error } = await supabase.from('blogs').insert([{
                 ...data,
-                content: data.content.replace(/—/g, ''),
+                content: cleanedContent,
                 publishDate: new Date(data.publishDate).toISOString(),
             }]);
         if (error) alert('Error creating post');

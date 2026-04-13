@@ -20,16 +20,16 @@ interface BlogPost {
 }
 
 interface BlogPost {
-  id: string;
-  title: string;
-  slug: string;
-  content: string;
-  excerpt?: string;
-  imageUrl?: string;
-  publishDate: string;
-  published: boolean;
-  createdAt: string;
-  updatedAt: string;
+    id: string;
+    title: string;
+    slug: string;
+    content: string;
+    excerpt?: string;
+    imageUrl?: string;
+    publishDate: string;
+    published: boolean;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export async function generateStaticParams() {
@@ -107,8 +107,8 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
                 </Link>
             </div>
 
-            <div className="container mx-auto px-4 py-8 md:py-16 max-w-4xl">
-                <div className="prose max-w-none overflow-wrap-break-word">
+            <div className="max-w-3xl mx-auto px-6">
+                <div className="prose max-w-none blog-content">
                     <div dangerouslySetInnerHTML={{ __html: post.content }} />
                 </div>
 

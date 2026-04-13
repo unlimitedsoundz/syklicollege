@@ -101,3 +101,15 @@ body:not(:has([data-theme="admin"])):not(:has([data-theme="portal"])) {
 .ql-editor p {
   margin: 1rem 0;
 }
+
+/* Blog content typography fix - force clean text wrapping */
+.blog-content {
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+  white-space: normal !important;
+}
+
+.blog-content * {
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+}
