@@ -18,7 +18,7 @@ export default function BlogList() {
             const supabase = createClient();
 
             const { data: blogData } = await supabase
-                .from('Blog')
+                .from('blogs')
                 .select('*')
                 .eq('published', true)
                 .order('publishDate', { ascending: false });
