@@ -169,7 +169,7 @@ export default function TuitionPaymentPage({ admissionOffer, application }: {
                             </div>
                             <div className="sm:text-right">
                                 <div className="text-[10px] font-normal text-black uppercase tracking-widest mb-1">Payment Reference</div>
-                                <div className="font-mono text-sm text-black bg-neutral-50 px-2 py-1 rounded-sm inline-block sm:block break-all">
+                                <div className="font-mono text-sm text-black bg-neutral-50 px-2 py-1 rounded-sm inline-block sm:block break-normal break-word whitespace-normal">
                                     {(() => {
                                         let hash = 0;
                                         const str = admissionOffer.id;

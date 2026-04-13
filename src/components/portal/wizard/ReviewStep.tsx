@@ -147,7 +147,7 @@ export default function ReviewStep({ application }: Props) {
                     <div className="space-y-4">
                         <div>
                             <h4 className="text-[10px] font-bold uppercase tracking-widest text-primary mb-3">Motivation Letter / Statement of Purpose</h4>
-                            <div className="text-xs text-neutral-700 font-medium leading-relaxed bg-white p-4 rounded border border-neutral-100 whitespace-pre-wrap break-words">
+                            <div className="text-xs text-neutral-700 font-medium leading-relaxed bg-white p-4 rounded border border-neutral-100 whitespace-pre-wrap break-normal break-word whitespace-normal">
                                 {motivation.statementOfPurpose || "No statement provided."}
                             </div>
                         </div>
