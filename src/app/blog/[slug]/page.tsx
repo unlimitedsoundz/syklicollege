@@ -129,7 +129,6 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
                     </div>
                 </div>
             </div>
-            </div>
         </div>
     );
 }
