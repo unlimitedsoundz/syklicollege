@@ -63,10 +63,10 @@ export default function CreateBlogPost() {
 
     const onSubmit = async (data: FormData) => {
         const supabase = createClient();
-        const { error } = await supabase.from('Blog').insert([{
-            ...data,
-            publishDate: new Date(data.publishDate).toISOString(),
-        }]);
+            const { error } = await supabase.from('blogs').insert([{
+                ...data,
+                publishDate: new Date(data.publishDate).toISOString(),
+            }]);
         if (error) alert('Error creating post');
         else router.push('/admin/blog');
     };

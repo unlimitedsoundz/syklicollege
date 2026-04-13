@@ -73,7 +73,7 @@ export default function EditBlogPost() {
 
     async function fetchPost() {
         const supabase = createClient();
-        const { data } = await supabase.from('Blog').select('*').eq('id', id).single();
+        const { data } = await supabase.from('blogs').select('*').eq('id', id).single();
         if (data) {
             reset({
                 ...data,
@@ -85,7 +85,7 @@ export default function EditBlogPost() {
 
     const onSubmit = async (data: FormData) => {
         const supabase = createClient();
-        const { error } = await supabase.from('Blog').update({
+        const { error } = await supabase.from('blogs').update({
             ...data,
             publishDate: new Date(data.publishDate).toISOString(),
         }).eq('id', id);

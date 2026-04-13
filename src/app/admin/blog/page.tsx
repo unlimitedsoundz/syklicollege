@@ -16,7 +16,7 @@ export default function AdminBlogPage() {
 
     async function fetchPosts() {
         const supabase = createClient();
-        const { data } = await supabase.from('Blog').select('*').order('createdAt', { ascending: false });
+            const { data } = await supabase.from('blogs').select('*').order('createdAt', { ascending: false });
         setPosts(data || []);
         setLoading(false);
     }
@@ -24,7 +24,7 @@ export default function AdminBlogPage() {
     async function deletePost(id: string) {
         if (!confirm('Are you sure you want to delete this post?')) return;
         const supabase = createClient();
-        await supabase.from('Blog').delete().eq('id', id);
+        await supabase.from('blogs').delete().eq('id', id);
         fetchPosts();
     }
 

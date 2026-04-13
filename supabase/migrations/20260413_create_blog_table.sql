@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS "Blog" (
+CREATE TABLE IF NOT EXISTS "blogs" (
   "id" TEXT NOT NULL DEFAULT gen_random_uuid(),
   "title" TEXT NOT NULL,
   "slug" TEXT NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS "Blog" (
   "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
   "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  CONSTRAINT "Blog_pkey" PRIMARY KEY ("id")
+  CONSTRAINT "blogs_pkey" PRIMARY KEY ("id")
 );
 
-CREATE UNIQUE INDEX IF NOT EXISTS "Blog_slug_key" ON "Blog"("slug");
+CREATE UNIQUE INDEX IF NOT EXISTS "blogs_slug_key" ON "blogs"("slug");

@@ -33,48 +33,32 @@ interface BlogPost {
 
 export async function generateStaticParams() {
     const supabase = createStaticClient();
-    const { data: blogs } = await supabase.from('Blog').select('slug');
+    const { data: blogs } = await supabase
+        .from("blogs")
+        .select("slug");
     return blogs?.map(({ slug }) => ({ slug })) || [];
 }
 
 export const dynamicParams = false;
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export default async function BlogDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+    const resolvedParams = await params;
+    const { slug } = resolvedParams;
+
     const supabase = createStaticClient();
-    const { data: blog } = await supabase
-        .from('Blog')
-        .select('title, excerpt')
-        .eq('slug', params.slug)
-        .eq('published', true)
+
+    const { data: blog, error } = await supabase
+        .from("blogs")
+        .select("*")
+        .eq("slug", slug)
         .single();
 
-    if (!blog) {
-        return {
-            title: 'Blog Post Not Found',
-        };
+    if (error) {
+        console.error("DB Error:", error);
+        throw new Error("Failed to fetch blog");
     }
 
-    return {
-        title: blog.title,
-        description: blog.excerpt || 'Read this blog post from Kestora University',
-        openGraph: {
-            title: blog.title,
-            description: blog.excerpt || 'Read this blog post from Kestora University',
-            type: 'article',
-        },
-    };
-}
-
-export default async function BlogDetailPage({ params }: { params: { slug: string } }) {
-    const supabase = createStaticClient();
-    const { data: blog, error } = await supabase
-        .from('Blog')
-        .select('*')
-        .eq('slug', params.slug)
-        .single();
-
-    if (error || !blog) {
-        console.error('Blog fetch error:', error);
+    if (!blog) {
         notFound();
     }
 
