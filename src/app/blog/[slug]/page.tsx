@@ -107,7 +107,7 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
             </div>
 
             <div className="container mx-auto px-4 py-8 md:py-16 max-w-4xl">
-                <div className="prose prose-lg prose-emerald mx-auto max-w-none px-4" dangerouslySetInnerHTML={{ __html: post.content }} />
+                <div className="prose prose-lg prose-emerald mx-auto prose-img:my-8 prose-p:my-4 overflow-hidden break-words" dangerouslySetInnerHTML={{ __html: post.content }} />
 
                 {/* Related Links */}
                 <div className="mt-16 pt-10">
