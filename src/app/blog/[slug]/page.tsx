@@ -20,12 +20,11 @@ interface BlogPost {
 
 export async function generateStaticParams() {
     const supabase = createStaticClient();
-    const { data: blogs } = await supabase
-        .from('Blog')
-        .select('slug')
-        .eq('published', true);
+    const { data: blogs } = await supabase.from('Blog').select('slug');
     return blogs?.map(({ slug }) => ({ slug })) || [];
 }
+
+export const dynamicParams = false;
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
     const supabase = createStaticClient();
