@@ -87,6 +87,7 @@ export default function EditBlogPost() {
         const supabase = createClient();
         const { error } = await supabase.from('blogs').update({
             ...data,
+            content: data.content.replace(/—/g, ''),
             publishDate: new Date(data.publishDate).toISOString(),
         }).eq('id', id);
         if (error) alert('Error updating post');

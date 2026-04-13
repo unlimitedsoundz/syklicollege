@@ -65,6 +65,7 @@ export default function CreateBlogPost() {
         const supabase = createClient();
             const { error } = await supabase.from('blogs').insert([{
                 ...data,
+                content: data.content.replace(/—/g, ''),
                 publishDate: new Date(data.publishDate).toISOString(),
             }]);
         if (error) alert('Error creating post');
