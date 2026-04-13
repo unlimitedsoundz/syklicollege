@@ -142,7 +142,7 @@ export default function CreateBlogPost() {
                             toolbar: {
                                 container: [
                                     [{ 'header': [1, 2, false] }],
-                                    ['bold', 'italic', 'underline', 'strike'],
+                                    ['bold', 'italic'],
                                     [{ 'list': 'ordered'}, { 'list': 'bullet' }],
                                     ['link', 'image'],
                                     ['clean']
