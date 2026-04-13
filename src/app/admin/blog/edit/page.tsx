@@ -24,6 +24,10 @@ interface FormData {
 export default function EditBlogPost() {
     const searchParams = useSearchParams();
     const id = searchParams.get('id');
+
+    if (!id) {
+        return <div className="p-8">Invalid blog post ID</div>;
+    }
     const [uploading, setUploading] = useState(false);
     const [loading, setLoading] = useState(true);
     const router = useRouter();

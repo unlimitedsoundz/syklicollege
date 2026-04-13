@@ -20,7 +20,10 @@ interface BlogPost {
 
 export async function generateStaticParams() {
     const supabase = createStaticClient();
-    const { data: blogs } = await supabase.from('Blog').select('slug');
+    const { data: blogs } = await supabase
+        .from('Blog')
+        .select('slug')
+        .eq('published', true);
     return blogs?.map(({ slug }) => ({ slug })) || [];
 }
 
