@@ -117,7 +117,7 @@ export default function MasterAdmissionsPage() {
                                              <p className="font-bold text-sm">Application closes at 15:00 UTC+2</p>
                                          </div>
                                          <div className="relative pl-6 before:absolute before:left-0 before:top-2 before:w-2 before:h-2 before:bg-gray-400 before:rounded-full">
-                                             <span className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">7 April 2026</span>
+                                              <span className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">23 April 2026</span>
                                              <p className="font-bold text-sm">Final deadline to upload all documents (15:00 UTC+2)</p>
                                          </div>
                                      </div>
@@ -380,7 +380,7 @@ export default function MasterAdmissionsPage() {
                                      <div className="text-5xl font-bold text-gray-200">04</div>
                                      <div>
                                          <h3 className="text-xl font-bold mb-4 text-black">Upload Required Documents</h3>
-                                         <p className="mb-4 font-bold text-gray-800">Deadline: 7 April 2026 at 15:00 (UTC+2)</p>
+                                          <p className="mb-4 font-bold text-gray-800">Deadline: 23 April 2026 at 15:00 (UTC+2)</p>
                                          <ul className="grid sm:grid-cols-2 gap-2 text-sm text-gray-700 mb-4">
                                              <li className="flex gap-2 items-center"><FileText size={16} weight="regular" className="text-gray-500" /> Bachelor’s degree & transcripts</li>
                                              <li className="flex gap-2 items-center"><FileText size={16} weight="regular" className="text-gray-500" /> Proof of English proficiency (optional)</li>
@@ -483,7 +483,7 @@ export default function MasterAdmissionsPage() {
                          <section id="after" className="scroll-mt-32 bg-gradient-to-br from-gray-50 to-gray-100 p-12 rounded-3xl text-black shadow-sm">
                              <h2 className="text-3xl font-bold mb-6 text-gray-900">12. After Being Admitted</h2>
                              <ol className="space-y-6 list-decimal pl-5 font-bold text-black text-lg mb-8">
-                                 <li>Accept the offer by the stated deadline (5 June 2026).</li>
+                                  <li>Accept the offer by the stated deadline (23 April 2026).</li>
                                  <li>Submit certified documents (19 June or 21 August 2026).</li>
                                  <li>Pay tuition fees (if applicable).</li>
                                  <li>Complete enrolment and orientation.</li>

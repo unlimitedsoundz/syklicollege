@@ -161,7 +161,7 @@ export default function BachelorsGuidePage() {
                                 <h3 className="font-bold text-lg mb-4">Deadline: 14 August 2026 (Recommended)</h3>
                                 <p className="text-neutral-600 mb-6">
                                     You must enrol as attending or non-attending to keep your study right.
-                                    Final deadline is 11 September 2026.
+                                    Final deadline is 23 April 2026.
                                 </p>
                                 <div className="grid md:grid-cols-2 gap-6">
                                     <div className="bg-neutral-50 p-4 rounded-lg">

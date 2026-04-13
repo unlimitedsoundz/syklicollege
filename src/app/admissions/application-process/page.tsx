@@ -96,7 +96,7 @@ export default function ApplicationProcessPage() {
                                 <div className="text-5xl font-bold text-gray-300 group-hover:text-black transition-colors">04</div>
                                 <div className="space-y-4">
                                     <h3 className="text-2xl font-bold text-black">Upload Required Documents</h3>
-                                    <p className="font-bold text-gray-700">Deadline: 7 April 2026 at 15:00 (UTC+2)</p>
+                                    <p className="font-bold text-gray-700">Deadline: 23 April 2026 at 15:00 (UTC+2)</p>
                                     <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-3 text-gray-800">
                                         <li className="flex gap-3 items-center"><div className="text-black"><FileText size={18} weight="fill" /></div> Bachelor’s degree & transcripts</li>
                                         <li className="flex gap-3 items-center"><div className="text-black"><FileText size={18} weight="fill" /></div> Proof of English proficiency (optional)</li>
@@ -174,7 +174,7 @@ export default function ApplicationProcessPage() {
                                 After Being Admitted
                             </h3>
                             <ul className="space-y-4 text-black">
-                                <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-2"></div> Accept the offer by the stated deadline (5 June 2026).</li>
+                                 <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-2"></div> Accept the offer by the stated deadline (23 April 2026).</li>
                                 <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-2"></div> Submit certified documents (19 June or 21 August 2026).</li>
                                 <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-2"></div> Pay tuition fees (if applicable).</li>
                                 <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-2"></div> Complete enrolment and orientation.</li>

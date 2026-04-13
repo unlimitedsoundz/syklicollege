@@ -197,7 +197,7 @@ export default function MastersGuidePage() {
                                     <div className="flex-1">
                                         <h3 className="font-bold text-lg mb-2">Enrolment Period</h3>
                                         <p className="text-neutral-600">Opens 18 May 2026</p>
-                                        <p className="font-bold text-black">Recommended deadline: 14 August 2026</p>
+                                        <p className="font-bold text-black">Recommended deadline: 23 April 2026</p>
                                     </div>
                                     <div className="flex-1 pl-8">
                                         <h3 className="font-bold text-lg mb-2">Status Options</h3>
