@@ -89,3 +89,15 @@ body:not(:has([data-theme="admin"])):not(:has([data-theme="portal"])) {
     box-shadow: none !important;
   }
 }
+
+/* Blog content styling to match ReactQuill editor */
+.ql-editor {
+  word-break: keep-all;
+  hyphens: none;
+}
+.ql-editor img {
+  margin: 1rem 0;
+}
+.ql-editor p {
+  margin: 1rem 0;
+}

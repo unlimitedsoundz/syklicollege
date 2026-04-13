@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { CaretLeft } from "@phosphor-icons/react/dist/ssr";
 import { notFound } from 'next/navigation';
 
+
 interface BlogPost {
     id: string;
     title: string;
@@ -106,8 +107,10 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
                 </Link>
             </div>
 
-            <div className="container mx-auto px-4 py-8 md:py-16 max-w-3xl">
-                <div className="prose prose-lg prose-emerald mx-auto text-center prose-img:my-8 prose-p:my-4 overflow-hidden break-words" dangerouslySetInnerHTML={{ __html: post.content }} />
+            <div className="container mx-auto px-4 py-8 md:py-16 max-w-4xl">
+                <div className="prose max-w-none">
+                    <div dangerouslySetInnerHTML={{ __html: post.content }} />
+                </div>
 
                 {/* Related Links */}
                 <div className="mt-16 pt-10">
