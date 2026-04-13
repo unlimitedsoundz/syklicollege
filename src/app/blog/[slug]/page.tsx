@@ -66,21 +66,39 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
 
     return (
         <div className="min-h-screen bg-white">
-            {/* Hero Image */}
-            <div className="h-[50vh] min-h-[400px] relative overflow-hidden bg-neutral-900">
-                <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-transparent to-transparent opacity-80" />
-                <Image
-                    src={post.imageUrl || '/images/admissions/events.jpg'}
-                    alt={post.title}
-                    fill
-                    className="object-cover"
-                    priority
-                />
-                <div className="absolute bottom-0 left-0 w-full p-8 md:p-16 text-white max-w-5xl">
-                    <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight pt-8">{post.title}</h1>
-                    <p className="text-neutral-300 text-lg">{new Date(post.publishDate).toLocaleDateString()}</p>
+            {/* Hero Section */}
+            <section className="bg-yellow-200 text-black">
+                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-32 pb-4 h-auto min-h-[600px] md:pt-48 lg:h-[600px] lg:py-0 relative mb-12">
+                    {/* Left Content */}
+                    <div className="lg:w-1/2 space-y-2 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight pt-8 lg:pt-24">
+                            {post.title}
+                        </h1>
+                        <p className="text-[21px] text-black max-w-xl leading-relaxed my-4">
+                            {post.excerpt || 'Read this insightful blog post from Kestora University student ambassadors.'}
+                        </p>
+                        <p className="text-sm text-gray-700">
+                            Published on {new Date(post.publishDate).toLocaleDateString()}
+                        </p>
+                    </div>
+
+                    {/* Right Image */}
+                    <div className="lg:w-1/2 h-full w-full relative mt-4 lg:mt-0 lg:translate-y-16 z-20 flex justify-center lg:block">
+                        <div className="h-full">
+                            <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800 shadow-2xl overflow-hidden">
+                                <Image
+                                    src={post.imageUrl || '/images/1775817359452-019d76f5-cb93-7e9a-8515-61a71c69fa56.png'}
+                                    alt={post.title}
+                                    fill
+                                    priority
+                                    className="object-cover opacity-90"
+                                    sizes="(max-width: 1024px) 368px, 50vw"
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
 
             <div className="container mx-auto px-4 py-6 max-w-3xl">
                 <Link href="/blog" className="text-neutral-500 hover:text-black font-bold uppercase tracking-wider text-sm inline-flex items-center gap-2 transition-colors">
