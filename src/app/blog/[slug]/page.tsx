@@ -111,7 +111,6 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
                 <div className="prose max-w-xl break-word px-4">
                     <div dangerouslySetInnerHTML={{ __html: post.content }} />
                 </div>
-            </div>
 
                 {/* Related Links */}
                 <div className="mt-16 pt-10">
@@ -129,6 +128,7 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
                         ))}
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     );
