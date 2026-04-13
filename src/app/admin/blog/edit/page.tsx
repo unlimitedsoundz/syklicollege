@@ -116,7 +116,7 @@ export default function EditBlogPost() {
     if (loading) return <div>Loading...</div>;
 
     return (
-        <div className="p-8 max-w-4xl mx-auto">
+        <div className="container mx-auto px-4 py-8 max-w-4xl">
             <div className="mb-8">
                 <Link href="/admin/blog" className="text-gray-600 hover:text-black flex items-center gap-2">
                     <ArrowLeft size={20} /> Back to Blog Management
