@@ -154,6 +154,15 @@ export default function AdmissionLetterEmail({
                             Welcome to your next chapter.
                         </Text>
 
+                        <Section className="text-center mt-[32px] mb-[32px]">
+                            <Link
+                                className="bg-[#000000] rounded text-white text-[12px] font-semibold no-underline text-center px-5 py-3"
+                                href="https://kestora.online/portal/student"
+                            >
+                                Enter student Portal
+                            </Link>
+                        </Section>
+
                         <Text className="text-black text-[14px] leading-[24px]">
                             Warm regards,
                         </Text>

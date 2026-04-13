@@ -1,18 +1,41 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { CaretLeft } from "@phosphor-icons/react/dist/ssr";
+import BlogList from '@/components/blog/BlogList';
 
 export default function BlogPage() {
     return (
         <div className="min-h-screen bg-white">
-            {/* Hero Image */}
-            <div className="h-[50vh] min-h-[400px] relative overflow-hidden bg-neutral-900">
-                <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-transparent to-transparent opacity-80" />
-                <div className="absolute bottom-0 left-0 w-full p-8 md:p-16 text-white max-w-5xl">
-                    <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight pt-8">My Experiences Studying in Finland</h1>
-                    <p className="text-neutral-300 text-lg">18.2.2024</p>
+            {/* Hero Section */}
+            <section className="bg-yellow-200 text-black">
+                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-32 pb-4 h-auto min-h-[600px] md:pt-48 lg:h-[600px] lg:py-0 relative mb-12">
+                    {/* Left Content */}
+                    <div className="lg:w-1/2 space-y-2 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight pt-8 lg:pt-24">
+                            Kestora Student Ambassadors Blog
+                        </h1>
+                        <p className="text-[21px] text-black max-w-xl leading-relaxed my-4">
+                            Stories and insights from Kestora University student ambassadors sharing their experiences studying and living in Finland.
+                        </p>
+                    </div>
+
+                    {/* Right Image */}
+                    <div className="lg:w-1/2 h-full w-full relative mt-4 lg:mt-0 lg:translate-y-16 z-20 flex justify-center lg:block">
+                        <div className="h-full">
+                            <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800 shadow-2xl overflow-hidden">
+                                <Image
+                                    src="/images/1775817359452-019d76f5-cb93-7e9a-8515-61a71c69fa56.png"
+                                    alt="Kestora Student Ambassadors Blog"
+                                    fill
+                                    priority
+                                    className="object-cover opacity-90"
+                                    sizes="(max-width: 1024px) 368px, 50vw"
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
 
             <div className="container mx-auto px-4 py-6 max-w-3xl">
                 <Link href="/" className="text-neutral-500 hover:text-black font-bold uppercase tracking-wider text-sm inline-flex items-center gap-2 transition-colors">
@@ -20,49 +43,8 @@ export default function BlogPage() {
                 </Link>
             </div>
 
-            <div className="container mx-auto px-4 py-8 md:py-16 max-w-3xl">
-                <div className="prose prose-lg prose-emerald mx-auto">
-
-                    <p>Finland is a truly beautiful country, and my decision to move here has been one of the best choices I've made. Studying in Finland has not only shaped my academic journey but also exposed me to entirely new seasons, cultures, and ways of life.</p>
-                    <p className="mt-6">Hi, my name is Adekunle Amosun. I am originally from Ondo State, Nigeria. I moved to Finland in September 2024 to begin my studies at Kestora University, where I am currently in my second year studying Design. In this blog, I share some of the experiences and cultural differences that stood out to me compared to life back home.</p>
-
-
-                    <h2 className="mt-6 mb-6" style={{ fontSize: '32px', fontWeight: '600' }}>WINTER IN FINLAND</h2>
-                    <p>Coming from Nigeria, I was used to just two seasons: the dry (harmattan) and the wet (rainy) seasons. Experiencing all four seasons in Finland for the first time was both fascinating and surprising. Each season has its own charm, and the speed at which temperatures shift throughout the year is remarkable.</p>
-                    <Image src="https://i.pinimg.com/736x/6d/fb/7f/6dfb7f0555c67462c603c654a4dc298a.jpg" alt="Four Seasons in Finland" width={736} height={736} className="w-full h-auto mb-4" />
-
-
-                    <p>During the winter of 2024, I experienced temperatures as low as -32°C, while in summer it reached as high as +30°C. Even though I grew up in a relatively cool region in Nigeria, nothing could have prepared me for the Finnish winter. It is intense, but as the Finns say, "there is no bad weather, only bad clothing."</p>
-                    <p>I quickly learned that surviving winter requires proper clothing—heavy jackets, gloves, scarves, wool hats, and thermal socks—as well as winter boots to prevent slipping on icy surfaces. I also noticed that cars switch to winter tyres with metal studs to improve traction and prevent accidents on icy roads.</p>
-
-
-                    <p>One thing that stood out to me is how well homes in Finland are designed for the cold. Buildings are properly insulated and equipped with central heating, so while it may be freezing outside, indoors remains warm and comfortable.</p>
-                    <p>I also learned that staying active during winter is important, along with taking vitamin D supplements due to limited sunlight.</p>
-
-
-                    <h2 className="mt-6 mb-6" style={{ fontSize: '32px', fontWeight: '600' }}>FUN ACTIVITIES TO DO DURING WINTER</h2>
-                    <p>Winter is not just about enduring the cold—it also comes with exciting activities. You can go skiing, ice skating, reindeer or dog sledding, and enjoy sauna sessions with friends and family.</p>
-                    <p>One of the most unforgettable experiences for me was seeing the northern lights, also known as auroras. Before coming to Finland, I had never heard of them, and witnessing them in person felt surreal.</p>
-
-                    <Image src="https://i.pinimg.com/736x/96/2c/53/962c531b4c11dba657f0a2522fd7f6d0.jpg" alt="Studying at Kestora University" width={736} height={736} className="w-full h-auto mb-4" />
-                    <h2 className="mb-6" style={{ fontSize: '32px', fontWeight: '600' }}>STUDYING AT KESTORA UNIVERSITY</h2>
-                    <p>Speaking about my academic experience at Kestora University, I must commend the school's management and staff for how effectively they handled operations during the COVID19 pandemic. Classes were smooth, and lecturers remained approachable and supportive.</p>
-                    <p>One thing I particularly appreciate is the interdisciplinary structure of the curriculum. Even as a Design student, I've had the opportunity to explore courses outside my field, expanding my creativity and perspective.</p>
-                    <p>There is also a very low hierarchical barrier between students and staff. Professors are accessible, open to discussions, and always willing to clarify complex topics.</p>
-
-                    <h3>Beautiful Sunset</h3>
-                    <Image src="https://i.pinimg.com/736x/3c/ef/76/3cef76735861449b747bc1304fbd4173.jpg" alt="Beautiful Sunset" width={736} height={736} className="w-full h-auto mb-4" />
-                    <p>Photo: Ville Saarinen</p>
-                    <p>In conclusion, studying at Kestora University has been an enriching experience. The curriculum aligns with industry standards and encourages students to think creatively and critically.</p>
-                    <p>Beyond academics, I've met amazing people from diverse cultural backgrounds, which has broadened my worldview. I've also explored different cuisines, including traditional Finnish dishes like reindeer meat and mämmi (a popular Easter dessert).</p>
-
-
-
-                    <h3 className="mt-6 font-bold">About the Author</h3>
-                    <p>Adekunle Amosun is from Ondo State, Nigeria. He is currently in his second year of the Design program at Kestora University. He has a technical background with a bachelor's degree in Computer Science from Adeleke University, Nigeria.</p>
-                    <p>He is a student ambassador who enjoys traveling, playing basketball, and board games during his free time.</p>
-                    <Image src="https://pbs.twimg.com/media/GgyJRSJW4AA4cDa.jpg" alt="Author Image" width={250} height={250} className="w-auto h-auto mb-4 mx-auto" />
-                </div>
+            <div className="container mx-auto px-4 py-8 md:py-16 max-w-6xl">
+                <BlogList />
 
                 {/* Related Links */}
                 <div className="mt-16 pt-10">
