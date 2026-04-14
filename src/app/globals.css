@@ -1,6 +1,10 @@
+@import 'ckeditor5/ckeditor5.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
 
 :root {
   --background: #ffffff;
@@ -175,6 +179,31 @@ body:not(:has([data-theme="admin"])):not(:has([data-theme="portal"])) {
   max-width: 100%;
   height: auto;
   margin: 1rem 0;
+}
+
+.blog-content figure.image {
+  display: table;
+  clear: both;
+  text-align: center;
+  margin: 1rem auto;
+}
+
+.blog-content figure.image img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  min-width: 50px;
+}
+
+.blog-content figcaption.image__caption {
+  display: table-caption;
+  caption-side: bottom;
+  word-wrap: break-word;
+  color: hsl(0, 0%, 20%);
+  background-color: hsl(0, 0%, 97%);
+  padding: 0.6em 1em;
+  font-size: 0.75em;
+  outline-offset: -1px;
 }
 
 .blog-content a {

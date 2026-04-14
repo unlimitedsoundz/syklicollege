@@ -1,15 +1,15 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import dynamic from 'next/dynamic';
+import { default as Dynamic } from 'next/dynamic';
 import { createClient } from '@/utils/supabase/client';
 import Link from 'next/link';
 import { ArrowLeft, Upload } from "@phosphor-icons/react";
 
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
-import 'react-quill/dist/quill.snow.css';
+const CKEditor = Dynamic(() => import('@ckeditor/ckeditor5-react').then(mod => mod.CKEditor), { ssr: false });
+import { ClassicEditor, Essentials, Paragraph, Bold, Italic, Heading, List, Link as CKLink, Image, ImageInsert, ImageToolbar, ImageCaption, ImageStyle, ImageResize, ImageTextAlternative, BlockQuote, CodeBlock, Undo, Font, FontSize, FontColor, FontBackgroundColor, Strikethrough, Underline, Subscript, Superscript, Alignment, Indent, RemoveFormat } from 'ckeditor5';
 
 interface FormData {
     title: string;
@@ -25,57 +25,9 @@ export default function CreateBlogPost() {
     const [uploading, setUploading] = useState(false);
     const [imageUrl, setImageUrl] = useState('');
     const router = useRouter();
-    const quillRef = useRef<any>();
     const { register, handleSubmit, setValue, watch } = useForm<FormData>();
 
-    const content = watch('content');
-
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            import('quill').then((Quill) => {
-                Quill.register('modules/imageResize', QuillImageResize.default || QuillImageResize);
-            });
-        }
-    }, []);
-
-    const imageHandler = () => {
-        const input = document.createElement('input');
-        input.setAttribute('type', 'file');
-        input.setAttribute('accept', 'image/*');
-        input.click();
-
-        input.onchange = async () => {
-            const file = input.files?.[0];
-            if (file) {
-                setUploading(true);
-                const supabase = createClient();
-                const fileExt = file.name.split('.').pop();
-                const fileName = `${Date.now()}.${fileExt}`;
-                const { data, error } = await supabase.storage
-                    .from('blog-images')
-                    .upload(fileName, file);
-
-                if (error) {
-                    alert('Error uploading image: ' + error.message);
-                } else {
-                    const { data: { publicUrl } } = supabase.storage
-                        .from('blog-images')
-                        .getPublicUrl(fileName);
-
-                    const quill = quillRef.current?.getEditor();
-                    const range = quill.getSelection();
-                    quill.insertEmbed(range.index, 'image', publicUrl);
-                    // Add alt text to the inserted image
-                    const img = quill.root.querySelector(`img[src="${publicUrl}"]`);
-                    if (img) {
-                        const alt = prompt('Enter alt text for the image:', 'Image description');
-                        img.alt = alt || 'Image';
-                    }
-                }
-                setUploading(false);
-            }
-        };
-    };
+    const [editorData, setEditorData] = useState('');
 
     const onSubmit = async (data: FormData) => {
         const supabase = createClient();
@@ -159,43 +111,42 @@ export default function CreateBlogPost() {
 
                 <div>
                     <label className="block font-medium mb-2">Content</label>
-                    <ReactQuill
-                        ref={quillRef}
-                        value={content}
-                        onChange={(value) => {
-                            setValue('content', value);
-                        }}
-                        theme="snow"
-                        modules={{
-                            toolbar: {
-                                container: [
-                                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-                                    [{ 'font': [] }],
-                                    [{ 'size': [] }],
-                                    ['bold', 'italic', 'underline', 'strike'],
-                                    [{ 'color': [] }, { 'background': [] }],
-                                    [{ 'script': 'sub'}, { 'script': 'super' }],
-                                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                                    [{ 'indent': '-1'}, { 'indent': '+1' }],
-                                    [{ 'align': [] }],
-                                    ['blockquote', 'code-block'],
-                                    ['link', 'image'],
-                                    ['clean']
-                                ],
-                                handlers: {
-                                    image: imageHandler
+                    <div className="ck-editor-wrapper">
+                        <CKEditor
+                            editor={ClassicEditor}
+                            data={editorData}
+                            onChange={(event, editor) => {
+                                const data = editor.getData();
+                                setEditorData(data);
+                                setValue('content', data);
+                            }}
+                            config={{
+                                licenseKey: 'GPL',
+                                plugins: [Essentials, Paragraph, Bold, Italic, Heading, List, CKLink, Image, ImageInsert, ImageToolbar, ImageCaption, ImageStyle, ImageResize, ImageTextAlternative, BlockQuote, CodeBlock, Undo, Font, FontSize, FontColor, FontBackgroundColor, Strikethrough, Underline, Subscript, Superscript, Alignment, Indent, RemoveFormat],
+                                toolbar: ['heading', '|', 'bold', 'italic', 'underline', '|', 'link', 'insertImage', 'imageUpload', '|', 'bulletedList', 'numberedList', '|', 'alignment', '|', 'blockQuote', '|', 'undo', 'redo'],
+                                image: {
+                                    resizeOptions: [
+                                        {
+                                            name: 'imageResize:original',
+                                            value: null,
+                                            label: 'Original'
+                                        },
+                                        {
+                                            name: 'imageResize:50',
+                                            value: '50',
+                                            label: '50%'
+                                        },
+                                        {
+                                            name: 'imageResize:75',
+                                            value: '75',
+                                            label: '75%'
+                                        }
+                                    ],
+                                    toolbar: ['imageTextAlternative', 'toggleImageCaption', '|', 'imageStyle:inline', 'imageStyle:block', 'imageStyle:side']
                                 }
-                            },
-                            imageResize: {
-                                displayStyles: {
-                                    backgroundColor: 'black',
-                                    border: 'none',
-                                    color: 'white'
-                                },
-                                modules: ['Resize', 'DisplaySize']
-                            }
-                        }}
-                    />
+                            }}
+                        />
+                    </div>
                 </div>
 
                 <div>

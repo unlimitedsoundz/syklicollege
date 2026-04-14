@@ -72,8 +72,8 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
         .replace(/word-break\s*:\s*break-all;?/gi, "")
         .replace(/overflow-wrap\s*:\s*anywhere;?/gi, "")
         .replace(/white-space\s*:\s*pre-wrap;?/gi, "")
-        // remove inline styles completely (nuclear option - safest)
-        .replace(/style="[^"]*"/gi, "")
+        // remove inline styles from all tags except img (to preserve image resizing)
+        .replace(/(<(?!img)[^>]*?)style="[^"]*"/gi, '$1')
         // optional: remove empty paragraphs
         .replace(/<p><\/p>/g, "");
 
