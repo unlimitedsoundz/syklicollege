@@ -48,12 +48,34 @@ export async function registerApplicant(formData: {
         return { error: userError.message };
     }
 
-    // 2. Fetch the generated Student ID for the UI
+    // 2. Ensure profile exists and has student_id
     if (userData.user) {
+        // Insert or update profile to trigger student_id generation
+        const { error: profileError } = await supabase
+            .from('profiles')
+            .upsert({
+                id: userData.user.id,
+                email: formData.email.toLowerCase().trim(),
+                first_name: formData.firstName,
+                last_name: formData.lastName,
+                country_of_residence: formData.country,
+                date_of_birth: formData.dateOfBirth,
+                role: 'APPLICANT',
+                student_id: null // This will trigger the generation via trigger
+            }, {
+                onConflict: 'id'
+            });
+
+        if (profileError) {
+            console.error('Profile creation error:', profileError);
+            // Continue anyway, as auth succeeded
+        }
+
+        // 3. Fetch the generated Student ID for the UI
         const { data: profile } = await supabase
             .from('profiles')
             .select('student_id')
-            .eq('email', formData.email)
+            .eq('id', userData.user.id)
             .single();
 
         return {

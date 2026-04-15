@@ -239,7 +239,7 @@ function AdmissionLetterContent() {
                             </div>
                             <div className="text-center">
                                 <span className="block text-[8px] font-bold text-black uppercase tracking-widest mb-1">Official Student ID</span>
-                                <span className="block font-bold text-xs font-mono text-black">{application.user?.student_id || 'SK9166922'}</span>
+                                <span className="block font-bold text-xs font-mono text-black">{application.user?.student_id || 'KU9166922'}</span>
                             </div>
                         </div>
 

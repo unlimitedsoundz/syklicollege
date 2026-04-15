@@ -111,6 +111,7 @@ body:not(:has([data-theme="admin"])):not(:has([data-theme="portal"])) {
   word-break: normal !important;
   overflow-wrap: break-word !important;
   white-space: normal !important;
+  overflow-x: auto;
 }
 
 .blog-content * {
@@ -182,7 +183,7 @@ body:not(:has([data-theme="admin"])):not(:has([data-theme="portal"])) {
 }
 
 .blog-content figure.image {
-  display: table;
+  display: block;
   clear: both;
   text-align: center;
   margin: 1rem auto;
@@ -195,15 +196,70 @@ body:not(:has([data-theme="admin"])):not(:has([data-theme="portal"])) {
   min-width: 50px;
 }
 
-.blog-content figcaption.image__caption {
-  display: table-caption;
-  caption-side: bottom;
-  word-wrap: break-word;
-  color: hsl(0, 0%, 20%);
-  background-color: hsl(0, 0%, 97%);
-  padding: 0.6em 1em;
-  font-size: 0.75em;
-  outline-offset: -1px;
+/* CKEditor 5 image resize support */
+.blog-content figure.image.image_resized {
+  max-width: 100%;
+  display: block;
+  box-sizing: border-box;
+}
+
+.blog-content figure.image.image_resized img {
+  width: 100%;
+}
+
+.blog-content figure.image.image_resized > figcaption {
+  display: block;
+}
+
+/* CKEditor 5 image alignment */
+.blog-content figure.image-style-side {
+  float: right;
+  margin-left: 1.5em;
+  max-width: 50%;
+}
+
+.blog-content figure.image-style-align-left {
+  float: left;
+  margin-right: 1.5em;
+}
+
+.blog-content figure.image-style-align-right {
+  float: right;
+  margin-left: 1.5em;
+}
+
+.blog-content figure.image-style-align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* CKEditor 5 inline image */
+.blog-content span.image-inline {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: flex-start;
+}
+
+.blog-content span.image-inline img {
+  flex-grow: 1;
+  flex-shrink: 1;
+  max-width: 100%;
+}
+
+/* 🔥 Caption (THIS is the main part) */
+.blog-content figure.image figcaption {
+  background-color: #f3f4f6; /* light grey */
+  padding: 12px 16px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #374151; /* dark grey */
+  margin-top: 0; /* no gap */
+}
+
+/* Remove Tailwind caption styling */
+.blog-content figcaption {
+  all: unset;
+  display: block;
 }
 
 .blog-content a {

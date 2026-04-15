@@ -25,7 +25,7 @@ interface AdminHousingApplicationEmailProps {
 
 export default function AdminHousingApplicationEmail({
     studentName = 'John Doe',
-    studentId = 'SK0000000',
+    studentId = 'KU0000000',
     semesterName = 'Fall 2024',
     preferredBuilding = 'West Wing',
     moveInDate = '2024-09-01',

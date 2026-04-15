@@ -21,8 +21,8 @@ DECLARE
     done BOOL := FALSE;
 BEGIN
     WHILE NOT done LOOP
-        -- SK + 7 random digits
-        new_id := 'SK' || LPAD(FLOOR(RANDOM() * 10000000)::TEXT, 7, '0');
+        -- KU + 7 random digits
+        new_id := 'KU' || LPAD(FLOOR(RANDOM() * 10000000)::TEXT, 7, '0');
         
         -- Check if it exists in either profiles or applications
         IF NOT EXISTS (SELECT 1 FROM public.profiles WHERE student_id = new_id) AND

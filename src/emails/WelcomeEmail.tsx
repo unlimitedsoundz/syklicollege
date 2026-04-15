@@ -22,7 +22,7 @@ interface WelcomeEmailProps {
 
 export default function WelcomeEmail({
     firstName = 'Student',
-    studentId = 'SK12345678',
+    studentId = 'KU12345678',
 }: WelcomeEmailProps) {
     const previewText = `Welcome to Kestora University! Your Student ID is ${studentId}.`;
 

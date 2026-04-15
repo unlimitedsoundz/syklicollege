@@ -199,7 +199,7 @@ export interface TuitionPayment {
 export interface Student {
     id: string; // UUID
     user_id: string;
-    student_id: string; // "SK20261234"
+    student_id: string; // "KU20261234"
     application_id: string;
     program_id: string; // course_id
     enrollment_status: 'ACTIVE' | 'SUSPENDED' | 'GRADUATED' | 'WITHDRAWN';

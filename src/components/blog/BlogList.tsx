@@ -100,13 +100,13 @@ export default function BlogList() {
                                     {post.title}
                                 </h2>
 
-                            <p className="text-neutral-600 text-sm line-clamp-3 mb-4 flex-1">
+                            <p className="text-neutral-600 text-sm line-clamp-3 mb-4">
                                 {post.excerpt || post.content?.replace(/<[^>]*>/g, '').slice(0, 150)}...
                             </p>
 
                             {post.tags && post.tags.length > 0 && (
                                 <div className="flex flex-wrap gap-1 mb-3">
-                                    {post.tags.slice(0, 3).map((tag, index) => (
+                                    {post.tags.slice(0, 3).map((tag: string, index: number) => (
                                         <span
                                             key={index}
                                             className="inline-block bg-black text-white text-xs px-2 py-1 rounded-full capitalize"

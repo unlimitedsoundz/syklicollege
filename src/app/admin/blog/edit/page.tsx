@@ -3,13 +3,13 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { default as Dynamic } from 'next/dynamic';
+import dynamic from 'next/dynamic';
 import { createClient } from '@/utils/supabase/client';
 import Link from 'next/link';
-import { ArrowLeft, Upload } from "@phosphor-icons/react";
+import { ArrowLeft } from "@phosphor-icons/react";
+import '@/styles/ckeditor-content.css';
 
-const CKEditor = Dynamic(() => import('@ckeditor/ckeditor5-react').then(mod => mod.CKEditor), { ssr: false });
-import { ClassicEditor, Essentials, Paragraph, Bold, Italic, Heading, List, Link as CKLink, Image, ImageInsert, ImageToolbar, ImageCaption, ImageStyle, ImageResize, ImageTextAlternative, BlockQuote, CodeBlock, Undo, Font, FontSize, FontColor, FontBackgroundColor, Strikethrough, Underline, Subscript, Superscript, Alignment, Indent, RemoveFormat } from 'ckeditor5';
+const RichTextEditor = dynamic(() => import('@/components/RichTextEditor'), { ssr: false });
 
 interface FormData {
     title: string;
@@ -33,7 +33,7 @@ export default function EditBlogPost() {
     const router = useRouter();
     const { register, handleSubmit, setValue, watch, reset } = useForm<FormData>();
 
-    const [editorData, setEditorData] = useState('');
+    const [editorContent, setEditorContent] = useState('');
 
     useEffect(() => {
         if (id) fetchPost();
@@ -47,22 +47,23 @@ export default function EditBlogPost() {
                 ...data,
                 publishDate: new Date(data.publishDate).toISOString().slice(0, 16),
             });
-            setEditorData(data.content || '');
+            setEditorContent(data.content || '');
         }
         setLoading(false);
     }
 
     const onSubmit = async (data: FormData) => {
         const supabase = createClient();
-        const cleanedContent = data.content
-            .replace(/&nbsp;/g, ' ') // ✅ MAIN FIX: Replace non-breaking spaces with normal spaces
-            .replace(/\s+/g, ' ')   // Normalize spacing
+        const cleanedContent = editorContent
+            .replace(/&nbsp;/g, ' ')
+            .replace(/\s+/g, ' ')
             .replace(/—/g, '')
             .replace(/word-break:\s*break-all;?/gi, '')
             .replace(/overflow-wrap:\s*anywhere;?/gi, '')
             .replace(/white-space:\s*pre-wrap;?/gi, '')
-            .replace(/style="[^"]*"/gi, '') // Remove inline styles
-            .replace(/<p><\/p>/g, ''); // Remove empty paragraphs
+            // remove inline styles from all tags except img and figure (to preserve image resizing)
+            .replace(/(<(?!img|figure)[^>]*?)style="[^"]*"/gi, '$1')
+            .replace(/<p><\/p>/g, '');
         const { error } = await supabase.from('blogs').update({
             ...data,
             content: cleanedContent,
@@ -135,41 +136,14 @@ export default function EditBlogPost() {
 
                 <div>
                     <label className="block font-medium mb-2">Content</label>
-                        <CKEditor
-                            editor={ClassicEditor}
-                            data={editorData}
-                            onChange={(event, editor) => {
-                                const data = editor.getData();
-                                setEditorData(data);
-                                setValue('content', data);
-                            }}
-                            config={{
-                                licenseKey: 'GPL',
-                                plugins: [Essentials, Paragraph, Bold, Italic, Heading, List, CKLink, Image, ImageInsert, ImageToolbar, ImageCaption, ImageStyle, ImageResize, ImageTextAlternative, BlockQuote, CodeBlock, Undo, Font, FontSize, FontColor, FontBackgroundColor, Strikethrough, Underline, Subscript, Superscript, Alignment, Indent, RemoveFormat],
-                                toolbar: ['heading', '|', 'bold', 'italic', 'underline', '|', 'link', 'insertImage', 'imageUpload', '|', 'bulletedList', 'numberedList', '|', 'alignment', '|', 'blockQuote', '|', 'undo', 'redo'],
-                                image: {
-                                    resizeOptions: [
-                                        {
-                                            name: 'imageResize:original',
-                                            value: null,
-                                            label: 'Original'
-                                        },
-                                        {
-                                            name: 'imageResize:50',
-                                            value: '50',
-                                            label: '50%'
-                                        },
-                                        {
-                                            name: 'imageResize:75',
-                                            value: '75',
-                                            label: '75%'
-                                        }
-                                    ],
-                                    toolbar: ['imageTextAlternative', 'toggleImageCaption', '|', 'imageStyle:inline', 'imageStyle:block', 'imageStyle:side']
-                                }
-                            }}
-                        />
-                    </div>
+                    <RichTextEditor
+                        value={editorContent}
+                        onChange={(data) => {
+                            setEditorContent(data);
+                            setValue('content', data);
+                        }}
+                    />
+                </div>
 
                 <div>
                     <label className="block font-medium mb-2">Publish Date</label>

@@ -31,8 +31,8 @@ export async function enrollStudent(applicationId: string) {
         // Use existing student_id from profile if available, otherwise generate
         let studentId = user.student_id;
         if (!studentId) {
-            // Generate SK followed by 7 random digits (e.g., SK1234567)
-            studentId = `SK${Math.floor(1000000 + Math.random() * 8999999)}`;
+            // Generate KU followed by 7 random digits (e.g., KU1234567)
+            studentId = `KU${Math.floor(1000000 + Math.random() * 8999999)}`;
         }
 
         // 3. Generate Unique Institutional Email

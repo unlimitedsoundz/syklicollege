@@ -26,7 +26,7 @@ export default function AdminOfferAcceptedEmail({
     studentName = 'John Doe',
     courseName = 'Bachelor of Science',
     applicationId = 'APP-000',
-    studentId = 'SK0000000',
+    studentId = 'KU0000000',
 }: AdminOfferAcceptedEmailProps) {
     const previewText = `Offer Accepted: ${studentName} has accepted the offer for ${courseName}.`;
 

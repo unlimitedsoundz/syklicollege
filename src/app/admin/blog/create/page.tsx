@@ -3,13 +3,13 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { default as Dynamic } from 'next/dynamic';
+import dynamic from 'next/dynamic';
 import { createClient } from '@/utils/supabase/client';
 import Link from 'next/link';
-import { ArrowLeft, Upload } from "@phosphor-icons/react";
+import { ArrowLeft } from "@phosphor-icons/react";
+import '@/styles/ckeditor-content.css';
 
-const CKEditor = Dynamic(() => import('@ckeditor/ckeditor5-react').then(mod => mod.CKEditor), { ssr: false });
-import { ClassicEditor, Essentials, Paragraph, Bold, Italic, Heading, List, Link as CKLink, Image, ImageInsert, ImageToolbar, ImageCaption, ImageStyle, ImageResize, ImageTextAlternative, BlockQuote, CodeBlock, Undo, Font, FontSize, FontColor, FontBackgroundColor, Strikethrough, Underline, Subscript, Superscript, Alignment, Indent, RemoveFormat } from 'ckeditor5';
+const RichTextEditor = dynamic(() => import('@/components/RichTextEditor'), { ssr: false });
 
 interface FormData {
     title: string;
@@ -24,27 +24,27 @@ interface FormData {
 export default function CreateBlogPost() {
     const [uploading, setUploading] = useState(false);
     const [imageUrl, setImageUrl] = useState('');
+    const [editorContent, setEditorContent] = useState('');
     const router = useRouter();
     const { register, handleSubmit, setValue, watch } = useForm<FormData>();
 
-    const [editorData, setEditorData] = useState('');
-
     const onSubmit = async (data: FormData) => {
         const supabase = createClient();
-            const cleanedContent = data.content
-                .replace(/&nbsp;/g, ' ') // ✅ MAIN FIX: Replace non-breaking spaces with normal spaces
-                .replace(/\s+/g, ' ')   // Normalize spacing
-                .replace(/—/g, '')
-                .replace(/word-break:\s*break-all;?/gi, '')
-                .replace(/overflow-wrap:\s*anywhere;?/gi, '')
-                .replace(/white-space:\s*pre-wrap;?/gi, '')
-                .replace(/style="[^"]*"/gi, '') // Remove inline styles
-                .replace(/<p><\/p>/g, ''); // Remove empty paragraphs
-            const { error } = await supabase.from('blogs').insert([{
-                ...data,
-                content: cleanedContent,
-                publishDate: new Date(data.publishDate).toISOString(),
-            }]);
+        const cleanedContent = editorContent
+            .replace(/&nbsp;/g, ' ')
+            .replace(/\s+/g, ' ')
+            .replace(/—/g, '')
+            .replace(/word-break:\s*break-all;?/gi, '')
+            .replace(/overflow-wrap:\s*anywhere;?/gi, '')
+            .replace(/white-space:\s*pre-wrap;?/gi, '')
+            // remove inline styles from all tags except img and figure (to preserve image resizing)
+            .replace(/(<(?!img|figure)[^>]*?)style="[^"]*"/gi, '$1')
+            .replace(/<p><\/p>/g, '');
+        const { error } = await supabase.from('blogs').insert([{
+            ...data,
+            content: cleanedContent,
+            publishDate: new Date(data.publishDate).toISOString(),
+        }]);
         if (error) alert('Error creating post');
         else router.push('/admin/blog');
     };
@@ -111,42 +111,13 @@ export default function CreateBlogPost() {
 
                 <div>
                     <label className="block font-medium mb-2">Content</label>
-                    <div className="ck-editor-wrapper">
-                        <CKEditor
-                            editor={ClassicEditor}
-                            data={editorData}
-                            onChange={(event, editor) => {
-                                const data = editor.getData();
-                                setEditorData(data);
-                                setValue('content', data);
-                            }}
-                            config={{
-                                licenseKey: 'GPL',
-                                plugins: [Essentials, Paragraph, Bold, Italic, Heading, List, CKLink, Image, ImageInsert, ImageToolbar, ImageCaption, ImageStyle, ImageResize, ImageTextAlternative, BlockQuote, CodeBlock, Undo, Font, FontSize, FontColor, FontBackgroundColor, Strikethrough, Underline, Subscript, Superscript, Alignment, Indent, RemoveFormat],
-                                toolbar: ['heading', '|', 'bold', 'italic', 'underline', '|', 'link', 'insertImage', 'imageUpload', '|', 'bulletedList', 'numberedList', '|', 'alignment', '|', 'blockQuote', '|', 'undo', 'redo'],
-                                image: {
-                                    resizeOptions: [
-                                        {
-                                            name: 'imageResize:original',
-                                            value: null,
-                                            label: 'Original'
-                                        },
-                                        {
-                                            name: 'imageResize:50',
-                                            value: '50',
-                                            label: '50%'
-                                        },
-                                        {
-                                            name: 'imageResize:75',
-                                            value: '75',
-                                            label: '75%'
-                                        }
-                                    ],
-                                    toolbar: ['imageTextAlternative', 'toggleImageCaption', '|', 'imageStyle:inline', 'imageStyle:block', 'imageStyle:side']
-                                }
-                            }}
-                        />
-                    </div>
+                    <RichTextEditor
+                        value={editorContent}
+                        onChange={(data) => {
+                            setEditorContent(data);
+                            setValue('content', data);
+                        }}
+                    />
                 </div>
 
                 <div>

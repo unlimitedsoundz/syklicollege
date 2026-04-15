@@ -50,9 +50,17 @@ const faqs: FAQItem[] = [
                     <li>Log in to your <strong>Kestora Applicant Portal</strong>.</li>
                     <li>Navigate to the 'Payment' section of your accepted application.</li>
                     <li>Click 'Proceed to Payment' to be redirected to the secure <strong>Flywire gateway</strong>.</li>
+                    <li>You must initiate the payment in the portal.</li>
                     <li>Select your country and preferred payment method (Bank Transfer, Credit Card, etc.).</li>
+                    <li>Choose the preferred method of payment.</li>
                     <li>Follow the on-screen instructions to finalize your payment.</li>
                 </ol>
+                <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                    <p className="font-semibold text-sm mb-2 text-black">Important Notes for Bank Transfers:</p>
+                    <p className="text-sm text-black">
+                        If you choose a bank transfer option, the platform will eventually give you the details to take to your bank for the transfer. You must first fill in your details so that the payment can be identified as yours. An initiated payment will stay valid in Flywire only for a few days, after which it will expire. Make sure to complete the transfer in that timeframe.
+                    </p>
+                </div>
                 <p>
                     Once the payment is completed, your status will clear automatically, and you will receive an official
                     receipt for your residence permit application.

@@ -177,6 +177,80 @@ export default function AdminStudentsPage() {
                     <h1 className="text-3xl font-bold text-neutral-900">Enrolled Students</h1>
                     <p className="text-neutral-500 text-sm mt-1">Manage official student records.</p>
                 </div>
+                <div className="flex gap-2">
+                    <button
+                        onClick={async () => {
+                            if (!confirm("This will assign student IDs to all profiles that don't have one. Continue?")) return;
+                            setActionLoading('backfill');
+                            try {
+                                const { data: profiles } = await supabase
+                                    .from('profiles')
+                                    .select('id, student_id')
+                                    .is('student_id', null);
+
+                                if (profiles) {
+                                    const usedIds = new Set();
+                                    for (const profile of profiles) {
+                                        let newId;
+                                        do {
+                                            newId = 'KU' + Math.floor(Math.random() * 10000000).toString().padStart(7, '0');
+                                        } while (usedIds.has(newId));
+                                        usedIds.add(newId);
+
+                                        await supabase
+                                            .from('profiles')
+                                            .update({ student_id: newId })
+                                            .eq('id', profile.id);
+                                    }
+                                }
+                                alert('Student IDs assigned successfully!');
+                                await fetchData();
+                            } catch (error) {
+                                console.error('Backfill error:', error);
+                                alert('Failed to assign student IDs.');
+                            } finally {
+                                setActionLoading(null);
+                            }
+                        }}
+                        disabled={actionLoading === 'backfill'}
+                        className="px-4 py-2 bg-blue-600 text-white text-xs font-bold uppercase tracking-widest rounded-sm hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        {actionLoading === 'backfill' ? 'Assigning...' : 'Assign Student IDs'}
+                    </button>
+                    <button
+                        onClick={async () => {
+                            if (!confirm("This will convert all KC student IDs to KU. Continue?")) return;
+                            setActionLoading('convert');
+                            try {
+                                const { data: profiles } = await supabase
+                                    .from('profiles')
+                                    .select('id, student_id')
+                                    .ilike('student_id', 'KC%');
+
+                                if (profiles) {
+                                    for (const profile of profiles) {
+                                        const newId = profile.student_id.replace(/^KC/, 'KU');
+                                        await supabase
+                                            .from('profiles')
+                                            .update({ student_id: newId })
+                                            .eq('id', profile.id);
+                                    }
+                                }
+                                alert('Student IDs converted successfully!');
+                                await fetchData();
+                            } catch (error) {
+                                console.error('Convert error:', error);
+                                alert('Failed to convert student IDs.');
+                            } finally {
+                                setActionLoading(null);
+                            }
+                        }}
+                        disabled={actionLoading === 'convert'}
+                        className="px-4 py-2 bg-green-600 text-white text-xs font-bold uppercase tracking-widest rounded-sm hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        {actionLoading === 'convert' ? 'Converting...' : 'Convert KC to KU'}
+                    </button>
+                </div>
             </div>
 
             {/* PENDING ENROLLMENTS SECTION */}
