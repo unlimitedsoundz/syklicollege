@@ -148,20 +148,24 @@ export default function TuitionPaymentPage() {
                                 </table>
                             </div>
 
-                             {/* Early Bird Tuition Waiver */}
-                             <div className="bg-gray-100 rounded-2xl p-6 md:p-12 mt-8">
-                                 <div>
-                                         <h4 className="text-xl font-bold mb-3 text-black">Early Bird Tuition Waiver (EBTW)</h4>
-                                        <p className="text-black mb-4">
-                                            New Master’s students may receive a <strong>25% waiver</strong> on their first academic year’s tuition if they:
+                            {/* Early Payment Discount */}
+                            <div className="bg-gray-100 rounded-2xl p-6 md:p-12 shadow-sm mt-8">
+                                <div className="flex items-start gap-4">
+                                    <div className="bg-black text-white p-2 rounded-full mt-1 shadow-md">
+                                        <CreditCard size={24} />
+                                    </div>
+                                    <div>
+                                        <h4 className="text-xl font-bold mb-3 text-black">Early Payment Discount</h4>
+                                        <p className="text-gray-800 mb-4">
+                                            New Master’s students may receive a <strong>25% discount</strong> on their first academic year’s tuition if they:
                                         </p>
-                                        <ul className="space-y-2 mb-6 text-sm text-black">
+                                        <ul className="space-y-2 mb-6 text-sm text-gray-800">
                                             <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-1.5"></div> Accept their admission offer as instructed</li>
                                             <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-1.5"></div> Pay tuition by the deadline (usually within 7 days of offer)</li>
                                         </ul>
 
-                                        <div className="bg-white p-6 md:p-12 pl-6 md:pl-16 rounded-xl">
-                                            <h5 className="font-bold text-sm mb-4 uppercase tracking-wider text-black">Waived Fees (1st Year Only)</h5>
+                                        <div className="bg-white p-6 md:p-12 pl-6 md:pl-16 rounded-xl shadow-sm">
+                                            <h5 className="font-bold text-sm mb-4 uppercase tracking-wider text-black">Discounted Fees (1st Year Only)</h5>
                                             <div className="space-y-2 text-black">
                                                 <div className="flex justify-between border-b border-gray-300 pb-2">
                                                     <span>Business</span>
@@ -244,98 +248,89 @@ export default function TuitionPaymentPage() {
                                                  All tuition payments are processed through Flywire to ensure accurate tracking, faster confirmation, and proper allocation to the student’s account.
                                              </p>
                                          </div>
-                                          <div className="relative w-48 h-12 md:w-64 md:h-16 shrink-0">
-                                              <Image
-                                                  src="https://cdn.brandfetch.io/id1L6oKjVX/theme/dark/logo.svg?c=1bxid64Mup7aczewSAYMX"
-                                                  alt="Flywire"
-                                                  fill
-                                                  className="object-contain"
-                                              />
-                                          </div>
+                                         <div className="relative w-48 h-12 md:w-64 md:h-16 shrink-0 bg-white p-4 rounded-xl shadow-sm">
+                                             <Image
+                                                 src="https://cdn.brandfetch.io/id1L6oKjVX/theme/dark/logo.svg?c=1bxid64Mup7aczewSAYMX"
+                                                 alt="Flywire"
+                                                 fill
+                                                 className="object-contain p-2"
+                                             />
+                                         </div>
                                      </div>
 
                                      <div className="bg-white p-6 md:p-12 shadow-sm rounded-xl">
                                          <h3 className="text-xl font-bold mb-8 uppercase tracking-tight text-black">Step-by-Step Payment Process</h3>
 
-                                        <div className="space-y-6">
-                                              <div className="flex gap-4">
-                                                  <div className="flex-shrink-0 text-black mt-1">
-                                                      <ArrowRight size={20} weight="bold" />
-                                                  </div>
-                                                  <div>
-                                                      <h4 className="font-bold text-black mb-1">Accept Your Offer</h4>
-                                                      <p className="text-sm text-black">Once you accept your offer of admission through the Kestora University portal, you will be automatically redirected to the Flywire payment page.</p>
-                                                  </div>
-                                              </div>
+                                        <div className="space-y-8">
+                                             <div className="flex gap-4">
+                                                 <div className="flex-shrink-0 w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm shadow-md">1</div>
+                                                 <div>
+                                                     <h4 className="font-bold text-black mb-1">Accept Your Offer</h4>
+                                                     <p className="text-sm text-gray-600">Once you accept your offer of admission through the Kestora University portal, you will be automatically redirected to the Flywire payment page.</p>
+                                                 </div>
+                                             </div>
 
-                                              <div className="flex gap-4">
-                                                  <div className="flex-shrink-0 text-black mt-1">
-                                                      <ArrowRight size={20} weight="bold" />
-                                                  </div>
-                                                  <div>
-                                                      <h4 className="font-bold text-black mb-1">Choose Where You’re Paying From</h4>
-                                                      <p className="text-sm text-black mb-2">You must initiate the payment in the portal.</p>
-                                                      <p className="text-sm text-black">Select the country from which you will be making your payment. Flywire will display the available local payment options and instructions specific to your selected country.</p>
-                                                  </div>
-                                              </div>
+                                             <div className="flex gap-4">
+                                                 <div className="flex-shrink-0 w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm shadow-md">2</div>
+                                                 <div>
+                                                     <h4 className="font-bold text-black mb-1">Choose Where You’re Paying From</h4>
+                                                     <p className="text-sm text-gray-600">Select the country from which you will be making your payment. Flywire will display the available local payment options and instructions specific to your selected country.</p>
+                                                 </div>
+                                             </div>
 
-                                              <div className="flex gap-4">
-                                                  <div className="flex-shrink-0 text-black mt-1">
-                                                      <ArrowRight size={20} weight="bold" />
-                                                  </div>
-                                                  <div>
-                                                      <h4 className="font-bold text-black mb-1">Review Payment Details</h4>
-                                                      <p className="text-sm text-black mb-4">Confirm the following details before proceeding:</p>
-                                                      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 text-[10px] font-bold uppercase tracking-widest text-black">
-                                                          <div>Your full name</div>
-                                                          <div>Student ID</div>
-                                                          <div>Programme of study</div>
-                                                          <div>Amount payable</div>
-                                                          <div>Payment reference</div>
-                                                      </div>
-                                                  </div>
-                                              </div>
+                                             <div className="flex gap-4">
+                                                 <div className="flex-shrink-0 w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm shadow-md">3</div>
+                                                 <div>
+                                                     <h4 className="font-bold text-black mb-1">Review Payment Details</h4>
+                                                     <p className="text-sm text-gray-600 mb-4">Confirm the following details before proceeding:</p>
+                                                     <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 text-[10px] font-bold uppercase tracking-widest text-gray-500">
+                                                         <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-black rounded-full"></div> Your full name</li>
+                                                         <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-black rounded-full"></div> Student ID</li>
+                                                         <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-black rounded-full"></div> Programme of study</li>
+                                                         <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-black rounded-full"></div> Amount payable</li>
+                                                         <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-black rounded-full"></div> Payment reference</li>
+                                                     </ul>
+                                                 </div>
+                                             </div>
 
-                                              <div className="flex gap-4">
-                                                  <div className="flex-shrink-0 text-black mt-1">
-                                                      <ArrowRight size={20} weight="bold" />
-                                                  </div>
-                                                  <div>
-                                                      <h4 className="font-bold text-black mb-1">Select Your Payment Method</h4>
-                                                      <p className="text-sm text-black mb-2">Choose the preferred method of payment.</p>
-                                                      <p className="text-sm text-black">Choose one of the available payment methods provided by Flywire, such as local bank transfer or other supported channels, depending on your country of residence.</p>
-                                                      <div className="mt-3 p-3 bg-gray-50 rounded-lg text-xs text-black">
-                                                          <p className="font-semibold mb-1">Bank Transfer Option:</p>
-                                                          <p>If you choose a bank transfer option, the platform will eventually give you the details to take to your bank for the transfer. You must first fill in your details so that the payment can be identified as yours. An initiated payment will stay valid in Flywire only for a few days, after which it will expire. Make sure to complete the transfer in that timeframe.</p>
-                                                      </div>
-                                                  </div>
-                                              </div>
+                                             <div className="flex gap-4">
+                                                 <div className="flex-shrink-0 w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm shadow-md">4</div>
+                                                 <div>
+                                                     <h4 className="font-bold text-black mb-1">Select Your Payment Method</h4>
+                                                     <p className="text-sm text-gray-600">Choose one of the available payment methods provided by Flywire, such as local bank transfer or other supported channels, depending on your country of residence.</p>
+                                                 </div>
+                                             </div>
 
-                                              <div className="flex gap-4">
-                                                  <div className="flex-shrink-0 text-black mt-1">
-                                                      <ArrowRight size={20} weight="bold" />
-                                                  </div>
-                                                  <div>
-                                                      <h4 className="font-bold text-black mb-1">Complete the Payment</h4>
-                                                      <p className="text-sm text-black">Follow the on-screen instructions to complete your payment securely.</p>
-                                                  </div>
-                                              </div>
+                                             <div className="flex gap-4">
+                                                 <div className="flex-shrink-0 w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm shadow-md">5</div>
+                                                 <div>
+                                                     <h4 className="font-bold text-black mb-1">Complete the Payment</h4>
+                                                     <p className="text-sm text-gray-600">Follow the on-screen instructions to complete your payment securely.</p>
+                                                 </div>
+                                             </div>
 
-                                              <div className="flex gap-4">
-                                                  <div className="flex-shrink-0 text-black mt-1">
-                                                      <ArrowRight size={20} weight="bold" />
-                                                  </div>
-                                                  <div>
-                                                      <h4 className="font-bold text-black mb-1">Payment Confirmation</h4>
-                                                      <p className="text-sm text-black mb-4">Once payment is successfully received and confirmed:</p>
-                                                      <div className="space-y-3 text-xs font-bold text-black uppercase tracking-tight">
-                                                          <div>Your payment status will be updated automatically</div>
-                                                          <div>An official receipt will be issued</div>
-                                                          <div>Your Admission Letter will be automatically generated and made available in your student portal</div>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                         </div>
+                                             <div className="flex gap-4">
+                                                 <div className="flex-shrink-0 w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm shadow-md">6</div>
+                                                 <div>
+                                                     <h4 className="font-bold text-black mb-1">Payment Confirmation</h4>
+                                                     <p className="text-sm text-gray-600 mb-4">Once payment is successfully received and confirmed:</p>
+                                                     <ul className="space-y-3">
+                                                         <li className="flex items-center gap-3 text-xs font-bold text-black uppercase tracking-tight">
+                                                             <div className="w-1 h-1 bg-black rounded-full"></div>
+                                                             Your payment status will be updated automatically
+                                                         </li>
+                                                         <li className="flex items-center gap-3 text-xs font-bold text-black uppercase tracking-tight">
+                                                             <div className="w-1 h-1 bg-black rounded-full"></div>
+                                                             An official receipt will be issued
+                                                         </li>
+                                                         <li className="flex items-center gap-3 text-xs font-bold text-black uppercase tracking-tight">
+                                                             <div className="w-1 h-1 bg-black rounded-full"></div>
+                                                             Your Admission Letter will be automatically generated and made available in your student portal
+                                                         </li>
+                                                     </ul>
+                                                 </div>
+                                             </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -379,13 +374,12 @@ export default function TuitionPaymentPage() {
                                                  Finnish Migration Services (Migri)
                                              </a>.
                                          </p>
-                                        <p className="text-sm font-bold uppercase tracking-tight">
-                                            If the payment is not received by the 7th day, the waiver is voided, and the full standard fee will be
-                                            required to confirm your enrolment.
-                                        </p>
-                                        <p className="text-sm">
-                                            This waiver applies ONLY to the first academic year and cannot be combined with other tuition fee waivers.
-                                        </p>
+                                         <p className="text-sm font-bold uppercase tracking-tight">
+                                             Please remember to start the process for obtaining a residence permit as soon as possible.
+                                         </p>
+                                         <p className="text-sm">
+                                             The due date for the second academic year’s tuition fee payment is <strong>15th of September</strong>.
+                                         </p>
                                      </div>
                              </div>
                          </div>
