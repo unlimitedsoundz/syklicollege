@@ -148,24 +148,20 @@ export default function TuitionPaymentPage() {
                                 </table>
                             </div>
 
-                            {/* Early Payment Discount */}
-                            <div className="bg-gray-100 rounded-2xl p-6 md:p-12 shadow-sm mt-8">
-                                <div className="flex items-start gap-4">
-                                    <div className="bg-black text-white p-2 rounded-full mt-1 shadow-md">
-                                        <CreditCard size={24} />
-                                    </div>
-                                    <div>
-                                        <h4 className="text-xl font-bold mb-3 text-black">Early Payment Discount</h4>
-                                        <p className="text-gray-800 mb-4">
-                                            New Master’s students may receive a <strong>25% discount</strong> on their first academic year’s tuition if they:
+                             {/* Early Bird Tuition Waiver */}
+                             <div className="bg-gray-100 rounded-2xl p-6 md:p-12 mt-8">
+                                 <div>
+                                         <h4 className="text-xl font-bold mb-3 text-black">Early Bird Tuition Waiver (EBTW)</h4>
+                                        <p className="text-black mb-4">
+                                            New Master’s students may receive a <strong>25% waiver</strong> on their first academic year’s tuition if they:
                                         </p>
-                                        <ul className="space-y-2 mb-6 text-sm text-gray-800">
+                                        <ul className="space-y-2 mb-6 text-sm text-black">
                                             <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-1.5"></div> Accept their admission offer as instructed</li>
                                             <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-1.5"></div> Pay tuition by the deadline (usually within 7 days of offer)</li>
                                         </ul>
 
-                                        <div className="bg-white p-6 md:p-12 pl-6 md:pl-16 rounded-xl shadow-sm">
-                                            <h5 className="font-bold text-sm mb-4 uppercase tracking-wider text-black">Discounted Fees (1st Year Only)</h5>
+                                        <div className="bg-white p-6 md:p-12 pl-6 md:pl-16 rounded-xl">
+                                            <h5 className="font-bold text-sm mb-4 uppercase tracking-wider text-black">Waived Fees (1st Year Only)</h5>
                                             <div className="space-y-2 text-black">
                                                 <div className="flex justify-between border-b border-gray-300 pb-2">
                                                     <span>Business</span>
@@ -383,12 +379,13 @@ export default function TuitionPaymentPage() {
                                                  Finnish Migration Services (Migri)
                                              </a>.
                                          </p>
-                                         <p className="text-sm font-bold uppercase tracking-tight">
-                                             Please remember to start the process for obtaining a residence permit as soon as possible.
-                                         </p>
-                                         <p className="text-sm">
-                                             The due date for the second academic year’s tuition fee payment is <strong>15th of September</strong>.
-                                         </p>
+                                        <p className="text-sm font-bold uppercase tracking-tight">
+                                            If the payment is not received by the 7th day, the waiver is voided, and the full standard fee will be
+                                            required to confirm your enrolment.
+                                        </p>
+                                        <p className="text-sm">
+                                            This waiver applies ONLY to the first academic year and cannot be combined with other tuition fee waivers.
+                                        </p>
                                      </div>
                              </div>
                          </div>

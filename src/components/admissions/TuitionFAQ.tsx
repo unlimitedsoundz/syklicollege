@@ -69,11 +69,11 @@ const faqs: FAQItem[] = [
         )
     },
     {
-        question: "What are the specific requirements for the Early Payment Discount?",
+        question: "What are the specific requirements for the Early Bird Tuition Waiver (EBTW)?",
         answer: (
             <div className="space-y-4">
                 <p>
-                    To encourage early enrolment, we offer a <strong>25% reduction</strong> on the first year's tuition fee.
+                    To encourage early enrolment, we offer a <strong>25% waiver</strong> on the first year's tuition fee.
                     This is a significant saving and is highly recommended for all international students.
                 </p>
                 <p>
@@ -85,7 +85,7 @@ const faqs: FAQItem[] = [
                     <li>This discount applies ONLY to the first academic year and cannot be combined with other tuition fee waivers.</li>
                 </ul>
                 <p>
-                    If the payment is not received by the 7th day, the discount is voided, and the full standard fee will be
+                    If the payment is not received by the 7th day, the waiver is voided, and the full standard fee will be
                     required to confirm your enrolment.
                 </p>
             </div>
