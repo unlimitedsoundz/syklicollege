@@ -162,10 +162,10 @@ export default async function Home() {
           <p className="text-lg md:text-xl text-neutral-700 mb-6 leading-relaxed">
             My decision to move to Finland has been one of the best decisions of my life.<br />I am so happy to be in Finland.
           </p>
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-2 px-6 py-3 border border-black text-sm font-bold uppercase tracking-wider hover:bg-black hover:text-white transition-all duration-300 group"
-          >
+           <Link
+             href="https://ourblogs.kestora.online/"
+             className="inline-flex items-center gap-2 px-6 py-3 border border-black text-sm font-bold uppercase tracking-wider hover:bg-black hover:text-white transition-all duration-300 group"
+           >
             Read more from Student Ambassadors blog
             <ArrowRight size={18} weight="bold" className="transform group-hover:translate-x-1 transition-transform" />
           </Link>
