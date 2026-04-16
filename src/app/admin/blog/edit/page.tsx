@@ -19,6 +19,9 @@ interface FormData {
     imageUrl: string;
     publishDate: string;
     published: boolean;
+    meta_title?: string;
+    meta_description?: string;
+    og_image?: string;
 }
 
 export default function EditBlogPost() {
@@ -34,6 +37,8 @@ export default function EditBlogPost() {
     const { register, handleSubmit, setValue, watch, reset } = useForm<FormData>();
 
     const [editorContent, setEditorContent] = useState('');
+    const [ogImageUrl, setOgImageUrl] = useState('');
+    const [seoPanelOpen, setSeoPanelOpen] = useState(false);
 
     useEffect(() => {
         if (id) fetchPost();
@@ -48,6 +53,7 @@ export default function EditBlogPost() {
                 publishDate: new Date(data.publishDate).toISOString().slice(0, 16),
             });
             setEditorContent(data.content || '');
+            setOgImageUrl(data.og_image || '');
         }
         setLoading(false);
     }
@@ -89,6 +95,27 @@ export default function EditBlogPost() {
                 .from('blog-images')
                 .getPublicUrl(fileName);
             setValue('imageUrl', publicUrl);
+        }
+        setUploading(false);
+    };
+
+    const uploadOgImage = async (file: File) => {
+        setUploading(true);
+        const supabase = createClient();
+        const fileExt = file.name.split('.').pop();
+        const fileName = `og-${Date.now()}.${fileExt}`;
+        const { data, error } = await supabase.storage
+            .from('blog-images')
+            .upload(fileName, file);
+
+        if (error) {
+            alert('Error uploading OG image');
+        } else {
+            const { data: { publicUrl } } = supabase.storage
+                .from('blog-images')
+                .getPublicUrl(fileName);
+            setOgImageUrl(publicUrl);
+            setValue('og_image', publicUrl);
         }
         setUploading(false);
     };
@@ -155,6 +182,50 @@ export default function EditBlogPost() {
                         <input {...register('published')} type="checkbox" />
                         Published
                     </label>
+                </div>
+
+                {/* SEO Panel */}
+                <div className="border rounded-lg">
+                    <button
+                        type="button"
+                        onClick={() => setSeoPanelOpen(!seoPanelOpen)}
+                        className="w-full px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-t-lg flex items-center justify-between text-left font-medium"
+                    >
+                        SEO Settings
+                        <svg className={`w-5 h-5 transition-transform ${seoPanelOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+
+                    {seoPanelOpen && (
+                        <div className="p-4 space-y-4 bg-white rounded-b-lg">
+                            <div>
+                                <label className="block font-medium mb-2">Meta Title</label>
+                                <input {...register('meta_title')} className="w-full p-2 border rounded" placeholder="Custom title for SEO (optional)" />
+                                <p className="text-sm text-gray-500 mt-1">Leave empty to use the blog post title</p>
+                            </div>
+
+                            <div>
+                                <label className="block font-medium mb-2">Meta Description</label>
+                                <textarea {...register('meta_description')} className="w-full p-2 border rounded" rows={3} placeholder="Custom description for SEO (optional)" />
+                                <p className="text-sm text-gray-500 mt-1">Leave empty to use the blog post excerpt</p>
+                            </div>
+
+                            <div>
+                                <label className="block font-medium mb-2">Open Graph Image</label>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => e.target.files && uploadOgImage(e.target.files[0])}
+                                    className="mb-2"
+                                />
+                                {uploading && <p>Uploading...</p>}
+                                {ogImageUrl && <img src={ogImageUrl} alt="OG Preview" className="w-32 h-32 object-cover" />}
+                                <input {...register('og_image')} type="hidden" />
+                                <p className="text-sm text-gray-500 mt-1">Recommended size: 1200x630px. Leave empty to use the blog post image</p>
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 <button type="submit" className="bg-black text-white px-6 py-2 rounded">Update Post</button>
