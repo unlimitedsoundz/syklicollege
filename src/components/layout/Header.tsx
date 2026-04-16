@@ -26,6 +26,8 @@ const navigation: NavItem[] = [
         children: [
             { name: "Student Guide", href: "/student-guide" },
             { name: "International Students", href: "/student-guide/international" },
+            { name: "Kestora Student Ambassadors", href: "https://ourblogs.kestora.online/" },
+            { name: "News and Events", href: "/news" },
             { name: "Academic Calendar", href: "/student-guide#calendar" },
             { name: "Support Services", href: "/student-guide#support" },
         ]
