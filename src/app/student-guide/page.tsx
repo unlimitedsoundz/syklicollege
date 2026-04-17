@@ -338,7 +338,7 @@ export default function StudentGuidePage() {
                                         title: 'Academic Guidance',
                                         desc: 'Programme level advising and personal study plans.',
                                         icon: GraduationCap,
-                                        img: '/images/guide/academic_advising.png'
+                                        img: 'https://i.pinimg.com/1200x/23/fa/68/23fa68a8b1f907ec254dbcd7709b06eb.jpg'
                                     },
                                     {
                                         title: 'Learning Support',
@@ -388,10 +388,10 @@ export default function StudentGuidePage() {
                                                 "Course registration guidance",
                                                 "Campus services overview"
                                             ].map(item => (
-                                                <li key={item} className="flex items-center gap-3 md:gap-4 bg-neutral-900 p-3 md:p-4 rounded-xl border border-neutral-800">
-                                                    <div className="bg-neutral-800 p-1 md:p-1.5 rounded-full text-white"><CaretRight size={16} weight="bold" /></div>
-                                                    <span className="font-bold text-sm md:text-base">{item}</span>
-                                                </li>
+                        <li key={item} className="flex items-center gap-3 md:gap-4 bg-neutral-900 p-3 md:p-4 rounded-xl border border-neutral-800">
+                            <ArrowRight size={16} weight="bold" className="text-white" />
+                            <span className="font-bold text-sm md:text-base">{item}</span>
+                        </li>
                                             ))}
                                         </ul>
                                     </div>
@@ -399,10 +399,10 @@ export default function StudentGuidePage() {
                                         <div className="relative z-10">
                                             <h3 className="font-bold text-lg md:text-2xl mb-4 md:mb-6 text-white px-1">Getting Started Checklist</h3>
                                             <ul className="space-y-3 md:space-y-5 text-neutral-300">
-                                                <li className="flex gap-3 md:gap-4 items-center text-sm md:text-lg"><div className="w-1.5 md:w-2 h-1.5 md:h-2 bg-white rounded-full" /> Confirm study rights</li>
-                                                <li className="flex gap-3 md:gap-4 items-center text-sm md:text-lg"><div className="w-1.5 md:w-2 h-1.5 md:h-2 bg-white rounded-full" /> Activate student email</li>
-                                                <li className="flex gap-3 md:gap-4 items-center text-sm md:text-lg"><div className="w-1.5 md:w-2 h-1.5 md:h-2 bg-white rounded-full" /> Access learning platforms</li>
-                                                <li className="flex gap-3 md:gap-4 items-center text-sm md:text-lg"><div className="w-1.5 md:w-2 h-1.5 md:h-2 bg-white rounded-full" /> Get student ID card</li>
+                        <li className="flex gap-3 md:gap-4 items-center text-sm md:text-lg"><ArrowRight size={16} weight="bold" className="text-white" /> Confirm study rights</li>
+                        <li className="flex gap-3 md:gap-4 items-center text-sm md:text-lg"><ArrowRight size={16} weight="bold" className="text-white" /> Activate student email</li>
+                        <li className="flex gap-3 md:gap-4 items-center text-sm md:text-lg"><ArrowRight size={16} weight="bold" className="text-white" /> Access learning platforms</li>
+                        <li className="flex gap-3 md:gap-4 items-center text-sm md:text-lg"><ArrowRight size={16} weight="bold" className="text-white" /> Get student ID card</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -461,7 +461,7 @@ export default function StudentGuidePage() {
                                 <div className="bg-neutral-100 p-8 rounded-none">
                                     <h3 className="font-bold text-xl mb-2 text-black">Peer Tutors</h3>
                                     <p className="text-black mb-4 font-medium">Connect with senior students for advice on student life and settling in.</p>
-                                    <Link href="/contact" className="text-sm font-bold underline hover:opacity-70 transition-colors flex items-center gap-2">Find a Tutor <ArrowRight size={14} /></Link>
+                                    <Link href="https://ourblogs.kestora.online/" target="_blank" rel="noopener noreferrer" className="text-sm font-bold underline hover:opacity-70 transition-colors flex items-center gap-2">Find a Tutor <ArrowRight size={14} /></Link>
                                 </div>
                             </div>
                         </section>
