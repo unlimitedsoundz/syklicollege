@@ -64,41 +64,22 @@ function CollapsibleSection({ section }: { section: Section }) {
     );
 }
 
-export default function TableOfContents({ sections, isOpen: externalIsOpen, onToggle: externalOnToggle }: Props) {
-    const [internalOpen, setInternalOpen] = useState(false);
-    const isOpen = externalIsOpen ?? internalOpen;
-    const onToggle = externalOnToggle ?? (() => setInternalOpen(!internalOpen));
-
+export default function TableOfContents({ sections }: Props) {
     return (
-        <>
-            {/* Toggle Button */}
-            <div className={`fixed top-20 z-[99999] transition-transform duration-1000 ease-in-out ${isOpen ? 'left-80' : 'left-0'}`}>
-                <button
-                    onClick={onToggle}
-                    className="w-12 h-12 bg-black text-white flex items-center justify-center hover:bg-gray-800 transition-colors"
-                >
-                    {isOpen ? <Minus size={16} weight="bold" /> : <Plus size={16} weight="bold" />}
-                </button>
-            </div>
+        <div className="bg-black text-white h-full overflow-y-auto">
+            <div className="pt-4">
+                <div className="px-4 md:px-6 pb-2">
+                    <h3 className="text-sm md:text-lg font-bold text-white">Study at Kestora</h3>
+                </div>
 
-            {/* TOC Container */}
-            <div className={`fixed top-20 h-screen w-80 z-40 bg-black text-white transition-transform duration-300 ${isOpen ? 'left-0' : '-left-80'}`}>
-                <div className="pt-4">
-                    <div className="px-6 pb-2">
-                        <h3 className="text-lg font-bold text-white">Study at Kestora</h3>
-                    </div>
-
-                    <div className={`transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                        <div className="px-6 pb-6">
-                            <nav className="flex flex-col space-y-1 mt-2">
-                                {sections.map((section) => (
-                                    <CollapsibleSection key={section.id} section={section} />
-                                ))}
-                            </nav>
-                        </div>
-                    </div>
+                <div className="px-4 md:px-6 pb-6">
+                    <nav className="flex flex-col space-y-1 mt-2">
+                        {sections.map((section) => (
+                            <CollapsibleSection key={section.id} section={section} />
+                        ))}
+                    </nav>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
