@@ -21,7 +21,7 @@ const tocSections = [
 import { SchemaLD } from '@/components/seo/SchemaLD';
 
 export default function InternationalGuidePage() {
-    const [tocOpen, setTocOpen] = useState(false);
+
 
     const faqSchema = {
         "@context": "https://schema.org",
