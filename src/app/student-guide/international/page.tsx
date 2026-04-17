@@ -329,7 +329,6 @@ export default function InternationalGuidePage() {
                         {/* FAQ */}
                         <section id="faq" className="scroll-mt-32">
                              <h2 className="text-3xl font-bold mb-8 text-black">Frequently Asked Questions</h2>
-                             <InternationalStudentFAQ />
                              <div className="mt-8 bg-gray-50 p-6 md:p-8 rounded-2xl flex items-start gap-4 border border-gray-100/50">
                                  <div>
                                      <h4 className="font-bold text-black text-lg mb-1">International Student Newsletters</h4>
