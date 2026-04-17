@@ -8,10 +8,7 @@ import Image from 'next/image';
 import TableOfContents from '@/components/course/TableOfContents';
 import InternationalStudentFAQ from '@/components/admissions/InternationalStudentFAQ';
 
-export const metadata = {
-    title: 'International Students Guide | Kestora University',
-    description: 'Practical guide for international students: permits, housing, moving to Finland, and settling in.',
-};
+
 
 const tocSections = [
     { id: 'intro', title: 'Purpose of Guide', content: '' },
