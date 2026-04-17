@@ -81,10 +81,9 @@ export default function InternationalGuidePage() {
                 </div>
             </section>
 
-            <div className={`container mx-auto px-4 py-8 md:py-16 ${tocOpen ? 'lg:pl-80' : ''} transition-all duration-1000`}>
-                <div className="fixed left-0 top-20 h-screen w-80 z-[99997] lg:block hidden"><TableOfContents sections={tocSections} /></div>
+            <div className="container mx-auto px-4 py-8 md:py-16">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                    <main className="lg:col-span-12 space-y-20">
+                    <div className="lg:col-span-12 space-y-20">
 
                         {/* Purpose */}
                         <section id="intro" className="scroll-mt-32">
