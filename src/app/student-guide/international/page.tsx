@@ -16,8 +16,6 @@ const tocSections = [
     { id: 'admission', title: 'After Admission', content: '' },
     { id: 'arrival', title: 'After Arrival', content: '' },
     { id: 'living', title: 'Living in Finland', content: '' },
-    { id: 'registration', title: 'Registration', content: '' },
-    { id: 'academic-calendar', title: 'Academic Calendar', content: '' },
     { id: 'graduation', title: 'After Graduation', content: '' },
     { id: 'faq', title: 'FAQ', content: '' },
     { id: 'support', title: 'Support Services', content: '' },
@@ -328,70 +326,6 @@ export default function InternationalGuidePage() {
                                      </p>
                                  </div>
                              </div>
-                         </section>
-
-                         {/* Registration */}
-                         <section id="registration" className="scroll-mt-32">
-                             <div className="bg-gray-100 p-8 md:p-12 rounded-2xl">
-                                 <h2 className="text-3xl font-bold mb-6 text-black">Registration</h2>
-                                 <p className="text-lg text-gray-700 leading-relaxed mb-8">
-                                     Register via the digital study system during published periods.
-                                 </p>
-                                 <ul className="space-y-4">
-                                     <li className="flex items-center gap-3 text-gray-700">
-                                         <ArrowRight size={20} className="text-gray-500 shrink-0" weight="bold" />
-                                         <span>Check participant limits</span>
-                                     </li>
-                                     <li className="flex items-center gap-3 text-gray-700">
-                                         <ArrowRight size={20} className="text-gray-500 shrink-0" weight="bold" />
-                                         <span>Verify prerequisites</span>
-                                     </li>
-                                     <li className="flex items-center gap-3 text-gray-700">
-                                         <ArrowRight size={20} className="text-gray-500 shrink-0" weight="bold" />
-                                         <span>Review selection criteria</span>
-                                     </li>
-                                 </ul>
-                             </div>
-                         </section>
-
-                         {/* Academic Calendar */}
-                         <section id="academic-calendar" className="scroll-mt-32">
-                             <h2 className="text-3xl font-bold mb-8 text-black">Academic Calendar</h2>
-                             <table>
-                                 <tbody>
-                                     <tr>
-                                         <td colspan="2"><strong>The Academic Year</strong></td>
-                                     </tr>
-                                     <tr>
-                                         <td>Autumn Term</td>
-                                         <td>September — December</td>
-                                     </tr>
-                                     <tr>
-                                         <td>Spring Term</td>
-                                         <td>January — May</td>
-                                     </tr>
-                                     <tr>
-                                         <td><strong>Teaching Periods & Dates</strong></td>
-                                         <td>Each term consists of multiple teaching periods. Courses may run intensively or throughout the semester.</td>
-                                     </tr>
-                                     <tr>
-                                         <td>Teaching Periods</td>
-                                         <td>Scheduled sessions</td>
-                                     </tr>
-                                     <tr>
-                                         <td>Exam Periods</td>
-                                         <td>Assessment weeks</td>
-                                     </tr>
-                                     <tr>
-                                         <td>Registration</td>
-                                         <td>Sign-up deadlines</td>
-                                     </tr>
-                                     <tr>
-                                         <td>Breaks</td>
-                                         <td>Winter & Summer</td>
-                                     </tr>
-                                 </tbody>
-                             </table>
                          </section>
 
                          {/* After Graduation */}
