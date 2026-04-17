@@ -55,9 +55,7 @@ export default function InternationalGuidePage() {
                 <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-20 h-[767px] lg:h-[600px] lg:py-0 relative mb-12">
                     {/* Left Content */}
                     <div className="lg:w-1/2 space-y-2 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
-                        <div className="inline-block bg-white text-black px-4 py-1 rounded-none text-xs font-bold mb-4 uppercase tracking-widest">
-                            International Support
-                        </div>
+
                         <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight pt-8">
                             International Students
                         </h1>
@@ -155,6 +153,8 @@ export default function InternationalGuidePage() {
                                 </div>
                             </div>
                         </section>
+
+                        <div className="fixed left-0 top-20 h-screen w-80 lg:block hidden"><TableOfContents sections={tocSections} /></div>
 
                         {/* After Admission */}
                         <section id="admission" className="scroll-mt-32">

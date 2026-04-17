@@ -155,6 +155,8 @@ export default function MastersGuidePage() {
                             </div>
                         </section>
 
+                        <div className="fixed left-0 top-20 h-screen w-80 lg:block hidden"><TableOfContents sections={tocSections} /></div>
+
                         {/* 3. Tuition */}
                         <section id="tuition" className="scroll-mt-32">
                             <div className="flex items-start gap-4 mb-6">
