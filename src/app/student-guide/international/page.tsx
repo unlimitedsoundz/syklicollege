@@ -356,6 +356,7 @@ export default function InternationalGuidePage() {
                              </div>
                         </section>
 
+                                </div>
                             </div>
                         </div>
                         </StudentGuideLayout>
