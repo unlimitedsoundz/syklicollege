@@ -344,7 +344,7 @@ export default function StudentGuidePage() {
                                         title: 'Learning Support',
                                         desc: 'Workshops, writing support, and study skills.',
                                         icon: BookOpen,
-                                        img: '/images/admissions/online_learning.png'
+                                        img: 'https://i.pinimg.com/736x/72/02/74/72027422a2b62ce0f06b599060ea5be1.jpg'
                                     },
                                     {
                                         title: 'Wellbeing',
@@ -354,14 +354,14 @@ export default function StudentGuidePage() {
                                     }
                                 ].map((item) => (
                                     <div key={item.title} className="bg-neutral-100 rounded-2xl overflow-hidden group">
-                                        <div className="h-48 bg-neutral-100 relative overflow-hidden">
-                                            <Image
-                                                src={item.img}
-                                                alt={item.title}
-                                                fill
-                                                className="object-cover"
-                                            />
-                                        </div>
+        <div className="h-48 bg-neutral-100 relative overflow-hidden">
+            <Image
+                src={item.img}
+                alt={item.title}
+                fill
+                className="object-cover object-top"
+            />
+        </div>
                                         <div className="p-6">
                                             <h3 className="font-bold text-lg mb-2 text-black">{item.title}</h3>
                                             <p className="text-black text-sm font-medium">{item.desc}</p>
