@@ -154,7 +154,7 @@ export default function InternationalGuidePage() {
                             </div>
                         </section>
 
-                        <div className="fixed left-0 top-20 h-screen w-80 lg:block hidden"><TableOfContents sections={tocSections} /></div>
+                        <div className="fixed left-0 top-20 h-screen w-80 z-[10001] lg:block hidden"><TableOfContents sections={tocSections} /></div>
 
                         {/* After Admission */}
                         <section id="admission" className="scroll-mt-32">

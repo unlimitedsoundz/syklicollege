@@ -127,6 +127,7 @@ export default function StudentGuidePage() {
             </section>
 
             <div className="container mx-auto px-4 py-8 md:py-16">
+                <div className="fixed left-0 top-20 h-screen w-80 z-[10001] lg:block hidden"><TableOfContents sections={sections} /></div>
                 <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
                     {/* Sidebar */}
                     <aside className="lg:w-1/4 hidden lg:block h-fit sticky top-24">

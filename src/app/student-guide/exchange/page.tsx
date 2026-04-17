@@ -155,7 +155,7 @@ export default function ExchangeStudentsPage() {
                             </div>
                         </section>
 
-                        <div className="fixed left-0 top-20 h-screen w-80 lg:block hidden"><TableOfContents sections={tocSections} /></div>
+                        <div className="fixed left-0 top-20 h-screen w-80 z-[10001] lg:block hidden"><TableOfContents sections={tocSections} /></div>
 
                         {/* 3. Registration */}
                         <section id="registration" className="scroll-mt-32">
