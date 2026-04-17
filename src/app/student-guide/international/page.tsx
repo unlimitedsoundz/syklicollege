@@ -1,4 +1,7 @@
 
+'use client';
+
+import { useState } from 'react';
 import { CheckCircle, Globe, Briefcase, Heart, MapPin, GraduationCap, ArrowRight, Question as HelpCircle, Users } from "@phosphor-icons/react/dist/ssr";
 import Link from 'next/link';
 import Image from 'next/image';
@@ -24,6 +27,8 @@ const tocSections = [
 import { SchemaLD } from '@/components/seo/SchemaLD';
 
 export default function InternationalGuidePage() {
+    const [tocOpen, setTocOpen] = useState(false);
+
     const faqSchema = {
         "@context": "https://schema.org",
         "@type": "FAQPage",
@@ -51,7 +56,7 @@ export default function InternationalGuidePage() {
         <div className="min-h-screen bg-white text-black">
             <SchemaLD data={faqSchema} />
 
-            <section className="bg-neutral-950 text-white overflow-hidden">
+            <section className="bg-neutral-950 text-white overflow-hidden relative z-0">
                 <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-20 h-[767px] lg:h-[600px] lg:py-0 relative mb-12">
                     {/* Left Content */}
                     <div className="lg:w-1/2 space-y-2 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
@@ -86,7 +91,7 @@ export default function InternationalGuidePage() {
                 <div className="fixed left-0 top-0 h-screen w-80 z-50 lg:block hidden"><TableOfContents sections={tocSections} /></div>
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
 {/* Main Content */}
-<main className="lg:col-span-12 lg:pl-80 space-y-20">
+                    <main className={`lg:col-span-12 ${tocOpen ? 'lg:pl-80' : ''} space-y-20 transition-all duration-1000`}>
 
                         {/* Purpose */}
                         <section id="intro" className="scroll-mt-32">

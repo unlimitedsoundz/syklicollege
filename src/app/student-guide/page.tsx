@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import {
     BookOpen, GraduationCap, Heart,
     ArrowRight, CaretRight
@@ -9,6 +10,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 export default function StudentGuidePage() {
+    const [tocOpen, setTocOpen] = useState(false);
+
     const sections = [
         {
             id: 'programmes',

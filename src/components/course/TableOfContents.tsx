@@ -14,6 +14,8 @@ interface Section {
 
 interface Props {
     sections: Section[];
+    isOpen?: boolean;
+    onToggle?: () => void;
 }
 
 function CollapsibleSection({ section }: { section: Section }) {
@@ -62,32 +64,41 @@ function CollapsibleSection({ section }: { section: Section }) {
     );
 }
 
-export default function TableOfContents({ sections }: Props) {
-    const [isOpen, setIsOpen] = useState(true);
+export default function TableOfContents({ sections, isOpen: externalIsOpen, onToggle: externalOnToggle }: Props) {
+    const [internalOpen, setInternalOpen] = useState(false);
+    const isOpen = externalIsOpen ?? internalOpen;
+    const onToggle = externalOnToggle ?? (() => setInternalOpen(!internalOpen));
 
     return (
-        <div className="bg-neutral-50 rounded-2xl border border-neutral-100 lg:sticky top-8 overflow-hidden">
-            <button
-                onClick={() => setIsOpen(!isOpen)}
-                className="w-full flex items-center justify-between p-6 bg-neutral-50 hover:bg-neutral-100 transition-colors text-left"
-            >
-                <div className="flex items-center gap-2">
-                    <h3 className="text-lg font-bold text-neutral-900">Study at Kestora</h3>
-                </div>
-                {isOpen ? <Minus size={20} weight="bold" className="text-black" /> : <Plus size={20} weight="bold" className="text-black" />}
-            </button>
+        <>
+            {/* Toggle Button */}
+            <div className={`fixed top-20 z-[99999] transition-transform duration-1000 ease-in-out ${isOpen ? 'left-80' : 'left-0'}`}>
+                <button
+                    onClick={onToggle}
+                    className="w-12 h-12 bg-black text-white flex items-center justify-center hover:bg-gray-800 transition-colors"
+                >
+                    {isOpen ? <Minus size={16} weight="bold" /> : <Plus size={16} weight="bold" />}
+                </button>
+            </div>
 
-            <div className={`transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                <div className="px-6 pb-6 pt-0">
-                    <nav className="flex flex-col space-y-1 mt-2">
-                        {sections.map((section) => (
-                            <CollapsibleSection key={section.id} section={section} />
-                        ))}
-                    </nav>
+            {/* TOC Container */}
+            <div className={`fixed top-20 h-screen w-80 z-40 bg-black text-white transition-transform duration-300 ${isOpen ? 'left-0' : '-left-80'}`}>
+                <div className="pt-4">
+                    <div className="px-6 pb-2">
+                        <h3 className="text-lg font-bold text-white">Study at Kestora</h3>
+                    </div>
 
-
+                    <div className={`transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                        <div className="px-6 pb-6">
+                            <nav className="flex flex-col space-y-1 mt-2">
+                                {sections.map((section) => (
+                                    <CollapsibleSection key={section.id} section={section} />
+                                ))}
+                            </nav>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
