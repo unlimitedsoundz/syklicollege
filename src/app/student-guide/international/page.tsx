@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { CheckCircle, Globe, Briefcase, Heart, MapPin, GraduationCap, ArrowRight, Question as HelpCircle, Users } from "@phosphor-icons/react/dist/ssr";
 import Link from 'next/link';
 import Image from 'next/image';
-import TableOfContents from '@/components/course/TableOfContents';
+import StudentGuideLayout from '@/components/layout/StudentGuideLayout';
 import InternationalStudentFAQ from '@/components/admissions/InternationalStudentFAQ';
 
 
@@ -154,8 +154,6 @@ export default function InternationalGuidePage() {
                                 </div>
                             </div>
                         </section>
-
-                        <div className="fixed left-0 top-20 h-screen w-80 z-[10001] lg:block hidden"><TableOfContents sections={tocSections} /></div>
 
                         {/* After Admission */}
                         <section id="admission" className="scroll-mt-32">
@@ -363,7 +361,7 @@ export default function InternationalGuidePage() {
                              </div>
                         </section>
 
-                    </main>
+                    </div>
                 </div>
             </div>
         </div>
