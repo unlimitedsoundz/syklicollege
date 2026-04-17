@@ -85,16 +85,10 @@ export default function InternationalGuidePage() {
             </section>
 
             <div className="container mx-auto px-4 py-8 md:py-16">
+                <div className="fixed left-0 top-0 h-screen w-80 z-50 lg:block hidden"><TableOfContents sections={tocSections} /></div>
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                    {/* Sidebar */}
-                    <aside className="lg:col-span-3">
-                        <div className="sticky top-24">
-                            <TableOfContents sections={tocSections} />
-                        </div>
-                    </aside>
-
-                    {/* Main Content */}
-                    <main className="lg:col-span-9 space-y-20">
+{/* Main Content */}
+<main className="lg:col-span-12 lg:pl-80 space-y-20">
 
                         {/* Purpose */}
                         <section id="intro" className="scroll-mt-32">

@@ -17,21 +17,39 @@ export default function ExchangeStudentsPage() {
 
     return (
         <div className="min-h-screen bg-white">
-            {/* Hero */}
-            <div className="bg-neutral-900 text-white pt-32 pb-20">
-                <div className="container mx-auto px-4">
-                    <div className="max-w-3xl">
-                        <div className="inline-block bg-white text-black px-3 py-1 rounded-full text-sm font-bold mb-4">
+            {/* HERO SECTION (Split Layout) */}
+            <section className="bg-neutral-950 text-white overflow-hidden">
+                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-20 h-[767px] lg:h-[600px] lg:py-0 relative mb-12">
+                    {/* Left Content */}
+                    <div className="lg:w-1/2 space-y-2 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
+                        <div className="inline-block bg-white text-black px-4 py-1 rounded-none text-xs font-bold mb-4 uppercase tracking-widest">
                             Exchange Students
                         </div>
-                        <h1 className="text-4xl md:text-5xl font-bold mb-6 pt-8">Exchange Students Guide</h1>
-                        <p className="text-xl text-neutral-300 leading-relaxed">
-                            Everything you need to know for your exchange semester or year at Kestora University.
-                            We look forward to welcoming you to our vibrant international community!
+                        <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight pt-8">
+                            Exchange Students Guide
+                        </h1>
+                        <p className="text-[21px] text-neutral-400 max-w-xl leading-relaxed my-4">
+                            Everything you need to know for your exchange semester or year at Kestora University. We look forward to welcoming you to our vibrant international community!
                         </p>
                     </div>
+
+                    {/* Right Image */}
+                    <div className="lg:w-1/2 h-full w-full relative lg:translate-y-16 z-20 flex justify-center lg:block">
+                        <div className="h-full">
+                            <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800">
+                                <Image
+                                    src="/images/news/helsinki_study_hero_1771086684833.png"
+                                    alt="Exchange Students"
+                                    fill
+                                    className="object-cover"
+                                    priority
+                                    sizes="(max-width: 1024px) 368px, 50vw"
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
 
             <div className="container mx-auto px-4 py-8 md:py-16">
                 <Link

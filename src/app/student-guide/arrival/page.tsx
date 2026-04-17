@@ -20,32 +20,38 @@ const tocSections = [
 export default function ArrivalGuidePage() {
     return (
         <div className="min-h-screen bg-white text-black">
-            {/* Hero Section */}
-            <div className="w-full h-[60vh] relative bg-neutral-900 overflow-hidden">
-                <Image
-                    src="/images/arrival-hero-v2.jpg"
-                    alt="Kestora University Students Arriving"
-                    fill
-                    priority
-                    className="object-cover"
-                    sizes="100vw"
-                />
-                <div className="absolute inset-0 bg-black/40" />
-                <div className="absolute bottom-0 left-0 w-full p-8 md:p-16">
-                    <div className="container mx-auto">
-                        <div className="flex items-center gap-3 mb-4 text-white/80">
-                            <Airplane size={24} weight="regular" />
-                            <span className="text-xs font-bold uppercase tracking-[0.3em]">Student Arrival Guide</span>
+            <section className="bg-neutral-950 text-white overflow-hidden">
+                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-20 h-[767px] lg:h-[600px] lg:py-0 relative mb-12">
+                    {/* Left Content */}
+                    <div className="lg:w-1/2 space-y-2 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
+                        <div className="inline-block bg-white text-black px-4 py-1 rounded-none text-xs font-bold mb-4 uppercase tracking-widest flex items-center gap-2">
+                            <Airplane size={14} weight="bold" /> Student Arrival Guide
                         </div>
-                        <h1 className="text-4xl md:text-7xl font-bold text-white mb-6 uppercase tracking-tighter pt-8">
+                        <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight pt-8">
                             Welcome to Kestora University
                         </h1>
-                        <p className="text-lg md:text-xl text-neutral-300 max-w-2xl leading-relaxed font-medium">
+                        <p className="text-[21px] text-neutral-400 max-w-xl leading-relaxed my-4">
                             Starting your studies at Kestora University is an exciting step. This guide helps you prepare, settle in, and feel confident.
                         </p>
                     </div>
+
+                    {/* Right Image */}
+                    <div className="lg:w-1/2 h-full w-full relative lg:translate-y-16 z-20 flex justify-center lg:block">
+                        <div className="h-full">
+                            <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800">
+                                <Image
+                                    src="/images/arrival-hero-v2.jpg"
+                                    alt="Kestora Arrival"
+                                    fill
+                                    priority
+                                    className="object-cover"
+                                    sizes="(max-width: 1024px) 368px, 50vw"
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
 
             <div className="container mx-auto px-4 py-20">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
@@ -203,8 +209,8 @@ export default function ArrivalGuidePage() {
                                             <p className="text-neutral-600 text-xs leading-relaxed uppercase tracking-tight font-medium opacity-80">
                                                 Finland is officially a bilingual country with Finnish (95%) and Swedish (5%). Finnish is part of the Finno-Ugric family of languages, and the structure and vocabulary are very different from the Indo-European languages. But it doesn't mean that it is difficult - it is merely different!
                                             </p>
-                                            <div className="bg-neutral-50 p-6 rounded-sm italic">
-                                                <p className="text-neutral-700 text-xs leading-relaxed uppercase tracking-tight font-medium">
+                                            <div className="bg-neutral-100 p-8 rounded-none">
+                                                <p className="text-black font-medium leading-relaxed">
                                                     For enrolled exchange, visiting and international degree students, Kestora University offers free Finnish language courses. They are a fun way to learn the language and network with other students across the fields, and you get to know the culture as well.
                                                 </p>
                                             </div>
@@ -236,8 +242,8 @@ export default function ArrivalGuidePage() {
                             <div className="max-w-2xl">
                                 <Heart className="text-primary mb-6" size={32} weight="fill" />
                                 <h2 className="text-4xl font-black mb-6 uppercase tracking-tight">We Are Glad You Are Here</h2>
-                                <p className="text-lg text-neutral-700 leading-relaxed uppercase tracking-tight font-medium opacity-80 mb-8 italic">
-                                    &quot;Arriving in a new place can feel overwhelming, but Kestora University is here to support you from arrival through graduation. With preparation and curiosity, your experience will be both rewarding and memorable.&quot;
+                                <p className="text-lg text-black leading-relaxed font-bold mb-8">
+                                    "Arriving in a new place can feel overwhelming, but Kestora University is here to support you from arrival through graduation. With preparation and curiosity, your experience will be both rewarding and memorable."
                                 </p>
                                 <div className="flex gap-4">
                                     <Link

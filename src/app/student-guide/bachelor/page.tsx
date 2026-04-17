@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowLeft, Calendar, CheckCircle, FileText, Info, MapPin, CreditCard } from "@phosphor-icons/react/dist/ssr";
+import { ArrowLeft, Calendar, CaretRight, CheckCircle, FileText, Info, MapPin, CreditCard } from "@phosphor-icons/react/dist/ssr";
 import Link from 'next/link';
 import TableOfContents from '@/components/course/TableOfContents';
 
@@ -20,21 +20,39 @@ export default function BachelorsGuidePage() {
 
     return (
         <div className="min-h-screen bg-white">
-            {/* Hero */}
-            <div className="bg-neutral-900 text-white pt-32 pb-20">
-                <div className="container mx-auto px-4">
-                    <div className="max-w-3xl">
-                        <div className="inline-block bg-[#fd6402] text-white px-3 py-1 rounded-full text-sm font-bold mb-4">
+            {/* HERO SECTION (Split Layout) */}
+            <section className="bg-neutral-950 text-white overflow-hidden">
+                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-20 h-[767px] lg:h-[600px] lg:py-0 relative mb-12">
+                    {/* Left Content */}
+                    <div className="lg:w-1/2 space-y-2 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
+                        <div className="inline-block bg-white text-black px-4 py-1 rounded-none text-xs font-bold mb-4 uppercase tracking-widest">
                             New Students
                         </div>
-                        <h1 className="text-4xl md:text-5xl font-bold mb-6 pt-8">Bachelor’s Students Guide</h1>
-                        <p className="text-xl text-neutral-300 leading-relaxed">
-                            Essential information for students admitted to Bachelor’s programmes taught in English.
-                            Read carefully to ensure a smooth start to your studies.
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight pt-8">
+                            Bachelor’s Students Guide
+                        </h1>
+                        <p className="text-[21px] text-neutral-400 max-w-xl leading-relaxed">
+                            Essential information for students admitted to Bachelor’s programmes taught in English. Read carefully to ensure a smooth start to your studies.
                         </p>
                     </div>
+
+                    {/* Right Image */}
+                    <div className="lg:w-1/2 h-full w-full relative lg:translate-y-16 z-20 flex justify-center lg:block">
+                        <div className="h-full">
+                            <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800">
+                                <Image
+                                    src="/images/bachelors-group-v2.png"
+                                    alt="Bachelor Students"
+                                    fill
+                                    className="object-cover"
+                                    priority
+                                    sizes="(max-width: 1024px) 368px, 50vw"
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
 
             <div className="container mx-auto px-4 py-8 md:py-16">
                 <Link
@@ -53,11 +71,11 @@ export default function BachelorsGuidePage() {
                     <main className="lg:w-3/4 space-y-8 md:space-y-16">
 
                         {/* Intro Box */}
-                        <div className="bg-neutral-50 border border-neutral-200 p-8 rounded-2xl">
-                            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                        <div className="bg-neutral-100 p-8 rounded-none border-l-4 border-black">
+                            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2 text-black">
                                 Welcome to Kestora University!
                             </h2>
-                            <p className="text-neutral-700 mb-4">
+                            <p className="text-black mb-4 font-medium leading-relaxed">
                                 This guide covers the critical steps from accepting your offer to arriving on campus.
                                 Follow the deadlines closely to secure your study place.
                             </p>
@@ -70,12 +88,12 @@ export default function BachelorsGuidePage() {
                                 <h2 className="text-3xl font-bold pt-1">Accept Your Admission Offer</h2>
                             </div>
 
-                            <div className="bg-orange-50 border border-orange-100 p-6 rounded-xl mb-6">
-                                <h3 className="font-bold text-neutral-900 flex items-center gap-2 mb-2">
+                            <div className="bg-black text-white p-8 rounded-none mb-6">
+                                <h3 className="font-bold text-white flex items-center gap-2 mb-2 uppercase tracking-widest text-sm">
                                     Deadline
                                 </h3>
-                                <p className="font-medium">24 July 2026 at 15:00 (UTC +3)</p>
-                                <p className="text-sm text-neutral-600 mt-1">Accept by this date or lose your offer.</p>
+                                <p className="text-2xl font-bold">24 July 2026 at 15:00 (UTC +3)</p>
+                                <p className="text-sm text-neutral-400 mt-2">Accept by this date or lose your study place offer.</p>
                             </div>
 
                             <div className="prose max-w-none text-neutral-700">
@@ -85,20 +103,20 @@ export default function BachelorsGuidePage() {
                                     <li>Follow instructions in your admission letter.</li>
                                 </ul>
 
-                                <div className="bg-neutral-50 p-6 rounded-xl">
-                                    <h4 className="font-bold mb-3">Waitlist & Multiple Offers</h4>
-                                    <ul className="space-y-2 text-sm">
-                                        <li className="flex gap-2">
-                                            <CheckCircle size={16} weight="bold" className="text-neutral-400 mt-1" />
-                                            <span>You can accept only <strong>one</strong> degree study place per term.</span>
+                                <div className="bg-neutral-100 p-10 rounded-none">
+                                    <h4 className="font-bold mb-6 text-xl">Waitlist & Multiple Offers</h4>
+                                     <ul className="space-y-4">
+                                        <li className="flex gap-4 items-start">
+                                            <ArrowRight size={18} weight="bold" className="mt-1 text-black" />
+                                            <span className="font-medium">You can accept only <strong>one</strong> degree study place per term.</span>
                                         </li>
-                                        <li className="flex gap-2">
-                                            <CheckCircle size={16} weight="bold" className="text-neutral-400 mt-1" />
-                                            <span>You may accept a lower-ranked offer conditionally while waiting for a higher preference.</span>
+                                        <li className="flex gap-4 items-start">
+                                            <ArrowRight size={18} weight="bold" className="mt-1 text-black" />
+                                            <span className="font-medium">You may accept a lower-ranked offer conditionally while waiting for a higher preference.</span>
                                         </li>
-                                        <li className="flex gap-2">
-                                            <CheckCircle size={16} weight="bold" className="text-neutral-400 mt-1" />
-                                            <span>If a higher-ranked place opens, your acceptance transfers automatically.</span>
+                                        <li className="flex gap-4 items-start">
+                                            <ArrowRight size={18} weight="bold" className="mt-1 text-black" />
+                                            <span className="font-medium">If a higher-ranked place opens, your acceptance transfers automatically.</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -112,19 +130,19 @@ export default function BachelorsGuidePage() {
                                 <h2 className="text-3xl font-bold pt-1">Tuition Fees & Scholarships</h2>
                             </div>
 
-                            <div className="bg-white border border-neutral-200 rounded-xl p-8 mb-6">
+                            <div className="bg-white border border-neutral-200 rounded-none p-10 mb-6">
                                 <div className="flex items-start gap-4 mb-4">
                                     <div>
-                                        <h3 className="font-bold text-lg">General Rules</h3>
-                                        <p className="text-neutral-600">Non-EU/EEA students typically pay tuition. Fees are due after acceptance and before enrolment.</p>
+                                        <h3 className="font-bold text-xl">General Rules</h3>
+                                        <p className="text-black font-medium mt-2">Non-EU/EEA students typically pay tuition. Fees are due after acceptance and before enrolment.</p>
                                     </div>
                                 </div>
-                                <div className="border-t border-neutral-100 pt-4 mt-4">
-                                    <h4 className="font-bold text-[#fd6402] mb-2">Early Payment Discount (25%)</h4>
-                                    <p className="text-sm text-neutral-600 mb-2">
+                                <div className="border-t border-neutral-100 pt-6 mt-6">
+                                    <h4 className="font-bold text-black text-xl mb-3">Early Payment Discount (25%)</h4>
+                                    <p className="text-black font-medium mb-4 leading-relaxed">
                                         New Bachelor’s students may receive a <strong>25% reduction</strong> on the first year’s fee if paid by the deadline (typically within 7 days of acceptance).
                                     </p>
-                                    <p className="text-xs text-neutral-500">Check your admission email for specific dates.</p>
+                                    <p className="text-xs text-neutral-500 uppercase tracking-widest font-bold">Check your admission email for specific dates.</p>
                                 </div>
                             </div>
                         </section>
@@ -218,13 +236,13 @@ export default function BachelorsGuidePage() {
                                 <div className="w-10 h-10 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold flex-shrink-0">8</div>
                                 <h2 className="text-3xl font-bold pt-1">Orientation & Start</h2>
                             </div>
-                            <div className="bg-neutral-50 p-6 rounded-xl border border-neutral-100">
-                                <h3 className="font-bold text-lg mb-2">Orientation Week</h3>
-                                <p className="text-neutral-600 mb-4">Usually held in August/September. Helps you meet tutors, learn systems, and settle in.</p>
-                                <ul className="space-y-2 text-sm text-neutral-600">
-                                    <li>• Check platforms for <strong>Pre-Orientation Modules</strong>.</li>
-                                    <li>• Connect with your assigned <strong>Peer Tutor</strong>.</li>
-                                    <li>• Join student life events and webinars before arrival.</li>
+                            <div className="bg-neutral-100 p-10 rounded-none border-l-4 border-black">
+                                <h3 className="font-bold text-xl mb-4 text-black">Orientation Week</h3>
+                                <p className="text-black font-medium mb-6 leading-relaxed text-lg">Usually held in August/September. Helps you meet tutors, learn systems, and settle in.</p>
+                                <ul className="space-y-4 pt-2">
+                                    <li className="flex gap-4 items-center font-bold text-black underline"><ArrowRight size={18} weight="bold" /> Check platforms for Pre-Orientation Modules.</li>
+                                    <li className="flex gap-4 items-center font-bold text-black underline"><ArrowRight size={18} weight="bold" /> Connect with your assigned Peer Tutor.</li>
+                                    <li className="flex gap-4 items-center font-bold text-black underline"><ArrowRight size={18} weight="bold" /> Join student life events and webinars before arrival.</li>
                                 </ul>
                             </div>
                         </section>

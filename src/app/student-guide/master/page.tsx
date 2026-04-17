@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowLeft, Calendar, CheckCircle, FileText, Info, MapPin } from "@phosphor-icons/react/dist/ssr";
+import { ArrowLeft, Calendar, CaretRight, CheckCircle, FileText, Info, MapPin } from "@phosphor-icons/react/dist/ssr";
 import Link from 'next/link';
 import TableOfContents from '@/components/course/TableOfContents';
 
@@ -18,21 +18,39 @@ export default function MastersGuidePage() {
 
     return (
         <div className="min-h-screen bg-white">
-            {/* Hero */}
-            <div className="bg-neutral-900 text-white pt-32 pb-20">
-                <div className="container mx-auto px-4">
-                    <div className="max-w-3xl">
-                        <div className="inline-block bg-white text-black px-3 py-1 rounded-full text-sm font-bold mb-4">
+            {/* HERO SECTION (Split Layout) */}
+            <section className="bg-neutral-950 text-white overflow-hidden">
+                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-20 h-[767px] lg:h-[600px] lg:py-0 relative mb-12">
+                    {/* Left Content */}
+                    <div className="lg:w-1/2 space-y-2 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
+                        <div className="inline-block bg-white text-black px-4 py-1 rounded-none text-xs font-bold mb-4 uppercase tracking-widest">
                             New Students
                         </div>
-                        <h1 className="text-4xl md:text-5xl font-bold mb-6 pt-8">Master’s Students Guide</h1>
-                        <p className="text-xl text-neutral-300 leading-relaxed">
-                            Essential steps and instructions for newly admitted Master’s students at Kestora University.
-                            Follow this guide to ensure a smooth start to your studies in the academic year 2026–2027.
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight pt-8">
+                            Master’s Students Guide
+                        </h1>
+                        <p className="text-[21px] text-neutral-400 max-w-xl leading-relaxed">
+                            Essential steps and instructions for newly admitted Master’s students at Kestora University. Follow this guide to ensure a smooth start to your studies.
                         </p>
                     </div>
+
+                    {/* Right Image */}
+                    <div className="lg:w-1/2 h-full w-full relative lg:translate-y-16 z-20 flex justify-center lg:block">
+                        <div className="h-full">
+                            <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800">
+                                <Image
+                                    src="/images/student-guide-hero.png"
+                                    alt="Master Students"
+                                    fill
+                                    className="object-cover"
+                                    priority
+                                    sizes="(max-width: 1024px) 368px, 50vw"
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
 
             <div className="container mx-auto px-4 py-8 md:py-16">
                 <Link
@@ -91,20 +109,20 @@ export default function MastersGuidePage() {
                                     <li>If you encounter technical issues, contact Student Services immediately.</li>
                                 </ul>
 
-                                <div className="bg-neutral-100 p-6 rounded-xl">
-                                    <h4 className="font-bold mb-3">Important Conditions</h4>
-                                    <ul className="space-y-2 text-sm">
-                                        <li className="flex gap-2">
-                                            <CheckCircle size={16} weight="bold" className="text-neutral-400 mt-1" />
-                                            <span>Your acceptance is <strong>binding</strong>. Once accepted, strictly no cancellations.</span>
+                                <div className="bg-neutral-100 p-10 rounded-none">
+                                    <h4 className="font-bold mb-6 text-xl">Important Conditions</h4>
+                                     <ul className="space-y-4">
+                                        <li className="flex gap-4 items-start">
+                                            <ArrowRight size={18} weight="bold" className="mt-1 text-black" />
+                                            <span className="font-medium">Your acceptance is <strong>binding</strong>. Once accepted, strictly no cancellations.</span>
                                         </li>
-                                        <li className="flex gap-2">
-                                            <CheckCircle size={16} weight="bold" className="text-neutral-400 mt-1" />
-                                            <span>If declining, inform the system immediately to free the spot for others.</span>
+                                        <li className="flex gap-4 items-start">
+                                            <ArrowRight size={18} weight="bold" className="mt-1 text-black" />
+                                            <span className="font-medium">If declining, inform the system immediately to free the spot for others.</span>
                                         </li>
-                                        <li className="flex gap-2">
-                                            <CheckCircle size={16} weight="bold" className="text-neutral-400 mt-1" />
-                                            <span>You can accept only <strong>one</strong> higher education study place in Finland per term.</span>
+                                        <li className="flex gap-4 items-start">
+                                            <ArrowRight size={18} weight="bold" className="mt-1 text-black" />
+                                            <span className="font-medium">You can accept only <strong>one</strong> higher education study place in Finland per term.</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -201,13 +219,13 @@ export default function MastersGuidePage() {
                                     </div>
                                     <div className="flex-1 pl-8">
                                         <h3 className="font-bold text-lg mb-2">Status Options</h3>
-                                        <ul className="space-y-1 text-sm text-neutral-600">
-                                            <li>• <strong>Attending:</strong> Starting studies immediately</li>
-                                            <li>• <strong>Non-attending:</strong> Deferring for approved reasons (e.g. military service)</li>
+                                        <ul className="space-y-4 text-sm text-black font-medium">
+                                            <li className="flex gap-2 items-center underline tracking-tight"><ArrowRight size={14} weight="bold" /> <strong>Attending:</strong> Starting studies immediately</li>
+                                            <li className="flex gap-2 items-center underline tracking-tight"><ArrowRight size={14} weight="bold" /> <strong>Non-attending:</strong> Deferring for approved reasons (e.g. military service)</li>
                                         </ul>
                                     </div>
                                 </div>
-                                <p className="text-sm text-neutral-500 italic">Enroll through the national student information service.</p>
+                                <p className="text-sm text-neutral-500">Enroll through the national student information service.</p>
                             </div>
                         </section>
 
