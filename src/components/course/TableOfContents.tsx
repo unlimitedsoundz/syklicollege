@@ -25,7 +25,7 @@ function CollapsibleSection({ section }: { section: Section }) {
             <div className="flex items-center justify-between group cursor-pointer" onClick={() => hasItems && setIsExpanded(!isExpanded)}>
                 <a
                     href={`#${section.id}`}
-                    className="flex-1 text-base font-semibold text-neutral-600 hover:text-black transition-colors block py-2 border-l-2 border-transparent hover:border-black pl-3"
+                    className="flex-1 text-base font-semibold text-white hover:text-gray-300 transition-colors block py-2 pl-3"
                     onClick={(e) => {
                         // Navigation happens automatically via href
                     }}
@@ -34,7 +34,7 @@ function CollapsibleSection({ section }: { section: Section }) {
                 </a>
                 {hasItems && (
                     <button
-                        className="p-1 mr-[-8px] text-black hover:text-[#fd6402] transition-colors"
+                        className="p-1 mr-[-8px] text-white hover:text-gray-300 transition-colors"
                     >
                         {isExpanded ? <Minus size={16} weight="bold" /> : <Plus size={16} weight="bold" />}
                     </button>
@@ -42,18 +42,20 @@ function CollapsibleSection({ section }: { section: Section }) {
             </div>
             {hasItems && (
                 <div
-                    className={`ml-3 pl-3 border-l border-neutral-200 mt-1 space-y-1 overflow-hidden transition-all duration-300 ease-in-out ${isExpanded ? 'max-h-[500px] opacity-100 mb-2' : 'max-h-0 opacity-0'
+                    className={`pl-3 mt-1 overflow-hidden transition-all duration-300 ease-in-out ${isExpanded ? 'max-h-[500px] opacity-100 mb-2' : 'max-h-0 opacity-0'
                         }`}
                 >
-                    {section.items!.map(item => (
-                        <Link
-                            key={item.title}
-                            href={item.href}
-                            className="block text-sm text-neutral-500 hover:text-[#fd6402] py-1"
-                        >
-                            {item.title}
-                        </Link>
-                    ))}
+                    <div className="flex flex-wrap gap-2">
+                        {section.items!.map(item => (
+                            <Link
+                                key={item.title}
+                                href={item.href}
+                                className="text-sm text-gray-300 hover:text-white py-1 px-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors"
+                            >
+                                {item.title}
+                            </Link>
+                        ))}
+                    </div>
                 </div>
             )}
         </div>
