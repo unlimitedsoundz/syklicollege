@@ -231,7 +231,7 @@ export default function InternationalGuidePage() {
                                               <ArrowRight size={24} weight="bold" />
                                           </div>
                                           <p className="mb-4 text-black"><strong className="text-black">EU/EEA Citizens:</strong> Register right of residence at DVV.</p>
-                                          <p className="text-black"><strong className="text-black">Non-EU/EEA:</strong> Must have residence permit card. Visit DVV for municipality of residence registration.</p>
+                                          <p className="text-black flex items-center gap-2"><ArrowRight size={16} weight="bold" className="shrink-0" /><span><strong className="text-black">Non-EU/EEA:</strong> Must have residence permit card. Visit DVV for municipality of residence registration.</span></p>
                                       </div>
                                     <div className="mb-8">
                                         <Link
@@ -273,12 +273,12 @@ export default function InternationalGuidePage() {
                                       </ul>
                                  </div>
 
-                                 <div>
-                                     <h3 className="text-2xl font-bold mb-4 text-gray-900">Campus Services</h3>
-                                     <p className="text-gray-700">
-                                        Access libraries, study spaces, student lounges, counseling, dining services, and student union activities immediately upon enrolment.
-                                    </p>
-                                </div>
+                                  <div>
+                                      <h3 className="text-2xl font-bold mb-4 text-black">Campus Services</h3>
+                                      <p className="text-black">
+                                         Access libraries, study spaces, student lounges, counseling, dining services, and student union activities immediately upon enrolment.
+                                     </p>
+                                 </div>
                             </div>
                         </section>
 
