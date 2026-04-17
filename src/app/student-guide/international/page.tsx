@@ -99,7 +99,7 @@ export default function InternationalGuidePage() {
                         {/* Purpose */}
                         <section id="intro" className="scroll-mt-32">
                             <h2 className="text-3xl font-bold mb-6 text-black">Purpose of This Guide</h2>
-                            <p className="text-lg text-gray-800 leading-relaxed max-w-3xl">
+                            <p className="text-lg text-black leading-relaxed max-w-3xl">
                                 This section of the Student Guide provides international degree and exchange students with practical guidance on what to do after admission and after arrival in Finland. It covers practicalities related to living, studying, travel, and settling in Finland. It should be read together with the general new student instructions.
                             </p>
                         </section>
@@ -109,7 +109,7 @@ export default function InternationalGuidePage() {
                             <div className="grid lg:grid-cols-2 gap-12 items-center">
                                 <div className="space-y-6">
                                      <h2 className="text-3xl font-bold text-black tracking-tight">Why Study in Finland?</h2>
-                                     <div className="space-y-4 text-lg text-gray-700 leading-relaxed">
+                                     <div className="space-y-4 text-lg text-black leading-relaxed">
                                         <p>
                                             Finland is consistently ranked among the happiest countries in the world, reflecting its strong social stability, high quality of life, and commitment to equality, integrity, and openness. These values are deeply embedded in everyday life and public institutions.
                                         </p>
@@ -133,28 +133,18 @@ export default function InternationalGuidePage() {
                                                  href="https://www.visitfinland.com"
                                                  target="_blank"
                                                  rel="noopener noreferrer"
-                                                 className="flex items-center gap-3 p-4 bg-gray-900 text-white rounded-xl hover:bg-gray-800 transition-all shadow-md group border border-gray-700"
+                                                 className="block text-center bg-black text-white px-6 py-3 rounded-xl font-bold underline"
                                              >
-                                                 <Globe size={24} weight="regular" className="text-gray-300 group-hover:text-white transition-colors shrink-0" />
-                                                 <div>
-                                                     <span className="block font-bold">Visit Finland</span>
-                                                     <span className="text-xs text-gray-200">Official travel guide to Finland</span>
-                                                 </div>
-                                                <ArrowRight size={16} weight="bold" className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1" />
-                                            </a>
+                                                 Visit Finland
+                                             </a>
                                              <a
                                                  href="https://finland.fi"
                                                  target="_blank"
                                                  rel="noopener noreferrer"
-                                                 className="flex items-center gap-3 p-4 bg-white border border-gray-100 rounded-xl hover:border-gray-300 hover:shadow-md transition-all group"
+                                                 className="block text-center bg-black text-white px-6 py-3 rounded-xl font-bold underline"
                                              >
-                                                 <Globe size={24} weight="regular" className="text-gray-400 group-hover:text-gray-600 transition-colors shrink-0" />
-                                                 <div>
-                                                     <span className="block font-bold text-black">thisisFINLAND</span>
-                                                     <span className="text-xs text-gray-600">Information related to the Finnish society</span>
-                                                 </div>
-                                                <ArrowRight size={16} weight="bold" className="ml-auto text-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1" />
-                                            </a>
+                                                 thisisFINLAND
+                                             </a>
                                         </div>
                                     </div>
                                 </div>
@@ -174,46 +164,45 @@ export default function InternationalGuidePage() {
 
                         {/* After Admission */}
                         <section id="admission" className="scroll-mt-32">
-                             <h2 className="text-3xl font-bold mb-8 flex items-center gap-3 text-black">
-                                 <span className="bg-gray-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-lg shadow-md">1</span>
+                             <h2 className="text-3xl font-bold mb-8 text-black">
                                  Practical Things to Do After Admission
                              </h2>
 
                             <div className="grid md:grid-cols-2 gap-8">
-                                 <div className="p-10 bg-white border border-gray-50 rounded-2xl shadow-sm hover:shadow-md transition-all group relative overflow-hidden">
-                                     <div className="absolute top-0 right-0 w-32 h-32 bg-gray-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500 ease-out" />
-                                     <h3 className="text-xl font-bold mb-3 text-black relative z-10">Residence Permits & Insurance</h3>
-                                     <p className="text-gray-700 mb-6 relative z-10">
-                                        International students who require a student residence permit should apply immediately. Check health insurance requirements as part of the permit application.
-                                    </p>
-                                     <Link href="https://migri.fi/en/home" className="inline-flex items-center gap-2 text-sm font-bold text-gray-600 hover:text-gray-800 group-hover:translate-x-1 transition-all relative z-10">
+                                 <div className="p-10 bg-white border border-gray-50 rounded-2xl shadow-sm relative overflow-hidden">
+                                     <div className="absolute top-0 right-0 w-32 h-32 bg-gray-50 rounded-full -mr-16 -mt-16" />
+                                      <h3 className="text-xl font-bold mb-3 text-black relative z-10">Residence Permits & Insurance</h3>
+                                      <p className="text-black mb-6 relative z-10">
+                                         International students who require a student residence permit should apply immediately. Check health insurance requirements as part of the permit application.
+                                     </p>
+                                     <Link href="https://migri.fi/en/home" className="inline-flex items-center gap-2 text-sm font-bold text-black underline relative z-10">
                                         Visit Migri.fi for details <ArrowRight size={16} />
                                     </Link>
                                 </div>
 
-                                 <div className="p-10 bg-white border border-gray-50 rounded-2xl shadow-sm hover:shadow-md transition-all group relative overflow-hidden">
-                                     <div className="absolute top-0 right-0 w-32 h-32 bg-gray-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500 ease-out" />
-                                     <h3 className="text-xl font-bold mb-3 text-black relative z-10">Housing</h3>
-                                     <p className="text-gray-700 relative z-10">
-                                        Arrange accommodation before arrival. Explore student housing associations (e.g., HOAS, AYY) or private market options early.
-                                    </p>
+                                 <div className="p-10 bg-white border border-gray-50 rounded-2xl shadow-sm relative overflow-hidden">
+                                     <div className="absolute top-0 right-0 w-32 h-32 bg-gray-50 rounded-full -mr-16 -mt-16" />
+                                      <h3 className="text-xl font-bold mb-3 text-black relative z-10">Housing</h3>
+                                      <p className="text-black relative z-10">
+                                         Arrange accommodation before arrival. Explore student housing associations (e.g., HOAS, AYY) or private market options early.
+                                     </p>
                                 </div>
 
-                                 <div className="p-10 bg-white border border-gray-50 rounded-2xl shadow-sm hover:shadow-md transition-all group relative overflow-hidden">
-                                     <div className="absolute top-0 right-0 w-32 h-32 bg-gray-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500 ease-out" />
-                                     <h3 className="text-xl font-bold mb-3 text-black relative z-10">Financial Matters</h3>
-                                     <p className="text-gray-700 relative z-10">
-                                        Plan for local costs and banking. Ensure you have access to funds upon arrival before setting up a Finnish bank account.
-                                    </p>
+                                 <div className="p-10 bg-white border border-gray-50 rounded-2xl shadow-sm relative overflow-hidden">
+                                     <div className="absolute top-0 right-0 w-32 h-32 bg-gray-50 rounded-full -mr-16 -mt-16" />
+                                      <h3 className="text-xl font-bold mb-3 text-black relative z-10">Financial Matters</h3>
+                                      <p className="text-black relative z-10">
+                                         Plan for local costs and banking. Ensure you have access to funds upon arrival before setting up a Finnish bank account.
+                                     </p>
                                 </div>
 
-                                 <div className="p-10 bg-white border border-gray-50 rounded-2xl shadow-sm hover:shadow-md transition-all group relative overflow-hidden">
-                                     <div className="absolute top-0 right-0 w-32 h-32 bg-gray-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500 ease-out" />
-                                     <h3 className="text-xl font-bold mb-3 text-black relative z-10">Tuition Fees & Scholarships</h3>
-                                     <p className="text-gray-700 mb-6 relative z-10">
-                                        Policies apply to non-EU/EEA/Swiss citizens. Check scholarship opportunities for fee support.
-                                    </p>
-                                     <Link href="/admissions/tuition" className="inline-flex items-center gap-2 text-sm font-bold text-gray-600 hover:text-gray-700 group-hover:translate-x-1 transition-all relative z-10">
+                                 <div className="p-10 bg-white border border-gray-50 rounded-2xl shadow-sm relative overflow-hidden">
+                                     <div className="absolute top-0 right-0 w-32 h-32 bg-gray-50 rounded-full -mr-16 -mt-16" />
+                                      <h3 className="text-xl font-bold mb-3 text-black relative z-10">Tuition Fees & Scholarships</h3>
+                                      <p className="text-black mb-6 relative z-10">
+                                         Policies apply to non-EU/EEA/Swiss citizens. Check scholarship opportunities for fee support.
+                                     </p>
+                                     <Link href="/admissions/tuition" className="inline-flex items-center gap-2 text-sm font-bold text-black underline relative z-10">
                                         See Tuition Info <ArrowRight size={16} />
                                     </Link>
                                 </div>
@@ -223,55 +212,65 @@ export default function InternationalGuidePage() {
                         {/* After Moving */}
                         <section id="arrival" className="scroll-mt-32 relative">
                              <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white -mx-4 sm:-mx-8 md:-mx-12 px-4 sm:px-8 md:px-12 py-16 rounded-3xl -z-10" />
-                             <h2 className="text-3xl font-bold mb-8 flex items-center gap-3 text-black">
-                                 <span className="bg-gray-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-lg shadow-md">2</span>
+                             <h2 className="text-3xl font-bold mb-8 text-black">
                                  After Moving to Finland
                              </h2>
 
                             <div className="space-y-8">
                                 <div>
                                      <h3 className="text-2xl font-bold mb-4 text-gray-900">Local Transportation</h3>
-                                     <p className="text-gray-700 leading-relaxed mb-4">
+                                     <p className="text-black leading-relaxed mb-4">
                                         Public transport is punctual and extensive. Students are typically entitled to discounted travel on buses, trains, trams, and metro systems (HSL/VR).
                                     </p>
                                 </div>
 
                                 <div>
                                      <h3 className="text-2xl font-bold mb-4 text-gray-900">Registering with Authorities</h3>
-                                     <div className="bg-white p-8 md:p-10 pl-16 rounded-2xl border-l-4 border-gray-500 shadow-sm mb-6 relative">
-                                         <div className="absolute left-4 top-10 text-gray-500">
-                                             <CheckCircle size={24} weight="fill" />
-                                         </div>
-                                         <p className="mb-4 text-black"><strong className="text-gray-900">EU/EEA Citizens:</strong> Register right of residence at DVV.</p>
-                                         <p className="text-black"><strong className="text-gray-900">Non-EU/EEA:</strong> Must have residence permit card. Visit DVV for municipality of residence registration.</p>
-                                     </div>
+                                      <div className="bg-white p-8 md:p-10 pl-16 rounded-2xl border-l-4 border-gray-500 shadow-sm mb-6 relative">
+                                          <div className="absolute left-4 top-10 text-black">
+                                              <ArrowRight size={24} weight="bold" />
+                                          </div>
+                                          <p className="mb-4 text-black"><strong className="text-black">EU/EEA Citizens:</strong> Register right of residence at DVV.</p>
+                                          <p className="text-black"><strong className="text-black">Non-EU/EEA:</strong> Must have residence permit card. Visit DVV for municipality of residence registration.</p>
+                                      </div>
                                     <div className="mb-8">
-                                         <Link
-                                             href="/student-guide/arrival"
-                                             className="inline-flex items-center gap-2 bg-gray-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-gray-700 hover:shadow-lg hover:-translate-y-0.5 transition-all"
-                                         >
+                                        <Link
+                                            href="/student-guide/arrival"
+                                            className="inline-flex items-center gap-2 bg-black text-white px-8 py-4 rounded-xl font-bold underline"
+                                        >
                                             View Official Arrival Guide <ArrowRight size={20} weight="bold" />
                                         </Link>
                                     </div>
-                                     <p className="text-gray-700 mt-4">Once registered, you can open a Finnish bank account for easier transactions (paying rent, bills, etc.).</p>
+                                     <div className="flex items-start gap-3 text-black mt-4">
+                                         <ArrowRight size={20} className="text-black shrink-0 mt-1" weight="bold" />
+                                         <p>Once registered, you can open a Finnish bank account for easier transactions (paying rent, bills, etc.).</p>
+                                     </div>
                                  </div>
 
                                  <div>
                                      <h3 className="text-2xl font-bold mb-4 text-gray-900">Post-Arrival Checklist</h3>
-                                     <ul className="space-y-3">
-                                         {[
-                                             "Pick up keys for housing",
-                                             "Register at DVV (Digital and Population Data Services Agency)",
-                                             "Pay Student Union fee (if applicable)",
-                                             "Get HSL transport card",
-                                             "Attend Orientation Week"
-                                         ].map((item, i) => (
-                                             <li key={i} className="flex items-center gap-3 text-gray-700">
-                                                 <CheckCircle size={20} className="text-gray-500 shrink-0" weight="fill" />
-                                                 <span>{item}</span>
-                                             </li>
-                                         ))}
-                                     </ul>
+                                      <ul className="space-y-3">
+                                          <li className="flex items-center gap-3 text-black">
+                                              <ArrowRight size={20} className="text-black shrink-0" weight="bold" />
+                                              <span>Pick up keys for housing</span>
+                                          </li>
+                                          <li className="flex items-center gap-3 text-black">
+                                              <ArrowRight size={20} className="text-black shrink-0" weight="bold" />
+                                              <a href="https://dvv.fi/en/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-800">Register at DVV (Digital and Population Data Services Agency)</a>
+                                          </li>
+                                          <li className="flex items-center gap-3 text-black">
+                                              <ArrowRight size={20} className="text-black shrink-0" weight="bold" />
+                                              <a href="https://hyy.fi/en/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-800">Pay Student Union fee (if applicable)</a>
+                                          </li>
+                                          <li className="flex items-center gap-3 text-black">
+                                              <ArrowRight size={20} className="text-black shrink-0" weight="bold" />
+                                              <a href="https://www.hsl.fi/en/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-800">Get HSL transport card</a>
+                                          </li>
+                                          <li className="flex items-center gap-3 text-black">
+                                              <ArrowRight size={20} className="text-black shrink-0" weight="bold" />
+                                              <span>Attend Orientation Week</span>
+                                          </li>
+                                      </ul>
                                  </div>
 
                                  <div>
@@ -285,8 +284,7 @@ export default function InternationalGuidePage() {
 
                         {/* Living in Finland */}
                         <section id="living" className="scroll-mt-32">
-                             <h2 className="text-3xl font-bold mb-8 flex items-center gap-3 text-black">
-                                 <span className="bg-gray-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-lg shadow-md">3</span>
+                             <h2 className="text-3xl font-bold mb-8 text-black">
                                  Living in Finland
                              </h2>
                             <div className="mb-10">
@@ -303,25 +301,25 @@ export default function InternationalGuidePage() {
                              <div className="grid md:grid-cols-2 gap-8">
                                  <div className="space-y-3 bg-white p-6 rounded-2xl border border-gray-50 shadow-sm">
                                      <h3 className="text-xl font-bold text-black">Student Health Care</h3>
-                                     <p className="text-gray-600 text-sm leading-relaxed">
-                                         Attending degree students must pay the healthcare fee to <a href="https://www.kela.fi/in-english" target="_blank" rel="noopener noreferrer" className="text-gray-600 font-bold underline hover:text-gray-800 transition-colors">Kela</a>. This grants access to the Finnish Student Health Service (FSHS) for general, mental, and oral health care.
+                                      <p className="text-black text-sm leading-relaxed">
+                                          Attending degree students must pay the healthcare fee to <a href="https://www.kela.fi/in-english" target="_blank" rel="noopener noreferrer" className="text-black font-bold underline">Kela</a>. This grants access to the Finnish Student Health Service (FSHS) for general, mental, and oral health care.
                                      </p>
                                  </div>
                                  <div className="space-y-3 bg-white p-6 rounded-2xl border border-gray-50 shadow-sm">
                                      <h3 className="text-xl font-bold text-black">Local Culture</h3>
-                                     <p className="text-gray-600 text-sm leading-relaxed">
+                                      <p className="text-black text-sm leading-relaxed">
                                          Finland is safe and equal. English is widely spoken. Learning Finnish is encouraged for cultural integration but not essential for daily life.
                                      </p>
                                  </div>
                                  <div className="space-y-3 bg-white p-6 rounded-2xl border border-gray-50 shadow-sm">
                                      <h3 className="text-xl font-bold text-black">Working</h3>
-                                     <p className="text-gray-600 text-sm leading-relaxed">
+                                      <p className="text-black text-sm leading-relaxed">
                                          International students can often work part-time (usually up to 30h/week on average). Knowledge of Finnish improves employability significantly.
                                      </p>
                                  </div>
                                  <div className="space-y-3 bg-white p-6 rounded-2xl border border-gray-50 shadow-sm">
                                      <h3 className="text-xl font-bold text-black">Studying Finnish</h3>
-                                     <p className="text-gray-600 text-sm leading-relaxed">
+                                      <p className="text-black text-sm leading-relaxed">
                                          Language courses are available for all levels. It enhances job prospects and understanding of the local environment.
                                      </p>
                                  </div>
@@ -329,14 +327,12 @@ export default function InternationalGuidePage() {
                          </section>
 
                          {/* After Graduation */}
-                         <section id="graduation" className="scroll-mt-32 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 text-white p-10 md:p-16 rounded-3xl relative overflow-hidden shadow-xl">
-                             <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
-                             <div className="absolute bottom-0 left-0 w-64 h-64 bg-gray-500/20 rounded-full blur-3xl -ml-20 -mb-20 pointer-events-none" />
-                             <h2 className="text-3xl md:text-4xl font-bold mb-6 relative z-10">After Graduation</h2>
-                             <p className="text-gray-100 text-lg leading-relaxed max-w-2xl mb-10 relative z-10">
-                                Kestora University supports your transition to working life. We offer resources for job seeking, career guidance, and alumni networking both in Finland and internationally.
-                            </p>
-                             <Link href="#" className="inline-flex items-center gap-2 bg-black text-white px-8 py-4 rounded-xl font-bold hover:bg-gray-800 hover:shadow-lg hover:-translate-y-0.5 transition-all relative z-10">
+                          <section id="graduation" className="scroll-mt-32 bg-gray-100 text-black p-10 md:p-16 rounded-3xl relative overflow-hidden shadow-xl">
+                              <h2 className="text-3xl md:text-4xl font-bold mb-6 relative z-10">After Graduation</h2>
+                              <p className="text-black text-lg leading-relaxed max-w-2xl mb-10 relative z-10">
+                                 Kestora University supports your transition to working life. We offer resources for job seeking, career guidance, and alumni networking both in Finland and internationally.
+                             </p>
+                             <Link href="#" className="inline-flex items-center gap-2 bg-gray-100 text-black px-8 py-4 rounded-xl font-bold relative z-10">
                                 Explore Career Services <ArrowRight size={20} weight="bold" />
                             </Link>
                         </section>
