@@ -1,12 +1,9 @@
 
-'use client';
 
-import { useState } from 'react';
 import { CheckCircle, Globe, Briefcase, Heart, MapPin, GraduationCap, ArrowRight, Question as HelpCircle, Users } from "@phosphor-icons/react/dist/ssr";
 import Link from 'next/link';
 import Image from 'next/image';
 import StudentGuideLayout from '@/components/layout/StudentGuideLayout';
-import InternationalStudentFAQ from '@/components/admissions/InternationalStudentFAQ';
 
 
 
@@ -361,7 +358,9 @@ export default function InternationalGuidePage() {
                              </div>
                         </section>
 
-        </StudentGuideLayout>
+                            </div>
+                        </div>
+                        </StudentGuideLayout>
     </div>
     );
 }
