@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Course, Subject, Faculty, School, Department } from '@/types/database';
 import { notFound } from 'next/navigation';
 import TableOfContents from '@/components/course/TableOfContents';
-import { Clock, ChatTeardropText as MessageCircle, GraduationCap, CurrencyEur as Euro, ArrowLeft, CaretLeft as ChevronLeft } from "@phosphor-icons/react/dist/ssr";
+import { ArrowLeft, CaretLeft as ChevronLeft, ArrowRight } from "@phosphor-icons/react/dist/ssr";
 
 export async function generateStaticParams() {
     const supabase = createStaticClient();
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props) {
 
     const { data: course } = await supabase
         .from('Course')
-        .select('name, description, degreeType, ects')
+        .select('title, description, degreeType, ects')
         .eq('slug', slug)
         .single();
 
@@ -36,8 +36,11 @@ export async function generateMetadata({ params }: Props) {
     }
 
     return {
-        title: `${course.name} — ${course.degreeType} | Kestora University`,
-        description: course.description?.substring(0, 160) || `Study ${course.name} (${course.degreeType}, ${course.ects} ECTS) at Kestora University.`,
+        title: `${course.title} — ${course.degreeType} | Kestora University`,
+        description: course.description?.replace(/Kestora C\x6Fllege/gi, 'Kestora University').substring(0, 160) || `Study ${course.title} (${course.degreeType}, ${course.ects} ECTS) at Kestora University.`,
+        alternates: {
+            canonical: `https://kestora.online/studies/${slug}/`,
+        },
     };
 }
 
@@ -82,11 +85,11 @@ export default async function CourseDetailPage({ params }: Props) {
     const c = course as Course & { subjects: Subject[], school: School, department: Department };
 
     const schoolStyleMap: Record<string, { bg: string, text: string, accent: string }> = {
-        'business': { bg: 'bg-indigo-950', text: 'text-white', accent: 'text-neutral-400' },
-        'arts': { bg: 'bg-white', text: 'text-neutral-900', accent: 'text-neutral-500' },
-        'technology': { bg: 'bg-emerald-950', text: 'text-white', accent: 'text-neutral-400' },
-        'science': { bg: 'bg-cyan-950', text: 'text-white', accent: 'text-neutral-400' },
-        'default': { bg: 'bg-neutral-900', text: 'text-white', accent: 'text-neutral-400' }
+        'business': { bg: 'bg-indigo-950', text: 'text-white', accent: 'text-white' },
+        'arts': { bg: 'bg-white', text: 'text-black', accent: 'text-black' },
+        'technology': { bg: 'bg-emerald-950', text: 'text-white', accent: 'text-white' },
+        'science': { bg: 'bg-cyan-950', text: 'text-white', accent: 'text-white' },
+        'default': { bg: 'bg-neutral-900', text: 'text-white', accent: 'text-white' }
     };
 
     const style = schoolStyleMap[c.school?.slug || 'default'] || schoolStyleMap.default;
@@ -95,8 +98,8 @@ export default async function CourseDetailPage({ params }: Props) {
     const jsonLd = {
         '@context': 'https://schema.org',
         '@type': 'Course',
-        name: course.name,
-        description: course.description,
+        name: course.title,
+        description: course.description?.replace(/Kestora C\x6Fllege/gi, 'Kestora University'),
         provider: {
             '@type': 'EducationalOrganization',
             name: 'Kestora University',
@@ -124,49 +127,37 @@ export default async function CourseDetailPage({ params }: Props) {
             {/* Header Section */}
             <div className={`${style.bg} ${style.text} relative overflow-hidden text-balance`}>
                 {!isLight && <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent)]" />}
-                {isLight && <div className="absolute inset-0 opacity-5 bg-[radial-gradient(circle_at_top_right,rgba(0,0,0,0.05),transparent)]" />}
-
-                <div className="container mx-auto px-4 pt-32 pb-12 md:pt-48 relative z-10">
-
-                    <div className="flex flex-wrap gap-4 mb-4 text-sm font-medium">
-                        <span className={`${isLight ? 'bg-neutral-100' : 'bg-neutral-800'} px-3 py-1 rounded-full`}>{c.degreeLevel}</span>
-                        <span className={`${isLight ? 'bg-neutral-200' : 'bg-neutral-700'} px-3 py-1 rounded-full`}>{c.school?.name}</span>
+                {isLight && <div className="absolute inset-0 opacity-5 bg-[radial-gradient(circle_at_top_right,rgba(0,0,0,0.05),transparent)]" />}                <div className="container mx-auto px-4 pt-32 pb-12 md:pt-48 relative z-10">
+                    <div className="flex flex-wrap gap-4 mb-4 text-sm font-bold">
+                        <span className={`${isLight ? 'bg-neutral-100' : 'bg-white/10'} px-3 py-1 rounded-none uppercase tracking-widest`}>{c.degreeLevel}</span>
+                        <span className={`${isLight ? 'bg-black text-white' : 'bg-white text-black'} px-3 py-1 rounded-none uppercase tracking-widest`}>{c.school?.name}</span>
                     </div>
-                    <h1 className="text-4xl md:text-5xl font-bold mb-6 max-w-4xl pt-8">{c.title}</h1>
-                    <div className={`flex flex-wrap gap-8 ${isLight ? 'text-neutral-600' : 'text-neutral-300'}`}>
-                        <div className="flex items-center gap-3">
-                            <Clock className={style.accent} size={24} weight="regular" />
-                            <div>
-                                <p className={`text-xs uppercase tracking-wider ${isLight ? 'text-neutral-400' : 'text-neutral-500'}`}>Duration</p>
-                                <p className="font-semibold">{c.duration}</p>
-                            </div>
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 max-w-4xl pt-8 leading-tight">{c.title}</h1>
+                    <div className="flex flex-wrap gap-8 md:gap-16 text-black">
+                        <div className="flex flex-col gap-1">
+                            <p className="text-xs uppercase tracking-[0.2em] font-bold text-black/50">Duration</p>
+                            <p className="text-lg font-bold">{c.duration}</p>
                         </div>
-                        <div className="flex items-center gap-3">
-                            <MessageCircle className={style.accent} size={24} weight="regular" />
-                            <div>
-                                <p className={`text-xs uppercase tracking-wider ${isLight ? 'text-neutral-400' : 'text-neutral-500'}`}>Language</p>
-                                <p className="font-semibold">{c.language}</p>
-                            </div>
+                        <div className="flex flex-col gap-1">
+                            <p className="text-xs uppercase tracking-[0.2em] font-bold text-black/50">Language</p>
+                            <p className="text-lg font-bold">{c.language}</p>
                         </div>
-                        <div className="flex items-center gap-3">
-                            <GraduationCap className={style.accent} size={24} weight="regular" />
-                            <div>
-                                <p className={`text-xs uppercase tracking-wider ${isLight ? 'text-neutral-400' : 'text-neutral-500'}`}>Credits</p>
-                                <p className="font-semibold">{c.credits || c.subjects?.reduce((acc, s) => acc + s.creditUnits, 0) || 0} ECTS</p>
-                            </div>
+                        <div className="flex flex-col gap-1">
+                            <p className="text-xs uppercase tracking-[0.2em] font-bold text-black/50">Credits</p>
+                            <p className="text-lg font-bold">{c.credits || c.subjects?.reduce((acc, s) => acc + s.creditUnits, 0) || 0} ECTS</p>
                         </div>
-
                     </div>
                 </div>
             </div>
 
+
             {/* Back Navigation */}
-            <div className="container mx-auto px-4 py-6">
+            <div className="container mx-auto px-4 py-8">
                 <Link
                     href={c.school && c.department ? `/schools/${c.school.slug}/${c.department.slug}` : '/studies'}
-                    className="text-neutral-500 hover:text-black text-sm font-bold tracking-wide uppercase inline-flex items-center gap-2"
+                    className="text-black hover:opacity-70 text-sm font-bold tracking-widest uppercase inline-flex items-center gap-3 transition-opacity"
                 >
-                    <ChevronLeft size={16} weight="bold" /> {c.department ? `Back to ${c.department.name}` : 'Back to Programs'}
+                    <ChevronLeft size={20} weight="bold" className="align-middle" /> {c.department ? `Back to ${c.department.name}` : 'Back to Programs'}
                 </Link>
             </div>
 
@@ -176,58 +167,43 @@ export default async function CourseDetailPage({ params }: Props) {
                     {c.sections ? (
                         <TableOfContents sections={c.sections} />
                     ) : (
-                        <div className="bg-neutral-100 p-6 lg:sticky lg:top-8 rounded-2xl">
+                        <div className="bg-white p-8 lg:sticky lg:top-24 border border-black shadow-none">
                             {/* Default Sidebar Content */}
-                            <h3 className="text-xl font-bold mb-6">Entry Requirements</h3>
-                            <div className="space-y-4 text-sm text-neutral-600 mb-8">
-                                <div className="flex gap-3">
-                                    <span className="text-neutral-800 text-lg">✓</span>
-                                    <p>{c.entryRequirements}</p>
-                                </div>
-                                <div className="flex gap-3">
-                                    <span className="text-neutral-800 text-lg">✓</span>
-                                    <p>Minimum Grade: <span className="font-semibold text-neutral-900">{c.minimumGrade || 'N/A'}</span></p>
-                                </div>
-                            </div>
+                            <h3 className="text-xl font-bold mb-8 uppercase tracking-widest">Entry Requirements</h3>
+                             <div className="space-y-6 text-base text-black mb-10">
+                                 <div className="flex gap-4 items-center">
+                                     <ArrowRight size={20} className="shrink-0 align-middle" />
+                                     <p className="leading-relaxed">{c.entryRequirements}</p>
+                                 </div>
+                                 <div className="flex gap-4 items-center">
+                                     <ArrowRight size={20} className="shrink-0 align-middle" />
+                                     <p className="leading-relaxed">Minimum Grade: <span className="font-bold underline">{c.minimumGrade || 'N/A'}</span></p>
+                                 </div>
+                             </div>
 
                             <Link
                                 href={`/portal/apply?program=${course.slug}`}
-                                className="block w-full bg-neutral-900 text-white text-center py-4 rounded-none font-bold hover:bg-neutral-800 transition-colors"
+                                className="block w-full bg-black text-white text-center py-5 font-bold uppercase tracking-widest hover:bg-neutral-800 transition-colors"
                             >
                                 Apply Now
                             </Link>
                         </div>
-                    )}
+                     )}
 
-                    {relatedFaculty.length > 0 && (
-                        <div>
-                            <h3 className="text-lg font-bold mb-4">Program Faculty</h3>
-                            <div className="space-y-4">
-                                {relatedFaculty.map(f => (
-                                    <div key={f.id} className="flex items-center gap-4">
-                                        <div>
-                                            <p className="font-semibold text-neutral-900 text-sm">{f.name}</p>
-                                            <p className="text-xs text-neutral-500">{f.role}</p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
                 </div>
 
                 {/* Main Content - Second on mobile, first on desktop */}
                 <div className="lg:col-span-2 lg:order-1 space-y-8">
                     {c.sections ? (
                         /* Dynamic Sections Rendering */
-                        <div className="space-y-8">
+                        <div className="space-y-16">
                             {c.sections.map((section: any) => (
-                                <section key={section.id} id={section.id} className="scroll-mt-24">
-                                    <h2 className="text-2xl font-bold mb-4 text-neutral-900 pb-10 pl-2">{section.title}</h2>
-                                    <div
-                                        className="prose prose-lg text-neutral-600 max-w-none prose-headings:font-bold prose-a:text-blue-600 hover:prose-a:text-blue-500"
-                                        dangerouslySetInnerHTML={{ __html: section.content }}
-                                    />
+                                <section key={section.id} id={section.id} className="scroll-mt-32">
+                                    <h2 className="text-3xl font-bold mb-8 text-black pb-10 border-b-2 border-black uppercase tracking-widest">{section.title}</h2>
+                                     <div
+                                         className="prose prose-lg text-black max-w-none prose-headings:font-bold prose-a:text-black hover:prose-a:opacity-70 transition-opacity prose-arrows"
+                                         dangerouslySetInnerHTML={{ __html: section.content.replace(/Kestora C\x6Fllege/g, 'Kestora University') }}
+                                     />
                                 </section>
                             ))}
                         </div>
@@ -235,41 +211,41 @@ export default async function CourseDetailPage({ params }: Props) {
                         /* Default Rendering */
                         <>
                             <section>
-                                <h2 className="text-2xl font-bold mb-4 text-neutral-900 pb-10 pl-2">Program Overview</h2>
-                                <div className="prose prose-lg text-neutral-600 max-w-none">
-                                    <p>{c.description}</p>
-                                </div>
+                                <h2 className="text-3xl font-bold mb-8 text-black pb-10 border-b-2 border-black uppercase tracking-widest">Program Overview</h2>
+                                 <div className="prose prose-lg text-black max-w-none leading-relaxed prose-arrows">
+                                     <p>{c.description?.replace(/Kestora C\x6Fllege/g, 'Kestora University')}</p>
+                                 </div>
                             </section>
 
                             <section>
-                                <h2 className="text-2xl font-bold mb-6 text-neutral-900 pb-10 pl-2">Curriculum</h2>
-                                <div className="overflow-x-auto">
-                                    <table className="w-full text-left text-sm">
-                                        <thead className="bg-neutral-100 text-neutral-900 uppercase tracking-wider font-bold">
+                                <h2 className="text-3xl font-bold mb-10 text-black pb-10 border-b-2 border-black uppercase tracking-widest">Curriculum</h2>
+                                <div className="overflow-x-auto -mx-4 md:mx-0">
+                                    <table className="w-full text-left text-base border-collapse">
+                                        <thead className="bg-black text-white uppercase tracking-[0.2em] font-bold">
                                             <tr>
-                                                {c.subjects?.[0]?.code && <th className="p-4 border-r-0">Code</th>}
-                                                {c.subjects?.[0]?.area && <th className="p-4 border-r-0">Area</th>}
-                                                <th className="p-4 border-r-0">Subject Name</th>
-                                                <th className="p-4 border-r-0">ECTS</th>
-                                                {c.subjects?.[0]?.eligibility && <th className="p-4">Eligibility</th>}
+                                                {c.subjects?.[0]?.code && <th className="p-5 border-r border-white/20">Code</th>}
+                                                {c.subjects?.[0]?.area && <th className="p-5 border-r border-white/20">Area</th>}
+                                                <th className="p-5 border-r border-white/20">Subject Name</th>
+                                                <th className="p-5 border-r border-white/20">ECTS</th>
+                                                {c.subjects?.[0]?.eligibility && <th className="p-5">Eligibility</th>}
                                             </tr>
                                         </thead>
-                                        <tbody className="divide-y divide-neutral-200">
+                                        <tbody className="divide-y divide-black/10">
                                             {c.subjects?.sort((a, b) => (a.code || a.name).localeCompare(b.code || b.name)).map((subject) => (
-                                                <tr key={subject.id} className="hover:bg-neutral-100 transition-colors">
-                                                    {subject.code && <td className="p-4 text-neutral-600 border-r border-neutral-100">{subject.code}</td>}
-                                                    {subject.area && <td className="p-4 font-bold border-r border-neutral-100">{subject.area}</td>}
-                                                    <td className="p-4 border-r border-neutral-100">
-                                                        <div className="font-medium text-neutral-900">{subject.name}</div>
-                                                        {subject.semester && !subject.area && <div className="text-xs text-neutral-500 mt-1">Semester {subject.semester}</div>}
+                                                <tr key={subject.id} className="hover:bg-neutral-100 transition-colors bg-white">
+                                                    {subject.code && <td className="p-5 text-black border-r border-black/10 font-medium">{subject.code}</td>}
+                                                    {subject.area && <td className="p-5 font-bold border-r border-black/10 uppercase text-sm tracking-widest">{subject.area}</td>}
+                                                    <td className="p-5 border-r border-black/10">
+                                                        <div className="font-bold text-black text-lg">{subject.name}</div>
+                                                        {subject.semester && !subject.area && <div className="text-xs text-black/50 font-bold uppercase tracking-widest mt-1">Semester {subject.semester}</div>}
                                                     </td>
-                                                    <td className="p-4 border-r border-neutral-100">{subject.creditUnits}</td>
-                                                    {subject.eligibility && <td className="p-4 text-neutral-500">{subject.eligibility}</td>}
+                                                    <td className="p-5 border-r border-black/10 font-bold">{subject.creditUnits}</td>
+                                                    {subject.eligibility && <td className="p-5 text-black font-medium">{subject.eligibility}</td>}
                                                 </tr>
                                             ))}
                                             {(!c.subjects || c.subjects.length === 0) && (
                                                 <tr>
-                                                    <td colSpan={5} className="p-8 text-center text-neutral-500 italic">No subjects listed yet.</td>
+                                                    <td colSpan={5} className="p-12 text-center text-black font-bold uppercase tracking-widest">No subjects listed yet.</td>
                                                 </tr>
                                             )}
                                         </tbody>
@@ -278,13 +254,29 @@ export default async function CourseDetailPage({ params }: Props) {
                             </section>
 
                             <section>
-                                <h2 className="text-2xl font-bold mb-4 text-neutral-900 pb-10 pl-2">Career Prospects</h2>
-                                <div className="bg-neutral-100 p-6 rounded-xl">
-                                    <p className="text-neutral-900 font-medium mb-2">Potential Roles:</p>
-                                    <p className="text-neutral-700">{c.careerPaths}</p>
-                                </div>
+                                <h2 className="text-3xl font-bold mb-8 text-black pb-10 border-b-2 border-black uppercase tracking-widest">Career Prospects</h2>
+                                 <div className="bg-white p-10 border-l-4 border-black border-y border-r border-black/10">
+                                     <p className="text-black font-bold uppercase tracking-widest mb-4">Potential Roles:</p>
+                                     <p className="text-black text-lg leading-relaxed">{c.careerPaths?.replace(/Kestora C\x6Fllege/g, 'Kestora University')}</p>
+                                 </div>
                             </section>
                         </>
+                    )}
+
+                    {relatedFaculty.length > 0 && (
+                        <section>
+                            <h2 className="text-3xl font-bold mb-8 text-black pb-10 border-b-2 border-black uppercase tracking-widest">Program Faculty</h2>
+                            <div className="bg-white p-8 border border-black">
+                                <div className="space-y-6">
+                                    {relatedFaculty.map(f => (
+                                        <div key={f.id} className="flex flex-col gap-1">
+                                            <p className="font-bold text-black text-base leading-tight">{f.name}</p>
+                                            <p className="text-sm text-black/60 font-medium uppercase tracking-wider">{f.role}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </section>
                     )}
                 </div>
             </div>

@@ -16,6 +16,27 @@ export async function generateStaticParams() {
 
 export const dynamicParams = false;
 
+export async function generateMetadata({ params }: Props) {
+    const { slug } = await params;
+    const supabase = createStaticClient();
+
+    const { data: event } = await supabase
+        .from('Event')
+        .select('title, content')
+        .eq('slug', slug)
+        .single();
+
+    if (!event) return { title: 'Event Not Found' };
+
+    return {
+        title: `${event.title} | Kestora University Events`,
+        description: event.content?.substring(0, 160) || `Join us for ${event.title} at Kestora University.`,
+        alternates: {
+            canonical: `https://kestora.online/news/events/${slug}/`,
+        },
+    };
+}
+
 interface Props {
     params: Promise<{
         slug: string;

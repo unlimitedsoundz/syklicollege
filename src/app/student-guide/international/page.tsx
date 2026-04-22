@@ -3,7 +3,7 @@
 import { CheckCircle, Globe, Briefcase, Heart, MapPin, GraduationCap, ArrowRight, Question as HelpCircle, Users } from "@phosphor-icons/react/dist/ssr";
 import Link from 'next/link';
 import Image from 'next/image';
-import StudentGuideLayout from '@/components/layout/StudentGuideLayout';
+import GuideSidebarLayout from '@/components/layout/StudentGuideLayout';
 
 
 
@@ -19,6 +19,14 @@ const tocSections = [
 ];
 
 import { SchemaLD } from '@/components/seo/SchemaLD';
+
+export const metadata = {
+    title: 'International Student Guide | Kestora University',
+    description: 'A comprehensive guide for international students joining Kestora University in Finland.',
+    alternates: {
+        canonical: 'https://kestora.online/student-guide/international/',
+    },
+};
 
 export default function InternationalGuidePage() {
 
@@ -47,24 +55,24 @@ export default function InternationalGuidePage() {
     };
 
     return (
-        <div className="min-h-screen bg-white text-black">
+        <GuideSidebarLayout sections={tocSections}>
+            <div className="min-h-screen bg-white text-black">
             <SchemaLD data={faqSchema} />
 
-            <section className="bg-neutral-950 text-white overflow-hidden relative z-0">
-                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-20 h-[767px] lg:h-[600px] lg:py-0 relative mb-12">
+            <section className="text-black overflow-hidden relative z-0" style={{ backgroundColor: '#FDF2F8' }}>
+                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-12 pb-12 lg:pb-0 h-auto lg:h-[600px] lg:py-0 relative mb-0">
                     {/* Left Content */}
-                    <div className="lg:w-1/2 space-y-2 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
-
-                        <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight pt-8">
+                    <div className="lg:w-1/2 space-y-6 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
+                        <h1 className="font-bold leading-[1.1] tracking-tight pt-8 text-black" style={{ fontSize: '40px' }}>
                             International Students
                         </h1>
-                        <p className="text-[21px] text-neutral-400 max-w-xl leading-relaxed my-4">
+                        <p className="text-[21px] text-black max-w-xl leading-relaxed">
                             Practical guidance for your journey to Finland and Kestora University.
                         </p>
                     </div>
 
                     {/* Right Image */}
-                    <div className="lg:w-1/2 h-full w-full relative lg:translate-y-16 z-20 flex justify-center lg:block">
+                    <div className="lg:w-1/2 h-full w-full relative lg:translate-y-16 z-20 flex justify-center lg:block order-first lg:order-none">
                         <div className="h-full">
                             <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800">
                                 <Image
@@ -173,8 +181,8 @@ export default function InternationalGuidePage() {
                                      <div className="absolute top-0 right-0 w-32 h-32 bg-gray-50 rounded-full -mr-16 -mt-16" />
                                       <h3 className="text-xl font-bold mb-3 text-black relative z-10">Housing</h3>
                                       <p className="text-black relative z-10">
-                                         Arrange accommodation before arrival. Explore student housing associations (e.g., HOAS, AYY) or private market options early.
-                                     </p>
+                                         Arrange accommodation before arrival. Explore student housing associations (e.g., HOAS, KUNI) or private market options early. Kestora University does provide on-campus housing directly, we assist with the application process.
+                                      </p>
                                 </div>
 
                                  <div className="p-10 bg-white border border-gray-50 rounded-2xl shadow-sm relative overflow-hidden">
@@ -332,7 +340,7 @@ export default function InternationalGuidePage() {
                              <div className="mt-8 bg-gray-50 p-6 md:p-8 rounded-2xl flex items-start gap-4 border border-gray-100/50">
                                  <div>
                                      <h4 className="font-bold text-black text-lg mb-1">International Student Newsletters</h4>
-                                     <p className="text-gray-700 leading-relaxed">Check your student email regularly for updates, exclusive tips, and important deadlines.</p>
+                                     <p className="text-black leading-relaxed">Check your student email regularly for updates, exclusive tips, and important deadlines.</p>
                                  </div>
                              </div>
                         </section>
@@ -343,20 +351,23 @@ export default function InternationalGuidePage() {
                              <div className="grid md:grid-cols-3 gap-6">
                                  <div className="bg-white border border-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-md hover:border-gray-100 transition-all">
                                      <h4 className="font-bold mb-3 text-black text-xl">Peer Advice</h4>
-                                     <p className="text-gray-600 leading-relaxed">Connect with current international students for practical tips on student life.</p>
+                                     <p className="text-black leading-relaxed">Connect with current international students for practical tips on student life.</p>
                                  </div>
                                  <div className="bg-white border border-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-md hover:border-gray-100 transition-all">
                                      <h4 className="font-bold mb-3 text-black text-xl">Service Desk</h4>
-                                     <p className="text-gray-600 leading-relaxed">General guidance on academic procedures, enrollment, and registration.</p>
+                                     <p className="text-black leading-relaxed">General guidance on academic procedures, enrollment, and registration.</p>
                                  </div>
                                  <div className="bg-white border border-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-md hover:border-gray-100 transition-all">
                                      <h4 className="font-bold mb-3 text-black text-xl">Study & Stay</h4>
-                                     <p className="text-gray-600 leading-relaxed">Specialised career support to help you plan your career and integrate in Finland.</p>
+                                     <p className="text-black leading-relaxed">Specialised career support to help you plan your career and integrate in Finland.</p>
                                  </div>
                              </div>
                         </section>
 
-                        </StudentGuideLayout>
-    </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </GuideSidebarLayout>
     );
 }

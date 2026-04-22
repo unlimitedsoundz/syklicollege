@@ -26,6 +26,8 @@ const navigation: NavItem[] = [
         children: [
             { name: "Student Guide", href: "/student-guide" },
             { name: "International Students", href: "/student-guide/international" },
+            { name: "Arrival Guide", href: "/student-guide/arrival" },
+            { name: "Exchange Guide", href: "/student-guide/exchange" },
             { name: "Kestora Student Ambassadors", href: "https://ourblogs.kestora.online/" },
             { name: "News and Events", href: "/news" },
             { name: "Academic Calendar", href: "/student-guide#calendar" },
@@ -80,6 +82,7 @@ const navigation: NavItem[] = [
             { name: "How to Apply", href: "/admissions/application-process" },
 
             { name: "Scholarships & Tuition Fees", href: "/admissions/tuition" },
+            { name: "Admission Services Contact Information", href: "/admissions/contact-information" },
         ]
     },
     {
@@ -100,44 +103,16 @@ export function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
     const [expandedMobileSections, setExpandedMobileSections] = React.useState<Record<string, boolean>>({})
     const [openDropdown, setOpenDropdown] = React.useState<string | null>(null)
-    const [isVisible, setIsVisible] = React.useState(true)
-    const [lastScrollY, setLastScrollY] = React.useState(0)
 
-    React.useEffect(() => {
-        const handleScroll = () => {
-            const currentScrollY = window.scrollY
 
-            // Logic: 
-            // 1. Always show at the top
-            // 2. Hide when scrolling down, show when scrolling up
-            // 3. Ignore small scroll changes to avoid flickering
-
-            if (currentScrollY < 10) {
-                setIsVisible(true)
-            } else if (currentScrollY > lastScrollY && currentScrollY > 80) {
-                // Scrolling down and past the header height
-                setIsVisible(false)
-            } else if (currentScrollY < lastScrollY) {
-                // Scrolling up
-                setIsVisible(true)
-            }
-
-            setLastScrollY(currentScrollY)
-        }
-
-        window.addEventListener("scroll", handleScroll, { passive: true })
-        return () => window.removeEventListener("scroll", handleScroll)
-    }, [lastScrollY])
-
-    const isAdmissionsPage = pathname === '/admissions'
+    const isAdmissionsPage = false // Removed orange header logic
     const isPortalOrAdmin = pathname.startsWith('/portal') || pathname.startsWith('/admin')
 
     if (isPortalOrAdmin) return null;
 
     return (
         <header
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-black ${isVisible || isMobileMenuOpen ? 'translate-y-0' : '-translate-y-full'
-                } ${isAdmissionsPage ? 'bg-[#fd6402]' : 'bg-white'}`}
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-black ${isAdmissionsPage ? 'bg-[#fd6402]' : 'bg-white'}`}
         >
             <div className="container mx-auto px-4 h-20 flex items-center justify-between">
                 <Logo
@@ -244,7 +219,7 @@ export function Header() {
                                     {item.name}
                                 </Link>
                                 {item.children && (
-                                    <div className="bg-neutral-50 pl-6 border-t border-neutral-100">
+                                    <div className="bg-neutral-50 pl-6">
                                         {item.children.map((child) => (
                                             <Link
                                                 key={child.name}
@@ -258,7 +233,7 @@ export function Header() {
                                     </div>
                                 )}
                                 {item.sections && (
-                                    <div className="bg-neutral-50 border-t border-neutral-100">
+                                    <div className="bg-neutral-50">
                                         {item.sections.map((section) => {
                                             const isOpen = expandedMobileSections[section.title];
                                             return (

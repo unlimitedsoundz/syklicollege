@@ -1,45 +1,54 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 
 export const metadata = {
     title: 'Research at Kestora University — Sustainability, Innovation & Technology',
     description: 'Explore research at Kestora University. Funded projects in sustainability, clean technology, design, and social innovation. Publications, labs, and collaboration opportunities.',
+    alternates: {
+        canonical: 'https://kestora.online/research/',
+    },
 };
 
 export default function ResearchPage() {
     return (
         <div className="min-h-screen bg-white">
             {/* Hero */}
-            <div className="relative h-auto min-h-[600px] md:pt-48 w-full bg-neutral-900 overflow-hidden pt-32 pb-32">
-                <div className="absolute inset-0">
-                    <Image
-                        src="/images/research-hero.jpg"
-                        alt="Researchers collaborating in a modern lab environment at Kestora University"
-                        fill
-                        priority
-                        className="object-cover opacity-60"
-                        sizes="100vw"
-                    />
+            <section className="bg-black text-white overflow-hidden">
+                <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-[1fr,600px] items-center gap-12 py-12 lg:py-0 lg:h-[650px] relative mb-0">
+                    {/* Left Content */}
+                    <div className="space-y-8 flex flex-col justify-center h-full">
+                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-[0.02em] uppercase">
+                            Research & Creative Exploration
+                        </h1>
+                        <p className="text-xl md:text-2xl text-white/80 max-w-xl leading-relaxed">
+                            Where curiosity meets creation, connecting theory with hands-on practice in the heart of Helsinki.
+                        </p>
+                    </div>
+
+                    {/* Right Image */}
+                    <div className="w-full h-[400px] lg:h-full flex justify-center lg:block order-first lg:order-none opacity-80">
+                        <div className="relative w-full h-full bg-neutral-900 border-x border-white/5 overflow-hidden">
+                            <Image
+                                src="/images/research-hero.jpg"
+                                alt="Research"
+                                fill
+                                priority
+                                className="object-cover"
+                                sizes="(max-width: 1024px) 100vw, 600px"
+                            />
+                        </div>
+                    </div>
                 </div>
-                <div className="absolute inset-0 bg-black/40" />
-                <div className="container mx-auto px-4 relative z-10 h-full flex flex-col justify-center">
-                    <span className="text-white/80 font-bold tracking-wider text-sm md:text-base mb-4 uppercase">From Ideas to Impact</span>
-                    <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white max-w-4xl leading-tight pt-8">
-                        Research & Creative Exploration at Kestora University
-                    </h1>
-                    <p className="text-xl md:text-2xl text-neutral-200 max-w-2xl font-light">
-                        Where curiosity meets creation, connecting theory with hands on practice.
-                    </p>
-                </div>
-            </div>
+             </section>
 
             {/* Intro Grid */}
-            <div className="container mx-auto px-4 py-20">
-                <div className="bg-black p-12 rounded-2xl border border-neutral-800 text-white">
-                    <h2 className="text-3xl font-bold mb-6 text-white">Where Curiosity Meets Creation</h2>
-                    <div className="prose prose-lg text-neutral-300 max-w-none">
-                        <p className="mb-4">
-                            At <strong>Kestora University</strong>, research is not locked away in labs or journals it lives in studios, classrooms, communities, and real-world projects. We explore questions that matter now and ideas that shape what comes next, blending <strong>technology, design, business, science, and culture</strong> into a shared space of experimentation and discovery.
+            <div className="container mx-auto px-4 py-20 md:py-32">
+                 <div className="bg-white border-4 border-black p-12 md:p-20 text-black">
+                     <h2 className="text-4xl font-black mb-10 uppercase tracking-tighter">Where Curiosity Meets Creation</h2>
+                     <div className="prose prose-xl text-black max-w-none font-medium leading-relaxed">
+                        <p className="mb-8">
+                            At <strong>Kestora University</strong>, research is not locked away in labs or journals — it lives in studios, classrooms, communities, and real-world projects. We explore questions that matter now and ideas that shape what comes next, blending <strong>technology, design, business, science, and culture</strong> into a shared space of experimentation and discovery.
                         </p>
                         <p>
                             Our research culture welcomes both analytical thinkers and creative makers. Whether through data, design, systems, or stories, we believe knowledge grows stronger when disciplines cross paths.
@@ -49,88 +58,82 @@ export default function ResearchPage() {
             </div>
 
             {/* Why We Explore */}
-            <div className="bg-white py-8 md:py-16 border-t border-neutral-100">
-                <div className="container mx-auto px-4 grid md:grid-cols-2 gap-16 items-center">
+            <div className="bg-white py-20 md:py-40">
+                <div className="container mx-auto px-4 grid md:grid-cols-2 gap-20 items-center">
                     <div>
-                        <h2 className="text-3xl font-bold mb-8 text-neutral-900">Why We Explore, Build, and Imagine</h2>
-                        <ul className="space-y-4">
+                        <h2 className="text-4xl font-bold mb-12 text-black uppercase tracking-widest border-b-2 border-black pb-6">Core Exploration</h2>
+                        <ul className="space-y-6 prose-arrows">
                             {[
                                 "Turn curiosity into meaningful action",
-                                "Connect theory with hands on practice",
+                                "Connect theory with hands-on practice",
                                 "Support sustainable, ethical, and inclusive futures",
-                                "Empower students and researchers to challenge norms and create alternatives"
+                                "Empower students to challenge norms and create alternatives"
                             ].map((item, i) => (
-                                <li key={i} className="flex items-start gap-3 text-neutral-700">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-neutral-900 mt-2.5 flex-shrink-0" />
-                                    <span className="text-lg">{item}</span>
+                                <li key={i} className="flex items-center gap-4 text-black font-bold uppercase tracking-widest text-sm">
+                                    <ArrowRight size={20} weight="bold" className="shrink-0" />
+                                    <span>{item}</span>
                                 </li>
                             ))}
                         </ul>
                     </div>
-                    <div className="bg-neutral-900 text-white p-10 rounded-xl relative overflow-hidden">
-                        <div className="relative z-10">
-                            <h3 className="text-2xl font-bold mb-4">Core Values</h3>
-                            <p className="text-neutral-300 mb-6 text-lg tracking-wide">
-                                We value <strong>applied research</strong>, <strong>creative inquiry</strong>, and <strong>practice based exploration</strong> equally because innovation rarely comes from just one way of thinking.
+                     <div className="bg-black text-white p-12 md:p-16 border-2 border-black relative overflow-hidden">
+                         <div className="relative z-10">
+                             <h3 className="text-3xl font-black uppercase tracking-tighter mb-6">Core Values</h3>
+                             <p className="text-white/80 mb-0 text-xl leading-relaxed font-medium">
+                                We value <strong>applied research</strong>, <strong>creative inquiry</strong>, and <strong>practice-based exploration</strong> equally because innovation rarely comes from just one way of thinking.
                             </p>
                         </div>
-                        <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-neutral-800 rounded-full blur-3xl" />
                     </div>
                 </div>
             </div>
 
             {/* Themes Grid */}
-            <div className="bg-neutral-50 py-8 md:py-24">
+            <div className="bg-white py-20 md:py-40">
                 <div className="container mx-auto px-4">
-                    <div className="text-center max-w-3xl mx-auto mb-16">
-                        <h2 className="text-4xl font-bold mb-4 text-neutral-900">Research Focus Areas</h2>
-                        <p className="text-xl text-neutral-500">Exploring the intersection of technology, humanity, and the environment.</p>
+                    <div className="max-w-4xl mb-20">
+                        <h2 className="text-5xl font-black mb-6 text-black uppercase tracking-tighter">Research Focus Areas</h2>
+                        <p className="text-2xl text-black leading-tight font-medium">Exploring the radical intersection of technology, humanity, and the global environment.</p>
                     </div>
 
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-0 border-2 border-black">
                         {[
                             {
-                                title: "Code, Culture & the Future",
+                                title: "Code & Culture",
                                 desc: "Digitalisation beyond the screen examining how technology interacts with people, culture, ethics, and systems.",
-                                tags: ["AI & Data", "Digital Platforms", "Human Tech Interaction", "Ethics"]
+                                tags: ["AI & Data", "Digital Platforms", "Ethics"]
                             },
                             {
-                                title: "Smarter Materials",
+                                title: "Smart Materials",
                                 desc: "Rethinking materials and systems for sustainability, performance, and longevity.",
-                                tags: ["Recyclable Materials", "Energy Efficiency", "Lifecycle Thinking", "Innovation"]
+                                tags: ["Recyclable", "Energy", "Innovation"]
                             },
                             {
-                                title: "Art, Media & Design",
+                                title: "Art & Media",
                                 desc: "Artistic exploration as a way of knowing, questioning, and communicating.",
-                                tags: ["Practice based Research", "Visual Storytelling", "Social Inquiry", "Prototyping"]
+                                tags: ["Practice-based", "Visual", "Prototyping"]
                             },
                             {
-                                title: "New Ways to Work",
-                                desc: "Exploring how organisations can be more adaptive, ethical, and human centred.",
-                                tags: ["Innovation", "Service Design", "Sustainable Models", "Leadership"]
+                                title: "New Work Models",
+                                desc: "Exploring how organisations can be more adaptive, ethical, and human-centred.",
+                                tags: ["Service Design", "Sustainable", "Leadership"]
                             },
                             {
                                 title: "Powering Tomorrow",
                                 desc: "Connecting engineering, systems analysis, and environmental responsibility.",
-                                tags: ["Renewable Energy", "Smart Infrastructure", "Energy Mgmt", "Climate aware Design"]
+                                tags: ["Renewable", "Smart Infra", "Climate"]
                             },
                             {
-                                title: "Designing Spaces",
+                                title: "Integrated Spaces",
                                 desc: "How physical and digital spaces can be designed around real human needs.",
-                                tags: ["Architecture", "Urban Systems", "Inclusive Design", "Spatial Interaction"]
-                            },
-                            {
-                                title: "Better Living",
-                                desc: "Research intersecting health, behaviour, and society.",
-                                tags: ["Health Innovation", "Wellbeing Design", "Tech for Care", "Social Impact"]
+                                tags: ["Architecture", "Urban", "Inclusive"]
                             }
                         ].map((theme, i) => (
-                            <div key={i} className="bg-black p-8 rounded-xl border border-neutral-800 hover:border-neutral-600 transition-colors group">
-                                <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-yellow-400 transition-colors">{theme.title}</h3>
-                                <p className="text-neutral-300 mb-6 leading-relaxed">{theme.desc}</p>
+                             <div key={i} className={`bg-white p-10 border-black ${i % 3 !== 2 ? 'lg:border-r-2' : ''} ${i < 3 ? 'lg:border-b-2' : ''} ${i % 2 !== 1 ? 'md:border-r-2 lg:border-r-0' : ''} ${i < 4 ? 'md:border-b-2 lg:border-b-0' : ''} transition-all hover:bg-black hover:text-white group`}>
+                                 <h3 className="text-2xl font-black uppercase tracking-tighter mb-6 group-hover:text-white transition-colors">{theme.title}</h3>
+                                 <p className="text-black group-hover:text-white/80 mb-8 leading-relaxed font-medium">{theme.desc}</p>
                                 <div className="flex flex-wrap gap-2">
                                     {theme.tags.map(tag => (
-                                        <span key={tag} className="px-3 py-1 bg-white text-black text-xs font-bold rounded uppercase tracking-wide">
+                                        <span key={tag} className="px-4 py-1 border-2 border-current text-[10px] font-black uppercase tracking-[0.2em]">
                                             {tag}
                                         </span>
                                     ))}
@@ -142,19 +145,19 @@ export default function ResearchPage() {
             </div>
 
             {/* How We Think */}
-            <div className="py-8 md:py-24 bg-neutral-50 text-black border-y border-neutral-100">
-                <div className="container mx-auto px-4 text-center">
-                    <h2 className="text-3xl font-bold mb-12">How We Think, Make, and Experiment</h2>
-                    <div className="grid md:grid-cols-4 gap-8">
+            <div className="py-16 md:py-32 bg-black text-white">
+                <div className="container mx-auto px-4">
+                    <h2 className="text-4xl font-black mb-20 uppercase tracking-tighter text-center">Experimental Framework</h2>
+                    <div className="grid md:grid-cols-4 gap-0 border-2 border-white/20">
                         {[
                             { title: "Collaborative", text: "Crossing departments and disciplines" },
-                            { title: "Hands on", text: "Grounded in making, testing, and iteration" },
-                            { title: "Open minded", text: "Welcoming unconventional questions" },
-                            { title: "Ethical", text: "Guided by integrity and responsibility" }
+                            { title: "Hands-on", text: "Grounded in making and iteration" },
+                            { title: "Open-minded", text: "Welcoming radical questions" },
+                            { title: "Ethical", text: "Guided by integrity" }
                         ].map((way, i) => (
-                            <div key={i} className="p-6 bg-white border border-neutral-200 rounded-lg shadow-sm">
-                                <h3 className="text-xl font-bold mb-2 text-black">{way.title}</h3>
-                                <p className="text-neutral-600 text-sm">{way.text}</p>
+                            <div key={i} className={`p-10 bg-black border-white/20 ${i < 3 ? 'md:border-r-2' : ''} flex flex-col justify-between group hover:bg-white hover:text-black transition-all cursor-default`}>
+                                <h3 className="text-xl font-black uppercase tracking-tighter mb-4">{way.title}</h3>
+                                <p className="text-white/60 group-hover:text-black/60 text-sm font-bold uppercase tracking-widest leading-relaxed">{way.text}</p>
                             </div>
                         ))}
                     </div>
@@ -162,60 +165,60 @@ export default function ResearchPage() {
             </div>
 
             {/* Outcomes & Ethics */}
-            <div className="container mx-auto px-4 py-20">
-                <div className="grid md:grid-cols-2 gap-16">
+            <div className="container mx-auto px-4 py-20 md:py-32">
+                <div className="grid md:grid-cols-2 gap-20">
                     <div>
-                        <h2 className="text-3xl font-bold mb-6 text-neutral-900">What Comes Out When Ideas Get Real</h2>
-                        <ul className="space-y-3 mb-8">
+                        <h2 className="text-4xl font-black mb-10 uppercase tracking-tighter">Tangible Impact</h2>
+                        <ul className="space-y-4 mb-12 prose-arrows">
                             {[
-                                "Publications, reports, and policy insights",
-                                "Prototypes, systems, and digital tools",
-                                "Exhibitions, performances, and installations",
-                                "Business concepts, services, and frameworks",
-                                "Educational resources and community projects"
+                                "Publications and policy insights",
+                                "Prototypes and digital tools",
+                                "Exhibitions and performances",
+                                "Sustainable business frameworks",
+                                "Global community projects"
                             ].map((item, i) => (
-                                <li key={i} className="flex items-start gap-3 text-neutral-700">
-                                    <span className="text-neutral-300 font-bold">•</span>
+                                <li key={i} className="flex items-center gap-4 text-black font-bold uppercase tracking-widest text-sm">
+                                    <ArrowRight size={18} weight="bold" className="text-black" />
                                     <span>{item}</span>
                                 </li>
                             ))}
                         </ul>
-                        <div className="bg-neutral-100 p-6 rounded-lg">
-                            <h3 className="font-bold text-neutral-900 mb-2">Impact matters</h3>
-                            <p className="text-neutral-600">Not just academically, but socially, culturally, and environmentally. Our work helps shape futures that are thoughtful, creative, and sustainable.</p>
+                        <div className="bg-white border-4 border-black p-10">
+                            <h3 className="text-2xl font-black uppercase tracking-tighter mb-4">Focus on Future</h3>
+                            <p className="text-black font-medium leading-relaxed">Not just academically, but socially, culturally, and environmentally. Our work helps shape futures that are thoughtful, creative, and radically sustainable.</p>
                         </div>
                     </div>
                     <div>
-                        <h2 className="text-3xl font-bold mb-6 text-neutral-900">Doing the Right Thing</h2>
-                        <p className="text-neutral-600 mb-6 text-lg leading-relaxed">
-                            All research and creative activity at Kestora University follows clear ethical guidelines and quality standards. Integrity, transparency, and accountability are central to how we work and collaborate.
+                        <h2 className="text-4xl font-black mb-10 uppercase tracking-tighter">Ethics & Integrity</h2>
+                        <p className="text-xl text-black mb-10 leading-relaxed font-medium">
+                            All research and creative activity at Kestora University follows clear ethical guidelines and quality standards. Integrity, transparency, and accountability are central to how we work.
                         </p>
-                        <h3 className="text-xl font-bold mb-4 text-neutral-900 mt-10">Where Disciplines Collide</h3>
-                        <p className="text-neutral-600 mb-4">Kestora University supports research through:</p>
-                        <div className="grid grid-cols-2 gap-4">
-                            {["Interdisciplinary labs", "Industry partnerships", "Collaboration platforms", "Global networks"].map((item) => (
-                                <div key={item} className="bg-black p-4 rounded text-sm font-semibold text-white border border-neutral-800">
-                                    {item}
-                                </div>
-                            ))}
+                        <h3 className="text-2xl font-black uppercase tracking-tighter mb-6">Support Infrastructure</h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-0 border-2 border-black">
+                             {["Interdisciplinary labs", "Industry partnerships", "Global networks", "Research platforms"].map((item, idx) => (
+                                 <div key={item} className={`p-8 bg-white border-black ${idx % 2 === 0 ? 'sm:border-r-2' : ''} ${idx < 2 ? 'border-b-2' : ''} text-sm font-black uppercase tracking-widest flex items-center gap-4`}>
+                                     <div className="w-2 h-2 bg-black"></div>
+                                     {item}
+                                 </div>
+                             ))}
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* CTA */}
-            <div className="bg-neutral-100 py-8 md:py-24 text-center">
+            <div className="bg-black py-20 md:py-40 text-center text-white">
                 <div className="container mx-auto px-4">
-                    <h2 className="text-4xl font-bold mb-6 text-neutral-900">Jump In, Try Things, Make Your Mark</h2>
-                    <p className="text-xl text-neutral-600 max-w-2xl mx-auto mb-10">
-                        Students and staff are invited to actively engage in research. At Kestora University, research is not just something you study <strong>it’s something you do</strong>.
+                    <h2 className="text-5xl md:text-7xl font-black mb-10 uppercase tracking-tighter">Manifest Your Research</h2>
+                    <p className="text-xl md:text-2xl text-white/70 max-w-3xl mx-auto mb-16 font-medium leading-relaxed">
+                        Students and staff are invited to actively engage in exploration. At Kestora University, research is not just something you study — <strong>it’s something you do</strong>.
                     </p>
-                    <div className="flex justify-center gap-4">
-                        <Link href="/research/projects" className="bg-neutral-900 text-white px-8 py-3 rounded-full font-bold hover:bg-neutral-800 transition-colors">
+                    <div className="flex flex-col sm:flex-row justify-center gap-6">
+                        <Link href="/research/projects" className="bg-white text-black px-12 py-5 font-bold uppercase tracking-widest text-sm hover:bg-neutral-200 transition-all">
                             Explore Projects
                         </Link>
-                        <Link href="/contact" className="bg-white text-neutral-900 border border-neutral-200 px-8 py-3 rounded-full font-bold hover:bg-neutral-50 transition-colors">
-                            Contact Research Team
+                        <Link href="/contact" className="border-2 border-white text-white px-12 py-5 font-bold uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-all">
+                            Connect With Team
                         </Link>
                     </div>
                 </div>

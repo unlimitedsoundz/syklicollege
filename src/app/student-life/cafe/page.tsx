@@ -6,6 +6,9 @@ import { ForkKnife as Utensils, Clock, MapPin, ArrowRight } from "@phosphor-icon
 export const metadata = {
     title: 'Opiskelija Café — Kestora University Student Restaurant | Menu & Hours',
     description: 'Visit the Opiskelija Café at Kestora University Helsinki. Affordable student meals, coffee, and pastries. View the menu, opening hours, and location.',
+    alternates: {
+        canonical: 'https://kestora.online/student-life/cafe/',
+    },
 };
 
 export default function CafePage() {

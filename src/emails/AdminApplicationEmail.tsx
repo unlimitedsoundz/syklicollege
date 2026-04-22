@@ -36,14 +36,14 @@ export default function AdminApplicationEmail({
             <Preview>{previewText}</Preview>
             <Tailwind>
                 <Body className="bg-white my-auto mx-auto font-sans">
-                    <Container className="border border-solid border-[#eaeaea] rounded my-[40px] mx-auto p-[20px] w-[465px]">
+                    <Container className="my-[20px] mx-auto px-[15px] py-[20px] w-[465px]">
                         <Section className="mt-[32px]">
                             <Img
                                 src="https://kestora.online/logo-kestora.png"
                                 width="40"
                                 height="40"
                                 alt="Kestora University"
-                                className="my-0 mx-auto"
+                                className="my-0 mx-auto dark:invert"
                             />
                         </Section>
 
@@ -79,6 +79,13 @@ export default function AdminApplicationEmail({
                         </Section>
 
                         <Hr className="border border-solid border-[#eaeaea] my-[26px] mx-0 w-full" />
+                        <Section className="text-center mt-[10px] mb-[20px]">
+                            <Text className="m-0">
+                                <Link href="https://www.linkedin.com/company/kestora-university" className="text-[#888888] text-[12px] no-underline font-bold mx-[10px]">LinkedIn</Link>
+                                <Link href="https://www.tiktok.com/@kestorauniversity" className="text-[#888888] text-[12px] no-underline font-bold mx-[10px]">TikTok</Link>
+                                <Link href="https://snapchat.com/add/kestorauniversity" className="text-[#888888] text-[12px] no-underline font-bold mx-[10px]">Snapchat</Link>
+                            </Text>
+                        </Section>
 
                         <Text className="text-[#666666] text-[10px] uppercase font-bold tracking-widest leading-[24px]">
                             Internal Notification Service — Kestora University
@@ -89,3 +96,7 @@ export default function AdminApplicationEmail({
         </Html>
     );
 }
+
+
+
+

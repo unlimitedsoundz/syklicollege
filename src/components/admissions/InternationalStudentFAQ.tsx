@@ -92,29 +92,29 @@ export default function InternationalStudentFAQ() {
         <div className="space-y-0">
             {faqs.map((faq, index) => (
                 <div key={index} className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all mb-4 overflow-hidden">
-                    <button
-                        onClick={() => toggle(index)}
-                        className="w-full flex items-center justify-between py-6 px-6 text-left hover:bg-indigo-50/50 transition-colors focus:outline-none group"
-                    >
-                        <span className="text-lg font-bold text-indigo-950">{faq.question}</span>
-                        {openIndex === index ? (
-                            <div className="bg-indigo-100 text-indigo-700 p-1.5 rounded-full shrink-0">
-                                <Minus size={20} weight="bold" />
-                            </div>
-                        ) : (
-                            <div className="bg-indigo-50 text-indigo-600 p-1.5 rounded-full shrink-0 group-hover:bg-indigo-100 group-hover:text-indigo-800 transition-colors">
-                                <Plus className="group-hover:scale-110 transition-transform" size={20} weight="bold" />
-                            </div>
-                        )}
-                    </button>
-                    <div
-                        className={`transition-all duration-300 ease-in-out ${openIndex === index ? 'max-h-[1000px] opacity-100 pb-6' : 'max-h-0 opacity-0'
-                            } overflow-hidden`}
-                    >
-                        <div className="text-indigo-900 leading-relaxed px-6 border-t border-indigo-50 pt-6">
-                            {faq.answer}
-                        </div>
-                    </div>
+                     <button
+                         onClick={() => toggle(index)}
+                         className="w-full flex items-center justify-between py-6 px-6 text-left hover:bg-gray-50 transition-colors focus:outline-none group"
+                     >
+                         <span className="text-lg font-bold text-black">{faq.question}</span>
+                         {openIndex === index ? (
+                             <div className="bg-gray-100 text-gray-700 p-1.5 rounded-full shrink-0">
+                                 <Minus size={20} weight="bold" />
+                             </div>
+                         ) : (
+                             <div className="bg-gray-50 text-gray-600 p-1.5 rounded-full shrink-0 group-hover:bg-gray-100 group-hover:text-gray-800 transition-colors">
+                                 <Plus className="group-hover:scale-110 transition-transform" size={20} weight="bold" />
+                             </div>
+                         )}
+                     </button>
+                     <div
+                         className={`transition-all duration-300 ease-in-out ${openIndex === index ? 'max-h-[1000px] opacity-100 pb-6' : 'max-h-0 opacity-0'
+                             } overflow-hidden`}
+                     >
+                         <div className="text-gray-900 leading-relaxed px-6 border-t border-gray-50 pt-6">
+                             {faq.answer}
+                         </div>
+                     </div>
                 </div>
             ))}
         </div>

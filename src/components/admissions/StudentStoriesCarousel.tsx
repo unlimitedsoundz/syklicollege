@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { CaretLeft, CaretRight, Quotes as Quote } from "@phosphor-icons/react/dist/ssr";
+import { CaretLeft, CaretRight, ArrowRight } from "@phosphor-icons/react/dist/ssr";
 
 const stories = [
     {
@@ -17,7 +17,7 @@ const stories = [
         name: 'Maria Petrova',
         programme: "Master's in Design Management",
         quote: "Studying in Finland has been a life-changing experience. The focus on work-life balance and deep collaborative research at Kestora is truly world-class.",
-        image: '/images/admissions/student_stories_2.png'
+        image: '/images/admissions/student_stories_maria.jpg'
     }
 ];
 
@@ -28,31 +28,46 @@ export default function StudentStoriesCarousel() {
     const prev = () => setCurrent((prev) => (prev - 1 + stories.length) % stories.length);
 
     return (
-        <div className="relative w-full h-[400px] overflow-hidden bg-neutral-900 group">
+        <div className="relative w-full h-[750px] md:h-[500px] overflow-hidden bg-neutral-50 group">
             {stories.map((story, index) => (
                 <div
                     key={story.id}
-                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === current ? 'opacity-100' : 'opacity-0'
+                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === current ? 'opacity-100 z-10' : 'opacity-0 z-0'
                         }`}
                 >
-                    <Image
-                        src={story.image}
-                        alt={story.name}
-                        fill
-                        className="object-cover opacity-60"
-                        sizes="100vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                    <div className="flex flex-col md:flex-row h-full">
+                        {/* Image Side */}
+                        <div className="relative h-[300px] md:h-full md:w-1/2">
+                            <Image
+                                src={story.image}
+                                alt={story.name}
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 1024px) 100vw, 50vw"
+                            />
+                        </div>
 
-                    <div className="absolute inset-0 flex flex-col justify-end p-4 md:p-16 pb-24 md:pb-16">
-                        <div className="max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-700">
-                            <Quote size={32} weight="fill" className="text-[#fd6402] mb-4 md:mb-6 opacity-50" />
-                            <p className="text-lg md:text-2xl text-white font-medium italic leading-relaxed mb-6 md:mb-8">
-                                "{story.quote}"
-                            </p>
-                            <div>
-                                <h4 className="text-lg md:text-xl font-bold text-white">{story.name}</h4>
-                                <p className="text-sm md:text-base text-neutral-400">{story.programme}</p>
+                        {/* Content Side */}
+                        <div className="p-8 md:p-16 flex flex-col justify-center text-black bg-neutral-50 md:w-1/2 relative">
+                            <div className="max-w-xl animate-in fade-in slide-in-from-right-8 duration-700">
+                                <p className="text-xl md:text-2xl text-black font-bold leading-tight mb-8 italic">
+                                    "{story.quote}"
+                                </p>
+                                <div className="pl-8 mb-12">
+                                    <h4 className="text-xl font-black text-black uppercase tracking-tighter">{story.name}</h4>
+                                    <p className="text-[10px] font-black text-black uppercase tracking-[0.3em] mt-1">{story.programme}</p>
+                                </div>
+
+                                <div className="pt-8 opacity-80">
+                                    <a 
+                                        href="https://ourblogs.kestora.online/" 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-3 font-bold underline underline-offset-4 hover:gap-5 transition-all text-sm group/link"
+                                    >
+                                        Visit Student Blogs <ArrowRight size={14} weight="bold" className="group-hover/link:translate-x-2 transition-transform" />
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -60,32 +75,23 @@ export default function StudentStoriesCarousel() {
             ))}
 
             {/* Controls */}
-            <div className="absolute bottom-4 md:bottom-8 right-4 md:right-8 flex gap-3 md:gap-4 z-20">
+            <div className="absolute bottom-0 right-0 flex z-20">
                 <button
                     onClick={prev}
-                    className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/30 flex items-center justify-center text-white transition-all hover:bg-white/10 active:scale-95"
+                    className="w-14 h-14 bg-white flex items-center justify-center text-black hover:bg-black hover:text-white transition-all active:scale-95"
+                    aria-label="Previous story"
                 >
-                    <CaretLeft size={20} weight="bold" className="md:w-6 md:h-6" />
+                    <CaretLeft size={20} weight="bold" />
                 </button>
                 <button
                     onClick={next}
-                    className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/30 flex items-center justify-center text-white transition-all hover:bg-white/10 active:scale-95"
+                    className="w-14 h-14 bg-black text-white flex items-center justify-center transition-all hover:bg-neutral-800 active:scale-95"
+                    aria-label="Next story"
                 >
-                    <CaretRight size={20} weight="bold" className="md:w-6 md:h-6" />
+                    <CaretRight size={20} weight="bold" />
                 </button>
-            </div>
-
-            {/* Dots */}
-            <div className="absolute bottom-4 md:bottom-8 left-4 md:left-8 flex gap-2 z-20">
-                {stories.map((_, i) => (
-                    <button
-                        key={i}
-                        onClick={() => setCurrent(i)}
-                        className={`w-8 md:w-12 h-1 transition-all ${i === current ? 'bg-[#fd6402]' : 'bg-white/30'
-                            }`}
-                    />
-                ))}
             </div>
         </div>
     );
 }
+

@@ -30,7 +30,7 @@ export default function NewsletterEmail({
             <Preview>{previewText}</Preview>
             <Tailwind>
                 <Body className="bg-[#f8f9fa] my-auto mx-auto font-sans text-[#1a1a1a]">
-                    <Container className="bg-white border border-solid border-[#eeeeee] rounded my-[40px] mx-auto overflow-hidden w-[600px] shadow-sm">
+                    <Container className="bg-white my-[40px] mx-auto overflow-hidden w-[600px]">
                         
                         {/* Header */}
                         <Section className="bg-white p-[30px] text-center border-b border-solid border-[#eeeeee]">
@@ -38,7 +38,7 @@ export default function NewsletterEmail({
                                 src="https://kestora.online/logo-kestora.png"
                                 width="200"
                                 alt="Kestora University"
-                                className="my-0 mx-auto"
+                                className="my-0 mx-auto dark:invert"
                             />
                         </Section>
 
@@ -140,3 +140,6 @@ export default function NewsletterEmail({
         </Html>
     );
 }
+
+
+

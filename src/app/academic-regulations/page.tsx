@@ -4,6 +4,9 @@ import Link from 'next/link';
 export const metadata: Metadata = {
     title: 'Academic Regulations — Kestora University',
     description: 'The Academic Regulations establish the framework governing teaching, learning, assessment, and academic progression at Kestora University.',
+    alternates: {
+        canonical: 'https://kestora.online/academic-regulations/',
+    },
 };
 
 export default function AcademicRegulationsPage() {

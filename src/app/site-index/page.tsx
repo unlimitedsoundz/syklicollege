@@ -4,6 +4,9 @@ import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 export const metadata = {
     title: 'Site Index | Kestora University',
     description: 'A comprehensive map of all pages and resources on the Kestora University website.',
+    alternates: {
+        canonical: 'https://kestora.online/site-index/',
+    },
 };
 
 const categories = [

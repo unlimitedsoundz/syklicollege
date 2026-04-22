@@ -27,7 +27,7 @@ function CollapsibleSection({ section }: { section: Section }) {
             <div className="flex items-center justify-between group cursor-pointer" onClick={() => hasItems && setIsExpanded(!isExpanded)}>
                 <a
                     href={`#${section.id}`}
-                    className="flex-1 text-base font-semibold text-white hover:text-gray-300 transition-colors block py-2 pl-3"
+                    className="flex-1 text-base font-bold text-black hover:opacity-70 transition-all block py-2"
                     onClick={(e) => {
                         // Navigation happens automatically via href
                     }}
@@ -36,7 +36,7 @@ function CollapsibleSection({ section }: { section: Section }) {
                 </a>
                 {hasItems && (
                     <button
-                        className="p-1 mr-[-8px] text-white hover:text-gray-300 transition-colors"
+                        className="p-1 text-black hover:opacity-70 transition-opacity align-middle flex items-center justify-center"
                     >
                         {isExpanded ? <Minus size={16} weight="bold" /> : <Plus size={16} weight="bold" />}
                     </button>
@@ -52,7 +52,7 @@ function CollapsibleSection({ section }: { section: Section }) {
                             <Link
                                 key={item.title}
                                 href={item.href}
-                                className="text-sm text-gray-300 hover:text-white py-1 px-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors"
+                                className="text-sm text-black font-bold py-1 px-3 bg-black/10 hover:bg-black hover:text-white transition-all underline decoration-1 underline-offset-4"
                             >
                                 {item.title}
                             </Link>
@@ -66,14 +66,14 @@ function CollapsibleSection({ section }: { section: Section }) {
 
 export default function TableOfContents({ sections }: Props) {
     return (
-        <div className="bg-black text-white h-full overflow-y-auto">
+        <div className="bg-white text-black h-full p-4 overflow-y-auto">
             <div className="pt-4">
-                <div className="px-4 md:px-6 pb-2">
-                    <h3 className="text-sm md:text-lg font-bold text-white">Study at Kestora</h3>
+                <div className="px-4 md:px-0 pb-2">
+                    <h3 className="text-sm md:text-lg font-bold text-black uppercase tracking-widest">Study at Kestora University</h3>
                 </div>
 
-                <div className="px-4 md:px-6 pb-6">
-                    <nav className="flex flex-col space-y-1 mt-2">
+                <div className="px-4 md:px-0 pb-6">
+                    <nav className="flex flex-col space-y-1 mt-4">
                         {sections.map((section) => (
                             <CollapsibleSection key={section.id} section={section} />
                         ))}

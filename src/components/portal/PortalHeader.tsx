@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { SignOut as LogOut, Layout, User, FileText, CaretRight as ChevronRight, List as Menu, X, GraduationCap, House as Home, BookOpen, Buildings as Building2, CreditCard, Calendar } from "@phosphor-icons/react";
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 import { Logo } from '@/components/ui/Logo';
 import { UserAvatar } from '@/components/ui/UserAvatar';
@@ -15,7 +15,16 @@ import { Plus, Minus } from "@phosphor-icons/react";
 export default function PortalHeader() {
     const pathname = usePathname();
     const router = useRouter();
-    const supabase = createClient();
+
+    // For public account pages, don't create supabase client
+    const publicPaths = ['/portal/account/login', '/portal/account/register', '/portal/account/admin-login', '/portal/account/reset-password'];
+    const normalizedPath = pathname ? pathname.replace(/\/$/, '').toLowerCase() : '';
+    const isPublicPath = publicPaths.includes(normalizedPath);
+    console.log('[PortalHeader] Path check:', { pathname, normalizedPath, isPublicPath });
+
+    // useMemo ensures the client is created only once and is stable across renders.
+    // Without this, a new client object on every render triggers useEffect infinitely.
+    const supabase = useMemo(() => isPublicPath ? null : createClient(), [isPublicPath]);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [expandedMobileSections, setExpandedMobileSections] = useState<Record<string, boolean>>({});
     const [isVisible, setIsVisible] = useState(true);
@@ -26,9 +35,15 @@ export default function PortalHeader() {
     const [firstName, setFirstName] = useState<string | undefined>(undefined);
     const [avatarUrl, setAvatarUrl] = useState<string | undefined>(undefined);
     const [studentId, setStudentId] = useState<string | undefined>(undefined);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(isPublicPath ? false : true);
+
+    // Derived state — declared AFTER useState so userEmail is in scope
+    const isAccountPage = pathname.startsWith('/portal/account');
+    const isLoggedIn = !!userEmail;
 
     useEffect(() => {
+        if (!supabase) return;
+
         const fetchUser = async () => {
             try {
                 const { data: { user } } = await supabase.auth.getUser();
@@ -75,12 +90,13 @@ export default function PortalHeader() {
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, [lastScrollY]);
-    const isAccountPage = pathname.startsWith('/portal/account');
-    const isLoggedIn = !!userEmail;
 
     const handleSignOut = async () => {
-        await supabase.auth.signOut();
+        if (supabase) {
+            await supabase.auth.signOut();
+        }
         localStorage.removeItem('Kestora_user');
+
 
         // Clear local state
         setUserEmail(undefined);

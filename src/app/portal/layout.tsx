@@ -10,23 +10,46 @@ export default function PortalLayout({ children }: { children: ReactNode }) {
     const [authorized, setAuthorized] = useState(false);
     const router = useRouter();
     const pathname = usePathname() || '';
-    const supabase = useMemo(() => createClient(), []);
+
+    // Public paths that don't require authentication
+    const publicPaths = [
+        '/portal/account/login',
+        '/portal/account/register',
+        '/portal/account/admin-login',
+        '/portal/account/reset-password'
+    ];
+
+    // Normalize path for matching (handle trailing slashes and normalize to lower case)
+    const normalizedPath = pathname ? pathname.replace(/\/$/, '').toLowerCase() : '';
+    const isPublicPath = publicPaths.includes(normalizedPath);
+
+    console.log('[PortalLayout] Path check:', { pathname, normalizedPath, isPublicPath });
+
+    const supabase = useMemo(() => isPublicPath ? null : createClient(), [isPublicPath]);
 
     useEffect(() => {
         const checkAuth = async () => {
-            // Public paths that don't require authentication
-            const publicPaths = [
-                '/portal/account/login',
-                '/portal/account/register',
-                '/portal/account/admin-login',
-                '/portal/account/reset-password'
-            ];
+            // Normalize path for matching (handle trailing slashes and normalize to lower case)
+            const normalizedPath = pathname ? pathname.replace(/\/$/, '').toLowerCase() : '';
+            const isPublicPath = publicPaths.includes(normalizedPath);
 
-            // Normalize path for matching (handle trailing slashes)
-            const normalizedPath = pathname === '/' ? '/' : pathname.replace(/\/$/, '');
-            const isPublicPath = publicPaths.some(p => normalizedPath === p);
+            console.log('[PortalLayout] Auth Check Check:', { pathname, normalizedPath, isPublicPath });
 
             console.log('Portal Auth Check:', { pathname, normalizedPath, isPublicPath });
+
+            if (isPublicPath) {
+                // Skip auth checks for public paths
+                console.log('Public path detected, skipping auth');
+                setAuthorized(false);
+                setLoading(false);
+                return;
+            }
+
+            if (!supabase) {
+                console.log('No supabase client for non-public path');
+                setLoading(false);
+                return;
+            }
 
             try {
                 // 1. Check real Supabase Auth
@@ -105,7 +128,7 @@ export default function PortalLayout({ children }: { children: ReactNode }) {
     }
 
     return (
-        <div className={`min-h-screen bg-white flex flex-col font-open-sans text-base`} data-theme="portal">
+        <div className={`min-h-screen bg-white flex flex-col font-sans text-base`} data-theme="portal">
             <PortalHeader />
             <main className="flex-1 container mx-auto px-4 py-8 md:py-16">
                 {children}

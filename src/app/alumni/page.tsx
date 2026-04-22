@@ -4,6 +4,9 @@ import Image from 'next/image';
 export const metadata = {
     title: 'Alumni Network — Kestora University | Career, Community & Events',
     description: 'Join the Kestora University alumni network. Stay connected through events, mentoring, career development, and networking opportunities for graduates worldwide.',
+    alternates: {
+        canonical: 'https://kestora.online/alumni/',
+    },
 };
 
 export default function AlumniPage() {

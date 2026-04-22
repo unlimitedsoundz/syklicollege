@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { formatToDDMMYYYY } from '@/utils/date';
 import { Plus, CreditCard, WarningCircle as AlertCircle, GraduationCap, SquaresFour as LayoutDashboard, FileText, Clock } from "@phosphor-icons/react/dist/ssr";
 import DeleteApplicationBtn from './DeleteApplicationBtn';
+import { ensureStudentId } from '../profile-actions';
 
 export default function DashboardPage() {
     const [user, setUser] = useState<any>(null);
@@ -19,21 +20,41 @@ export default function DashboardPage() {
 
     const fetchDashboardData = async () => {
         try {
+            console.log('Dashboard: Starting data fetch');
+
             // 1. Auth Check
-            const { data: { user: sbUser } } = await supabase.auth.getUser();
+            const { data: { user: sbUser }, error: authError } = await supabase.auth.getUser();
+            console.log('Dashboard: Auth check result:', { user: !!sbUser, error: authError });
+
             if (!sbUser) {
+                console.log('Dashboard: No user, redirecting to login');
                 router.push('/portal/account/login');
                 return;
             }
             setUser(sbUser);
 
             // Fetch Data
+            console.log('Dashboard: Fetching data for user:', sbUser.id);
             const [profileRes, appsRes, studentRes, admissionRes] = await Promise.all([
                 supabase.from('profiles').select('*').eq('id', sbUser.id).single(),
                 supabase.from('applications').select('*, course:Course(title, duration), offer:admission_offers(*)').eq('user_id', sbUser.id).order('updated_at', { ascending: false }),
                 supabase.from('students').select('*, program:Course(*), user:profiles(*)').eq('user_id', sbUser.id).maybeSingle(),
-                supabase.from('admissions').select('*').eq('user_id', sbUser.id)
+                Promise.resolve({ data: [], error: null }) // Temporarily disable admissions query until table exists
+                // supabase.from('admissions').select('*').eq('user_id', sbUser.id)
             ]);
+
+            console.log('Dashboard: Data fetch results:', {
+                profile: { data: !!profileRes.data, error: profileRes.error },
+                apps: { data: appsRes.data?.length || 0, error: appsRes.error },
+                student: { data: !!studentRes.data, error: studentRes.error },
+                admissions: { data: admissionRes.data?.length || 0, error: admissionRes.error }
+            });
+
+            // Log detailed errors if any
+            if (profileRes.error) console.error('Profile fetch error:', profileRes.error);
+            if (appsRes.error) console.error('Applications fetch error:', appsRes.error);
+            if (studentRes.error) console.error('Student fetch error:', studentRes.error);
+            if (admissionRes.error) console.error('Admissions fetch error:', admissionRes.error);
 
             const admissionsMap = new Map((admissionRes.data || []).map(a => [a.program, a]));
 
@@ -47,6 +68,15 @@ export default function DashboardPage() {
                 setApplications(enrichedApps);
             }
             if (studentRes.data) setStudent(studentRes.data);
+
+            // AUTO-ENSURE STUDENT ID IF MISSING
+            if (profileRes.data && !profileRes.data.student_id) {
+                console.log('Dashboard: Student ID missing, generating...');
+                const { studentId } = await ensureStudentId();
+                if (studentId) {
+                    setProfile((prev: any) => ({ ...prev, student_id: studentId }));
+                }
+            }
         } catch (err) {
             console.error('Error fetching dashboard data:', err);
         } finally {
@@ -72,9 +102,9 @@ export default function DashboardPage() {
                 <div>
                     <div className="flex items-center gap-2">
                         <h1 className="text-xl font-semibold uppercase tracking-tight text-neutral-900 leading-none">My Applications</h1>
-                        {profile?.student_id && applications.some(app => app.status === 'ENROLLED') && (
-                            <span className="border border-primary text-primary px-2 py-0.5 rounded-sm text-[10px] font-semibold uppercase tracking-widest leading-none">
-                                ID: {profile.student_id}
+                        {profile?.student_id && (
+                            <span className="border border-neutral-200 bg-neutral-50 px-2 py-0.5 rounded-sm text-[10px] font-black uppercase tracking-widest leading-none text-neutral-900">
+                                Student ID: {profile.student_id}
                             </span>
                         )}
                     </div>

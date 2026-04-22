@@ -62,13 +62,16 @@ serve(async (req) => {
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
   <title>Welcome to Kestora University</title>
   <style>
+    :root { color-scheme: light dark; }
     @media (prefers-color-scheme: dark) {
-        .logo { filter: invert(1); }
+        .logo { filter: invert(1) !important; }
     }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #ffffff; color: #000000; margin: 0; padding: 0; }
-    .container { max-width: 465px; margin: 40px auto; padding: 20px; border: 1px solid #eaeaea; border-radius: 4px; }
+    .container { max-width: 465px; margin: 20px auto; padding: 20px 15px; }
     .logo { display: block; margin: 32px auto; width: 100%; height: auto; max-width: 200px; }
     h1 { font-size: 24px; font-weight: 400; text-align: center; margin: 30px 0; }
     p { font-size: 14px; line-height: 24px; color: #000000; }
@@ -105,7 +108,13 @@ serve(async (req) => {
     <p>If you have any questions or need assistance, please reach out to our Admissions Office at <a href="mailto:admissions@kestora.online">admissions@kestora.online</a> or call us at <strong>+358 09 42721884</strong>.</p>
 
     <div class="footer">
-      Kestora University | Helsinki, Finland | +358 09 42721884<br>
+      <p style="text-align: center; margin: 0;">&copy; ${new Date().getFullYear()} Kestora University<br>Helsinki, Finland | +358 09 42721884 | info@kestora.online</p>
+      <div style="text-align: center; margin-top: 20px;">
+        <a href="https://www.linkedin.com/company/kestora-university" style="color: #888; text-decoration: none; margin: 0 10px; font-weight: bold;">LinkedIn</a>
+        <a href="https://www.tiktok.com/@kestorauniversity" style="color: #888; text-decoration: none; margin: 0 10px; font-weight: bold;">TikTok</a>
+        <a href="https://snapchat.com/add/kestorauniversity" style="color: #888; text-decoration: none; margin: 0 10px; font-weight: bold;">Snapchat</a>
+      </div>
+      <br>
       This email was sent to confirm your account registration at Kestora University.
     </div>
   </div>

@@ -3,9 +3,7 @@ import { Student, Course, Profile } from '@/types/database'; // Import from data
 import { Layout } from '@phosphor-icons/react/dist/ssr';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Open_Sans } from 'next/font/google';
 
-const openSans = Open_Sans({ subsets: ['latin'] });
 
 interface AcademicDashboardProps {
     student: Student & {
@@ -74,7 +72,7 @@ export default function AcademicDashboard({ student }: AcademicDashboardProps) {
                                 You are officially enrolled for the upcoming term. Orientation schedule has been sent to your institutional email.
                                 <br /><span className="opacity-75">View <Link href="/refund-withdrawal-policy/" className="underline hover:text-neutral-700">Refund Policy</Link>.</span>
                             </p>
-                            <div className={`mt-3 md:mt-4 flex gap-3 text-[10px] md:text-xs text-neutral-900 ${openSans.className}`}>
+                            <div className="mt-3 md:mt-4 flex gap-3 text-[10px] md:text-xs text-neutral-900">
                                 <span className="bg-white/50 px-2 py-1 rounded"><strong>Email:</strong> {student.institutional_email}</span>
                             </div>
                         </div>

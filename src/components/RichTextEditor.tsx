@@ -19,55 +19,17 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
         let destroyed = false;
 
         async function initEditor() {
-            // Dynamic imports — keeps this out of SSR
-            const {
-                ClassicEditor,
-                Autoformat,
-                Bold,
-                Italic,
-                Underline,
-                Strikethrough,
-                BlockQuote,
-                Base64UploadAdapter,
-                Essentials,
-                Heading,
-                Image,
-                ImageCaption,
-                ImageResize,
-                ImageStyle,
-                ImageToolbar,
-                ImageUpload,
-                Indent,
-                IndentBlock,
-                Link,
-                List,
-                MediaEmbed,
-                Paragraph,
-                PasteFromOffice,
-                Table,
-                TableColumnResize,
-                TableToolbar,
-                TextTransformation,
-                Alignment,
-                Font,
-                FontSize,
-                FontColor,
-                FontBackgroundColor,
-                RemoveFormat,
-                CodeBlock,
-                HorizontalLine,
-                Subscript,
-                Superscript,
-            } = await import('ckeditor5');
-
-            if (destroyed || !editorContainerRef.current) return;
-
-            const editor = await ClassicEditor.create(editorContainerRef.current, {
-                licenseKey: 'GPL',
-                plugins: [
+            try {
+                // Dynamic imports — keeps this out of SSR
+                const {
+                    ClassicEditor,
                     Autoformat,
-                    BlockQuote,
                     Bold,
+                    Italic,
+                    Underline,
+                    Strikethrough,
+                    BlockQuote,
+                    Base64UploadAdapter,
                     Essentials,
                     Heading,
                     Image,
@@ -76,10 +38,8 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
                     ImageStyle,
                     ImageToolbar,
                     ImageUpload,
-                    Base64UploadAdapter,
                     Indent,
                     IndentBlock,
-                    Italic,
                     Link,
                     List,
                     MediaEmbed,
@@ -89,8 +49,6 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
                     TableColumnResize,
                     TableToolbar,
                     TextTransformation,
-                    Underline,
-                    Strikethrough,
                     Alignment,
                     Font,
                     FontSize,
@@ -101,70 +59,138 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
                     HorizontalLine,
                     Subscript,
                     Superscript,
-                ],
-                toolbar: [
-                    'undo', 'redo',
-                    '|',
-                    'heading',
-                    '|',
-                    'bold', 'italic', 'underline', 'strikethrough',
-                    '|',
-                    'fontSize', 'fontColor',
-                    '|',
-                    'link', 'uploadImage', 'insertTable', 'blockQuote', 'codeBlock', 'horizontalLine',
-                    '|',
-                    'alignment',
-                    '|',
-                    'bulletedList', 'numberedList',
-                    '|',
-                    'outdent', 'indent',
-                    '|',
-                    'removeFormat',
-                ],
-                heading: {
-                    options: [
-                        { model: 'paragraph' as const, title: 'Paragraph', class: 'ck-heading_paragraph' },
-                        { model: 'heading1' as const, view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
-                        { model: 'heading2' as const, view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-                        { model: 'heading3' as const, view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
-                        { model: 'heading4' as const, view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
-                    ]
-                },
-                image: {
-                    resizeOptions: [
-                        { name: 'resizeImage:original', label: 'Original size', value: null },
-                        { name: 'resizeImage:50', label: '50% width', value: '50' },
-                        { name: 'resizeImage:75', label: '75% width', value: '75' },
+                    SpecialCharacters,
+                    SpecialCharactersEssentials,
+                    SpecialCharactersArrows,
+                    SpecialCharactersCurrency,
+                    SpecialCharactersLatin,
+                    SpecialCharactersMathematical,
+                    SpecialCharactersText,
+                } = await import('ckeditor5');
+
+                if (destroyed || !editorContainerRef.current) return;
+
+                const editor = await ClassicEditor.create(editorContainerRef.current, {
+                    licenseKey: 'GPL',
+                    plugins: [
+                        Autoformat,
+                        BlockQuote,
+                        Bold,
+                        Essentials,
+                        Heading,
+                        Image,
+                        ImageCaption,
+                        ImageResize,
+                        ImageStyle,
+                        ImageToolbar,
+                        ImageUpload,
+                        Base64UploadAdapter,
+                        Indent,
+                        IndentBlock,
+                        Italic,
+                        Link,
+                        List,
+                        MediaEmbed,
+                        Paragraph,
+                        PasteFromOffice,
+                        Table,
+                        TableColumnResize,
+                        TableToolbar,
+                        TextTransformation,
+                        Underline,
+                        Strikethrough,
+                        Alignment,
+                        Font,
+                        FontSize,
+                        FontColor,
+                        FontBackgroundColor,
+                        RemoveFormat,
+                        CodeBlock,
+                        HorizontalLine,
+                        Subscript,
+                        Superscript,
+                        SpecialCharacters,
+                        SpecialCharactersEssentials,
+                        SpecialCharactersArrows,
+                        SpecialCharactersCurrency,
+                        SpecialCharactersLatin,
+                        SpecialCharactersMathematical,
+                        SpecialCharactersText,
                     ],
                     toolbar: [
-                        'imageTextAlternative', 'toggleImageCaption',
+                        'undo', 'redo',
                         '|',
-                        'imageStyle:inline', 'imageStyle:wrapText', 'imageStyle:breakText',
+                        'heading',
                         '|',
-                        'resizeImage',
-                    ]
-                },
-                link: {
-                    addTargetToExternalLinks: true,
-                    defaultProtocol: 'https://',
-                },
-                table: {
-                    contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells'],
-                },
-                initialData: value,
-            });
+                        'bold', 'italic', 'underline', 'strikethrough',
+                        '|',
+                        'fontSize', 'fontColor',
+                        '|',
+                        'link', 'uploadImage', 'insertTable', 'blockQuote', 'codeBlock', 'horizontalLine', 'specialCharacters',
+                        '|',
+                        'alignment',
+                        '|',
+                        'bulletedList', 'numberedList',
+                        '|',
+                        'outdent', 'indent',
+                        '|',
+                        'removeFormat',
+                    ],
+                    heading: {
+                        options: [
+                            { model: 'paragraph' as const, title: 'Paragraph', class: 'ck-heading_paragraph' },
+                            { model: 'heading1' as const, view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                            { model: 'heading2' as const, view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                            { model: 'heading3' as const, view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                            { model: 'heading4' as const, view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+                        ]
+                    },
+                    image: {
+                        resizeOptions: [
+                            { name: 'resizeImage:original', label: 'Original size', value: null },
+                            { name: 'resizeImage:50', label: '50% width', value: '50' },
+                            { name: 'resizeImage:75', label: '75% width', value: '75' },
+                        ],
+                        toolbar: [
+                            'imageTextAlternative', 'toggleImageCaption',
+                            '|',
+                            'imageStyle:inline', 'imageStyle:wrapText', 'imageStyle:breakText',
+                            '|',
+                            'resizeImage',
+                        ]
+                    },
+                    link: {
+                        addTargetToExternalLinks: true,
+                        defaultProtocol: 'https://',
+                    },
+                    table: {
+                        contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells'],
+                    },
+                    initialData: value,
+                });
 
-            if (destroyed) {
-                editor.destroy();
-                return;
+                if (destroyed) {
+                    editor.destroy();
+                    return;
+                }
+
+                editorRef.current = editor;
+                setIsReady(true);
+
+                let timeoutId: NodeJS.Timeout;
+                const updateData = () => {
+                    clearTimeout(timeoutId);
+                    timeoutId = setTimeout(() => {
+                        onChange(editor.getData());
+                    }, 100);
+                };
+
+                // Listen for any changes to the editor content
+                editor.model.document.on('change', updateData);
+            } catch (error) {
+                console.error('Error initializing CKEditor:', error);
+                setIsReady(true); // Show the container even if editor fails
             }
-
-            editorRef.current = editor;
-            setIsReady(true);
-
-            editor.model.document.on('change:data', () => {
-                onChange(editor.getData());
-            });
         }
 
         initEditor();
@@ -178,9 +204,16 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
         };
     }, []); // Only mount once
 
+    // Update editor content when value prop changes
+    useEffect(() => {
+        if (editorRef.current && isReady && editorRef.current.getData() !== value) {
+            editorRef.current.setData(value);
+        }
+    }, [value, isReady]);
+
     return (
         <div className="ck-editor-wrapper">
-            <div ref={editorContainerRef} />
+            <div ref={editorContainerRef} className="min-h-[200px]" />
             {!isReady && (
                 <div className="w-full h-[300px] border rounded flex items-center justify-center text-gray-400">
                     Loading editor…

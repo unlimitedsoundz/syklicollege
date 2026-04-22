@@ -7,6 +7,9 @@ import { formatToDDMMYYYY } from '@/utils/date';
 export const metadata = {
     title: 'About Kestora University — Our Story, Mission & Helsinki Campus',
     description: 'Kestora University is an independent higher education institution in Helsinki, Finland, offering English-taught Bachelor’s and Master’s degree programmes focused on engineering, technology, business, science, and the arts.',
+    alternates: {
+        canonical: 'https://kestora.online/about-kestora-university/',
+    },
 };
 
 import DynamicNewsSection from "@/components/news/DynamicNewsSection";
@@ -38,32 +41,30 @@ export default async function AboutPage() {
 
             {/* 1. HERO SECTION (Black and White) */}
             <section className="bg-white text-black overflow-hidden">
-                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-32 pb-4 h-auto min-h-[600px] md:pt-48 lg:h-[600px] lg:py-0 relative mb-12">
+                <div className="container mx-auto px-0 lg:px-4 flex flex-col lg:flex-row items-center gap-8 lg:gap-16 pt-0 md:pt-20 lg:pt-24 pb-4 lg:pb-0 lg:py-0 min-h-[500px] lg:h-[550px] relative mb-12">
                     {/* Left Content */}
-                    <div className="lg:w-1/2 space-y-2 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
+                    <div className="lg:w-1/2 space-y-2 relative z-10 flex flex-col justify-center h-full pt-8 lg:pt-0 px-4 lg:px-0">
 
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight pt-8 text-black">
+                        <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight pt-0 text-black">
                             About Kestora University
                         </h1>
-                        <p className="text-[21px] text-neutral-800 max-w-xl leading-relaxed mt-6">
+                        <p className="text-lg md:text-[21px] text-neutral-800 max-w-xl leading-relaxed my-2">
                             Learn about Kestora University, an independent higher education institution based in Helsinki, Finland, focused on sustainability, innovation, and practical learning. Kestora University brings together academic knowledge and real-world application to prepare students for global careers.
                         </p>
                     </div>
 
                     {/* Right Image */}
-                    <div className="lg:w-1/2 h-full w-full relative mt-4 lg:mt-0 lg:translate-y-16 z-20 flex justify-center lg:block">
-                        <div className="h-full">
-                            <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800 shadow-2xl rounded-tr-[4rem] rounded-bl-[4rem] overflow-hidden">
-                                <Image
-                                    src="/images/campus-welcome-v2.png"
-                                    alt="Kestora University – Helsinki Campus main building"
-                                    fill
-                                    priority
-                                    className="object-cover opacity-90"
-                                    sizes="(max-width: 1024px) 368px, 50vw"
-                                />
-                                <div className="absolute inset-0 bg-neutral-900/10 mix-blend-multiply"></div>
-                            </div>
+                    <div className="lg:w-1/2 h-full w-full relative mt-0 lg:mt-0 lg:translate-y-16 z-20 flex justify-center lg:block order-first lg:order-none hero-image-mobile">
+                        <div className="relative w-full lg:h-full bg-neutral-800 shadow-2xl rounded-tr-[4rem] rounded-bl-[4rem] overflow-hidden hero-mobile-height">
+                            <Image
+                                src="/images/campus-welcome-v2.png"
+                                alt="Kestora University – Helsinki Campus main building"
+                                fill
+                                priority
+                                className="object-cover opacity-90"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 368px, 50vw"
+                            />
+                            <div className="absolute inset-0 bg-neutral-900/10 mix-blend-multiply"></div>
                         </div>
                     </div>
                 </div>
@@ -100,7 +101,7 @@ export default async function AboutPage() {
                                     "An international student community in Helsinki"
                                 ].map((item, i) => (
                                     <li key={i} className="flex items-start gap-3 text-gray-800">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-black mt-2 shrink-0" />
+                                        <ArrowRight size={16} weight="bold" className="text-black mt-1 shrink-0" />
                                         <span>{item}</span>
                                     </li>
                                 ))}
@@ -119,16 +120,14 @@ export default async function AboutPage() {
                             </p>
                             <ul className="grid md:grid-cols-2 gap-6 mb-12 text-left">
                                 {[
-                                    { text: "Learning through real-world projects" },
-                                    { text: "Collaboration with external partners and industry networks" },
-                                    { text: "Multidisciplinary study opportunities" },
-                                    { text: "A balance between academic foundations and applied skills" }
+                                    "Learning through real-world projects",
+                                    "Collaboration with external partners and industry networks",
+                                    "Multidisciplinary study opportunities",
+                                    "A balance between academic foundations and applied skills"
                                 ].map((item, i) => (
-                                    <li key={i} className="flex items-center gap-6 p-8 bg-gray-100 rounded-3xl shadow-lg transform hover:-translate-y-1 transition-transform">
-                                        <div className={`w-12 h-12 rounded-2xl bg-black flex items-center justify-center shrink-0 shadow-inner`}>
-                                            <span className="text-white font-bold text-xl leading-none">/</span>
-                                        </div>
-                                        <span className="text-black font-bold text-lg">{item.text}</span>
+                                    <li key={i} className="flex items-start gap-3 text-gray-800 p-6 bg-gray-50 rounded-2xl border border-gray-200">
+                                        <ArrowRight size={16} weight="bold" className="text-black mt-1 shrink-0" />
+                                        <span className="font-medium">{item}</span>
                                     </li>
                                 ))}
                             </ul>

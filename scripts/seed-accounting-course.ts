@@ -2,8 +2,10 @@
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
-dotenv.config({ path: path.resolve(__dirname, '../.env') });
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: path.resolve(__dirname, '../.env.local') });
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -27,72 +29,69 @@ async function seedAccounting() {
 
     const sections = [
         {
-            id: 'core-accounting',
-            title: 'Core Accounting Courses',
-            content: `
-                <ul class="list-disc pl-5 space-y-2">
-                    <li><strong>Principles of Accounting I & II:</strong> Introduction to double-entry bookkeeping, ledger maintenance, and financial statement preparation.</li>
-                    <li><strong>Financial Accounting (I, II, III, & Advanced):</strong> Advanced partnership accounts, company accounts, mergers, acquisitions, and IFRS/IAS compliance.</li>
-                    <li><strong>Cost Accounting (I & II):</strong> Cost classification, cost accumulation systems (job, process), inventory valuation, and budgetary control.</li>
-                    <li><strong>Management Accounting (I & II):</strong> Using financial data for internal decision-making, variance analysis, and performance measurement.</li>
-                    <li><strong>Auditing and Investigation (I & II):</strong> Principles of auditing, audit evidence, reporting, and forensic accounting.</li>
-                    <li><strong>Taxation (I, II, & Advanced):</strong> Personal and corporate income tax, VAT, tax administration, and petroleum profits tax.</li>
-                    <li><strong>Public Sector/Governmental Accounting:</strong> Accounting for government agencies, IPSAS, and non-profit organizations.</li>
-                    <li><strong>Accounting Information Systems (AIS):</strong> Computerized accounting applications, data processing, and internal control systems.</li>
-                    <li><strong>Accounting Theory:</strong> Conceptual framework, valuation models, and current issues in reporting.</li>
-                </ul>
-            `
+            id: 'description',
+            title: 'Description',
+            content: `<p>The Accounting & Finance BSc program at Kestora University provides a solid foundation in accounting, finance, and management. Students gain practical and theoretical knowledge in financial accounting, management accounting, corporate governance, auditing, performance management, and financial decision-making.</p><p>The program equips students with analytical skills and business understanding necessary for careers in accounting, finance, and corporate administration.</p>`
         },
         {
-            id: 'business-law',
-            title: 'Business Law & Regulatory Courses',
-            content: `
-                <ul class="list-disc pl-5 space-y-2">
-                    <li><strong>Principles of Law / Business Law:</strong> Legal structures of business and general legal principles.</li>
-                    <li><strong>Commercial Law:</strong> Law of contract, agency, sale of goods, and bailment.</li>
-                    <li><strong>Company Law / Corporate Law:</strong> Formation, management, and dissolution of companies.</li>
-                    <li><strong>Bankruptcy and Executorship Law:</strong> Legal procedures for insolvency and estate management.</li>
-                    <li><strong>Banking Laws and Regulations:</strong> Legal framework for financial institutions.</li>
-                    <li><strong>Corporate Governance & Ethics:</strong> Ethical standards and compliance for directors and accountants.</li>
-                    <li><strong>International Business Law:</strong> Legal aspects of cross-border trade.</li>
-                </ul>
-            `
+            id: 'language',
+            title: 'Language of Instruction',
+            content: `<p>English (all courses)</p><p>The program is designed to prepare students for careers in international business environments.</p>`
         },
         {
-            id: 'supporting',
-            title: 'Supporting & Quantitative Courses',
-            content: `
-                <ul class="list-disc pl-5 space-y-2">
-                    <li><strong>Business Mathematics/Statistics:</strong> Quantitative tools for business decisions, probability, and sampling.</li>
-                    <li><strong>Financial Management/Corporate Finance:</strong> Working capital management, capital budgeting, and investment analysis.</li>
-                    <li><strong>Economics (Micro & Macro):</strong> Fundamental economic principles for business.</li>
-                    <li><strong>Business Communication:</strong> Effective communication in professional environments.</li>
-                    <li><strong>Entrepreneurship/Business Development:</strong> Starting and managing small businesses.</li>
-                </ul>
-            `
+            id: 'tuition',
+            title: 'Tuition Fees and Scholarships',
+            content: `<p>Tuition Fee: Included in degree tuition for full-time BSc students</p><p>Scholarships:</p><ul><li>Merit-based scholarships for high-achieving students</li><li>Need-based financial aid</li><li>Support for international students</li><li>Detailed scholarship information is available on the Kestora University Scholarships page.</li></ul>`
         },
         {
-            id: 'electives',
-            title: 'Specialized/Elective Courses',
-            content: `
-                <ul class="list-disc pl-5 space-y-2">
-                    <li><strong>Sustainability Accounting:</strong> Accounting for environmental and social impact.</li>
-                    <li><strong>Oil and Gas Accounting:</strong> Specialized accounting for the energy sector.</li>
-                    <li><strong>Forensic Accounting & Fraud Management:</strong> Techniques for detecting financial fraud.</li>
-                    <li><strong>Strategic Management/Case Analysis:</strong> High-level strategic planning and business evaluation.</li>
-                    <li><strong>Research Methodology:</strong> Techniques for researching accounting and business issues.</li>
-                </ul>
-            `
+            id: 'structure',
+            title: 'Structure of Studies',
+            content: `<p>This is the structure content with Kestora University.</p>`
+        },
+        {
+            id: 'specialisations',
+            title: 'Specialisations',
+            content: `<p>Specialisations content.</p>`
+        },
+        {
+            id: 'internationalisation',
+            title: 'Internationalisation',
+            content: `<p>Internationalisation content.</p>`
+        },
+        {
+            id: 'opportunities',
+            title: 'Further Study Opportunities',
+            content: `<p>Further study opportunities.</p>`
+        },
+        {
+            id: 'careers',
+            title: 'Career Opportunities',
+            content: `<p>Career opportunities content.</p>`
+        },
+        {
+            id: 'research',
+            title: 'Research Focus',
+            content: `<p>Research focus content.</p>`
+        },
+        {
+            id: 'cooperation',
+            title: 'Co-operation with Other Parties',
+            content: `<p>Co-operation content.</p>`
+        },
+        {
+            id: 'evaluation',
+            title: 'Study-Option-Specific Evaluation Criteria in Admissions',
+            content: `<p>Evaluation criteria content.</p>`
         }
     ];
 
     const courseData = {
-        title: 'BSc Accounting & Business Law',
-        slug: 'bsc-accounting-business-law',
+        title: 'BSc Accounting & Finance',
+        slug: 'accounting-and-finance-bsc',
         degreeLevel: 'BACHELOR',
         duration: '3 Years',
         language: 'English',
-        description: 'A comprehensive program combining rigorous accounting training with a deep understanding of business law, preparing students for professional certification and leadership roles.',
+        description: 'The Accounting & Finance BSc program at Kestora University provides a solid foundation in accounting, finance, and management. Students gain practical and theoretical knowledge in financial accounting, management accounting, corporate governance, auditing, performance management, and financial decision-making. The program equips students with analytical skills and business understanding necessary for careers in accounting, finance, and corporate administration.',
         departmentId: dept.id,
         schoolId: dept.schoolId,
         sections: sections,

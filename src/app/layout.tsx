@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Open_Sans, Playfair_Display } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -12,11 +12,7 @@ const inter = Inter({
     display: "swap",
 });
 
-const openSans = Open_Sans({
-    subsets: ["latin"],
-    variable: "--font-open-sans",
-    display: "swap",
-});
+
 
 const playfair = Playfair_Display({
     subsets: ["latin"],
@@ -37,9 +33,15 @@ export const metadata: Metadata = {
         statusBarStyle: "default",
         capable: true,
     },
-    alternates: {
-        canonical: '/',
+    icons: {
+        icon: [
+            { url: '/favicon.ico', sizes: 'any' }
+        ],
+        apple: [
+            { url: '/favicon.ico', sizes: '180x180', type: 'image/x-icon' }
+        ]
     },
+
     openGraph: {
         type: 'website',
         locale: 'en_US',
@@ -70,10 +72,8 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" className={`${inter.variable} ${openSans.variable} ${playfair.variable}`}>
+        <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
             <head>
-                <link rel="icon" href="/favicon.ico" />
-                <link rel="apple-touch-icon" href="/favicon.ico" />
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
@@ -110,12 +110,12 @@ export default function RootLayout({
                     }}
                 />
             </head>
-            <body
-                className={`font-sans antialiased`}
-            >
+            <body className="font-sans antialiased">
                 <AuthProvider>
                     <Header />
-                    {children}
+                    <main>
+                        {children}
+                    </main>
                     <Footer />
                     <CookieConsent />
                 </AuthProvider>

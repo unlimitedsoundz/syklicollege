@@ -56,7 +56,6 @@ export function CookieConsent() {
                     <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                         <div className="flex-1 space-y-2 text-center md:text-left">
                             <h3 className="text-xl font-bold text-black tracking-tight flex items-center justify-center md:justify-start gap-2">
-                                <Lock size={20} weight="regular" className="text-neutral-400" />
                                 Cookies & Privacy
                             </h3>
                             <p className="text-sm text-neutral-600 leading-relaxed max-w-2xl">
@@ -95,7 +94,6 @@ export function CookieConsent() {
                                 {/* Essential */}
                                 <div className="p-4 bg-neutral-50 rounded-2xl space-y-3">
                                     <div className="flex items-center justify-between">
-                                        <Shield size={20} weight="regular" className="text-neutral-400" />
                                         <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Required</span>
                                     </div>
                                     <h4 className="font-bold text-sm">Essential</h4>
@@ -108,7 +106,6 @@ export function CookieConsent() {
                                 <div className={`p-4 rounded-2xl space-y-3 border-2 transition-all cursor-pointer ${prefs.analytics ? 'bg-black text-white border-black' : 'bg-neutral-50 border-transparent text-neutral-900 opacity-60'}`}
                                     onClick={() => setPrefs({ ...prefs, analytics: !prefs.analytics })}>
                                     <div className="flex items-center justify-between">
-                                        <BarChart3 size={20} weight="regular" className={prefs.analytics ? 'text-white/50' : 'text-neutral-400'} />
                                         <div className={`w-8 h-4 rounded-full relative transition-colors ${prefs.analytics ? 'bg-white/20' : 'bg-neutral-300'}`}>
                                             <div className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-transform ${prefs.analytics ? 'translate-x-4' : 'translate-x-0.5'}`} />
                                         </div>
@@ -123,7 +120,6 @@ export function CookieConsent() {
                                 <div className={`p-4 rounded-2xl space-y-3 border-2 transition-all cursor-pointer ${prefs.marketing ? 'bg-black text-white border-black' : 'bg-neutral-50 border-transparent text-neutral-900 opacity-60'}`}
                                     onClick={() => setPrefs({ ...prefs, marketing: !prefs.marketing })}>
                                     <div className="flex items-center justify-between">
-                                        <Target size={20} weight="regular" className={prefs.marketing ? 'text-white/50' : 'text-neutral-400'} />
                                         <div className={`w-8 h-4 rounded-full relative transition-colors ${prefs.marketing ? 'bg-white/20' : 'bg-neutral-300'}`}>
                                             <div className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-transform ${prefs.marketing ? 'translate-x-4' : 'translate-x-0.5'}`} />
                                         </div>

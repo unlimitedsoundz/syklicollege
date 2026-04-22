@@ -4,7 +4,147 @@
 @tailwind components;
 @tailwind utilities;
 
+/* CKEditor custom styles */
+.ck-editor-wrapper .ck-editor__editable {
+  min-height: 200px;
+  border-radius: 0 !important;
+}
 
+.ck-editor-wrapper .ck-toolbar {
+  border-radius: 0 !important;
+  border-bottom: none;
+}
+
+.ck-editor-wrapper {
+  position: relative;
+}
+
+.ck-editor-wrapper .ck-toolbar {
+  position: relative;
+  z-index: 10;
+}
+
+/* Ensure CKEditor works in modals */
+.ck-editor-wrapper .ck-toolbar {
+  z-index: 1000;
+}
+
+.ck-editor-wrapper .ck-balloon-panel {
+  z-index: 1001;
+}
+
+/* 
+   CKEditor Content Unification 
+   Ensures Admin Editor and Frontend display match exactly
+*/
+.ck-editor__editable,
+.ck-content {
+  line-height: 1.8;
+  color: inherit;
+  font-size: 1.125rem !important;
+  font-family: var(--font-sans) !important;
+}
+
+/* Force 18px on all utility classes, spans, paragraphs, and list items inside CKEditor content */
+.ck-content p,
+.ck-content span,
+.ck-content div:not(.bg-white):not(.bg-gray-100):not(.bg-gray-50),
+.ck-content li,
+.ck-content a,
+.ck-content td,
+.ck-content [class*="text-"],
+.ck-content [style*="font-size"] {
+  font-size: 1.125rem !important;
+}
+
+/* Nuclear override: strip ALL inline font-family across the entire site */
+[style*="font-family"],
+[style*="font-family"] *,
+.ck-content *,
+.ck-content [style] {
+  font-family: var(--font-sans) !important;
+}
+
+.ck-editor__editable p,
+.ck-content p {
+  margin-bottom: 1rem;
+}
+
+.ck-editor__editable h1, .ck-content h1,
+.ck-editor__editable h2, .ck-content h2,
+.ck-editor__editable h3, .ck-content h3,
+.ck-editor__editable h4, .ck-content h4 {
+  font-weight: 800;
+  line-height: 1.2;
+  margin-top: 2.5rem;
+  margin-bottom: 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.ck-editor__editable h1, .ck-content h1 { font-size: 2.5rem !important; }
+.ck-editor__editable h2, .ck-content h2 { font-size: 2rem !important; }
+.ck-editor__editable h3, .ck-content h3 { font-size: 1.5rem !important; }
+.ck-editor__editable h4, .ck-content h4 { font-size: 1.25rem !important; }
+
+.ck-editor__editable ul, .ck-content ul,
+.ck-editor__editable ol, .ck-content ol {
+  margin-bottom: 1.5rem;
+  padding-left: 2rem;
+  list-style-position: outside;
+}
+
+.ck-editor__editable ul, .ck-content ul {
+  list-style-type: disc;
+}
+
+.ck-editor__editable ol, .ck-content ol {
+  list-style-type: decimal;
+}
+
+.ck-editor__editable li, .ck-content li {
+  margin-bottom: 0.75rem;
+  padding-left: 0.5rem;
+}
+
+.ck-editor__editable a, .ck-content a {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  font-weight: 700;
+  color: inherit;
+}
+
+.ck-editor__editable blockquote, .ck-content blockquote {
+  border-left: 8px solid #000;
+  padding: 1.5rem 2rem;
+  background: #f9f9f9;
+  font-style: italic;
+  margin: 2rem 0;
+  font-size: 1.1rem;
+}
+
+.faq-content ul,
+.faq-content ol {
+  margin-left: 1.5rem;
+  padding-left: 1rem;
+  list-style-position: outside;
+}
+
+.faq-content ul {
+  list-style-type: disc;
+}
+
+.faq-content ol {
+  list-style-type: decimal;
+}
+
+.faq-content li {
+  margin: 0.35rem 0;
+}
+
+.faq-content {
+  color: #000 !important;
+}
 
 :root {
   --background: #ffffff;
@@ -36,6 +176,36 @@
 
   --radius-xs: 0px !important;
   --radius-sm: 0px !important;
+}
+
+@layer utilities {
+  .hero-mobile-height {
+    height: 300px !important;
+    min-height: 300px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  @screen lg {
+    .hero-mobile-height {
+      height: 100% !important;
+      min-height: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+  }
+  .hero-image-mobile {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  @screen lg {
+    .hero-image-mobile {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+  }
+}
+
+:root {
   --radius-md: 0px !important;
   --radius-lg: 0px !important;
   --radius-xl: 0px !important;
@@ -69,10 +239,65 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Mobile: bump base font from 16px to 18px */
+@media (max-width: 767px) {
+  body {
+    font-size: 18px;
+  }
+}
+
+/* Force Inter on all frontend content including CKEditor output */
+.ck-content *,
+.prose-arrows,
+.prose-arrows *,
+.blog-content * {
+  font-family: var(--font-sans) !important;
+  font-size: 1.125rem !important;
+}
+
 /* Selection color for Blue theme */
 ::selection {
   background: #0055A4;
   color: #ffffff;
+}
+
+/* Global Bullet Replacement (Right Arrow) */
+.ck-content ul, 
+.prose-arrows ul,
+.blog-content ul,
+.student-guide-content ul {
+  list-style: none !important;
+  padding-left: 0 !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.ck-content li, 
+.prose-arrows li,
+.blog-content li,
+.student-guide-content li {
+  position: relative !important;
+  padding-left: 2rem !important;
+  margin-bottom: 0.75rem !important;
+  list-style-type: none !important;
+  color: #000 !important;
+  font-weight: 700 !important;
+  font-size: 1.125rem !important; /* 18px */
+}
+
+.ck-content li::before, 
+.prose-arrows li::before,
+.blog-content li::before,
+.student-guide-content li::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 0.6em !important;
+  width: 20px !important;
+  height: 20px !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='%23000000' viewBox='0 0 256 256'%3E%3Cpath d='M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z'%3E%3C/path%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-size: contain !important;
+  transform: translateY(-50%) !important;
 }
 
 /* Public Site Overrides (Exclude Admin/Portal) */
@@ -269,4 +494,39 @@ body:not(:has([data-theme="admin"])):not(:has([data-theme="portal"])) {
 
 .blog-content a:hover {
   color: #1d4ed8;
+}
+
+/* ─── Table Styles (CKEditor output + blog content) ─── */
+.ck-content table,
+.blog-content table,
+.prose-arrows table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-sans) !important;
+  margin: 1.5rem 0;
+}
+
+.ck-content table th,
+.blog-content table th,
+.prose-arrows table th {
+  text-align: left;
+  padding: 10px 16px;
+  border-bottom: 2px solid #000;
+  font-weight: 700;
+  font-size: inherit;
+}
+
+.ck-content table td,
+.blog-content table td,
+.prose-arrows table td {
+  padding: 10px 16px;
+  border-bottom: 1px solid #e5e5e5;
+  vertical-align: top;
+  font-size: inherit;
+}
+
+.ck-content table tr:last-child td,
+.blog-content table tr:last-child td,
+.prose-arrows table tr:last-child td {
+  border-bottom: none;
 }

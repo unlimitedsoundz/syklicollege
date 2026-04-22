@@ -175,7 +175,7 @@ function AdmissionLetterContent() {
             </div>
 
             {/* Letter Container */}
-            <div className="w-full max-w-[210mm] mx-auto bg-white shadow-xl print:shadow-none min-h-[297mm] p-6 md:p-[25mm] relative overflow-hidden text-black border border-neutral-100 print:border-0" style={{ fontFamily: '"Open Sans", sans-serif' }}>
+            <div className="w-full max-w-[210mm] mx-auto bg-white shadow-xl print:shadow-none min-h-[297mm] p-6 md:p-[25mm] relative overflow-hidden text-black border border-neutral-100 print:border-0" style={{ fontFamily: '"Inter", sans-serif' }}>
                 
                 {/* 1. Header: Logo & Address */}
                 <div className="flex flex-col md:flex-row justify-between items-start gap-6 md:gap-0 mb-6 md:mb-8 border-b-2 border-neutral-900 pb-4">
@@ -283,7 +283,7 @@ function AdmissionLetterContent() {
                             </div>
                             <div>
                                 <h4 className="text-[10px] font-bold text-black uppercase tracking-widest mb-2 border-b border-black pb-1 text-center">Immigration / Official Use</h4>
-                                <p className="text-[10px] text-black leading-relaxed italic">
+                                <p className="text-[10px] text-black leading-relaxed">
                                     This document is an official certificate of admission and may be used for visa applications, residence permit processing (Migri), and other official purposes requiring proof of student status in Finland.
                                 </p>
                             </div>
@@ -322,7 +322,7 @@ function AdmissionLetterContent() {
                         </div>
 
                         <div className="mt-6 text-center">
-                            <p className="text-[10px] text-black italic">
+                            <p className="text-[10px] text-black">
                                 Generated electronically via Kestora SIS. Valid without physical signature if verified online.
                             </p>
                         </div>
@@ -400,8 +400,8 @@ function AdmissionLetterContent() {
                                 <li>Payment of required tuition deposit by the specified deadline.</li>
                                 <li>Submission of any outstanding original documents (if applicable).</li>
                             </ul>
-                            <p className="text-xs italic text-black font-medium">
-                                “This offer is conditional upon acceptance and fulfillment of all stated requirements.”
+                            <p className="text-xs text-black font-medium">
+                                "This offer is conditional upon acceptance and fulfillment of all stated requirements."
                             </p>
                         </div>
 
@@ -468,8 +468,8 @@ function AdmissionLetterContent() {
 
                         {/* Mandatory Disclaimer */}
                         <div className="mt-6 pt-4">
-                            <p className="text-[10px] text-black leading-relaxed italic text-center max-w-2xl mx-auto">
-                                LEGAL DISCLAIMER: “This Offer Letter does not constitute confirmation of enrollment. Official admission is granted only after acceptance of the offer and confirmation of required tuition payment.”
+                            <p className="text-[10px] text-black leading-relaxed text-center max-w-2xl mx-auto">
+                                LEGAL DISCLAIMER: "This Offer Letter does not constitute confirmation of enrollment. Official admission is granted only after acceptance of the offer and confirmation of required tuition payment."
                             </p>
                         </div>
                     </>

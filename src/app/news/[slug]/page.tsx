@@ -16,6 +16,28 @@ export async function generateStaticParams() {
 
 export const dynamicParams = false;
 
+export async function generateMetadata({ params }: Props) {
+    const resolvedParams = await params;
+    const { slug } = resolvedParams;
+    const supabase = createStaticClient();
+
+    const { data: news } = await supabase
+        .from('News')
+        .select('title, excerpt')
+        .eq('slug', slug)
+        .single();
+
+    if (!news) return { title: 'News Not Found' };
+
+    return {
+        title: `${news.title} | Kestora University`,
+        description: news.excerpt?.substring(0, 160),
+        alternates: {
+            canonical: `https://kestora.online/news/${slug}/`,
+        },
+    };
+}
+
 interface Props {
     params: {
         slug: string;

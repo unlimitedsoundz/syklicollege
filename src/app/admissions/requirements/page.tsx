@@ -1,68 +1,100 @@
 
-import { CheckCircle, X } from '@phosphor-icons/react/dist/ssr';
+import { CheckCircle, X, ArrowRight } from '@phosphor-icons/react/dist/ssr';
+import Image from 'next/image';
 
 export const metadata = {
     title: 'Entry Requirements — Kestora University | GPA, English Proficiency & Documents',
     description: 'Admissions requirements for Kestora University. GPA thresholds, English proficiency (IELTS/TOEFL), required documents, and eligibility criteria for international applicants.',
+    alternates: {
+        canonical: 'https://kestora.online/admissions/requirements/',
+    },
 };
 
 export default function RequirementsPage() {
     return (
         <div className="min-h-screen bg-white">
-            <div className="container mx-auto px-4 py-20">
-                <span className="text-sm font-bold uppercase tracking-widest text-neutral-500 mb-4 block">Admissions</span>
-                <h1 className="text-5xl font-bold mb-12">Entry Requirements</h1>
+            <section className="bg-[#FFE600] text-black overflow-hidden">
+                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-12 pb-12 lg:pb-0 h-auto lg:h-[600px] lg:py-0 relative mb-0">
+                    {/* Left Content */}
+                    <div className="lg:w-1/2 space-y-6 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
+                        <span className="text-sm font-bold uppercase tracking-widest text-black mb-0 block">Admissions</span>
+                        <h1 className="font-bold leading-[1.1] tracking-tight pt-0 text-black" style={{ fontSize: '40px' }}>
+                            Entry Requirements
+                        </h1>
+                        <p className="text-[21px] text-black max-w-xl leading-relaxed">
+                            Find everything you need to know about academic thresholds, English proficiency, and required documentation for your application.
+                        </p>
+                    </div>
 
+                    {/* Right Image */}
+                    <div className="lg:w-1/2 h-full w-full relative lg:translate-y-16 z-20 flex justify-center lg:block order-first lg:order-none">
+                        <div className="h-full">
+                            <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800">
+                                <Image
+                                    src="/images/admissions/hero.jpg"
+                                    alt="Entry Requirements"
+                                    fill
+                                    priority
+                                    className="object-cover"
+                                    sizes="(max-width: 1024px) 368px, 50vw"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div className="container mx-auto px-4 py-12">
                 <div className="grid md:grid-cols-2 gap-16">
                     <section>
-                        <h2 className="text-3xl font-bold mb-10 border-b border-black pb-10 pl-2">Bachelor's Degrees</h2>
+                        <h2 className="text-3xl font-bold mb-10 pb-0 pl-0 text-black uppercase tracking-widest">Bachelor's Degrees</h2>
                         <ul className="space-y-6">
                             <li className="flex gap-4">
-                                <div className="mt-1 w-6 h-6 rounded-full border border-black flex items-center justify-center flex-shrink-0"><CheckCircle size={14} weight="bold" /></div>
+                                <ArrowRight size={20} weight="bold" className="text-black shrink-0 mt-1" />
                                 <div>
-                                    <h4 className="font-bold">Upper Secondary Education</h4>
-                                    <p className="text-neutral-600 text-sm">Certificate of Matriculation or equivalent foreign qualification.</p>
+                                    <h4 className="font-bold text-black uppercase text-sm tracking-widest">Upper Secondary Education</h4>
+                                    <p className="text-black font-medium text-sm">Certificate of Matriculation or equivalent foreign qualification.</p>
                                 </div>
                             </li>
                             <li className="flex gap-4">
-                                <div className="mt-1 w-6 h-6 rounded-full border border-black flex items-center justify-center flex-shrink-0"><CheckCircle size={14} weight="bold" /></div>
+                                <ArrowRight size={20} weight="bold" className="text-black shrink-0 mt-1" />
                                 <div>
-                                    <h4 className="font-bold">English Proficiency</h4>
-                                    <p className="text-neutral-600 text-sm">IELTS 6.0, TOEFL iBT 60, or equivalent.</p>
+                                    <h4 className="font-bold text-black uppercase text-sm tracking-widest">English Proficiency</h4>
+                                    <p className="text-black font-medium text-sm">IELTS 6.0, TOEFL iBT 60, or equivalent.</p>
                                 </div>
                             </li>
                             <li className="flex gap-4">
-                                <div className="mt-1 w-6 h-6 rounded-full border border-black flex items-center justify-center flex-shrink-0"><CheckCircle size={14} weight="bold" /></div>
+                                <ArrowRight size={20} weight="bold" className="text-black shrink-0 mt-1" />
                                 <div>
-                                    <h4 className="font-bold">Entrance Exam / SAT</h4>
-                                    <p className="text-neutral-600 text-sm">Applying via SAT scores is possible for all Engineering programs.</p>
+                                    <h4 className="font-bold text-black uppercase text-sm tracking-widest">Entrance Exam / SAT</h4>
+                                    <p className="text-black font-medium text-sm">Applying via SAT scores is possible for all Engineering programs.</p>
                                 </div>
                             </li>
                         </ul>
                     </section>
 
                     <section>
-                        <h2 className="text-3xl font-bold mb-10 border-b border-black pb-10 pl-2">Master's Degrees</h2>
+                        <h2 className="text-3xl font-bold mb-10 pb-0 pl-0 text-black uppercase tracking-widest">Master's Degrees</h2>
                         <ul className="space-y-6">
                             <li className="flex gap-4">
-                                <div className="mt-1 w-6 h-6 rounded-full border border-black flex items-center justify-center flex-shrink-0"><CheckCircle size={14} weight="bold" /></div>
+                                <ArrowRight size={20} weight="bold" className="text-black shrink-0 mt-1" />
                                 <div>
-                                    <h4 className="font-bold">Bachelor's Degree</h4>
-                                    <p className="text-neutral-600 text-sm">In a relevant field of study.</p>
+                                    <h4 className="font-bold text-black uppercase text-sm tracking-widest">Bachelor's Degree</h4>
+                                    <p className="text-black font-medium text-sm">In a relevant field of study.</p>
                                 </div>
                             </li>
                             <li className="flex gap-4">
-                                <div className="mt-1 w-6 h-6 rounded-full border border-black flex items-center justify-center flex-shrink-0"><CheckCircle size={14} weight="bold" /></div>
+                                <ArrowRight size={20} weight="bold" className="text-black shrink-0 mt-1" />
                                 <div>
-                                    <h4 className="font-bold">Work Experience</h4>
-                                    <p className="text-neutral-600 text-sm">Minimum of 2 years of relevant post-graduation work experience.</p>
+                                    <h4 className="font-bold text-black uppercase text-sm tracking-widest">Work Experience</h4>
+                                    <p className="text-black font-medium text-sm">Minimum of 2 years of relevant post-graduation work experience.</p>
                                 </div>
                             </li>
                             <li className="flex gap-4">
-                                <div className="mt-1 w-6 h-6 rounded-full border border-black flex items-center justify-center flex-shrink-0"><CheckCircle size={14} weight="bold" /></div>
+                                <ArrowRight size={20} weight="bold" className="text-black shrink-0 mt-1" />
                                 <div>
-                                    <h4 className="font-bold">Motivation Video</h4>
-                                    <p className="text-neutral-600 text-sm">A 2-minute video introducing yourself and your goals.</p>
+                                    <h4 className="font-bold text-black uppercase text-sm tracking-widest">Motivation Video</h4>
+                                    <p className="text-black font-medium text-sm">A 2-minute video introducing yourself and your goals.</p>
                                 </div>
                             </li>
                         </ul>

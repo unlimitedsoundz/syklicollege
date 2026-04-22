@@ -6,6 +6,9 @@ import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 export const metadata = {
     title: 'Research Projects — Kestora University | Sustainability & Innovation Research',
     description: 'Browse active and completed research projects at Kestora University. Interdisciplinary projects in sustainability, technology, design, and social innovation.',
+    alternates: {
+        canonical: 'https://kestora.online/research/projects/',
+    },
 };
 
 export default async function ProjectsPage() {

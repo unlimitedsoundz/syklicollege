@@ -171,7 +171,7 @@ export default function CourseSelector({ initialCourses, initialSelected }: Cour
                                     {course.degreeLevel === 'MASTER' ? 'Masters' : 'Bachelors'}
                                 </span>
                             </div>
-                            <p className="text-xs text-neutral-700 font-medium mb-6 line-clamp-2 leading-relaxed uppercase tracking-tight italic">
+                            <p className="text-xs text-neutral-700 font-medium mb-6 line-clamp-2 leading-relaxed uppercase tracking-tight">
                                 {course.description || "Advancing knowledge and innovation through world-class research and education."}
                             </p>
 
@@ -221,7 +221,7 @@ export default function CourseSelector({ initialCourses, initialSelected }: Cour
                 ))}
 
                 {filteredCourses.length === 0 && (
-                    <div className="text-center py-20 text-[10px] font-bold uppercase tracking-widest text-neutral-600 border border-neutral-100 rounded-sm italic bg-neutral-50">
+                    <div className="text-center py-20 text-[10px] font-bold uppercase tracking-widest text-neutral-600 border border-neutral-100 rounded-sm bg-neutral-50">
                         {searchQuery || filter !== 'ALL'
                             ? `No ${filter !== 'ALL' ? filter.toLowerCase() : ''} programmes match your search.`
                             : "No academic programmes currently available for application."}

@@ -4,6 +4,9 @@ import { ArrowLeft } from "@phosphor-icons/react/dist/ssr";
 export const metadata = {
     title: 'Refund & Withdrawal Policy | Kestora University',
     description: 'Guidelines on financial obligations, withdrawals, and refunds for tuition, fees, and housing at Kestora University.',
+    alternates: {
+        canonical: 'https://kestora.online/refund-withdrawal-policy/',
+    },
 };
 
 export default function RefundWithdrawalPolicyPage() {
@@ -93,7 +96,7 @@ export default function RefundWithdrawalPolicyPage() {
                                         { term: "Withdrawal", def: "Formal discontinuation of enrollment by the student" },
                                         { term: "Leave of Absence", def: "Temporary break approved by the University" },
                                         { term: "Tuition Fee", def: "Fee for academic instruction, registration, and course materials" },
-                                        { term: "Enrollment Fee", def: "Non-refundable administrative fee required at acceptance" },
+                                        { term: "Enrollment Fee", def: "Non-refundable administrative fee of 100 Euros will be deducted" },
                                         { term: "Housing Fee", def: "Fee for University-provided accommodation or services" },
                                     ].map((item, i) => (
                                         <div key={i} className={`grid grid-cols-1 md:grid-cols-3 p-4 ${i !== 4 ? 'border-b border-neutral-200' : ''}`}>
@@ -217,10 +220,9 @@ export default function RefundWithdrawalPolicyPage() {
                             <div className="md:w-3/4">
                                 <h2 className="text-3xl font-bold mb-6">Refund Process</h2>
                                 <ol className="list-decimal pl-6 space-y-4 text-lg text-neutral-800 marker:text-black marker:font-bold">
-                                    <li>Submit withdrawal request via official form.</li>
                                     <li>Registrar calculates refundable amount based on dates and fees paid.</li>
                                     <li>Refund request approved by Finance Office.</li>
-                                    <li>Refund processed within 30 days via the original payment method.</li>
+                                    <li>Refund processed within 14 days via the original payment method.</li>
                                     <li>Confirmation email issued to the student.</li>
                                 </ol>
                             </div>

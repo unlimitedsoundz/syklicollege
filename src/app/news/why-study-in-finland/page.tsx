@@ -6,6 +6,9 @@ export const metadata = {
     title: 'Why Study in Finland? 10 Reasons International Students Choose Helsinki | Kestora University',
     description: 'Discover why Finland is one of Europe\'s top study destinations. From world-class education to a thriving tech ecosystem, here are 10 reasons students choose Helsinki.',
     keywords: 'study in finland, why finland for international students, study in helsinki, finnish education, study abroad finland',
+    alternates: {
+        canonical: 'https://kestora.online/news/why-study-in-finland/',
+    },
 };
 
 const reasons = [

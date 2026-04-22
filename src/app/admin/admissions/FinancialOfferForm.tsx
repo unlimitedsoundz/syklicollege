@@ -16,15 +16,20 @@ interface FinancialOfferFormProps {
 }
 
 export function FinancialOfferForm({ applicationId, baseTuition, programYears, onSuccess }: FinancialOfferFormProps) {
-    const [offerType, setOfferType] = useState<'FIRST_YEAR' | 'FULL_PROGRAM'>('FIRST_YEAR');
+    const [offerType, setOfferType] = useState<'DEPOSIT' | 'FIRST_YEAR' | 'FULL_PROGRAM'>('FIRST_YEAR');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
 
     // Calculations
+    const isDeposit = offerType === 'DEPOSIT';
     const fullProgramBase = baseTuition * programYears;
-    const currentBase = offerType === 'FULL_PROGRAM' ? fullProgramBase : baseTuition;
-    const discountedFee = calculateDiscountedFee(currentBase);
-    const discountAmount = currentBase - discountedFee;
+    
+    let currentBase = baseTuition;
+    if (offerType === 'FULL_PROGRAM') currentBase = fullProgramBase;
+    if (offerType === 'DEPOSIT') currentBase = baseTuition * 0.5;
+
+    const discountedFee = isDeposit ? Math.round(currentBase) : calculateDiscountedFee(currentBase);
+    const discountAmount = isDeposit ? 0 : currentBase - discountedFee;
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -33,8 +38,12 @@ export function FinancialOfferForm({ applicationId, baseTuition, programYears, o
 
         setIsSubmitting(true);
         try {
-            const mappedOfferType = offerType === 'FULL_PROGRAM' ? 'FULL_TUITION' : 'DEPOSIT';
-            await createAdmissionOffer(applicationId, discountedFee, deadline, mappedOfferType, discountAmount);
+            // Map internal types to DB tags
+            let mappedOfferType = 'DEPOSIT';
+            if (offerType === 'FIRST_YEAR') mappedOfferType = 'FIRST_YEAR_FULL';
+            if (offerType === 'FULL_PROGRAM') mappedOfferType = 'FULL_TUITION';
+
+            await createAdmissionOffer(applicationId, discountedFee, deadline, mappedOfferType as any, discountAmount);
             setShowSuccess(true);
             if (onSuccess) onSuccess();
         } catch (error) {
@@ -72,11 +81,19 @@ export function FinancialOfferForm({ applicationId, baseTuition, programYears, o
             <div className="flex bg-neutral-100 p-1 rounded-xl gap-1">
                 <button
                     type="button"
+                    onClick={() => setOfferType('DEPOSIT')}
+                    className={`flex-1 py-2 text-[9px] font-black uppercase tracking-tight rounded-lg transition-all ${offerType === 'DEPOSIT' ? 'bg-white text-neutral-900 shadow-sm' : 'text-neutral-400 hover:text-neutral-600'
+                        }`}
+                >
+                    Deposit (50%)
+                </button>
+                <button
+                    type="button"
                     onClick={() => setOfferType('FIRST_YEAR')}
                     className={`flex-1 py-2 text-[9px] font-black uppercase tracking-tight rounded-lg transition-all ${offerType === 'FIRST_YEAR' ? 'bg-white text-neutral-900 shadow-sm' : 'text-neutral-400 hover:text-neutral-600'
                         }`}
                 >
-                    First Year Only
+                    1st Year Full
                 </button>
                 <button
                     type="button"
@@ -91,7 +108,7 @@ export function FinancialOfferForm({ applicationId, baseTuition, programYears, o
             <div className="p-4 bg-neutral-50 rounded-2xl border border-neutral-100 space-y-3">
                 <div className="flex justify-between items-center">
                     <span className="text-[10px] font-black uppercase text-neutral-400">
-                        {offerType === 'FULL_PROGRAM' ? `Full ${programYears} Years` : '1st Year Tuition'}
+                        {offerType === 'FULL_PROGRAM' ? `Full ${programYears} Years` : (offerType === 'DEPOSIT' ? 'Tuition Deposit' : '1st Year Full Tuition')}
                     </span>
                     <div className="text-right">
                         <span className="text-xl font-black text-neutral-900 leading-none">€{discountedFee.toLocaleString()}</span>
@@ -101,15 +118,27 @@ export function FinancialOfferForm({ applicationId, baseTuition, programYears, o
                     </div>
                 </div>
 
-                <div className="flex items-center gap-2 p-2 bg-emerald-50 rounded-xl border border-emerald-100">
-                    <div className="w-6 h-6 bg-emerald-600 rounded-lg flex items-center justify-center text-white">
-                        <Percent size={12} weight="bold" />
+                {!isDeposit ? (
+                    <div className="flex items-center gap-2 p-2 bg-emerald-50 rounded-xl border border-emerald-100">
+                        <div className="w-6 h-6 bg-emerald-600 rounded-lg flex items-center justify-center text-white">
+                            <Percent size={12} weight="bold" />
+                        </div>
+                        <div>
+                            <p className="text-[10px] font-black text-emerald-900 uppercase leading-none mb-0.5">Early Bird Discount Applied</p>
+                            <p className="text-[8px] font-bold text-emerald-600 uppercase">Save €{discountAmount.toLocaleString()} ({EARLY_PAYMENT_DISCOUNT_PERCENT}%)</p>
+                        </div>
                     </div>
-                    <div>
-                        <p className="text-[10px] font-black text-emerald-900 uppercase leading-none mb-0.5">Early Bird Discount Applied</p>
-                        <p className="text-[8px] font-bold text-emerald-600 uppercase">Save €{discountAmount.toLocaleString()} ({EARLY_PAYMENT_DISCOUNT_PERCENT}%)</p>
+                ) : (
+                    <div className="flex items-center gap-2 p-2 bg-neutral-100 rounded-xl border border-neutral-200">
+                        <div className="w-6 h-6 bg-neutral-400 rounded-lg flex items-center justify-center text-white">
+                            <Award size={12} weight="bold" />
+                        </div>
+                        <div>
+                            <p className="text-[10px] font-black text-neutral-500 uppercase leading-none mb-0.5">Standard Deposit (50%)</p>
+                            <p className="text-[8px] font-bold text-neutral-400 uppercase">No Early Bird waiver applied</p>
+                        </div>
                     </div>
-                </div>
+                )}
 
                 {offerType === 'FIRST_YEAR' && programYears > 1 && (
                     <div className="flex items-center gap-2 p-2 bg-blue-50 rounded-xl border border-blue-100">

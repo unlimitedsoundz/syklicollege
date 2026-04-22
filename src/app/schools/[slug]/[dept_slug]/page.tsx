@@ -51,6 +51,9 @@ export async function generateMetadata({ params }: Props) {
     return {
         title: dept ? `${dept.name} — ${(Array.isArray(dept.school) ? dept.school[0] : dept.school)?.name || 'School'} | Kestora University` : 'Department | Kestora University',
         description: dept?.description?.substring(0, 160) || `Learn about the ${dept?.name} at Kestora University. Research, faculty, and academic programs.`,
+        alternates: {
+            canonical: `https://kestora.online/schools/${resolvedParams.slug}/${dept_slug}/`,
+        },
     };
 }
 
@@ -158,22 +161,22 @@ export default async function DepartmentDetailPage({ params }: Props) {
         <div className="min-h-screen bg-white">
             {/* 1. HERO SECTION (Split Layout) */}
             <section style={{ backgroundColor: heroColor }} className="text-white overflow-hidden transition-colors duration-700">
-                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-32 pb-4 md:pt-48 lg:py-0 lg:h-[650px] relative">
+                <div className="container mx-auto px-0 lg:px-4 flex flex-col lg:flex-row items-center gap-8 lg:gap-16 pt-0 md:pt-20 lg:pt-24 pb-4 lg:pb-0 lg:py-0 min-h-[500px] lg:h-[550px] relative">
                     {/* Left Content */}
-                    <div className="lg:w-1/2 space-y-8 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
+                    <div className="lg:w-1/2 space-y-4 relative z-10 flex flex-col justify-center h-full pt-8 lg:pt-0 px-4 lg:px-0">
 
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight pt-8">
+                        <h1 className="text-3xl md:text-5xl lg:text-5xl font-bold leading-[1.1] tracking-tight pt-0">
                             {dept.name}
                         </h1>
-                        <p className="text-xl text-white/90 max-w-xl leading-relaxed">
+                        <p className="text-lg md:text-xl text-white/90 max-w-xl leading-relaxed my-2">
                             {dept.description || "Advancing knowledge and innovation through world-class research and education."}
                         </p>
 
                     </div>
 
                     {/* Right Image */}
-                    <div className="lg:w-1/2 h-full w-full relative mt-8 lg:mt-0 lg:translate-y-16 z-20 flex justify-center lg:block">
-                        <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800 shadow-2xl overflow-hidden">
+                    <div className="lg:w-1/2 h-full w-full relative mt-8 lg:mt-0 lg:translate-y-16 z-20 flex justify-center lg:block order-first lg:order-none hero-image-mobile">
+                        <div className="relative w-full lg:w-full lg:h-full bg-neutral-800 shadow-2xl overflow-hidden hero-mobile-height">
                             {/* Image or Placeholder */}
                             {dept.imageUrl ? (
                                 <Image

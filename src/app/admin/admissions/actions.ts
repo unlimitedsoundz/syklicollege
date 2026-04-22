@@ -125,7 +125,7 @@ export async function updateInternalNotes(applicationId: string, notes: string) 
     return { success: true };
 }
 
-export async function createAdmissionOffer(applicationId: string, tuitionFee: number, deadline: string, offerType: 'DEPOSIT' | 'FULL_TUITION' = 'DEPOSIT', discountAmount: number = 0) {
+export async function createAdmissionOffer(applicationId: string, tuitionFee: number, deadline: string, offerType: 'DEPOSIT' | 'FULL_TUITION' | 'FIRST_YEAR_FULL' = 'DEPOSIT', discountAmount: number = 0) {
     const supabase = createClient();
 
     // 1. Get current application status

@@ -3,6 +3,9 @@ import Link from 'next/link';
 export const metadata = {
     title: 'Privacy Policy | Kestora University',
     description: 'Learn how Kestora University protects your personal data and respects your privacy in accordance with GDPR and Finnish laws.',
+    alternates: {
+        canonical: 'https://kestora.online/privacy/',
+    },
 };
 
 export default function PrivacyPolicyPage() {

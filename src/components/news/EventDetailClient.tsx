@@ -35,66 +35,51 @@ export default function EventDetailClient({ initialEvent }: EventDetailClientPro
 
     return (
         <div className="min-h-screen bg-white">
-            {/* Hero Image */}
-            <div className="min-h-[600px] relative overflow-hidden bg-neutral-900 pt-40 md:pt-56 pb-16">
-                {currentEvent.imageUrl && (
-                    <Image
-                        src={currentEvent.imageUrl}
-                        alt={currentEvent.title}
-                        fill
-                        priority
-                        unoptimized
-                        className="object-cover opacity-60"
-                        sizes="100vw"
-                    />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-transparent to-transparent opacity-90" />
-                <div className="relative container mx-auto px-4 text-white max-w-5xl h-full flex flex-col justify-end">
-
-                    <div className="flex flex-wrap gap-3 mb-6">
-                        <span className="px-3 py-1 bg-white text-black text-xs font-bold uppercase tracking-widest">
-                            {currentEvent.category || 'Event'}
-                        </span>
-                    </div>
-                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight tracking-tight pt-8">{currentEvent.title}</h1>
-
-                    <div className="flex flex-wrap gap-8 items-center text-neutral-300">
-                        <div className="flex items-center gap-3">
-                            <div className="p-2 bg-white/10 rounded-lg">
-                                <Calendar size={20} weight="regular" className="text-white" />
-                            </div>
-                            <div>
-                                <p className="text-xs uppercase font-bold text-white opacity-70">Date</p>
-                                <p className="font-bold text-white">{formatToDDMMYYYY(currentEvent.date)}</p>
+            {/* HERO SECTION */}
+            <section className="text-black overflow-hidden" style={{ backgroundColor: '#FDF2F8' }}>
+                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-12 pb-12 lg:pb-0 h-auto lg:h-[600px] lg:py-0 relative mb-0">
+                    {/* Left Content */}
+                    <div className="lg:w-1/2 space-y-6 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
+                        <div className="text-sm font-bold text-black uppercase tracking-wider mb-2">
+                            {currentEvent.category || 'Event'} • {formatToDDMMYYYY(currentEvent.date)}
+                        </div>
+                        <h1 className="font-bold leading-[1.1] tracking-tight pt-0 text-black" style={{ fontSize: '40px' }}>
+                            {currentEvent.title}
+                        </h1>
+                        <div className="flex flex-wrap gap-6 items-center text-black font-bold">
+                            {currentEvent.location && (
+                                <div className="flex items-center gap-2">
+                                    <MapPin size={20} weight="bold" />
+                                    <span>{currentEvent.location}</span>
+                                </div>
+                            )}
+                            <div className="flex items-center gap-2">
+                                <Clock size={20} weight="bold" />
+                                <span>{new Date(currentEvent.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                             </div>
                         </div>
+                    </div>
 
-                        {currentEvent.location && (
-                            <div className="flex items-center gap-3">
-                                <div className="p-2 bg-white/10 rounded-lg">
-                                    <MapPin size={20} weight="regular" className="text-white" />
-                                </div>
-                                <div>
-                                    <p className="text-xs uppercase font-bold text-white opacity-70">Location</p>
-                                    <p className="font-bold text-white">{currentEvent.location}</p>
-                                </div>
-                            </div>
-                        )}
-
-                        <div className="flex items-center gap-3">
-                            <div className="p-2 bg-white/10 rounded-lg">
-                                <Clock size={20} weight="regular" className="text-white" />
-                            </div>
-                            <div>
-                                <p className="text-xs uppercase font-bold text-white opacity-70">Time</p>
-                                <p className="font-bold text-white">
-                                    {new Date(currentEvent.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                </p>
+                    {/* Right Image */}
+                    <div className="lg:w-1/2 h-full w-full relative lg:translate-y-16 z-20 flex justify-center lg:block order-first lg:order-none">
+                        <div className="h-full">
+                            <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800">
+                                {currentEvent.imageUrl && (
+                                    <Image
+                                        src={currentEvent.imageUrl}
+                                        alt={currentEvent.title}
+                                        fill
+                                        priority
+                                        unoptimized
+                                        className="object-cover"
+                                        sizes="(max-width: 1024px) 368px, 50vw"
+                                    />
+                                )}
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
             <div className="container mx-auto px-4 py-6 max-w-5xl">
                 <Link href="/news" className="text-neutral-500 hover:text-black font-bold uppercase tracking-wider text-sm inline-flex items-center gap-2 transition-colors">

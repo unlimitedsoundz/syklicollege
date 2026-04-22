@@ -4,10 +4,15 @@ import Image from 'next/image';
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import TableOfContents from '@/components/course/TableOfContents';
 import StudentStoriesCarousel from '@/components/admissions/StudentStoriesCarousel';
+import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema';
+import { SchemaLD } from '@/components/seo/SchemaLD';
 
 export const metadata = {
     title: 'Admissions | Kestora University',
     description: 'Overview of admissions, degree programmes, and student life at Kestora University.',
+    alternates: {
+        canonical: 'https://kestora.online/admissions/',
+    },
 };
 
 const tocSections = [
@@ -27,9 +32,6 @@ const tocSections = [
     { id: 'collaboration', title: 'Collaboration', content: '' },
     { id: 'contact', title: 'Contact & Support', content: '' },
 ];
-
-import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema';
-import { SchemaLD } from '@/components/seo/SchemaLD';
 
 export default function AdmissionsPage() {
     return (
@@ -69,37 +71,37 @@ export default function AdmissionsPage() {
             }} />
 
 
-            {/* HERO SECTION (Orange Split - Match Home Layout) */}
-            <section className="bg-[#fd6402] text-black overflow-hidden">
-                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-20 h-[767px] lg:h-[600px] lg:py-0 relative mb-12">
+            {/* HERO SECTION (Sky Blue Split) */}
+            <section className="text-black overflow-hidden" style={{ backgroundColor: '#0EA5E9' }}>
+                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-12 pb-12 lg:pb-0 h-auto lg:h-[600px] lg:py-0 relative mb-0">
                     {/* Left Content */}
-                    <div className="lg:w-1/2 space-y-2 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight pt-8">
-                            Admissions to Kestora University Helsinki
+                    <div className="lg:w-1/2 space-y-6 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
+                        <h1 className="font-bold leading-[1.1] tracking-tight pt-8 text-black" style={{ fontSize: '40px' }}>
+                            Admissions to Kestora University
                         </h1>
-                        <p className="text-[21px] text-neutral-800 max-w-xl leading-relaxed">
+                        <p className="text-[21px] text-black max-w-xl leading-relaxed">
                             Apply to Kestora University Helsinki and begin your Bachelor’s or Master’s studies in an internationally focused learning environment. Our admissions process is transparent, supportive, and open to students from around the world.
                         </p>
-                        <div className="space-y-3 pt-2">
-                            <Link href="#how-to-apply" className="flex items-center gap-2 font-bold hover:underline group">
-                                <ArrowRight size={18} weight="bold" className="group-hover:translate-x-1 transition-transform" /> Apply Now
+                        <div className="flex flex-wrap gap-6 pt-4">
+                            <Link href="#how-to-apply" className="text-lg font-bold underline underline-offset-8 decoration-black hover:opacity-70 transition-colors text-black inline-flex items-center gap-2">
+                                Apply now <ArrowRight size={20} weight="bold" />
                             </Link>
-                            <Link href="#degree-programmes" className="flex items-center gap-2 font-bold hover:underline group">
-                                <ArrowRight size={18} weight="bold" className="group-hover:translate-x-1 transition-transform" /> Explore Programmes
+                            <Link href="#degree-programmes" className="text-lg font-bold underline underline-offset-8 decoration-black hover:opacity-70 transition-colors text-black inline-flex items-center gap-2">
+                                Explore programmes <ArrowRight size={20} weight="bold" />
                             </Link>
                         </div>
                     </div>
 
                     {/* Right Image */}
-                    <div className="lg:w-1/2 h-full w-full relative lg:translate-y-16 z-20 flex justify-center lg:block">
+                    <div className="lg:w-1/2 h-full w-full relative lg:translate-y-16 z-20 flex justify-center lg:block order-first lg:order-none">
                         <div className="h-full">
                             <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800">
                                 <Image
-                                    src="/images/international-students-hero.png"
-                                    alt="International students exploring Kestora University campus"
+                                    src="/images/admissions/hero-main.png"
+                                    alt="Admissions at Kestora University"
                                     fill
                                     priority
-                                    className="object-cover opacity-90"
+                                    className="object-cover"
                                     sizes="(max-width: 1024px) 368px, 50vw"
                                 />
                             </div>
@@ -108,16 +110,16 @@ export default function AdmissionsPage() {
                 </div>
             </section>
 
-            <div className="container mx-auto px-4 py-8 md:py-24">
+            <div className="container mx-auto px-4 py-16 md:py-24">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
                     {/* Sidebar / Table of Contents */}
-                    <div className="lg:col-span-3">
+                    <div className="hidden lg:col-span-3">
                         <div className="lg:sticky lg:top-24 space-y-8">
                             <TableOfContents sections={tocSections} />
-                            <div className="bg-black text-white p-10 pl-16 rounded-none border-l-4 border-[#fd6402]">
-                                <h3 className="font-bold text-lg mb-2 text-white">Admissions Office</h3>
-                                <p className="text-sm text-neutral-300 mb-4">Questions? We are here to help.</p>
-                                <Link href="/contact" className="text-sm font-bold underline text-[#fd6402] hover:text-white transition-colors">Contact Us</Link>
+                            <div className="bg-black text-white p-10 border-0">
+                                <h3 className="font-bold text-lg mb-2 text-white uppercase tracking-wider">Admissions Office</h3>
+                                <p className="text-sm text-neutral-400 mb-6 font-light">Questions? We are here to help.</p>
+                                <Link href="/contact" className="text-sm font-bold underline underline-offset-4 hover:text-neutral-300 transition-colors">Contact Us</Link>
                             </div>
                         </div>
                     </div>
@@ -172,8 +174,8 @@ export default function AdmissionsPage() {
                             </p>
                         </section>
 
-                        <section id="events" className="scroll-mt-32 bg-black text-white p-12 rounded-3xl relative overflow-hidden">
-                            <h2 className="text-3xl font-bold mb-6 text-white">Events for Applicants</h2>
+                        <section id="events" className="scroll-mt-32 bg-black text-white p-12 border-0 relative overflow-hidden">
+                            <h2 className="text-3xl font-bold mb-6 text-white uppercase tracking-widest">Events for Applicants</h2>
                             <p className="text-neutral-300 mb-8">Kestora University regularly organises events designed to help prospective students learn more about studying and applying:</p>
                             <ul className="space-y-4">
                                 {[
@@ -182,10 +184,11 @@ export default function AdmissionsPage() {
                                     { title: "Campus events", desc: "Tailored to applicants" },
                                     { title: "Applicant newsletters", desc: "And Q&A sessions" },
                                 ].map((item) => (
-                                    <li key={item.title} className="flex gap-4 items-start border-l-2 border-[#fd6402] pl-8">
+                                    <li key={item.title} className="flex gap-4 items-start border-0 pl-0">
+                                        <ArrowRight size={20} weight="bold" className="mt-1 text-white" />
                                         <div>
-                                            <strong className="block text-lg text-white">{item.title}</strong>
-                                            <span className="text-neutral-400">{item.desc}</span>
+                                            <strong className="block text-lg text-white font-bold">{item.title}</strong>
+                                            <span className="text-neutral-400 font-light">{item.desc}</span>
                                         </div>
                                     </li>
                                 ))}
@@ -220,7 +223,7 @@ export default function AdmissionsPage() {
                                     { title: "Alumni Networks", image: "/images/admissions/alumni_success.png", desc: "Connect with graduates working in leading industries.", credit: "Saara Virtanen" },
                                     { title: "Career Services", image: "/images/admissions-hero.png", desc: "Expert guidance for your professional journey.", credit: "Markus Hakala" }
                                 ].map(item => (
-                                    <div key={item.title} className="bg-neutral-100 flex flex-col group">
+                                    <div key={item.title} className="bg-neutral-50 flex flex-col group border-0">
                                         <div className="h-56 w-full relative overflow-hidden">
                                             <Image
                                                 src={item.image}
@@ -230,8 +233,8 @@ export default function AdmissionsPage() {
                                             />
                                         </div>
                                         <div className="p-10">
-                                            <h3 className="font-bold text-xl mb-3">{item.title}</h3>
-                                            <p className="text-neutral-600 text-sm leading-relaxed">{item.desc}</p>
+                                            <h3 className="font-bold text-xl mb-3 uppercase tracking-tight">{item.title}</h3>
+                                            <p className="text-neutral-600 text-sm leading-relaxed font-light">{item.desc}</p>
                                         </div>
                                     </div>
                                 ))}
@@ -275,18 +278,18 @@ export default function AdmissionsPage() {
                                     fill
                                     className="object-cover"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent flex items-center p-8 md:p-16">
+                                <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent flex items-center p-8 md:p-16">
                                     <div className="max-w-md text-white">
-                                        <p className="text-sm font-bold uppercase tracking-[0.2em] mb-4 text-[#fd6402]">Vibrant Community</p>
-                                        <h3 className="text-3xl font-bold mb-4">Life Beyond the Classroom</h3>
-                                        <p className="text-neutral-200">From music festivals to tech hackathons, your time at Kestora is about more than just studies.</p>
+                                        <p className="text-sm font-bold uppercase tracking-[0.2em] mb-4 text-neutral-400">Vibrant Community</p>
+                                        <h3 className="text-3xl font-bold mb-4 uppercase tracking-tight">Life Beyond the Classroom</h3>
+                                        <p className="text-neutral-200 font-light">From music festivals to tech hackathons, your time at Kestora is about more than just studies.</p>
                                     </div>
                                 </div>
                             </div>
                         </section>
 
                         <section id="study-in-finland" className="scroll-mt-32">
-                            <div className="bg-black text-white overflow-hidden">
+                            <div className="bg-neutral-100 text-black overflow-hidden">
                                 <div className="grid md:grid-cols-2">
                                     <div className="p-12 md:p-16 flex flex-col justify-center">
                                         <h2 className="text-3xl font-bold mb-8">Study in Finland with Kestora University</h2>
@@ -296,18 +299,18 @@ export default function AdmissionsPage() {
                                                 { title: "Practical Innovation", desc: "Focus on independent study and real-world application." },
                                                 { title: "Life Balance", desc: "Flexibility to shape your own unique academic path." }
                                             ].map(item => (
-                                                <li key={item.title} className="flex gap-4">
-                                                    <div className="w-1.5 h-1.5 bg-[#fd6402] mt-2 flex-shrink-0" />
+                                                <li key={item.title} className="flex gap-4 items-start">
+                                                    <ArrowRight size={20} weight="bold" className="mt-1.5 flex-shrink-0" />
                                                     <div>
                                                         <strong className="block text-lg mb-1">{item.title}</strong>
-                                                        <span className="text-neutral-400 text-sm">{item.desc}</span>
+                                                        <span className="text-neutral-600 text-sm">{item.desc}</span>
                                                     </div>
                                                 </li>
                                             ))}
                                         </ul>
-                                        <Link href="/student-guide/international" className="inline-flex items-center gap-2 font-bold hover:text-[#fd6402] transition-colors">
-                                            Read our International Student Guide <ArrowRight size={18} weight="bold" />
-                                        </Link>
+                                         <Link href="/student-guide/international" className="inline-flex items-center gap-2 font-bold underline underline-offset-4 hover:text-neutral-500 transition-colors">
+                                             Read Our International Student Guide <ArrowRight size={20} weight="bold" className="align-middle" />
+                                         </Link>
                                     </div>
                                     <div className="relative h-[400px] md:h-auto min-h-[400px]">
                                         <Image
@@ -332,7 +335,7 @@ export default function AdmissionsPage() {
                                         Students are encouraged to combine studies across fields to gain broader perspectives and prepare for diverse career environments.
                                     </p>
                                 </div>
-                                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#fd6402] to-rose-400 flex items-center justify-center font-bold text-white text-xs text-center p-2">
+                                <div className="w-24 h-24 bg-black flex items-center justify-center font-bold text-white text-xs text-center p-2 uppercase tracking-tighter">
                                     Cross-Pollination
                                 </div>
                             </div>
@@ -348,18 +351,18 @@ export default function AdmissionsPage() {
                                     { title: "Campus Workshops", image: "/images/campus-workshops.png", desc: "Hands-on learning in our state-of-the-art labs.", credit: "Janne Salmi" },
                                     { title: "Custom Training", image: "/images/custom-training.png", desc: "Tailored solutions for organizational growth.", credit: "Sonja Mikkola" }
                                 ].map(item => (
-                                    <div key={item.title} className="flex flex-col md:flex-row bg-neutral-100 overflow-hidden group">
+                                    <div key={item.title} className="flex flex-col md:flex-row bg-neutral-50 overflow-hidden group border-0">
                                         <div className="md:w-1/3 h-48 md:h-auto relative overflow-hidden">
                                             <Image
                                                 src={item.image}
                                                 alt={item.title}
                                                 fill
-                                                className="object-cover transition-all duration-700"
+                                                className="object-cover"
                                             />
                                         </div>
                                         <div className="md:w-2/3 p-6 flex flex-col justify-center">
-                                            <h4 className="font-bold text-lg mb-2 group-hover:text-black transition-colors">{item.title}</h4>
-                                            <p className="text-sm text-neutral-500">{item.desc}</p>
+                                            <h4 className="font-bold text-lg mb-2 uppercase tracking-tight">{item.title}</h4>
+                                            <p className="text-sm text-neutral-500 font-light">{item.desc}</p>
                                         </div>
                                     </div>
                                 ))}
@@ -392,23 +395,23 @@ export default function AdmissionsPage() {
                                 <p className="text-neutral-300 mb-6">
                                     Whether you’re planning a campus visit or seeking guidance on admissions, resources are available to help guide your academic journey.
                                 </p>
-                                <div className="flex flex-wrap gap-4">
-                                    <Link href="/contact" className="inline-block bg-white text-black px-8 py-3 font-bold hover:bg-neutral-200 transition-colors">
+                                <div className="flex flex-wrap gap-x-8 gap-y-4">
+                                    <Link href="/contact" className="text-lg font-bold underline underline-offset-4 hover:text-neutral-300 transition-colors">
                                         Contact Us
                                     </Link>
-                                    <Link href="/admissions-policy" className="inline-block border border-white text-white px-8 py-3 font-bold hover:bg-white hover:text-black transition-colors">
+                                    <Link href="/admissions-policy" className="text-lg font-bold underline underline-offset-4 hover:text-neutral-300 transition-colors">
                                         Admissions Policy
                                     </Link>
-                                    <Link href="/academic-regulations" className="inline-block border border-white text-white px-8 py-3 font-bold hover:bg-white hover:text-black transition-colors">
+                                    <Link href="/academic-regulations" className="text-lg font-bold underline underline-offset-4 hover:text-neutral-300 transition-colors">
                                         Academic Regulations
                                     </Link>
-                                    <Link href="/student-handbook" className="inline-block border border-white text-white px-8 py-3 font-bold hover:bg-white hover:text-black transition-colors">
+                                    <Link href="/student-handbook" className="text-lg font-bold underline underline-offset-4 hover:text-neutral-300 transition-colors">
                                         Student Handbook
                                     </Link>
-                                    <Link href="/code-of-conduct" className="inline-block border border-white text-white px-8 py-3 font-bold hover:bg-white hover:text-black transition-colors">
+                                    <Link href="/code-of-conduct" className="text-lg font-bold underline underline-offset-4 hover:text-neutral-300 transition-colors">
                                         Code of Conduct
                                     </Link>
-                                    <Link href="/refund-withdrawal-policy/" className="inline-block border border-white text-white px-8 py-3 font-bold hover:bg-white hover:text-black transition-colors">
+                                    <Link href="/refund-withdrawal-policy/" className="text-lg font-bold underline underline-offset-4 hover:text-neutral-300 transition-colors">
                                         Refund Policy
                                     </Link>
                                 </div>

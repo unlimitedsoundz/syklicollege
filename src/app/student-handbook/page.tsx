@@ -4,6 +4,9 @@ import Link from 'next/link';
 export const metadata: Metadata = {
     title: 'Student Handbook 2026–2027 — Kestora University',
     description: 'The official Kestora University Student Handbook covering academic policies, student responsibilities, services, and institutional regulations for the 2026–2027 academic year.',
+    alternates: {
+        canonical: 'https://kestora.online/student-handbook/',
+    },
 };
 
 /* ── tiny helper ── */

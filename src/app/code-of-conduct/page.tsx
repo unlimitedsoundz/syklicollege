@@ -4,6 +4,9 @@ import Link from 'next/link';
 export const metadata: Metadata = {
     title: 'Code of Conduct — Kestora University',
     description: 'The Code of Conduct establishes standards of behavior expected of all members of the Kestora University community, ensuring a safe, respectful, and ethical environment.',
+    alternates: {
+        canonical: 'https://kestora.online/code-of-conduct/',
+    },
 };
 
 export default function CodeOfConductPage() {

@@ -1,227 +1,163 @@
 
-import { CheckCircle, ArrowRight, FileText, Calendar, GraduationCap, Globe, Clock } from '@phosphor-icons/react/dist/ssr';
+import { CheckCircle, ArrowRight, Calendar, GraduationCap, Globe, Clock } from '@phosphor-icons/react/dist/ssr';
 import Link from 'next/link';
 import Image from 'next/image';
 import ApplicationFAQ from '@/components/admissions/ApplicationFAQ';
+import GuideSidebarLayout from '@/components/layout/StudentGuideLayout';
+import DbPageContent from '@/components/DbPageContent';
+import { getPageContentSection } from '@/lib/pageContentConfig';
+
+const sections = [
+    { id: 'steps', title: 'Application Steps', content: '' },
+    { id: 'documents', title: 'Required Documents', content: '' },
+    { id: 'requirements', title: 'Specific Requirements', content: '' },
+    { id: 'evaluation', title: 'Evaluation & Decisions', content: '' },
+    { id: 'faq', title: 'FAQ', content: '' },
+];
 
 export const metadata = {
     title: 'How to Apply | Kestora University',
     description: 'Step-by-step guide to applying to Kestora University. Deadlines, requirements, and admission procedures.',
+    alternates: {
+        canonical: 'https://kestora.online/admissions/application-process/',
+    },
 };
 
 export default function ApplicationProcessPage() {
+    const pageSlug = 'admissions-application-process';
+    const getSectionDefault = (sectionKey: string) => getPageContentSection(pageSlug, sectionKey)?.defaultContent ?? '';
+
     return (
-        <div className="min-h-screen bg-white text-black">
+        <GuideSidebarLayout sections={sections}>
+            <div className="min-h-screen bg-white text-black">
             {/* Hero Section */}
-            {/* Hero Section */}
-            <div className="relative bg-neutral-900 text-white h-auto min-h-[400px] lg:h-[400px]">
-                <Image
-                    src="/images/admissions/how_to_apply_hero.png"
-                    alt="Application Process"
-                    fill
-                    priority
-                    className="object-cover opacity-60"
-                    sizes="100vw"
-                />
-                <div className="absolute inset-0 bg-black/50" />
-                <div className="absolute bottom-0 left-0 w-full pt-32 pb-8 px-4 md:pt-48 md:pb-16 z-10">
-                    <div className="container mx-auto">
-                        <h1 className="text-5xl font-bold mb-6">How to Apply</h1>
-                        <p className="text-xl max-w-2xl text-neutral-300 leading-relaxed">
-                            Follow our step-by-step guide to ensure a smooth application process for your studies at Kestora University.
-                        </p>
-                        <p className="mt-4 text-lg max-w-2xl text-neutral-400 leading-relaxed">
-                            Learn more about <Link href="/" className="underline text-white font-medium hover:text-neutral-300 hover:no-underline transition-colors">Kestora University Helsinki</Link>, our independent higher education institution in Finland.
-                        </p>
+            <section className="text-black overflow-hidden" style={{ backgroundColor: '#DCFCE7' }}>
+                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-12 pb-12 lg:pb-0 h-auto lg:h-[600px] lg:py-0 relative mb-0">
+                    {/* Left Content */}
+                    <div className="lg:w-1/2 space-y-6 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
+                        <DbPageContent
+                            tagName="h1"
+                            className="font-bold leading-[1.1] tracking-tight pt-8 text-black"
+                            style={{ fontSize: '40px' }}
+                            pageSlug={pageSlug}
+                            sectionKey="hero_title"
+                            fallbackContent={getSectionDefault('hero_title') || 'How to Apply'}
+                        />
+                        <DbPageContent
+                            tagName="p"
+                            className="text-[21px] text-black max-w-xl leading-relaxed"
+                            pageSlug={pageSlug}
+                            sectionKey="hero_subtitle"
+                            fallbackContent={getSectionDefault('hero_subtitle') || 'Follow our step-by-step guide to ensure a smooth application process for your studies at Kestora University.'}
+                        />
+                        <div className="flex flex-col gap-4 pt-4">
+                            <Link href="#steps" className="text-lg font-bold underline underline-offset-8 decoration-black hover:opacity-70 transition-colors text-black inline-flex items-center gap-2">
+                                Application steps <ArrowRight size={20} weight="bold" />
+                            </Link>
+                        </div>
+                    </div>
+
+                    {/* Right Image */}
+                    <div className="lg:w-1/2 h-full w-full relative lg:translate-y-16 z-20 flex justify-center lg:block order-first lg:order-none">
+                        <div className="h-full">
+                            <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800">
+                                <Image
+                                    src="/images/admissions/how_to_apply_hero.png"
+                                    alt="Application Process"
+                                    fill
+                                    priority
+                                    className="object-cover"
+                                    sizes="(max-width: 1024px) 368px, 50vw"
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-
+            </section>
             <div className="container mx-auto px-4 py-16">
                 <div className="max-w-4xl mx-auto space-y-20">
 
-                    {/* Section: Application Steps */}
-                    <section id="steps">
+                    <section id="steps" className="scroll-mt-32">
                         <h2 className="text-3xl font-bold mb-12 text-black pb-10 pl-2">Application Steps</h2>
-                        <div className="space-y-16">
+                        <DbPageContent
+                            pageSlug={pageSlug}
+                            sectionKey="steps_content"
+                            fallbackContent={getSectionDefault('steps_content')}
+                        />
 
-                            {/* Step 01 */}
-                            <div className="flex gap-8 group">
-                                <div className="text-5xl font-bold text-gray-300 group-hover:text-black transition-colors">01</div>
-                                <div className="space-y-4">
-                                    <h3 className="text-2xl font-bold text-black">Prepare in Advance</h3>
-                                    <ul className="space-y-3 text-gray-800">
-                                        <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-2"></div> Check programme-specific eligibility</li>
-                                        <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-2"></div> Prepare official documents and translations</li>
-                                        <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-2"></div> Schedule language tests (TOEFL/IELTS) and GMAT/GRE if required</li>
-                                    </ul>
-                                </div>
-                            </div>
 
-                            {/* Step 02 */}
-                            <div className="flex gap-8 group">
-                                <div className="text-5xl font-bold text-gray-300 group-hover:text-black transition-colors">02</div>
-                                <div className="space-y-4">
-                                    <h3 className="text-2xl font-bold text-black">Fill in the Online Application</h3>
-                                    <p className="font-bold text-gray-800">Application period: 1 Dec 2025 – 31 March 2026</p>
-                                    <ul className="space-y-3 text-gray-800">
-                                        <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-2"></div> Only one form per applicant</li>
-                                        <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-2"></div> Can include two programmes ranked by preference</li>
-                                        <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-2"></div> Edit application until closing date</li>
-                                    </ul>
-                                </div>
-                            </div>
 
-                            {/* Step 03 */}
-                            <div className="flex gap-8 group">
-                                <div className="text-5xl font-bold text-gray-300 group-hover:text-black transition-colors">03</div>
-                                <div className="space-y-4 w-full max-w-xl">
-                                    <h3 className="text-2xl font-bold text-black">Application Fee</h3>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div className="p-6 bg-gray-900 text-white rounded-2xl shadow-md">
-                                            <div className="font-bold opacity-80 text-sm uppercase tracking-wider mb-2">Non-EU/EEA/Swiss</div>
-                                            <div className="text-2xl font-bold">Free</div>
-                                        </div>
-                                        <div className="p-6 bg-gray-100 text-black rounded-2xl shadow-sm">
-                                            <div className="font-bold text-gray-700 text-sm uppercase tracking-wider mb-2">EU/EEA/Swiss</div>
-                                            <div className="text-2xl font-bold">Free</div>
-                                        </div>
-                                    </div>
-                                    <p className="text-gray-600 text-sm font-medium">No payment required to submit your application.</p>
-                                </div>
-                            </div>
-
-                            {/* Step 04 */}
-                            <div className="flex gap-8 group">
-                                <div className="text-5xl font-bold text-gray-300 group-hover:text-black transition-colors">04</div>
-                                <div className="space-y-4">
-                                    <h3 className="text-2xl font-bold text-black">Upload Required Documents</h3>
-                                    <p className="font-bold text-gray-700">Deadline: 23 April 2026 at 15:00 (UTC+2)</p>
-                                    <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-3 text-gray-800">
-                                        <li className="flex gap-3 items-center"><div className="text-black"><FileText size={18} weight="fill" /></div> Bachelor’s degree & transcripts</li>
-                                        <li className="flex gap-3 items-center"><div className="text-black"><FileText size={18} weight="fill" /></div> Proof of English proficiency (optional)</li>
-                                        <li className="flex gap-3 items-center"><div className="text-black"><FileText size={18} weight="fill" /></div> International passport only</li>
-                                        <li className="flex gap-3 items-center"><div className="text-black"><FileText size={18} weight="fill" /></div> CV, Motivation Letter</li>
-                                        <li className="flex gap-3 items-center"><div className="text-black"><FileText size={18} weight="fill" /></div> Portfolio (if required)</li>
-                                        <li className="flex gap-3 items-center"><div className="text-black"><FileText size={18} weight="fill" /></div> GMAT/GRE (if required)</li>
-                                    </ul>
-                                    <p className="text-sm text-gray-600 italic">File format: PDF only, named appropriately (e.g., CV-Lastname-Firstname.pdf)</p>
-                                </div>
-                            </div>
-
-                        </div>
-                    </section>
+                     </section>
 
                     {/* Section: Required Documents Explained */}
-                    <section>
+                    <section id="documents">
                         <h2 className="text-3xl font-bold mb-8 text-black">Required Documents Explained</h2>
-                        <div className="grid md:grid-cols-3 gap-6">
-                            <div className="p-10 bg-gray-100 text-black rounded-3xl shadow-sm">
-                                <h4 className="font-bold mb-3 text-lg text-black">Certified Educational Documents</h4>
-                                <p className="text-sm leading-relaxed">Must be submitted after admission decision by 13 May or 14 August 2026.</p>
-                            </div>
-                            <div className="p-10 bg-gray-100 text-black rounded-3xl shadow-sm">
-                                <h4 className="font-bold mb-3 text-lg text-black">Translations</h4>
-                                <p className="text-sm leading-relaxed">Non-English/Finnish/Swedish documents require official translations.</p>
-                            </div>
-                            <div className="p-6 bg-gray-100 text-black rounded-3xl shadow-sm">
-                                <h4 className="font-bold mb-3 text-lg text-black">International Passport</h4>
-                                <p className="text-sm leading-relaxed">Color PDF of the personal information page.</p>
-                            </div>
-                        </div>
+                        <DbPageContent
+                            pageSlug={pageSlug}
+                            sectionKey="documents_content"
+                            fallbackContent={getSectionDefault('documents_content')}
+                        />
                     </section>
 
                     {/* Section: Specific Requirements Checklist */}
-                    <section>
-                        <div className="rounded-3xl p-10 md:p-12 bg-gray-100 text-black shadow-sm">
-                            <h3 className="font-bold text-2xl mb-8 text-black">Specific Requirements Checklist</h3>
-                            <ul className="space-y-6">
-                                <li className="flex flex-col md:flex-row gap-4">
-                                    <div className="font-bold w-48 text-lg">Basic Docs</div>
-                                    <div className="text-gray-800 flex-1">Motivation letter, CV / Resume, Certificates of work experience.</div>
-                                </li>
-                                <li className="flex flex-col md:flex-row gap-4">
-                                    <div className="font-bold w-48 text-lg">Language</div>
-                                    <div className="text-gray-800 flex-1">English language proficiency is mandatory if english is not your official language. Acceptable tests: IELTS, TOEFL, or equivalent. Must be valid and submitted by deadline, or English Grade C or above.</div>
-                                </li>
-                                <li className="flex flex-col md:flex-row gap-4">
-                                    <div className="font-bold w-48 text-lg">Tests</div>
-                                    <div className="text-gray-800 flex-1">GMAT/GRE required for certain Business and Economics programmes.</div>
-                                </li>
-                                <li className="flex flex-col md:flex-row gap-4">
-                                    <div className="font-bold w-48 text-lg">Portfolio</div>
-                                    <div className="text-gray-800 flex-1">Required for Art & Design programmes.</div>
-                                </li>
-                            </ul>
-                        </div>
+                    <section id="requirements">
+                        <DbPageContent
+                            pageSlug={pageSlug}
+                            sectionKey="requirements_content"
+                            fallbackContent={getSectionDefault('requirements_content')}
+                        />
                     </section>
 
                     {/* Section: Evaluation & Decisions, Waiting List, After */}
-                    <section className="grid md:grid-cols-2 gap-12">
-                        <div>
-                            <h3 className="text-2xl font-bold mb-4 text-black">Evaluation & Decisions</h3>
-                            <p className="text-gray-800 mb-8 leading-relaxed">
-                                Only complete applications are evaluated based on programme-specific criteria. Admission results will be published <strong>within less than a week of submitting application</strong>.
-                            </p>
-
-                            <h3 className="text-2xl font-bold mb-4 text-black">Waiting List Procedure</h3>
-                            <p className="text-gray-800 leading-relaxed">
-                                Places on the waiting list may be offered until <strong>26 June 2026</strong>.
-                            </p>
-                        </div>
-                        <div className="bg-gray-100 text-black p-12 rounded-3xl shadow-sm">
-                            <h3 className="text-2xl font-bold mb-6 text-black">
-                                After Being Admitted
-                            </h3>
-                            <ul className="space-y-4 text-black">
-                                 <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-2"></div> Accept the offer by the stated deadline (23 April 2026).</li>
-                                <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-2"></div> Submit certified documents (19 June or 21 August 2026).</li>
-                                <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-2"></div> Pay tuition fees (if applicable).</li>
-                                <li className="flex gap-3 items-start"><div className="min-w-[6px] h-[6px] rounded-full bg-black mt-2"></div> Complete enrolment and orientation.</li>
-                            </ul>
-                        </div>
+                    <section id="evaluation" className="scroll-mt-32">
+                        <DbPageContent
+                            pageSlug={pageSlug}
+                            sectionKey="evaluation_content"
+                            fallbackContent={getSectionDefault('evaluation_content')}
+                        />
                     </section>
 
-                    {/* Section: Frequently Asked Questions */}
-                    <section>
-                        <div className="mb-8 pl-2">
-                            <h2 className="text-3xl font-bold text-black mb-4">Frequently Asked Questions</h2>
-                            <p className="text-lg text-gray-800 leading-relaxed max-w-3xl">
-                                Find quick answers to common questions regarding the application process.
-                            </p>
-                        </div>
-                        <ApplicationFAQ />
-                    </section>
+                      {/* NEW SECTION: Ready to Apply */}
+                      <section className="bg-gray-100 text-black p-8 md:p-16 mt-16 text-center space-y-6 md:space-y-8">
+                          <div>
+                              <h2 className="text-3xl md:text-3xl font-bold mb-4">Ready to Start Your Journey?</h2>
+                             <p className="text-sm md:text-base text-black max-w-xl mx-auto leading-relaxed">
+                                 Join the next generation of global leaders at Kestora University. Create your portal account to begin your official application.
+                             </p>
+                         </div>
+                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                             <Link
+                                 href="/portal/account/register"
+                                 className="bg-black text-white px-6 py-3 md:px-8 md:py-4 font-bold hover:bg-gray-600 transition-all inline-flex items-center gap-2 justify-center"
+                             >
+                                 Create Portal Account
+                             </Link>
+                             <Link
+                                 href="/portal/account/login"
+                                 className="bg-black text-white px-6 py-3 md:px-8 md:py-4 font-bold hover:bg-gray-600 transition-all inline-block"
+                             >
+                                 Existing Student? Log In
+                             </Link>
+                         </div>
+                         <p className="text-black text-xs">
+                             Already have an account? Your progress will be saved automatically as you complete each step.
+                         </p>
+                      </section>
 
-                    {/* NEW SECTION: Ready to Apply */}
-                    <section className="bg-black text-white p-8 md:p-16 rounded-3xl shadow-lg mt-16 text-center space-y-6 md:space-y-8">
-                        <div>
-                            <h2 className="text-2xl md:text-3xl font-bold mb-4">Ready to Start Your Journey?</h2>
-                            <p className="text-sm md:text-base text-gray-300 max-w-xl mx-auto leading-relaxed">
-                                Join the next generation of global leaders at Kestora University. Create your portal account to begin your official application.
-                            </p>
-                        </div>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <Link
-                                href="/portal/account/register"
-                                className="bg-white text-black px-6 py-3 md:px-8 md:py-4 rounded-full text-sm md:text-base font-bold hover:bg-gray-100 hover:scale-105 shadow-md transition-all inline-flex items-center gap-2 justify-center"
-                            >
-                                Create Portal Account <ArrowRight size={20} weight="bold" />
-                            </Link>
-                            <Link
-                                href="/portal/account/login"
-                                className="bg-gray-800 text-white px-6 py-3 md:px-8 md:py-4 rounded-full text-sm md:text-base font-bold hover:bg-gray-700 shadow-sm transition-all inline-block"
-                            >
-                                Existing Student? Log In
-                            </Link>
-                        </div>
-                        <p className="text-gray-400 text-xs italic">
-                            Already have an account? Your progress will be saved automatically as you complete each step.
-                        </p>
-                    </section>
+                      {/* Section: Frequently Asked Questions */}
+                      <section id="faq" className="scroll-mt-32">
+                          <div className="mb-8 pl-2">
+                              <h2 className="text-3xl font-bold text-black mb-4">Frequently Asked Questions</h2>
+                              <p className="text-lg text-black leading-relaxed max-w-3xl">
+                                  Find quick answers to common questions regarding the application process.
+                              </p>
+                          </div>
+                          <ApplicationFAQ />
+                       </section>
 
                 </div>
             </div>
         </div>
+        </GuideSidebarLayout>
     );
 }

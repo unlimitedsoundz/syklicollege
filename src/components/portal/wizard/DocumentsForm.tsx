@@ -103,7 +103,7 @@ export default function DocumentsForm({ applicationId, existingDocuments, reques
                     </div>
                     <div className="flex-1">
                         <h4 className="text-purple-900 font-black text-[10px] uppercase tracking-widest leading-none mb-2">Message from Admissions Office</h4>
-                        <p className="text-purple-800 text-xs font-bold leading-relaxed italic block bg-white/50 p-3 rounded-sm border border-purple-100">
+                        <p className="text-purple-800 text-xs font-bold leading-relaxed block bg-white/50 p-3 rounded-sm border border-purple-100">
                             "{documentRequestNote}"
                         </p>
                     </div>

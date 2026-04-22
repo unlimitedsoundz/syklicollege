@@ -31,6 +31,9 @@ export async function generateMetadata({ params }: Props) {
     return {
         title: `${school.name} — Kestora University | Research & Programmes`,
         description: school.description || `Explore the ${school.name} at Kestora University. Departments, research, and degree programmes.`,
+        alternates: {
+            canonical: `https://kestora.online/schools/${slug}/`,
+        },
     };
 }
 
@@ -97,13 +100,13 @@ export default async function SchoolDetails({ params }: Props) {
             {/* Hero (Split Style from Home) */}
 
             <section className={`${slug === 'science' || slug === 'school-of-science' ? 'bg-blue-900' : (slug === 'technology' || slug === 'school-of-technology' ? 'bg-green-900' : 'bg-[#1c1c1c]')} text-white overflow-hidden`}>
-                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-40 pb-4 md:pt-56 lg:py-0 lg:h-[650px] relative mb-12">
+                <div className="container mx-auto px-0 lg:px-4 flex flex-col lg:flex-row items-center gap-8 lg:gap-16 pt-0 md:pt-20 lg:pt-24 pb-4 lg:pb-0 lg:py-0 min-h-[500px] lg:h-[550px] relative mb-12">
                     {/* Left Content */}
-                    <div className="lg:w-1/2 space-y-8 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight pt-8">
+                    <div className="lg:w-1/2 space-y-4 relative z-10 flex flex-col justify-center h-full pt-8 lg:pt-0 px-4 lg:px-0">
+                        <h1 className="text-3xl md:text-5xl lg:text-5xl font-bold leading-[1.1] tracking-tight pt-0">
                             {school.name}
                         </h1>
-                        <p className="text-lg text-neutral-300 max-w-xl leading-relaxed">
+                        <p className="text-lg md:text-xl text-neutral-300 max-w-xl leading-relaxed my-2">
                             {school.description}
                         </p>
                         <div className="space-y-3 pt-2">
@@ -118,9 +121,8 @@ export default async function SchoolDetails({ params }: Props) {
                     </div>
 
                     {/* Right Image */}
-                    <div className="lg:w-1/2 h-full w-full relative mt-8 lg:mt-0 lg:translate-y-16 z-20 flex justify-center lg:block">
-                        <div className="h-full">
-                            <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800 shadow-2xl overflow-hidden">
+                    <div className="lg:w-1/2 h-full w-full relative mt-0 lg:mt-0 lg:translate-y-16 z-20 flex justify-center lg:block order-first lg:order-none hero-image-mobile">
+                        <div className="relative w-full lg:h-full bg-neutral-800 shadow-2xl overflow-hidden hero-mobile-height">
                                 {school.imageUrl && (
                                     <Image
                                         src={school.imageUrl}
@@ -131,7 +133,6 @@ export default async function SchoolDetails({ params }: Props) {
                                         sizes="(max-width: 1024px) 368px, 50vw"
                                     />
                                 )}
-                            </div>
                         </div>
                     </div>
                 </div>

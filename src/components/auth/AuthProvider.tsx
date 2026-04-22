@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { User, Session } from "@supabase/supabase-js";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
@@ -26,7 +26,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [session, setSession] = useState<Session | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
-    const supabase = createClient();
+    // useMemo ensures the Supabase client is created only once, not on every render.
+    // Without this, supabase would be a new object each render -> infinite useEffect loop.
+    const supabase = useMemo(() => createClient(), []);
 
     useEffect(() => {
         const initializeAuth = async () => {
@@ -54,7 +56,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         });
 
         return () => subscription.unsubscribe();
-    }, [router, supabase]);
+    }, [supabase]);  // router is stable; supabase is memoized — no infinite loop
 
     const signOut = async () => {
         await supabase.auth.signOut();

@@ -8,6 +8,9 @@ import { SchemaLD } from '@/components/seo/SchemaLD';
 export const metadata = {
     title: 'Collaboration & Partnerships | Kestora University',
     description: 'Partner with Kestora University for research, innovation, and education. Join our network of industry leaders driving systemic change.',
+    alternates: {
+        canonical: 'https://kestora.online/collaboration/',
+    },
 };
 
 export default function CollaborationPage() {

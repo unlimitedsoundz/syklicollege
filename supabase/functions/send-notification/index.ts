@@ -34,19 +34,22 @@ serve(async (req) => {
         if (!applicationData && applicationId) {
                 const { data: app } = await supabase
                     .from('applications')
-                    .select('*, user:profiles(*), course:Course(name)')
+                    .select('*, user:profiles(*), course:Course(title)')
                     .eq('id', applicationId)
                     .single();
 
             if (app) {
+                console.log(`[send-notification] Successfully fetched application data for ${applicationId}`);
                 applicationData = {
                     ...app,
                     email: app.user?.email,
                     first_name: app.user?.first_name || app.personal_info?.firstName,
                     last_name: app.user?.last_name || app.personal_info?.lastName,
                     student_id: app.user?.student_id,
-                    course_title: app.course?.name
+                    course_title: app.course?.title
                 };
+            } else {
+                console.warn(`[send-notification] Application not found for ID: ${applicationId}`);
             }
         } else if (table === 'tuition_payments' && record) {
             // New: Resolve application from payment record
@@ -70,7 +73,7 @@ serve(async (req) => {
                         first_name: app.user?.first_name || app.personal_info?.firstName,
                         last_name: app.user?.last_name || app.personal_info?.lastName,
                         student_id: app.user?.student_id,
-                        course_title: app.course?.name
+                        course_title: app.course?.title
                     };
                 }
             }
@@ -130,7 +133,7 @@ serve(async (req) => {
         if (!userEmail && applicationData?.user_id) {
             const { data: users } = await supabase
                 .from('profiles')
-                .select('email, first_name, last_name')
+                .select('email, first_name, last_name, student_id')
                 .eq('id', applicationData.user_id)
                 .single();
 
@@ -138,6 +141,19 @@ serve(async (req) => {
                 userEmail = users.email;
                 firstName = users.first_name;
                 fullName = `${users.first_name} ${users.last_name}`;
+                applicationData.student_id = users.student_id;
+            }
+        }
+
+        // Fetch Course Info if missing (when triggered directly from DB)
+        if (!applicationData?.course_title && applicationData?.course_id) {
+            const { data: courseData } = await supabase
+                .from('Course')
+                .select('title, degreeLevel')
+                .eq('id', applicationData.course_id)
+                .single();
+            if (courseData) {
+                applicationData.course_title = courseData.title;
             }
         }
 
@@ -153,11 +169,11 @@ serve(async (req) => {
                 studentSubject = "Application Received - Kestora University";
                 studentHtml = `
                     <img src="https://kestora.online/images/scholarships.png" alt="Kestora University" style="width: 100%; height: 150px; object-fit: cover; margin-bottom: 20px;" />
-                    <h1>Form Received</h1>
+                    <h1 style="font-size: 24px; margin: 20px 0;">Form Received</h1>
                     <p>Hello ${firstName},</p>
-                    <p>Thank you for submitting your application for <strong>${applicationData?.course_title || 'your chosen program'}</strong>. Our admissions team will review your documents and provide an update soon.</p>
+                    <p>Thank you for submitting your application for <strong>${applicationData?.course_title || 'your program'}</strong>. Our admissions team will review your documents and provide an update soon.</p>
                     <p>Current Status: <strong>SUBMITTED</strong></p>
-                    <a href="${portalUrl}" style="display:inline-block;background:#034737;color:#fff;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Portal Dashboard</a>
+                    <a href="${portalUrl}" style="display:inline-block;background:#034737;color:#fff;padding:10px 20px;text-decoration:none;border-radius:6px;font-weight:bold;">Portal Dashboard</a>
                 `;
                 adminSubject = `New Application: ${fullName}`;
                 adminHtml = `
@@ -173,13 +189,13 @@ serve(async (req) => {
                 studentSubject = "Conditional Admission Offer - Kestora University Next Steps";
                 studentHtml = `
                     <img src="https://kestora.online/images/scholarships.png" alt="Kestora University" style="width: 100%; height: 150px; object-fit: cover; margin-bottom: 20px;" />
-                    <h1 style="text-align: center; font-size: 24px; margin: 30px 0;">Kestora University Admission</h1>
-                    <h2 style="text-align: center; font-size: 18px; margin-bottom: 20px;">Congratulations on Your Offer!</h2>
+                    <h1 style="text-align: center; font-size: 24px; margin: 20px 0;">Kestora University Admission</h1>
+                    <h2 style="text-align: center; font-size: 18px; margin-bottom: 15px;">Congratulations on Your Offer!</h2>
                     <p>Dear ${firstName},</p>
                     <p>We are delighted to inform you that you have been offered a conditional place to study at Kestora University.</p>
                     <div style="margin: 20px 0;">
                         <p><strong>Your Offer Details:</strong></p>
-                        <p>Programme: ${applicationData?.course?.name || 'Your Degree Programme'}</p>
+                        <p>Programme: ${applicationData?.course_title || 'Your Degree Programme'}</p>
                         <p>Intake: August 2026 (Autumn Semester)</p>
                         <p>Status: Conditional Offer</p>
                     </div>
@@ -227,13 +243,13 @@ serve(async (req) => {
                 studentSubject = "Congratulations on Your Admission to Kestora University – Next Steps";
                 studentHtml = `
                     <img src="https://kestora.online/images/scholarships.png" alt="Kestora University" style="width: 100%; height: 150px; object-fit: cover; margin-bottom: 20px;" />
-                    <h1 style="text-align: center; font-size: 24px; margin: 30px 0;">Kestora University Admission</h1>
-                    <h2 style="text-align: center; font-size: 18px; margin-bottom: 20px;">Congratulations!</h2>
+                    <h1 style="text-align: center; font-size: 24px; margin: 20px 0;">Kestora University Admission</h1>
+                    <h2 style="text-align: center; font-size: 18px; margin-bottom: 15px;">Congratulations!</h2>
                     <p>Dear ${firstName},</p>
                     <p>We are delighted to officially confirm your admission to Kestora University following the successful confirmation of your tuition payment.</p>
                     <p>You have been admitted to study:</p>
                     <div style="margin: 20px 0;">
-                        <p>Programme: ${applicationData?.course?.name || 'Your Degree Programme'}</p>
+                        <p>Programme: ${applicationData?.course_title || 'Your Degree Programme'}</p>
                         <p>Intake: ${applicationData?.intake || 'August 2026 (Autumn Semester)'}</p>
                         <p>Student ID: ${applicationData?.student_id || ''}</p>
                     </div>
@@ -324,12 +340,12 @@ serve(async (req) => {
                 studentSubject = "Payment Verified - Enrollment Confirmed!";
                 studentHtml = `
                     <img src="https://kestora.online/images/scholarships.png" alt="Kestora University" style="width: 100%; height: 150px; object-fit: cover; margin-bottom: 20px;" />
-                    <h1 style="color: #034737;">Payment Verified!</h1>
+                    <h1 style="color: #034737; font-size: 24px; margin: 20px 0;">Payment Verified!</h1>
                     <p>Hello ${firstName},</p>
                     <p>Great news! Your tuition payment has been officially verified by our registrar's office.</p>
                     <p><strong>Status:</strong> ENROLLED</p>
                     <p>You can now log in to the student portal to access your official admission letter, payment receipt, and other academic resources.</p>
-                    <a href="${portalUrl}/dashboard" style="display:inline-block;background:#034737;color:#fff;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Student Dashboard</a>
+                    <a href="${portalUrl}/dashboard" style="display:inline-block;background:#034737;color:#fff;padding:10px 20px;text-decoration:none;border-radius:6px;font-weight:bold;">Student Dashboard</a>
                 `;
                 adminSubject = `Payment Verified: ${fullName}`;
                 adminHtml = `
@@ -398,57 +414,134 @@ serve(async (req) => {
                     <a href="${portalUrl}/dashboard" style="display:inline-block;background:#9333ea;color:#fff;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Upload Documents</a>
                 `;
                 break;
+            case 'INVOICE_READY':
+                const rawInvType = additionalData?.invoiceType || 'TUITION_DEPOSIT';
+                const invType = rawInvType.split('_').map((word: string) => 
+                    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                ).join(' ');
+                const invAmt = additionalData?.amount ? new Intl.NumberFormat('en-IE', { style: 'currency', currency: additionalData?.currency || 'EUR', maximumFractionDigits: 0 }).format(additionalData.amount) : 'TBD';
+                const invHero = "https://kestora.online/images/scholarships.png";
+
+                studentSubject = `${invType} Invoice Ready for Payment - Kestora University`;
+                studentHtml = `
+                    <div style="text-align: center; margin-bottom: 25px;">
+                        <img src="${invHero}" alt="Kestora University" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px;" />
+                    </div>
+                    
+                    <h1 style="text-align: center; font-size: 24px; margin: 20px 0; color: #1a1a1a;">Billing & Payments</h1>
+                    <h2 style="text-align: center; font-size: 18px; margin-bottom: 15px; color: #4b5563; font-weight: normal;">Invoice Ready for Payment</h2>
+                    
+                    <p>Dear ${firstName},</p>
+                    <p>Your ${invType.toLowerCase()} invoice for the <strong>${applicationData?.course_title || 'degree programme'}</strong> has been generated and is now ready for payment.</p>
+                    
+                    <div style="background-color: #f9fafb; border-radius: 8px; padding: 20px; margin: 20px 0; border: 1px solid #f3f4f6;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px;">
+                            <p style="color: #6b7280; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.1em; margin: 0;">Invoice Type</p>
+                            <p style="color: #111827; font-size: 14px; font-weight: bold; margin: 0;">${invType}</p>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 4px;">
+                            <p style="color: #6b7280; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.1em; margin: 0;">Amount Due</p>
+                            <p style="color: #111827; font-size: 20px; font-weight: 900; margin: 0;">${invAmt}</p>
+                        </div>
+                    </div>
+                    
+                    <p>Please proceed to your student portal to complete the payment and secure your place in the programme.</p>
+                    <div style="text-align: center; margin: 25px 0;">
+                        <a href="https://kestora.online/portal/application/payment" style="display:inline-block;background:#000000;color:#fff;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Pay Invoice Securely</a>
+                    </div>
+                    <p>If you have any questions or encounter issues, please contact our Finance Department.</p>
+                `;
+                
+                adminSubject = `Invoice Sent: ${invType} - ${fullName}`;
+                adminHtml = `
+                    <h2>Invoice Notification Sent</h2>
+                    <p><strong>Student:</strong> ${fullName}</p>
+                    <p><strong>Type:</strong> ${invType}</p>
+                    <p><strong>Amount:</strong> ${invAmt}</p>
+                    <p>An email notification has been sent to the student regarding their ready invoice.</p>
+                `;
+                break;
         }
 
         // Email Wrapper Helper
         const wrapHtml = (content: string) => `
-            <style>
-                @media (prefers-color-scheme: dark) {
-                    .logo { filter: invert(1); }
-                }
-            </style>
-            <div style="font-family: 'Inter', -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, sans-serif; max-width: 600px; margin: 40px auto; padding: 40px; border: 1px solid #f0f0f0; border-radius: 16px; background: #ffffff;">
-                <div style="text-align: center; margin-bottom: 30px;">
-                    <img src="https://kestora.online/logo-kestora.png" class="logo" style="width: 100%; height: auto; max-width: 200px;" />
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="color-scheme" content="light dark">
+                <meta name="supported-color-schemes" content="light dark">
+                <style>
+                    :root { color-scheme: light dark; }
+                    @media (prefers-color-scheme: dark) {
+                        .logo { filter: invert(1) !important; }
+                    }
+                </style>
+            </head>
+            <body>
+            <div class="email-container" style="font-family: 'Inter', -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, sans-serif; max-width: 600px; margin: 10px auto; padding: 15px 10px; background: #ffffff;">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <img src="https://kestora.online/logo-kestora.png" class="logo" style="width: 100%; height: auto; max-width: 160px;" />
                 </div>
-                <div style="color: #1a1a1a; line-height: 1.6; font-size: 16px;">
+                <div style="color: #1a1a1a; line-height: 1.5; font-size: 15px;">
                     ${content}
                 </div>
-                <hr style="border: 0; border-top: 1px solid #f0f0f0; margin: 40px 0;">
-                <div style="text-align: center; color: #888; font-size: 12px;">
+                <hr style="border: 0; border-top: 1px solid #f0f0f0; margin: 30px 0;">
+                <div style="text-align: center; color: #888; font-size: 11px;">
                     <p>&copy; ${new Date().getFullYear()} Kestora University</p>
-                    <p>Helsinki, Finland | +358 09 42721884 | info@kestora.online</p>
+                    <p style="margin-bottom: 15px;">Helsinki, Finland | +358 09 42721884 | info@kestora.online</p>
+                    <div style="margin-top: 15px;">
+                        <a href="https://www.linkedin.com/company/kestora-university" style="color: #888; text-decoration: none; margin: 0 8px; font-weight: bold;">LinkedIn</a>
+                        <a href="https://www.tiktok.com/@kestorauniversity" style="color: #888; text-decoration: none; margin: 0 8px; font-weight: bold;">TikTok</a>
+                        <a href="https://snapchat.com/add/kestorauniversity" style="color: #888; text-decoration: none; margin: 0 8px; font-weight: bold;">Snapchat</a>
+                    </div>
                 </div>
             </div>
+            </body>
+            </html>
         `;
 
         // Send Student Email if applicable
         if (studentSubject && userEmail) {
-            await resend.emails.send({
+            console.log(`[send-notification] Sending student email to: ${userEmail} (Subject: ${studentSubject})`);
+            const { data, error } = await resend.emails.send({
                 from: sender,
                 to: [userEmail],
                 subject: studentSubject,
                 html: wrapHtml(studentHtml),
             });
+            if (error) {
+                console.error(`[send-notification] Resend Student Error:`, error);
+            } else {
+                console.log(`[send-notification] Student email sent successfully. ID: ${data?.id}`);
+            }
+        } else {
+            console.warn(`[send-notification] Warning: No subject (${studentSubject}) or email (${userEmail}) for student notification.`);
         }
 
         // Send Admin Email if applicable
         if (adminSubject && adminEmail) {
-            await resend.emails.send({
+            console.log(`[send-notification] Sending admin email to: ${adminEmail} (Subject: ${adminSubject})`);
+            const { data, error } = await resend.emails.send({
                 from: sender,
                 to: [adminEmail],
                 subject: `[Kestora ADMIN] ${adminSubject}`,
                 html: wrapHtml(adminHtml),
             });
+            if (error) {
+                console.error(`[send-notification] Resend Admin Error:`, error);
+            } else {
+                console.log(`[send-notification] Admin email sent successfully. ID: ${data?.id}`);
+            }
         }
 
         return new Response(JSON.stringify({ success: true }), {
             headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
 
-    } catch (error) {
+    } catch (error: any) {
         console.error("Notification Error:", error);
-        return new Response(JSON.stringify({ error: error.message }), {
+        return new Response(JSON.stringify({ error: error.message || "An unknown error occurred" }), {
             status: 500,
             headers: { ...corsHeaders, "Content-Type": "application/json" },
         });

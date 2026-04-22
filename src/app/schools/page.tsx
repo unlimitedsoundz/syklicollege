@@ -6,6 +6,9 @@ import { School } from '@/types/database';
 export const metadata = {
     title: 'Academic Schools — Kestora University Finland | Arts, Business, Science, Technology',
     description: 'Kestora University is organized into four schools: Arts & Architecture, Business, Science, and Technology. Explore departments, research, and degree programmes.',
+    alternates: {
+        canonical: 'https://kestora.online/schools/',
+    },
 };
 
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema';

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { useState } from 'react';
 import { User } from "@phosphor-icons/react/dist/ssr";
 
 interface UserAvatarProps {
@@ -14,6 +15,7 @@ interface UserAvatarProps {
 }
 
 export function UserAvatar({ src, firstName, email, size = 'md', className = '', isLoggedIn = true }: UserAvatarProps) {
+    const [hasImageError, setHasImageError] = useState(false);
     const sizeClasses = {
         sm: 'w-8 h-8 text-[10px]',
         md: 'w-10 h-10 text-xs',
@@ -33,11 +35,12 @@ export function UserAvatar({ src, firstName, email, size = 'md', className = '',
 
     return (
         <div className={`relative flex-shrink-0 bg-neutral-900 rounded-full force-circle flex items-center justify-center text-white font-black overflow-hidden border border-neutral-200/50 ${sizeClasses[size]} ${className}`}>
-            {src ? (
+            {src && !hasImageError ? (
                 <Image
                     src={src}
                     alt={firstName || email || 'User'}
                     fill
+                    onError={() => setHasImageError(true)}
                     className="object-cover force-circle"
                 />
             ) : showPlaceholder ? (

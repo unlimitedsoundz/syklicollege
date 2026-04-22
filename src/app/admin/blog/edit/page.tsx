@@ -59,24 +59,62 @@ export default function EditBlogPost() {
     }
 
     const onSubmit = async (data: FormData) => {
-        const supabase = createClient();
-        const cleanedContent = editorContent
-            .replace(/&nbsp;/g, ' ')
-            .replace(/\s+/g, ' ')
-            .replace(/—/g, '')
-            .replace(/word-break:\s*break-all;?/gi, '')
-            .replace(/overflow-wrap:\s*anywhere;?/gi, '')
-            .replace(/white-space:\s*pre-wrap;?/gi, '')
-            // remove inline styles from all tags except img and figure (to preserve image resizing)
-            .replace(/(<(?!img|figure)[^>]*?)style="[^"]*"/gi, '$1')
-            .replace(/<p><\/p>/g, '');
-        const { error } = await supabase.from('blogs').update({
-            ...data,
-            content: cleanedContent,
-            publishDate: new Date(data.publishDate).toISOString(),
-        }).eq('id', id);
-        if (error) alert('Error updating post');
-        else router.push('/admin/blog');
+        try {
+            // Validate required fields
+            if (!data.title?.trim()) {
+                alert('Title is required');
+                return;
+            }
+            if (!data.slug?.trim()) {
+                alert('Slug is required');
+                return;
+            }
+            if (!data.publishDate) {
+                alert('Publish date is required');
+                return;
+            }
+
+            const supabase = createClient();
+            const cleanedContent = editorContent
+                .replace(/&nbsp;/g, ' ')
+                .replace(/\s+/g, ' ')
+                .replace(/—/g, '')
+                .replace(/word-break:\s*break-all;?/gi, '')
+                .replace(/overflow-wrap:\s*anywhere;?/gi, '')
+                .replace(/white-space:\s*pre-wrap;?/gi, '')
+                // remove inline styles from all tags except img and figure (to preserve image resizing)
+                .replace(/(<(?!img|figure)[^>]*?)style="[^"]*"/gi, '$1')
+                .replace(/<p><\/p>/g, '');
+
+            // Validate publish date
+            const publishDate = new Date(data.publishDate);
+            if (isNaN(publishDate.getTime())) {
+                alert('Invalid publish date');
+                return;
+            }
+
+            const updateData = {
+                ...data,
+                content: cleanedContent,
+                publishDate: publishDate.toISOString(),
+                // Ensure og_image is properly set
+                og_image: data.og_image || ogImageUrl || null,
+            };
+
+            console.log('Updating blog post with data:', updateData);
+
+            const { error } = await supabase.from('blogs').update(updateData).eq('id', id);
+
+            if (error) {
+                console.error('Error updating post:', error);
+                alert(`Error updating post: ${error.message}`);
+            } else {
+                router.push('/admin/blog');
+            }
+        } catch (err) {
+            console.error('Unexpected error:', err);
+            alert('An unexpected error occurred while updating the post');
+        }
     };
 
     const uploadImage = async (file: File) => {

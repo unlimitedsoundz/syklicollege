@@ -196,7 +196,7 @@ export const OfferLetterPDF = ({ data }: OfferLetterProps) => (
                     {data.logo_path && <Image src={data.logo_path} style={styles.logo} />}
                 </View>
                 <View style={styles.contactInfo}>
-                    <Text style={{ color: '#000', fontWeight: 'heavy', fontSize: 11, marginBottom: 2 }}>SYKLI COLLEGE</Text>
+                    <Text style={{ color: '#000', fontWeight: 'heavy', fontSize: 11, marginBottom: 2 }}>KESTORA UNIVERSITY</Text>
                     <Text style={{ color: '#444', fontSize: 8, marginBottom: 4 }}>– HELSINKI CAMPUS</Text>
                     <Text>Pohjoisesplanadi 51</Text>
                     <Text>00150 Helsinki, Finland</Text>

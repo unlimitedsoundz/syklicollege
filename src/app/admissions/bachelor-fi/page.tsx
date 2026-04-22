@@ -2,21 +2,21 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, CheckCircle, Globe, Users, BookOpen, Briefcase, GraduationCap, Calendar, MapPin } from '@phosphor-icons/react/dist/ssr';
-import TableOfContents from '@/components/course/TableOfContents';
+import GuideSidebarLayout from '@/components/layout/StudentGuideLayout';
 
 export const metadata = {
     title: 'Kandidaattiohjelmat (Suomi ja Ruotsi) | Kestora University',
     description: 'Hae Kestora Universityn suomen- ja ruotsinkielisiin kandidaattiohjelmiin. Tietoa hyödyistä, opintopoluista, apurahoista ja valinnoista.',
     alternates: {
-        canonical: 'https://kestora.online/admissions/bachelor-fi',
+        canonical: 'https://kestora.online/admissions/bachelor-fi/',
         languages: {
-            'en': 'https://kestora.online/admissions/bachelor',
-            'fi': 'https://kestora.online/admissions/bachelor-fi',
+            'en': 'https://kestora.online/admissions/bachelor/',
+            'fi': 'https://kestora.online/admissions/bachelor-fi/',
         },
     },
 };
 
-const tocSections = [
+const sections = [
     { id: 'benefits', title: 'Miksi Valita Meidät', content: '' },
     { id: 'progression', title: 'Kandista Maisteriksi', content: '' },
     { id: 'scholarships', title: 'Apurahat & Maksut', content: '' },
@@ -27,53 +27,49 @@ const tocSections = [
 
 export default function BachelorAdmissionsFiPage() {
     return (
-        <div className="min-h-screen bg-white">
-            {/* Hero Section */}
-            <div className="relative min-h-[30vh] lg:min-h-[20vh] flex items-center pt-20 lg:pt-0">
-                <div className="absolute inset-0 z-0">
-                    <Image
-                        src="/images/admissions/hero.jpg"
-                        alt="Kandidaattiopiskelijoita"
-                        fill
-                        priority
-                        className="object-cover"
-                        sizes="100vw"
-                    />
-                    <div className="absolute inset-0 bg-black/50" />
-                </div>
-
-                <div className="container mx-auto px-4 relative z-10 pt-32 pb-12 md:pt-48">
-                    <div className="max-w-4xl">
-                        <p className="text-white font-bold tracking-wider uppercase mb-4">Opiskelijavalinnat</p>
-                        <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight text-white">Hae suomen- ja ruotsinkielisiin kandidaattiohjelmiin</h1>
-                        <p className="text-xl text-neutral-200 mb-8">Aloita matkasi Kestora Universityssa ja hanki taidot, kansainvälinen näkökulma ja verkostot menestyäksesi maailmanlaajuisesti.</p>
-                        <div className="flex flex-wrap gap-4">
-                            <Link href="/admissions/application-process" className="bg-white text-black px-8 py-4 rounded-full font-bold hover:bg-neutral-200 transition-colors inline-flex items-center gap-2">
-                                Aloita Haku <ArrowRight size={20} weight="bold" />
+        <GuideSidebarLayout sections={sections}>
+            <div className="min-h-screen bg-white">
+            {/* HERO SECTION (Split Layout) */}
+            <section className="bg-[#FFE600] text-black overflow-hidden">
+                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-12 pb-12 lg:pb-0 h-auto lg:h-[600px] lg:py-0 relative mb-0">
+                    {/* Left Content */}
+                    <div className="lg:w-1/2 space-y-6 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
+                        <h1 className="font-bold leading-[1.1] tracking-tight pt-8 text-black" style={{ fontSize: '40px' }}>
+                            Hae suomen- ja ruotsinkielisiin ohjelmiin
+                        </h1>
+                        <p className="text-[21px] text-black max-w-xl leading-relaxed">
+                            Aloita matkasi Kestora Universityssa ja hanki taidot, kansainvälinen näkökulma ja verkostot menestyäksesi maailmanlaajuisesti.
+                        </p>
+                        <div className="flex flex-wrap gap-4 pt-4">
+                            <Link href="/admissions/application-process" className="text-lg font-bold underline underline-offset-8 decoration-black hover:opacity-70 transition-colors text-black inline-flex items-center gap-2">
+                                Aloita haku <ArrowRight size={20} weight="bold" />
                             </Link>
                         </div>
                     </div>
+
+                    {/* Right Image */}
+                    <div className="lg:w-1/2 h-full w-full relative lg:translate-y-16 z-20 flex justify-center lg:block order-first lg:order-none">
+                        <div className="h-full">
+                            <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800">
+                                <Image
+                                    src="/images/admissions/hero.jpg"
+                                    alt="Bachelor's Students"
+                                    fill
+                                    priority
+                                    className="object-cover"
+                                    sizes="(max-width: 1024px) 368px, 50vw"
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
 
             <div className="container mx-auto px-4 py-8 md:py-16">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
 
-                    {/* Sidebar / Table of Contents */}
-                    <div className="lg:col-span-3">
-                        <div className="lg:sticky lg:top-24 space-y-8">
-                            <TableOfContents sections={tocSections} />
-
-                            <div className="bg-black text-white p-10 pl-16 rounded-none border-l-4 border-[#fd6402]">
-                                <h3 className="font-bold text-lg mb-2 text-white">Hakutoimisto</h3>
-                                <p className="text-sm text-neutral-300 mb-4">Kysyttävää? Olemme täällä auttaaksemme.</p>
-                                <Link href="/contact" className="text-sm font-bold underline text-[#fd6402] hover:text-white transition-colors">Ota yhteyttä</Link>
-                            </div>
-                        </div>
-                    </div>
-
                     {/* Main Content */}
-                    <div className="lg:col-span-9 space-y-8 md:space-y-24">
+                    <div className="lg:col-span-12 space-y-8 md:space-y-24">
 
                         {/* How You Benefit */}
                         <section id="benefits" className="scroll-mt-32">
@@ -81,24 +77,28 @@ export default function BachelorAdmissionsFiPage() {
                                 Miten hyödyt ohjelmistamme
                             </h2>
                             <div className="grid md:grid-cols-2 gap-8 items-center">
-                                <div className="space-y-6 text-lg text-neutral-600">
-                                    <ul className="space-y-4 list-disc pl-5">
-                                        <li>
-                                            <strong>Korkealaatuinen Koulutus:</strong> Teoriaa ja käytäntöä laskentatoimessa, rahoituksessa, taloustieteessä, johtamisessa, markkinoinnissa ja tietojärjestelmätieteessä.
+                                <div className="space-y-6 text-lg text-black">
+                                    <ul className="space-y-4">
+                                        <li className="flex gap-4">
+                                            <ArrowRight size={20} weight="bold" className="text-black shrink-0 mt-1" />
+                                            <span><strong>Korkealaatuinen Koulutus:</strong> Teoriaa ja käytäntöä laskentatoimessa, rahoituksessa, taloustieteessä, johtamisessa, markkinoinnissa ja tietojärjestelmätieteessä.</span>
                                         </li>
-                                        <li>
-                                            <strong>Kansainvälinen Näkökulma:</strong> Kurssit valmistavat globaaleille urille.
+                                        <li className="flex gap-4">
+                                            <ArrowRight size={20} weight="bold" className="text-black shrink-0 mt-1" />
+                                            <span><strong>Kansainvälinen Näkökulma:</strong> Kurssit valmistavat globaaleille urille.</span>
                                         </li>
-                                        <li>
-                                            <strong>Käytännön Kokemus:</strong> Todellisia tapaustutkimuksia, simulaatioita ja harjoitteluita.
+                                        <li className="flex gap-4">
+                                            <ArrowRight size={20} weight="bold" className="text-black shrink-0 mt-1" />
+                                            <span><strong>Käytännön Kokemus:</strong> Todellisia tapaustutkimuksia, simulaatioita ja harjoitteluita.</span>
                                         </li>
-                                        <li>
-                                            <strong>Henkilökohtainen Tuki:</strong> Pienet ryhmäkoot ja tiivis vuorovaikutus tiedekunnan kanssa.
+                                        <li className="flex gap-4">
+                                            <ArrowRight size={20} weight="bold" className="text-black shrink-0 mt-1" />
+                                            <span><strong>Henkilökohtainen Tuki:</strong> Pienet ryhmäkoot ja tiivis vuorovaikutus tiedekunnan kanssa.</span>
                                         </li>
                                     </ul>
                                 </div>
-                                <div className="bg-neutral-100 rounded-2xl h-80 overflow-hidden relative group">
-                                    <div className="absolute inset-0 bg-neutral-200 flex items-center justify-center text-neutral-400">
+                                <div className="bg-neutral-100 h-80 overflow-hidden relative group">
+                                    <div className="absolute inset-0 bg-neutral-200 flex items-center justify-center text-black">
                                         <Image src="/images/admissions/benefits.jpg" alt="Hyödyt Kestora Universityssa opiskelusta" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
                                     </div>
                                 </div>
@@ -111,18 +111,18 @@ export default function BachelorAdmissionsFiPage() {
                                 Kandidaatista Maisteriksi
                             </h2>
                             <div className="grid md:grid-cols-2 gap-8 items-center md:flex-row-reverse">
-                                <div className="bg-neutral-100 rounded-2xl h-80 overflow-hidden relative order-last md:order-first">
-                                    <div className="absolute inset-0 bg-neutral-200 flex items-center justify-center text-neutral-400">
+                                <div className="bg-neutral-100 h-80 overflow-hidden relative order-last md:order-first">
+                                    <div className="absolute inset-0 bg-neutral-200 flex items-center justify-center text-black">
                                         <Image src="/images/admissions/progression.jpg" alt="Polku Maisteriksi" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
                                     </div>
                                 </div>
-                                <div className="space-y-6 text-lg text-neutral-600">
+                                <div className="space-y-6 text-lg text-black">
                                     <p>Kandidaatin tutkinnon suorittaminen Kestora Universityssa avaa saumattoman tien jatko-opintoihin:</p>
                                     <ul className="space-y-3">
-                                        <li><strong>Sisäinen Jatkoväylä:</strong> Suora polku Kestoran maisteriohjelmiin.</li>
-                                        <li><strong>Erikoistumislinjat:</strong> Keskity laskentatoimeen, taloustieteeseen tai johtamiseen.</li>
-                                        <li><strong>Kansainväliset Mahdollisuudet:</strong> Hae huippuyliopistoihin ympäri maailmaa.</li>
-                                        <li><strong>Tutkimusintegraatio:</strong> Kandidaatintutkielma askeleena kohti syvällisempää tutkimusta.</li>
+                                        <li className="flex gap-4 items-start"><ArrowRight size={20} weight="bold" className="mt-1 text-black shrink-0" /> <span><strong>Sisäinen Jatkoväylä:</strong> Suora polku Kestoran maisteriohjelmiin.</span></li>
+                                        <li className="flex gap-4 items-start"><ArrowRight size={20} weight="bold" className="mt-1 text-black shrink-0" /> <span><strong>Erikoistumislinjat:</strong> Keskity laskentatoimeen, taloustieteeseen tai johtamiseen.</span></li>
+                                        <li className="flex gap-4 items-start"><ArrowRight size={20} weight="bold" className="mt-1 text-black shrink-0" /> <span><strong>Kansainväliset Mahdollisuudet:</strong> Hae huippuyliopistoihin ympäri maailmaa.</span></li>
+                                        <li className="flex gap-4 items-start"><ArrowRight size={20} weight="bold" className="mt-1 text-black shrink-0" /> <span><strong>Tutkimusintegraatio:</strong> Kandidaatintutkielma askeleena kohti syvällisempää tutkimusta.</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -133,12 +133,12 @@ export default function BachelorAdmissionsFiPage() {
             </div>
 
             {/* YELLOW QUOTE BANNER */}
-            <div className="w-full bg-[#fd6402] text-neutral-900 py-16 my-12">
+            <div className="w-full bg-neutral-100 text-black py-16 my-12">
                 <div className="container mx-auto px-4 text-center max-w-4xl">
-                    <h3 className="text-2xl md:text-3xl leading-tight mb-6">
+                    <h3 className="text-2xl md:text-3xl leading-tight mb-6 font-bold">
                         "Annamme opiskelijoille analyyttiset taidot ja globaalin ajattelutavan, joita tarvitaan monimutkaisessa taloudellisessa päätöksenteossa."
                     </h3>
-                    <p className="text-sm font-semibold uppercase tracking-wider opacity-80">— Opiskelijavalintojen Dekaani</p>
+                    <p className="text-sm font-bold uppercase tracking-widest">— Opiskelijavalintojen Dekaani</p>
                 </div>
             </div>
 
@@ -153,14 +153,23 @@ export default function BachelorAdmissionsFiPage() {
                                 <h2 className="text-3xl font-bold mb-6 text-black">
                                     Apurahat ja Lukukausimaksut
                                 </h2>
-                                <div className="space-y-4 text-lg text-neutral-600">
-                                    <div className="p-8 pl-16 bg-neutral-50 border-l-4 border-black rounded-r-lg">
+                                <div className="space-y-4 text-lg text-black">
+                                    <div className="p-8 pl-16 bg-neutral-50 border-l-4 border-black">
                                         <strong>Lukukausimaksu:</strong> Sisältyy tutkintomaksuun päätoimisille opiskelijoille.
                                     </div>
-                                    <ul className="space-y-2 list-disc pl-5">
-                                        <li><strong>Ansioihin perustuva:</strong> Poikkeuksellisesta opintomenestyksestä.</li>
-                                        <li><strong>Tarveharkintainen:</strong> Taloudellinen tuki kelpoisille opiskelijoille.</li>
-                                        <li><strong>Kansainvälinen:</strong> Ansio- ja tarveharkintainen tuki globaaleille kyvyille.</li>
+                                    <ul className="space-y-4">
+                                        <li className="flex gap-4">
+                                            <ArrowRight size={20} weight="bold" className="text-black shrink-0 mt-1" />
+                                            <span><strong>Ansioihin perustuva:</strong> Poikkeuksellisesta opintomenestyksestä.</span>
+                                        </li>
+                                        <li className="flex gap-4">
+                                            <ArrowRight size={20} weight="bold" className="text-black shrink-0 mt-1" />
+                                            <span><strong>Tarveharkintainen:</strong> Taloudellinen tuki kelpoisille opiskelijoille.</span>
+                                        </li>
+                                        <li className="flex gap-4">
+                                            <ArrowRight size={20} weight="bold" className="text-black shrink-0 mt-1" />
+                                            <span><strong>Kansainvälinen:</strong> Ansio- ja tarveharkintainen tuki globaaleille kyvyille.</span>
+                                        </li>
                                     </ul>
                                     <Link href="/admissions/tuition" className="text-black font-bold hover:underline inline-block mt-2">Katso tarkemmat apurahatietoa →</Link>
                                 </div>
@@ -170,7 +179,7 @@ export default function BachelorAdmissionsFiPage() {
                                     src="/images/admissions/scholarships.jpg"
                                     alt="Apurahat"
                                     fill
-                                    className="object-cover rounded-2xl shadow-lg border border-neutral-100"
+                                    className="object-cover shadow-lg"
                                     sizes="(max-width: 768px) 100vw, 50vw"
                                 />
                             </div>
@@ -182,39 +191,66 @@ export default function BachelorAdmissionsFiPage() {
                                 Tietoa Opiskelijavalinnoista
                             </h2>
                             <div className="grid md:grid-cols-2 gap-12">
-                                <div className="bg-white p-8 shadow-xl rounded-2xl border border-neutral-100">
+                                <div className="bg-white p-8 shadow-xl border border-neutral-100">
                                     <h3 className="text-xl font-bold mb-8 text-black pl-2">Hakukelpoisuus</h3>
-                                    <ul className="space-y-3 text-neutral-700 list-disc pl-5">
-                                        <li>Ylioppilastutkinto tai vastaava</li>
-                                        <li>Englannin kielen taito (IELTS/TOEFL tai englannin kielen arvosana C tai parempi) (jos sovellettavissa)</li>
-                                        <li>Vahva matematiikan osaaminen ja relevantti tausta</li>
+                                    <ul className="space-y-4 text-black">
+                                        <li className="flex gap-4">
+                                            <ArrowRight size={20} weight="bold" className="text-black shrink-0 mt-1" />
+                                            <span>Ylioppilastutkinto tai vastaava</span>
+                                        </li>
+                                        <li className="flex gap-4">
+                                            <ArrowRight size={20} weight="bold" className="text-black shrink-0 mt-1" />
+                                            <span>Englannin kielen taito (IELTS/TOEFL tai englannin kielen arvosana C tai parempi) (jos sovellettavissa)</span>
+                                        </li>
+                                        <li className="flex gap-4">
+                                            <ArrowRight size={20} weight="bold" className="text-black shrink-0 mt-1" />
+                                            <span>Vahva matematiikan osaaminen ja relevantti tausta</span>
+                                        </li>
                                     </ul>
                                 </div>
-                                <div className="bg-white p-8 shadow-xl rounded-2xl border border-neutral-100">
+                                <div className="bg-white p-8 shadow-xl border border-neutral-100">
                                     <h3 className="text-xl font-bold mb-8 text-black pl-2">Valintaperusteet</h3>
-                                    <ul className="space-y-3 text-neutral-700 list-disc pl-5">
-                                        <li>Akateeminen menestys</li>
-                                        <li>Motivaatio ja henkilökohtainen lausunto</li>
-                                        <li>Johtajuus ja harrastustoiminta</li>
+                                    <ul className="space-y-4 text-black">
+                                        <li className="flex gap-4">
+                                            <ArrowRight size={20} weight="bold" className="text-black shrink-0 mt-1" />
+                                            <span>Akateeminen menestys</span>
+                                        </li>
+                                        <li className="flex gap-4">
+                                            <ArrowRight size={20} weight="bold" className="text-black shrink-0 mt-1" />
+                                            <span>Motivaatio ja henkilökohtainen lausunto</span>
+                                        </li>
+                                        <li className="flex gap-4">
+                                            <ArrowRight size={20} weight="bold" className="text-black shrink-0 mt-1" />
+                                            <span>Johtajuus ja harrastustoiminta</span>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
                         </section>
 
                         {/* Fairs & Events */}
-                        <section id="events" className="scroll-mt-32 bg-black text-white p-12 rounded-3xl relative overflow-hidden">
+                        <section id="events" className="scroll-mt-32 bg-black text-white p-12 relative overflow-hidden">
                             <div className="relative z-10 grid md:grid-cols-2 gap-12 items-center">
                                 <div>
                                     <h2 className="text-3xl font-bold mb-6 text-white">
                                         Messut ja Tapahtumat
                                     </h2>
-                                    <ul className="space-y-4 text-neutral-300">
-                                        <li><strong>Avoimet Ovet:</strong> Tutustu kampukseen ja tapaa tiedekuntaa.</li>
-                                        <li><strong>Virtuaaliset Infotilaisuudet:</strong> Webinaareja hakuun liittyen.</li>
-                                        <li><strong>Koulutusmessut:</strong> Tapaa meidät omassa kaupungissasi.</li>
+                                    <ul className="space-y-4 text-white">
+                                        <li className="flex gap-4">
+                                            <ArrowRight size={20} weight="bold" className="text-white shrink-0 mt-1" />
+                                            <span><strong>Avoimet Ovet:</strong> Tutustu kampukseen ja tapaa tiedekuntaa.</span>
+                                        </li>
+                                        <li className="flex gap-4">
+                                            <ArrowRight size={20} weight="bold" className="text-white shrink-0 mt-1" />
+                                            <span><strong>Virtuaaliset Infotilaisuudet:</strong> Webinaareja hakuun liittyen.</span>
+                                        </li>
+                                        <li className="flex gap-4">
+                                            <ArrowRight size={20} weight="bold" className="text-white shrink-0 mt-1" />
+                                            <span><strong>Koulutusmessut:</strong> Tapaa meidät omassa kaupungissasi.</span>
+                                        </li>
                                     </ul>
                                     <div className="mt-8">
-                                        <button className="bg-[#fd6402] text-black px-8 py-4 font-bold hover:bg-white transition-colors">Katso Tulevat Tapahtumat</button>
+                                        <Link href="/news" className="bg-white text-black px-8 py-4 font-bold hover:bg-neutral-100 transition-colors inline-block border border-black shadow-lg">Katso Tulevat Tapahtumat</Link>
                                     </div>
                                 </div>
                                 <div className="w-full relative h-[250px] md:h-80 mt-8 md:mt-0">
@@ -222,7 +258,7 @@ export default function BachelorAdmissionsFiPage() {
                                         src="/images/admissions/events.jpg"
                                         alt="Messut ja Tapahtumat"
                                         fill
-                                        className="rounded-xl shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-500 object-cover"
+                                        className="shadow-2xl object-cover"
                                         sizes="(max-width: 768px) 100vw, 50vw"
                                     />
                                 </div>
@@ -260,5 +296,6 @@ export default function BachelorAdmissionsFiPage() {
                 </div>
             </div>
         </div>
+        </GuideSidebarLayout>
     );
 }

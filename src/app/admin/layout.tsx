@@ -4,7 +4,7 @@ import { createClient } from '@/utils/supabase/client';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
-import { SquaresFour as LayoutDashboard, BookOpen, Newspaper, Calendar, GraduationCap, Users, Buildings as SchoolIcon, FileText, House as Home, Cpu, Microscope, SignOut as LogOut, CreditCard as InvoiceIcon } from "@phosphor-icons/react";
+import { SquaresFour as LayoutDashboard, BookOpen, Newspaper, Calendar, GraduationCap, Users, Buildings as SchoolIcon, FileText, House as Home, Cpu, Microscope, SignOut as LogOut, CreditCard as InvoiceIcon, Question as HelpCircle } from "@phosphor-icons/react";
 import { Logo } from '@/components/ui/Logo';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 
@@ -16,6 +16,7 @@ export default function AdminLayout({
     const [user, setUser] = useState<any>(null);
     const [profile, setProfile] = useState<any>(null);
     const [loading, setLoading] = useState(true);
+    const [redirecting, setRedirecting] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const router = useRouter();
     const pathname = usePathname();
@@ -36,7 +37,8 @@ export default function AdminLayout({
                         .single();
 
                     if (prof?.role !== 'ADMIN') {
-                        router.push('/portal/account/admin-login');
+                        setRedirecting(true);
+                        router.replace('/portal/account/admin-login');
                         return;
                     }
                     setProfile(prof);
@@ -65,12 +67,13 @@ export default function AdminLayout({
                         throw new Error('Invalid database session');
                     }
                 } else {
-                    router.push('/portal/account/admin-login');
+                    router.replace('/portal/account/admin-login');
                 }
             } catch (error) {
                 console.error("Admin auth check error:", error);
                 localStorage.removeItem('Kestora_user');
-                router.push('/portal/account/admin-login');
+                setRedirecting(true);
+                router.replace('/portal/account/admin-login');
             } finally {
                 setLoading(false);
             }
@@ -93,7 +96,7 @@ export default function AdminLayout({
         setProfile(null);
 
         window.dispatchEvent(new Event('storage'));
-        router.push('/portal/account/admin-login');
+        router.replace('/portal/account/admin-login');
         router.refresh();
     };
 
@@ -105,11 +108,20 @@ export default function AdminLayout({
         );
     }
 
-    if (!user) return null;
+    if (!user) {
+        return (
+            <div className="min-h-screen bg-neutral-100 flex flex-col items-center justify-center text-center px-6">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-neutral-900 mb-4"></div>
+                <p className="text-neutral-700 font-semibold">Redirecting to admin login...</p>
+                <p className="text-sm text-neutral-500 mt-2">If you are not redirected automatically, open <code className="bg-white px-2 py-1 rounded-md">/portal/account/admin-login</code>.</p>
+            </div>
+        );
+    }
 
     const navItems = [
         { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
         { href: '/admin/admissions', label: 'Admissions', icon: FileText },
+        { href: '/admin/page-content', label: 'Page Content', icon: FileText },
         { href: '/admin/courses', label: 'Courses', icon: BookOpen },
         { href: '/admin/subjects', label: 'Subjects', icon: GraduationCap },
         { href: '/admin/housing', label: 'Housing Manager', icon: Home },
@@ -117,6 +129,7 @@ export default function AdminLayout({
         { href: '/admin/news', label: 'News', icon: Newspaper },
         { href: '/admin/events', label: 'Events', icon: Calendar },
         { href: '/admin/blog', label: 'Blog', icon: BookOpen },
+        { href: '/admin/faqs', label: 'FAQ Management', icon: HelpCircle },
         { href: '/admin/students', label: 'Students', icon: Users },
         { href: '/admin/research/projects', label: 'Research Projects', icon: Microscope },
         { href: '/admin/departments', label: 'Departments', icon: SchoolIcon },
@@ -126,7 +139,7 @@ export default function AdminLayout({
     ];
 
     return (
-        <div className="min-h-screen bg-neutral-100 flex flex-col md:flex-row font-open-sans text-base" data-theme="admin">
+        <div className="min-h-screen bg-neutral-100 flex flex-col md:flex-row font-sans text-base" data-theme="admin">
             {/* Mobile Header */}
             <header className="md:hidden bg-neutral-900 p-4 flex items-center justify-between sticky top-0 z-50">
                 <Logo className="text-white h-10" />

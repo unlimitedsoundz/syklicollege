@@ -32,7 +32,7 @@ export default function OfferLetterEmail({
             <Preview>{previewText}</Preview>
             <Tailwind>
                 <Body className="bg-white dark:bg-black my-auto mx-auto font-sans">
-                    <Container className="border border-solid border-[#eaeaea] dark:border-none rounded my-[40px] mx-auto p-[20px] w-[465px]">
+                    <Container className="my-[20px] mx-auto px-[15px] py-[20px] w-[465px]">
                         <Section className="mt-[32px]">
                             <Img
                                 src="https://kestora.online/logo-kestora.png"
@@ -124,3 +124,6 @@ export default function OfferLetterEmail({
         </Html>
     );
 }
+
+
+

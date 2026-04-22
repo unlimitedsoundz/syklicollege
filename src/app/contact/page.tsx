@@ -8,6 +8,9 @@ import { SchemaLD } from '@/components/seo/SchemaLD';
 export const metadata: Metadata = {
     title: 'Contact Information | Kestora University',
     description: 'Contact details for Kestora University including Registry, Admissions, Student Services, and general inquiries.',
+    alternates: {
+        canonical: 'https://kestora.online/contact/',
+    },
 };
 
 export default function ContactPage() {

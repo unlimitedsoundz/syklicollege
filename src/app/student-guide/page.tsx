@@ -1,17 +1,20 @@
-'use client';
-
-import { useState } from 'react';
 import {
     BookOpen, GraduationCap, Heart,
     ArrowRight, CaretRight
 } from "@phosphor-icons/react/dist/ssr";
-import TableOfContents from '@/components/course/TableOfContents';
 import Link from 'next/link';
 import Image from 'next/image';
+import GuideSidebarLayout from '@/components/layout/StudentGuideLayout';
+
+export const metadata = {
+    title: 'Student Guide | Kestora University',
+    description: 'Find all the information you need to navigate your studies and life at Kestora University.',
+    alternates: {
+        canonical: 'https://kestora.online/student-guide/',
+    },
+};
 
 export default function StudentGuidePage() {
-    const [tocOpen, setTocOpen] = useState(false);
-
     const sections = [
         {
             id: 'programmes',
@@ -70,7 +73,6 @@ export default function StudentGuidePage() {
                 { title: "Master's Students", href: "/student-guide/master" },
                 { title: "International Students", href: "/student-guide/international" },
                 { title: "Exchange Students", href: "/student-guide/exchange" },
-                { title: "Arrival Guide", href: "/student-guide/arrival" },
             ]
         },
         { id: 'digital', title: 'Digital Systems', content: '' },
@@ -87,58 +89,51 @@ export default function StudentGuidePage() {
     ];
 
     return (
-        <div className="min-h-screen bg-white">
-            {/* HERO SECTION (Split Layout) */}
-            <section className="bg-neutral-950 text-white overflow-hidden">
-                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-20 h-[767px] lg:h-[600px] lg:py-0 relative mb-12">
+        <GuideSidebarLayout sections={sections}>
+            <div className="min-h-screen bg-white">
+            {/* HERO SECTION */}
+            <section className="text-black overflow-hidden" style={{ backgroundColor: '#FDF2F8' }}>
+                <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-[1fr,600px] items-center gap-12 py-12 lg:py-0 lg:h-[650px] relative mb-12">
                     {/* Left Content */}
-                    <div className="lg:w-1/2 space-y-2 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
-                        <nav className="mb-4 flex items-center gap-2 text-xs font-medium text-white uppercase tracking-widest opacity-60">
-                            <Link href="/" className="underline hover:text-white">Home</Link>
-                            <span>/</span>
-                            <span className="text-white">Student Guide</span>
+                    <div className="space-y-6 flex flex-col justify-center h-full">
+                        <nav className="mb-2 flex items-center gap-2 text-xs font-bold text-black uppercase tracking-widest">
+                            <Link href="/" className="underline hover:opacity-70 transition-colors">Home</Link>
+                            <ArrowRight size={12} weight="bold" />
+                            <span className="text-black">Student Guide</span>
                         </nav>
-                        <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight pt-8">
+                        <h1 className="font-bold leading-tight tracking-tight pt-0 text-black" style={{ fontSize: '40px' }}>
                             Student Guide
                         </h1>
-                        <p className="text-[21px] text-neutral-400 max-w-xl leading-relaxed">
+                        <p className="text-lg md:text-[21px] text-black max-w-xl leading-relaxed">
                             Your comprehensive resource for navigating studies, academic structure, support services, and daily life at Kestora University.
                         </p>
                         <div className="flex gap-4 pt-4">
-                            <Link href="#programmes" className="underline font-bold hover:text-neutral-300 transition-colors flex items-center gap-2">
-                                <ArrowRight size={18} /> View Programmes
+                            <Link href="#programmes" className="underline font-bold hover:opacity-70 transition-colors flex items-center gap-2 text-xl text-black">
+                                <ArrowRight size={20} weight="bold" /> View Programmes
                             </Link>
                         </div>
                     </div>
 
                     {/* Right Image */}
-                    <div className="lg:w-1/2 h-full w-full relative lg:translate-y-16 z-20 flex justify-center lg:block">
-                        <div className="h-full">
-                            <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800">
-                                <Image
-                                    src="/images/student-guide-hero.png"
-                                    alt="Kestora University Student Guide"
-                                    fill
-                                    className="object-cover"
-                                    priority
-                                    sizes="(max-width: 1024px) 368px, 50vw"
-                                />
-                            </div>
+                    <div className="w-full h-[400px] lg:h-full flex justify-center lg:block order-first lg:order-none">
+                        <div className="relative w-full h-full bg-neutral-800 shadow-2xl overflow-hidden">
+                            <Image
+                                src="/images/student-guide-hero.png"
+                                alt="Kestora University Student Guide"
+                                fill
+                                className="object-cover"
+                                priority
+                                sizes="(max-width: 1024px) 100vw, 600px"
+                            />
                         </div>
                     </div>
                 </div>
             </section>
 
             <div className="container mx-auto px-4 py-8 md:py-16">
-                <div className="fixed left-0 top-20 h-screen w-80 z-[10001] lg:block hidden"><TableOfContents sections={sections} /></div>
                 <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
-                    {/* Sidebar */}
-                    <aside className="lg:w-1/4 hidden lg:block h-fit sticky top-24">
-                        <TableOfContents sections={sections} />
-                    </aside>
-
                     {/* Main Content */}
-                    <main className="lg:w-3/4 space-y-12 md:space-y-20">
+                    <main className="lg:w-full space-y-12 md:space-y-20">
 
                         {/* Intro */}
                         <div className="max-w-none text-xl text-black">
@@ -186,13 +181,14 @@ export default function StudentGuidePage() {
 
                             <div className="bg-neutral-100 p-8 rounded-2xl">
                                 <h3 className="font-bold text-lg mb-4">Curriculum Structure</h3>
-                                <ul className="grid sm:grid-cols-2 gap-4">
+                                <ul className="grid sm:grid-cols-2 gap-4 text-black">
                                     {[
                                         "Core compulsory courses", "Elective courses",
                                         "Minor studies", "Language and communication studies",
                                         "Final thesis or capstone project"
                                     ].map(item => (
-                                        <li key={item} className="flex items-center gap-3">
+                                        <li key={item} className="flex items-center gap-3 font-bold">
+                                            <ArrowRight size={20} weight="bold" />
                                             <span>{item}</span>
                                         </li>
                                     ))}
@@ -244,17 +240,17 @@ export default function StudentGuidePage() {
                                     <p className="text-black mb-4 font-medium">Courses are assigned ECTS credits based on workload. Format includes:</p>
                                     <div className="flex flex-wrap gap-2">
                                         {['Lectures', 'Seminars', 'Projects', 'Case Studies', 'Exams'].map(tag => (
-                                            <span key={tag} className="bg-black text-white px-3 py-1 rounded-none text-xs font-bold uppercase tracking-wider">{tag}</span>
+                                            <span key={tag} className="bg-neutral-100 text-black px-3 py-1 rounded-none text-xs font-bold uppercase tracking-wider">{tag}</span>
                                         ))}
                                     </div>
                                 </div>
                                 <div className="bg-gray-100 rounded-none p-6">
                                     <h3 className="font-bold text-xl mb-3 text-black">Registration</h3>
                                     <p className="text-black mb-4 font-medium">Register via the digital study system during published periods.</p>
-                                    <ul className="text-sm space-y-2 text-black font-bold">
-                                        <li>• Check participant limits</li>
-                                        <li>• Verify prerequisites</li>
-                                        <li>• Review selection criteria</li>
+                                    <ul className="text-sm space-y-3 text-black font-bold">
+                                        <li className="flex items-center gap-2"><ArrowRight size={20} weight="bold" /> Check participant limits</li>
+                                        <li className="flex items-center gap-2"><ArrowRight size={20} weight="bold" /> Verify prerequisites</li>
+                                        <li className="flex items-center gap-2"><ArrowRight size={20} weight="bold" /> Review selection criteria</li>
                                     </ul>
                                 </div>
                             </div>
@@ -299,33 +295,33 @@ export default function StudentGuidePage() {
                                         <div className="space-y-6 md:space-y-8">
                                             <div>
                                                 <h4 className="font-bold text-black mb-1 md:mb-2 text-base md:text-lg">Autumn Term</h4>
-                                                <p className="text-sm md:text-base text-gray-600">September — December</p>
+                                                <p className="text-sm md:text-base text-black">September — December</p>
                                             </div>
                                             <div>
                                                 <h4 className="font-bold text-black mb-1 md:mb-2 text-base md:text-lg">Spring Term</h4>
-                                                <p className="text-sm md:text-base text-gray-600">January — May</p>
+                                                <p className="text-sm md:text-base text-black">January — May</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="md:w-2/3">
                                         <h4 className="font-bold text-lg md:text-xl mb-4 md:mb-6 text-black">Teaching Periods & Dates</h4>
-                                        <p className="text-sm md:text-base text-gray-600 mb-6 md:mb-8 md:text-lg">Each term consists of multiple teaching periods. Courses may run intensively or throughout the semester.</p>
+                                        <p className="text-sm md:text-base text-black mb-6 md:mb-8 md:text-lg">Each term consists of multiple teaching periods. Courses may run intensively or throughout the semester.</p>
                                         <div className="grid grid-cols-2 gap-4 md:gap-6">
                                             <div className="bg-white p-4 md:p-6 rounded-xl md:rounded-2xl border border-gray-200">
                                                 <span className="block font-bold mb-1 md:mb-2 text-black text-base md:text-lg">Teaching Periods</span>
-                                                <span className="text-xs md:text-sm text-gray-500">Scheduled sessions</span>
+                                                <span className="text-xs md:text-sm text-black">Scheduled sessions</span>
                                             </div>
                                             <div className="bg-white p-4 md:p-6 rounded-xl md:rounded-2xl border border-gray-200">
                                                 <span className="block font-bold mb-1 md:mb-2 text-black text-base md:text-lg">Exam Periods</span>
-                                                <span className="text-xs md:text-sm text-gray-500">Assessment weeks</span>
+                                                <span className="text-xs md:text-sm text-black">Assessment weeks</span>
                                             </div>
                                             <div className="bg-white p-4 md:p-6 rounded-xl md:rounded-2xl border border-gray-200">
                                                 <span className="block font-bold mb-1 md:mb-2 text-black text-base md:text-lg">Registration</span>
-                                                <span className="text-xs md:text-sm text-gray-500">Sign-up deadlines</span>
+                                                <span className="text-xs md:text-sm text-black">Sign-up deadlines</span>
                                             </div>
                                             <div className="bg-white p-4 md:p-6 rounded-xl md:rounded-2xl border border-gray-200">
                                                 <span className="block font-bold mb-1 md:mb-2 text-black text-base md:text-lg">Breaks</span>
-                                                <span className="text-xs md:text-sm text-gray-500">Winter & Summer</span>
+                                                <span className="text-xs md:text-sm text-black">Winter & Summer</span>
                                             </div>
                                         </div>
                                     </div>
@@ -382,7 +378,7 @@ export default function StudentGuidePage() {
                                 <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-start">
                                     <div>
                                         <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-white">Orientation Programme</h3>
-                                        <p className="text-sm md:text-base text-neutral-300 mb-6 md:mb-8 md:text-lg">
+                                        <p className="text-sm md:text-base text-black mb-6 md:mb-8 md:text-lg">
                                             New students receive structured onboarding before studies begin, ensuring a smooth transition into university life.
                                         </p>
                                         <ul className="space-y-3 md:space-y-4">
@@ -402,7 +398,7 @@ export default function StudentGuidePage() {
                                     <div className="bg-black p-6 md:p-10 rounded-2xl md:rounded-[2rem] border border-neutral-800 shadow-2xl relative overflow-hidden">
                                         <div className="relative z-10">
                                             <h3 className="font-bold text-lg md:text-2xl mb-4 md:mb-6 text-white px-1">Getting Started Checklist</h3>
-                                            <ul className="space-y-3 md:space-y-5 text-neutral-300">
+                                            <ul className="space-y-3 md:space-y-5 text-white">
                         <li className="flex gap-3 md:gap-4 items-center text-sm md:text-lg"><ArrowRight size={16} weight="bold" className="text-white" /> Confirm study rights</li>
                         <li className="flex gap-3 md:gap-4 items-center text-sm md:text-lg"><ArrowRight size={16} weight="bold" className="text-white" /> Activate student email</li>
                         <li className="flex gap-3 md:gap-4 items-center text-sm md:text-lg"><ArrowRight size={16} weight="bold" className="text-white" /> Access learning platforms</li>
@@ -474,5 +470,6 @@ export default function StudentGuidePage() {
                 </div>
             </div>
         </div>
+        </GuideSidebarLayout>
     );
 }

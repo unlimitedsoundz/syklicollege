@@ -7,7 +7,15 @@ import { createStaticClient } from "@/lib/supabase/static";
 import { formatToDDMMYYYY } from '@/utils/date';
 
 
+import { Metadata } from "next";
 import DynamicNewsSection from "@/components/news/DynamicNewsSection";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://kestora.online/',
+  },
+};
+
 
 export default async function Home() {
 
@@ -29,37 +37,33 @@ export default async function Home() {
 
       {/* 1. HERO SECTION (Dark Grey Split) */}
       <section className="bg-[#1a1a1a] text-white">
-        <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-32 pb-4 h-auto min-h-[600px] md:pt-48 lg:h-[600px] lg:py-0 relative mb-12">
+        <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-[1fr,600px] items-center gap-12 py-12 lg:py-0 lg:h-[650px] relative mb-12">
           {/* Left Content */}
-          <div className="lg:w-1/2 space-y-2 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight pt-8 lg:pt-24">
+          <div className="space-y-6 flex flex-col justify-center h-full">
+            <h1 className="font-bold leading-tight tracking-tight" style={{ fontSize: '40px' }}>
               Kestora University – English-Taught Bachelor’s & Master’s Degrees in Finland
             </h1>
-            <p className="text-[21px] text-white max-w-xl leading-relaxed my-4">
+            <p className="text-lg md:text-xl text-white/90 max-w-xl leading-relaxed">
               Kestora University is an independent higher education institution based in Helsinki, Finland, offering internationally focused Bachelor’s and Master’s degree programmes taught in English for students from around the world.
             </p>
-            <div className="space-y-3 pt-2">
-              <Link href="/admissions" className="flex items-center gap-2 text-[18px] font-bold underline hover:opacity-70 group">
-                <ArrowRight size={18} weight="bold" className="group-hover:translate-x-1 transition-transform" /> Start your application
+            <div className="pt-4">
+              <Link href="/admissions" className="inline-flex items-center gap-2 text-xl font-bold underline hover:opacity-70 group">
+                <ArrowRight size={20} weight="bold" className="group-hover:translate-x-1 transition-transform" /> Start your application
               </Link>
             </div>
-
-            {/* Removed Carousel Controls */}
           </div>
 
           {/* Right Image */}
-          <div className="lg:w-1/2 h-full w-full relative mt-4 lg:mt-0 lg:translate-y-16 z-20 flex justify-center lg:block">
-            <div className="h-full">
-              <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800 shadow-2xl overflow-hidden">
-                <Image
-                  src="/images/kestora hero.png"
-                  alt="Student studying at Kestora University campus in Finland"
-                  fill
-                  priority
-                  className="object-cover opacity-90"
-                  sizes="(max-width: 1024px) 368px, 50vw"
-                />
-              </div>
+          <div className="w-full h-[400px] lg:h-full flex justify-center lg:block order-first lg:order-none">
+            <div className="relative w-full h-full bg-neutral-800 shadow-2xl overflow-hidden">
+              <Image
+                src="/images/kestora hero.png"
+                alt="Student studying at Kestora University campus in Finland"
+                fill
+                priority
+                className="object-cover opacity-90"
+                sizes="(max-width: 768px) 100vw, 600px"
+              />
             </div>
           </div>
         </div>

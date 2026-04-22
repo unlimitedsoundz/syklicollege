@@ -1,6 +1,5 @@
 import { createClient } from '@/utils/supabase/client';
-import { sendEmail } from '@/lib/email';
-import InvoiceReadyEmail from '@/emails/InvoiceReadyEmail';
+// Action triggered from Finance Admin UI
 
 export async function pushInvoice(applicationId: string, customFee: number, invoiceType: string) {
     const supabase = createClient();
@@ -49,22 +48,29 @@ export async function pushInvoice(applicationId: string, customFee: number, invo
         return { success: true };
     }
 
-    // Send email notification to student
+    // Trigger Invoice Ready via Edge Function instead of local sendEmail
     try {
-        await sendEmail({
-            to: application.user?.email || application.contact_details?.email || 'tuition@kestora.online',
-            subject: `Your ${invoiceType} Invoice is Ready`,
-            react: InvoiceReadyEmail({
-                firstName: application.personal_info?.firstName || application.user?.first_name || 'Student',
-                courseTitle: application.course?.title || 'Your Programme',
-                amount: customFee,
-                currency: 'EUR',
-                invoiceType,
-            }),
+        console.log(`[pushInvoice] Triggering notification for application: ${applicationId}`);
+        const { data, error } = await supabase.functions.invoke('send-notification', {
+            body: {
+                applicationId: applicationId,
+                type: 'INVOICE_READY',
+                additionalData: {
+                    amount: customFee,
+                    currency: 'EUR',
+                    invoiceType: invoiceType
+                }
+            }
         });
-    } catch (emailError) {
-        console.error('Error sending invoice ready email:', emailError);
-        // Don't fail the push if email fails
+
+        if (error) {
+            console.error('[pushInvoice] Edge function error:', error);
+        } else {
+            console.log('[pushInvoice] Edge function triggered successfully:', data);
+        }
+    } catch (notifyError) {
+        console.error('[pushInvoice] Failed to invoke notification edge function:', notifyError);
+        // Don't fail the push if notification fails
     }
 
     return { success: true };

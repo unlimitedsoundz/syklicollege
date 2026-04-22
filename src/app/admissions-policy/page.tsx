@@ -4,6 +4,9 @@ import Link from 'next/link';
 export const metadata: Metadata = {
     title: 'Admissions Policy — Kestora University',
     description: 'The Admissions Policy of Kestora University defines the principles, criteria, and procedures governing admission to Bachelor\'s and Master\'s programmes.',
+    alternates: {
+        canonical: 'https://kestora.online/admissions-policy/',
+    },
 };
 
 export default function AdmissionsPolicyPage() {

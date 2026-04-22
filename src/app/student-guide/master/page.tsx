@@ -1,49 +1,55 @@
-'use client';
-
-import { ArrowLeft, Calendar, CaretRight, CheckCircle, FileText, Info, MapPin } from "@phosphor-icons/react/dist/ssr";
+import { ArrowLeft, Calendar, CaretRight, CheckCircle, FileText, Info, MapPin, ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import Link from 'next/link';
-import TableOfContents from '@/components/course/TableOfContents';
+import Image from 'next/image';
+import { Metadata } from 'next';
+import GuideSidebarLayout from '@/components/layout/StudentGuideLayout';
+
+export const metadata: Metadata = {
+    title: 'Master\'s Students Guide | Kestora University',
+    description: 'Essential steps and instructions for newly admitted Master\'s students at Kestora University. Follow this guide to ensure a smooth start to your studies.',
+    alternates: {
+        canonical: 'https://kestora.online/student-guide/master/',
+    },
+};
 
 export default function MastersGuidePage() {
     const sections = [
-        { id: 'accept', title: '1. Accept Admission', content: '' },
-        { id: 'documents', title: '2. Submit Documents', content: '' },
-        { id: 'tuition', title: '3. Tuition & Scholarships', content: '' },
-        { id: 'residence', title: '4. Residence Permit', content: '' },
-        { id: 'enrolment', title: '6. Enrolment', content: '' },
-        { id: 'housing', title: '7. Housing', content: '' },
-        { id: 'arrival', title: '8. Arrival & Orientation', content: '' },
-        { id: 'it-account', title: '9. IT Account', content: '' },
+        { id: 'accept', title: 'Accept Admission', content: '' },
+        { id: 'documents', title: 'Submit Documents', content: '' },
+        { id: 'tuition', title: 'Tuition & Scholarships', content: '' },
+        { id: 'residence', title: 'Residence Permit', content: '' },
+        { id: 'enrolment', title: 'Enrolment', content: '' },
+        { id: 'housing', title: 'Housing', content: '' },
+        { id: 'arrival', title: 'Arrival & Orientation', content: '' },
+        { id: 'it-account', title: 'IT Account', content: '' },
     ];
 
     return (
-        <div className="min-h-screen bg-white">
-            {/* HERO SECTION (Split Layout) */}
-            <section className="bg-neutral-950 text-white overflow-hidden">
-                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-20 h-[767px] lg:h-[600px] lg:py-0 relative mb-12">
+        <GuideSidebarLayout sections={sections}>
+            <div className="min-h-screen bg-white">
+            {/* HERO SECTION */}
+            <section className="text-black overflow-hidden" style={{ backgroundColor: '#FDF2F8' }}>
+                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-12 pb-12 lg:pb-0 h-auto lg:h-[600px] lg:py-0 relative mb-0">
                     {/* Left Content */}
-                    <div className="lg:w-1/2 space-y-2 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
-                        <div className="inline-block bg-white text-black px-4 py-1 rounded-none text-xs font-bold mb-4 uppercase tracking-widest">
-                            New Students
-                        </div>
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight pt-8">
+                    <div className="lg:w-1/2 space-y-6 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
+                        <h1 className="font-bold leading-[1.1] tracking-tight pt-8 text-black" style={{ fontSize: '40px' }}>
                             Master’s Students Guide
                         </h1>
-                        <p className="text-[21px] text-neutral-400 max-w-xl leading-relaxed">
+                        <p className="text-[21px] text-black max-w-xl leading-relaxed">
                             Essential steps and instructions for newly admitted Master’s students at Kestora University. Follow this guide to ensure a smooth start to your studies.
                         </p>
                     </div>
 
                     {/* Right Image */}
-                    <div className="lg:w-1/2 h-full w-full relative lg:translate-y-16 z-20 flex justify-center lg:block">
+                    <div className="lg:w-1/2 h-full w-full relative lg:translate-y-16 z-20 flex justify-center lg:block order-first lg:order-none">
                         <div className="h-full">
                             <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800">
                                 <Image
                                     src="/images/student-guide-hero.png"
                                     alt="Master Students"
                                     fill
-                                    className="object-cover"
                                     priority
+                                    className="object-cover"
                                     sizes="(max-width: 1024px) 368px, 50vw"
                                 />
                             </div>
@@ -60,13 +66,8 @@ export default function MastersGuidePage() {
                     <ArrowLeft size={20} weight="bold" className="mr-2" /> Back to Student Guide
                 </Link>
                 <div className="flex flex-col lg:flex-row gap-16">
-                    {/* Sidebar */}
-                    <aside className="lg:w-1/4 hidden lg:block h-fit sticky top-24">
-                        <TableOfContents sections={sections} />
-                    </aside>
-
                     {/* Main Content */}
-                    <main className="lg:w-3/4 space-y-8 md:space-y-16">
+                    <main className="lg:w-full space-y-8 md:space-y-16">
 
                         {/* Intro Box */}
                         <div className="bg-neutral-100 p-8 rounded-2xl">
@@ -155,8 +156,6 @@ export default function MastersGuidePage() {
                             </div>
                         </section>
 
-                        <div className="fixed left-0 top-20 h-screen w-80 z-[10001] lg:block hidden"><TableOfContents sections={tocSections} /></div>
-
                         {/* 3. Tuition */}
                         <section id="tuition" className="scroll-mt-32">
                             <div className="flex items-start gap-4 mb-6">
@@ -237,9 +236,10 @@ export default function MastersGuidePage() {
                                 <div className="w-10 h-10 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold flex-shrink-0">7</div>
                                 <h2 className="text-3xl font-bold pt-1">Apply for Student Housing</h2>
                             </div>
-                            <p className="text-neutral-700 mb-4">
+                            <p className="text-black font-medium mb-4">
                                 Apply as soon as you accept your study place. Queue times can be long.
-                                You can apply up to 4 months before your movie-in date.
+                                You can apply through local student housing foundations (HOAS/KUNI).
+                                Kestora University does provide on-campus housing directly, we assist with the application process.
                             </p>
                         </section>
 
@@ -287,5 +287,6 @@ export default function MastersGuidePage() {
                 </div>
             </div>
         </div>
+        </GuideSidebarLayout>
     );
 }

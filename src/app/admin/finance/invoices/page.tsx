@@ -11,7 +11,7 @@ export default function AdminInvoicesPage() {
     const [actionLoading, setActionLoading] = useState<string | null>(null);
     const [customFee, setCustomFee] = useState<Record<string, number>>({});
     const [customInvoiceType, setCustomInvoiceType] = useState<Record<string, string>>({});
-    
+
     // Default global fees reference, we could fetch from DB but keeping simple for now
     // A production scenario would fetch these from tuition_rates table
     const defaultFees: Record<string, number> = {
@@ -27,7 +27,7 @@ export default function AdminInvoicesPage() {
         try {
             setLoading(true);
             const supabase = createClient();
-            
+
             // Get all applications that have received an offer
             const { data, error } = await supabase
                 .from('applications')
@@ -63,7 +63,7 @@ export default function AdminInvoicesPage() {
                 else if (title.includes('BACHELOR') || title.includes('BSC')) defaultFee = defaultFees['BSc'];
                 else if (title.includes('MASTER') || title.includes('MSC')) defaultFee = defaultFees['MASTERS'];
                 else if (title.includes('POSTGRADUATE') || title.includes('PG')) defaultFee = defaultFees['PG_DIPLOMA'];
-                
+
                 return {
                     ...app,
                     offer,
@@ -71,7 +71,7 @@ export default function AdminInvoicesPage() {
                     defaultFee
                 };
             }) || [];
-            
+
             setApplications(formattedApps);
         } catch (error) {
             console.error("Error in fetchApplications:", error);
@@ -101,8 +101,8 @@ export default function AdminInvoicesPage() {
     const handlePushInvoice = async (appId: string, currentFee: number) => {
         const feeToPush = customFee[appId] !== undefined ? customFee[appId] : currentFee;
         const invoiceType = customInvoiceType[appId] || 'TUITION_DEPOSIT';
-        
-        if (!confirm(`Are you sure you want to push a ${invoiceType.replace(/_/g, ' ')} invoice of $${feeToPush} to this student?`)) return;
+
+        if (!confirm(`Are you sure you want to push a ${invoiceType.replace(/_/g, ' ')} invoice of \u20AC${feeToPush} to this student?`)) return;
 
         try {
             setActionLoading(appId);
@@ -142,7 +142,7 @@ export default function AdminInvoicesPage() {
                             <th className="p-4 font-bold text-neutral-600 text-xs uppercase">Applicant</th>
                             <th className="p-4 font-bold text-neutral-600 text-xs uppercase">Program</th>
                             <th className="p-4 font-bold text-neutral-600 text-xs uppercase">Status</th>
-                            <th className="p-4 font-bold text-neutral-600 text-xs uppercase">Tuition Fee ($)</th>
+                            <th className="p-4 font-bold text-neutral-600 text-xs uppercase">Tuition Fee (\u20AC)</th>
                             <th className="p-4 font-bold text-neutral-600 text-xs uppercase text-right">Actions</th>
                         </tr>
                     </thead>
@@ -158,82 +158,82 @@ export default function AdminInvoicesPage() {
                                 const isPushed = app.offer.invoice_pushed;
                                 const isEnrolledOrPaid = ['PAYMENT_SUBMITTED', 'ENROLLED', 'ADMISSION_LETTER_GENERATED'].includes(app.status);
                                 const feeValue = customFee[app.id] !== undefined ? customFee[app.id] : (app.offer.tuition_fee || app.defaultFee);
-                                
+
                                 return (
-                                <tr key={app.id} className="hover:bg-neutral-50 transition-colors">
-                                    <td className="p-4">
-                                        <div className="font-bold text-neutral-900 text-sm">
-                                            {app.personal_info?.firstName} {app.personal_info?.lastName}
-                                        </div>
-                                        <div className="text-xs text-neutral-500">{app.personal_info?.email}</div>
-                                    </td>
-                                    <td className="p-4 text-xs font-medium text-neutral-600">
-                                        {app.program?.title}
-                                    </td>
-                                    <td className="p-4">
-                                        {isEnrolledOrPaid ? (
-                                            <span className="px-2 py-1 bg-emerald-100 text-emerald-700 rounded-md text-[10px] font-bold uppercase flex items-center gap-1 w-fit">
-                                                <CheckCircle size={10} weight="bold" /> Paid / Enrolled
-                                            </span>
-                                        ) : isPushed ? (
-                                            <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded-md text-[10px] font-bold uppercase flex items-center gap-1 w-fit">
-                                                <Envelope size={10} weight="bold" /> Invoice Sent
-                                            </span>
-                                        ) : (
-                                            <span className="px-2 py-1 bg-amber-100 text-amber-700 rounded-md text-[10px] font-bold uppercase flex items-center gap-1 w-fit">
-                                                <Clock size={10} weight="bold" /> Pending Invoice
-                                            </span>
-                                        )}
-                                    </td>
-                                    <td className="p-4">
-                                        <select 
-                                            className="border border-neutral-300 rounded px-2 py-1 text-xs w-full mb-2 disabled:opacity-50"
-                                            value={customInvoiceType[app.id] || app.offer.invoice_type || 'TUITION_DEPOSIT'}
-                                            onChange={(e) => handleInvoiceTypeChange(app.id, e.target.value)}
-                                            disabled={isEnrolledOrPaid || actionLoading === app.id}
-                                        >
-                                            <option value="TUITION_DEPOSIT">Tuition Deposit</option>
-                                            <option value="FIRST_YEAR_TUITION">First Year Tuition</option>
-                                            <option value="FULL_PROGRAM_TUITION">Full Program Tuition</option>
-                                        </select>
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-sm font-bold text-neutral-900">$</span>
-                                            <input 
-                                                type="number" 
-                                                className="border border-neutral-300 rounded px-2 py-1 w-24 text-sm disabled:opacity-50"
-                                                value={feeValue}
-                                                onChange={(e) => handleFeeChange(app.id, e.target.value)}
-                                                disabled={isEnrolledOrPaid || actionLoading === app.id}
-                                            />
-                                        </div>
-                                        {isPushed && app.offer.invoice_sent_at && (
-                                            <div className="text-[10px] text-neutral-400 mt-1">
-                                                Sent: {new Date(app.offer.invoice_sent_at).toLocaleDateString()}
+                                    <tr key={app.id} className="hover:bg-neutral-50 transition-colors">
+                                        <td className="p-4">
+                                            <div className="font-bold text-neutral-900 text-sm">
+                                                {app.personal_info?.firstName} {app.personal_info?.lastName}
                                             </div>
-                                        )}
-                                    </td>
-                                    <td className="p-4 text-right">
-                                        <button
-                                            onClick={() => handlePushInvoice(app.id, app.defaultFee)}
-                                            disabled={actionLoading === app.id || isEnrolledOrPaid}
-                                            className={`px-3 py-2 rounded-sm text-[10px] font-bold uppercase tracking-widest transition-colors flex items-center gap-2 ml-auto ${
-                                                isEnrolledOrPaid 
-                                                    ? 'bg-neutral-200 text-neutral-400 cursor-not-allowed'
-                                                    : isPushed 
-                                                        ? 'bg-neutral-900 text-white hover:bg-neutral-700'
-                                                        : 'bg-emerald-600 text-white hover:bg-emerald-700'
-                                            } ${actionLoading === app.id ? 'opacity-50 cursor-not-allowed' : ''}`}
-                                        >
-                                            {actionLoading === app.id ? (
-                                                <Loader2 size={12} className="animate-spin" />
+                                            <div className="text-xs text-neutral-500">{app.personal_info?.email}</div>
+                                        </td>
+                                        <td className="p-4 text-xs font-medium text-neutral-600">
+                                            {app.program?.title}
+                                        </td>
+                                        <td className="p-4">
+                                            {isEnrolledOrPaid ? (
+                                                <span className="px-2 py-1 bg-emerald-100 text-emerald-700 rounded-md text-[10px] font-bold uppercase flex items-center gap-1 w-fit">
+                                                    <CheckCircle size={10} weight="bold" /> Paid / Enrolled
+                                                </span>
+                                            ) : isPushed ? (
+                                                <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded-md text-[10px] font-bold uppercase flex items-center gap-1 w-fit">
+                                                    <Envelope size={10} weight="bold" /> Invoice Sent
+                                                </span>
                                             ) : (
-                                                <FileText size={12} weight="bold" />
+                                                <span className="px-2 py-1 bg-amber-100 text-amber-700 rounded-md text-[10px] font-bold uppercase flex items-center gap-1 w-fit">
+                                                    <Clock size={10} weight="bold" /> Pending Invoice
+                                                </span>
                                             )}
-                                            {isEnrolledOrPaid ? 'Settled' : (isPushed ? 'Resend / Update' : 'Push Invoice')}
-                                        </button>
-                                    </td>
-                                </tr>
-                            )})
+                                        </td>
+                                        <td className="p-4">
+                                            <select
+                                                className="border border-neutral-300 rounded px-2 py-1 text-xs w-full mb-2 disabled:opacity-50"
+                                                value={customInvoiceType[app.id] || app.offer.invoice_type || 'TUITION_DEPOSIT'}
+                                                onChange={(e) => handleInvoiceTypeChange(app.id, e.target.value)}
+                                                disabled={isEnrolledOrPaid || actionLoading === app.id}
+                                            >
+                                                <option value="TUITION_DEPOSIT">Tuition Deposit</option>
+                                                <option value="FIRST_YEAR_TUITION">First Year Tuition</option>
+                                                <option value="FULL_PROGRAM_TUITION">Full Program Tuition</option>
+                                            </select>
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-sm font-bold text-neutral-900">\u20AC</span>
+                                                <input
+                                                    type="number"
+                                                    className="border border-neutral-300 rounded px-2 py-1 w-24 text-sm disabled:opacity-50"
+                                                    value={feeValue}
+                                                    onChange={(e) => handleFeeChange(app.id, e.target.value)}
+                                                    disabled={isEnrolledOrPaid || actionLoading === app.id}
+                                                />
+                                            </div>
+                                            {isPushed && app.offer.invoice_sent_at && (
+                                                <div className="text-[10px] text-neutral-400 mt-1">
+                                                    Sent: {new Date(app.offer.invoice_sent_at).toLocaleDateString()}
+                                                </div>
+                                            )}
+                                        </td>
+                                        <td className="p-4 text-right">
+                                            <button
+                                                onClick={() => handlePushInvoice(app.id, app.defaultFee)}
+                                                disabled={actionLoading === app.id || isEnrolledOrPaid}
+                                                className={`px-3 py-2 rounded-sm text-[10px] font-bold uppercase tracking-widest transition-colors flex items-center gap-2 ml-auto ${isEnrolledOrPaid
+                                                        ? 'bg-neutral-200 text-neutral-400 cursor-not-allowed'
+                                                        : isPushed
+                                                            ? 'bg-neutral-900 text-white hover:bg-neutral-700'
+                                                            : 'bg-emerald-600 text-white hover:bg-emerald-700'
+                                                    } ${actionLoading === app.id ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                            >
+                                                {actionLoading === app.id ? (
+                                                    <Loader2 size={12} className="animate-spin" />
+                                                ) : (
+                                                    <FileText size={12} weight="bold" />
+                                                )}
+                                                {isEnrolledOrPaid ? 'Settled' : (isPushed ? 'Resend / Update' : 'Push Invoice')}
+                                            </button>
+                                        </td>
+                                    </tr>
+                                )
+                            })
                         )}
                     </tbody>
                 </table>

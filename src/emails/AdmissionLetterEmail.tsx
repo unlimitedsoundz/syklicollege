@@ -18,11 +18,15 @@ import {
 interface AdmissionLetterEmailProps {
     firstName: string;
     courseTitle: string;
+    intake?: string;
+    studentId?: string;
 }
 
 export default function AdmissionLetterEmail({
     firstName = 'Student',
     courseTitle = 'Applied Sciences',
+    intake = 'August 2026',
+    studentId = 'KC-XXXXXX',
 }: AdmissionLetterEmailProps) {
     const previewText = `Congratulations on Your Admission to Kestora University – Next Steps`;
 
@@ -32,7 +36,7 @@ export default function AdmissionLetterEmail({
             <Preview>{previewText}</Preview>
             <Tailwind>
                 <Body className="bg-white dark:bg-black my-auto mx-auto font-sans">
-                    <Container className="border border-solid border-[#eaeaea] dark:border-none rounded my-[40px] mx-auto p-[20px] w-[465px]">
+                    <Container className="my-[20px] mx-auto px-[15px] py-[20px] w-[465px]">
                         <Section className="mt-[32px]">
                             <Img
                                 src="https://kestora.online/logo-kestora.png"
@@ -185,3 +189,6 @@ export default function AdmissionLetterEmail({
         </Html>
     );
 }
+
+
+

@@ -68,7 +68,7 @@ export default function DynamicNewsSection({ limit = 9, showExcerpt = true }: Dy
     }
 
     if (items.length === 0) {
-        return <div className="text-center py-12 text-neutral-500 italic">No recent news or upcoming events found.</div>;
+        return <div className="text-center py-12 text-neutral-500">No recent news or upcoming events found.</div>;
     }
 
     return (
@@ -98,18 +98,22 @@ export default function DynamicNewsSection({ limit = 9, showExcerpt = true }: Dy
                             </div>
                         </div>
                         <div className="flex-1 flex flex-col p-5">
+                            <div className="mb-2 flex items-center gap-2 text-sm font-bold text-black uppercase tracking-wider">
+                                {isEvent && <Calendar size={14} weight="bold" className="text-amber-600" />}
+                                {dateLabel}
+                            </div>
                             <h3 className="text-xl font-bold mb-2 group-hover:underline leading-tight">{item.title}</h3>
                             {showExcerpt && (
                                 <p className="text-[18px] text-black line-clamp-3 mb-4 flex-1">
                                     {item.excerpt || item.content?.replace(/[#*`]/g, '')}
                                 </p>
                             )}
-                            <div className="mt-auto pt-3 flex items-center justify-between text-xs text-neutral-500 uppercase tracking-wider">
-                                <span className="flex items-center gap-1">
-                                    {isEvent && <Calendar size={12} weight="bold" className="text-amber-600" />}
-                                    {dateLabel} {isEvent && item.location ? `| ${item.location}` : ''}
-                                </span>
-                            </div>
+                            {isEvent && item.location && (
+                                <div className="mt-auto pt-3 flex items-center text-xs text-neutral-500 uppercase tracking-wider gap-1">
+                                    <MapPin size={12} weight="bold" />
+                                    {item.location}
+                                </div>
+                            )}
                         </div>
                     </Link>
                 );

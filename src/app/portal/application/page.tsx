@@ -14,6 +14,7 @@ import DocumentsForm from '@/components/portal/wizard/DocumentsForm';
 import ReviewStep from '@/components/portal/wizard/ReviewStep';
 import WelcomeStep from '@/components/portal/wizard/WelcomeStep';
 import { getProgrammeInstructions } from '@/utils/programme-instructions';
+import { ensureStudentId } from '../profile-actions';
 
 function ApplicationWizardContent() {
     const router = useRouter();
@@ -54,7 +55,7 @@ function ApplicationWizardContent() {
                     .select(`
                         *,
                         course:Course(*, school:School(*)),
-                        user:profiles(email),
+                        user:profiles(email, student_id),
                         documents:application_documents(*)
                     `)
                     .eq('id', id)
@@ -72,6 +73,12 @@ function ApplicationWizardContent() {
                 }
 
                 setApplication(applicationRaw as any);
+
+                // ENSURE STUDENT ID
+                if (applicationRaw.user && !(applicationRaw.user as any).student_id) {
+                    await ensureStudentId();
+                }
+
             } catch (err) {
                 console.error('CRITICAL: Fetching application failed', err);
                 router.push('/portal/dashboard');
@@ -94,7 +101,7 @@ function ApplicationWizardContent() {
                 .select(`
                     *,
                     course:Course(*, school:School(*)),
-                    user:profiles(email),
+                    user:profiles(email, student_id),
                     documents:application_documents(*)
                 `)
                 .eq('id', id)
@@ -103,7 +110,11 @@ function ApplicationWizardContent() {
 
             if (applicationRaw) {
                 setApplication(applicationRaw as any);
+                if (applicationRaw.user && !(applicationRaw.user as any).student_id) {
+                    await ensureStudentId();
+                }
             }
+
         } finally {
             setLoading(false);
         }
@@ -184,7 +195,13 @@ function ApplicationWizardContent() {
                 <div className="flex items-center gap-2 text-[10px] text-neutral-500 mb-2 uppercase font-bold tracking-widest">
                     <Link href="/portal/dashboard" className="hover:text-black transition-colors">Dashboard</Link>
                     <ChevronRight size={10} weight="bold" />
-                    <span className="text-black">Application #{application.application_number || application.id.slice(0, 8)}</span>
+                    <span className="text-black">Application #{application.application_number || application.user?.student_id || 'Generating...'}</span>
+                    {application.user?.student_id && (
+                        <>
+                            <span className="text-neutral-300">|</span>
+                            <span className="text-primary">Student ID: {application.user.student_id}</span>
+                        </>
+                    )}
                 </div>
                 <h1 className="text-2xl font-black tracking-tighter uppercase leading-none mb-1">
                     {application.course?.title}

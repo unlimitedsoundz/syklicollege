@@ -3,6 +3,9 @@ import Link from 'next/link';
 export const metadata = {
     title: 'Accessibility Statement | Kestora University',
     description: 'Our commitment to ensuring digital accessibility for all users including students, staff and partners.',
+    alternates: {
+        canonical: 'https://kestora.online/accessibility/',
+    },
 };
 
 export default function AccessibilityPage() {
