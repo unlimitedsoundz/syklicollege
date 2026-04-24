@@ -20,30 +20,33 @@ export default function AlumniPage() {
 
     return (
         <div className="min-h-screen bg-white font-sans leading-relaxed">
-            {/* Hero Section */}
-            <section className="relative h-[400px] md:h-[600px] flex items-center bg-[#1a1a1a] overflow-hidden">
-                <div className="absolute inset-0 opacity-40">
-                    <div className="absolute inset-0 bg-gradient-to-r from-black to-transparent z-10" />
-                    <Image
-                        src="/images/1770770961793-019c4a2b-1d79-75c0-bd25-bf584b500a64.png"
-                        alt="Kestora Alumni"
-                        fill
-                        className="object-cover"
-                        priority
-                    />
-                </div>
-
-                <div className="container mx-auto px-4 relative z-20">
-                    <div className="max-w-3xl">
-                        <span className="inline-flex items-center gap-2 text-white/80 font-bold uppercase tracking-widest text-sm mb-6">
-                            Kestora Global Community
-                        </span>
-                        <h1 className="text-3xl md:text-7xl font-bold text-white mb-4 md:mb-8 leading-tight pt-12 md:pt-8 bg-clip-text">
-                            Master&apos;s Alumni at Kestora University
+            {/* Hero Section (Emerald Split - Matching Admissions Style) */}
+            <section className="text-black overflow-hidden" style={{ backgroundColor: '#10B981' }}>
+                <div className="container mx-auto flex flex-col lg:flex-row items-center gap-2 lg:gap-16 pt-0 md:pt-12 pb-12 lg:pb-0 h-auto lg:h-[600px] lg:py-0 relative mb-0">
+                    {/* Left Content */}
+                    <div className="lg:w-1/2 space-y-6 relative z-10 flex flex-col justify-center h-full pt-2 lg:pt-0 px-4 md:px-0">
+                        <h1 className="font-bold leading-[1.1] tracking-tight pt-2 text-black" style={{ fontSize: '40px' }}>
+                            Kestora Alumni Network
                         </h1>
-                        <p className="text-lg md:text-2xl text-white/90 font-light leading-relaxed mb-6 md:mb-10">
-                            Empowering a global network of professionals committed to sustainable impact, leadership, and innovation.
+                        <p className="text-[21px] text-black max-w-xl leading-relaxed">
+                            Empowering a global network of professionals committed to sustainable impact, leadership, and innovation. Graduates become lifelong members of the Kestora community.
                         </p>
+                    </div>
+
+                    {/* Right Image */}
+                    <div className="lg:w-1/2 h-full w-full relative lg:translate-y-16 z-20 flex justify-center lg:block order-first lg:order-none">
+                        <div className="h-full w-full">
+                            <div className="relative w-full aspect-square md:aspect-auto lg:w-full lg:h-full bg-neutral-800">
+                                <Image
+                                    src="https://i.pinimg.com/1200x/40/7b/43/407b43fe5af80de6a8f6bdc4da7d1104.jpg"
+                                    alt="Kestora Alumni"
+                                    fill
+                                    priority
+                                    className="object-cover"
+                                    sizes="100vw"
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

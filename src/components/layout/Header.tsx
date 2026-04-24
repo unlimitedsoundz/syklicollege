@@ -26,12 +26,17 @@ const navigation: NavItem[] = [
         children: [
             { name: "Student Guide", href: "/student-guide" },
             { name: "International Students", href: "/student-guide/international" },
+            { name: "Chat with Students", href: "/student-guide/chat-with-kestora-students" },
+            { name: "Housing for students", href: "/student-guide/housing-for-students" },
             { name: "Arrival Guide", href: "/student-guide/arrival" },
             { name: "Exchange Guide", href: "/student-guide/exchange" },
             { name: "Kestora Student Ambassadors", href: "https://ourblogs.kestora.online/" },
             { name: "News and Events", href: "/news" },
             { name: "Academic Calendar", href: "/student-guide#calendar" },
             { name: "Support Services", href: "/student-guide#support" },
+            { name: "Careers", href: "/careers" },
+            { name: "Alumni", href: "/alumni" },
+            { name: "Contact", href: "/contact" },
         ]
     },
     {
@@ -112,7 +117,7 @@ export function Header() {
 
     return (
         <header
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-black ${isAdmissionsPage ? 'bg-[#fd6402]' : 'bg-white'}`}
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isAdmissionsPage ? 'bg-[#fd6402]' : 'bg-white shadow-sm'}`}
         >
             <div className="container mx-auto px-4 h-20 flex items-center justify-between">
                 <Logo
@@ -140,7 +145,7 @@ export function Header() {
 
                             {/* Standard Dropdown */}
                             {item.children && (
-                                <div className={`absolute top-20 left-0 w-64 border border-black shadow-none hidden group-hover:block animate-in fade-in slide-in-from-top-1 duration-200 ${isAdmissionsPage ? 'bg-[#fd6402]' : 'bg-white'}`}>
+                                <div className={`absolute top-20 left-0 w-64 shadow-xl hidden group-hover:block animate-in fade-in slide-in-from-top-1 duration-200 ${isAdmissionsPage ? 'bg-[#fd6402]' : 'bg-white'}`}>
                                     {item.children.map((child) => (
                                         <Link
                                             key={child.name}
@@ -155,7 +160,7 @@ export function Header() {
 
                             {/* Mega Dropdown for Sections */}
                             {item.sections && (
-                                <div className={`absolute top-20 left-0 w-[600px] max-h-[80vh] overflow-y-auto border border-black shadow-none hidden group-hover:block p-0 animate-in fade-in slide-in-from-top-1 duration-200 ${isAdmissionsPage ? 'bg-[#fd6402]' : 'bg-white'}`}>
+                                <div className={`absolute top-20 left-0 w-[600px] max-h-[80vh] overflow-y-auto shadow-2xl hidden group-hover:block p-0 animate-in fade-in slide-in-from-top-1 duration-200 ${isAdmissionsPage ? 'bg-[#fd6402]' : 'bg-white'}`}>
                                     <div className="flex flex-col">
                                         {item.sections.map((section, idx) => (
                                             <div key={section.title}>
