@@ -71,8 +71,8 @@ export default function DateSelector({
     return (
         <div className={`space-y-1 ${className}`}>
             {label && (
-                <label className="block text-[10px] font-black uppercase mb-1 text-[#2d2d2d]">
-                    {label} {required && '*'}
+                <label className="block text-[13px] font-semibold mb-1 text-black">
+                    {label} {required && <span className="text-red-500">*</span>}
                 </label>
             )}
             <div className="flex gap-2">

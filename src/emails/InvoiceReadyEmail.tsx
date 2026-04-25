@@ -63,7 +63,7 @@ export default function InvoiceReadyEmail({
                         <Section className="bg-neutral-50 rounded-lg p-6 my-8 border border-neutral-100">
                             <div className="flex justify-between mb-2">
                                 <Text className="text-neutral-500 text-[10px] uppercase font-bold tracking-widest my-0">Invoice Type</Text>
-                                <Text className="text-black text-[14px] font-bold my-0">{invoiceType}</Text>
+                                <Text className="text-black text-[14px] font-normal my-0">{invoiceType}</Text>
                             </div>
                             <div className="flex justify-between">
                                 <Text className="text-neutral-500 text-[10px] uppercase font-bold tracking-widest my-0">Amount Due</Text>
@@ -85,11 +85,24 @@ export default function InvoiceReadyEmail({
                         </Section>
 
                         <Hr className="border border-solid border-[#eaeaea] my-[26px] mx-0 w-full" />
+
+                        <Section className="text-center">
+                            <Text className="text-black text-[10px] font-bold uppercase tracking-widest my-0">
+                                Powered by Flywire
+                            </Text>
+                            <Text className="text-[#888888] text-[8px] uppercase tracking-wider my-1">
+                                Copyright ©Flywire. 2009-2026 All rights reserved.
+                            </Text>
+                            <Text className="text-[#888888] text-[8px] uppercase tracking-wider my-0">
+                                Flywire is a trademark of Flywire Corporation.
+                            </Text>
+                        </Section>
+
                         <Section className="text-center mt-[10px] mb-[20px]">
                             <Text className="m-0">
                                 <Link href="https://www.linkedin.com/company/kestora-university" className="text-[#888888] text-[12px] no-underline font-bold mx-[10px]">LinkedIn</Link>
                                 <Link href="https://www.tiktok.com/@kestorauniversity" className="text-[#888888] text-[12px] no-underline font-bold mx-[10px]">TikTok</Link>
-                                <Link href="https://snapchat.com/add/kestorauniversity" className="text-[#888888] text-[12px] no-underline font-bold mx-[10px]">Snapchat</Link>
+                                <Link href="https://snapchat.com/add/kestoracollege" className="text-[#888888] text-[12px] no-underline font-bold mx-[10px]">Snapchat</Link>
                             </Text>
                         </Section>
 

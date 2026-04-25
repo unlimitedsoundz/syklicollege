@@ -4,7 +4,8 @@
 import { useState } from 'react';
 import { deleteFaculty } from '../actions';
 import { Trash, PencilSimple as Edit, Envelope as Mail, Buildings as SchoolIcon, MagnifyingGlass as Search, CaretLeft as ChevronLeft, CaretRight as ChevronRight, CaretDoubleLeft as ChevronsLeft, CaretDoubleRight as ChevronsRight, Users } from "@phosphor-icons/react/dist/ssr";
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
+import { SearchField } from '@/components/ui/SearchField';
 
 interface FacultyClientProps {
     faculty: any[];
@@ -28,16 +29,12 @@ export default function FacultyClient({ faculty }: FacultyClientProps) {
         currentPage * ITEMS_PER_PAGE
     );
 
-    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(e.target.value);
-        setCurrentPage(1);
-    };
 
     return (
-        <div className="space-y-8 pt-12 pl-12">
-            <div className="flex justify-between items-center">
+        <div className="space-y-8">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold text-neutral-900">Faculty Editor</h1>
+                    <h1 className="text-3xl font-bold text-neutral-900 leading-tight">Faculty Editor</h1>
                     <p className="text-neutral-500 mt-1">Manage academic staff and administration</p>
                 </div>
                 <Link
@@ -51,14 +48,14 @@ export default function FacultyClient({ faculty }: FacultyClientProps) {
             <div className="bg-white rounded-2xl shadow-sm border border-neutral-200 overflow-hidden">
                 {/* Search Bar */}
                 <div className="p-4 border-b border-neutral-100 bg-neutral-50/50 flex items-center justify-between">
-                    <div className="relative w-full max-w-md">
-                        <Search size={16} weight="bold" className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
-                        <input
-                            type="text"
+                    <div className="w-full max-w-md">
+                        <SearchField
                             placeholder="Search faculty by name, email, or role..."
                             value={searchTerm}
-                            onChange={handleSearchChange}
-                            className="w-full pl-10 pr-4 py-2 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-black"
+                            onChange={(v) => {
+                                setSearchTerm(v);
+                                setCurrentPage(1);
+                            }}
                         />
                     </div>
                     <div className="text-xs font-bold text-neutral-400 uppercase tracking-widest">
@@ -67,7 +64,7 @@ export default function FacultyClient({ faculty }: FacultyClientProps) {
                 </div>
 
                 <div className="overflow-x-auto">
-                    <table className="w-full text-left">
+                    <table className="w-full text-left min-w-[800px]">
                         <thead className="bg-neutral-50 border-b border-neutral-200">
                             <tr>
                                 <th className="p-5 text-xs font-bold text-neutral-400 uppercase tracking-widest">Member</th>

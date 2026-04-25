@@ -54,11 +54,16 @@ export async function updateApplicationStatus(applicationId: string, status: App
                 const schoolSlug = courseData?.school?.slug || 'technology';
 
                 // Use tuition.ts computation (source of truth)
-                const { getTuitionFee, mapSchoolToTuitionField, calculateDiscountedFee } = await import('@/utils/tuition');
+                const { getTuitionFee, mapSchoolToTuitionField, calculateDiscountedFee, getProgramYears, calculateFullProgramDiscountedFee } = await import('@/utils/tuition');
                 const tuitionField = mapSchoolToTuitionField(schoolSlug);
-                const baseFee = getTuitionFee(degreeLevel, tuitionField);
-                const discountedFee = calculateDiscountedFee(baseFee);
-                const discountAmount = baseFee - discountedFee;
+                const annualFee = getTuitionFee(degreeLevel, tuitionField);
+                
+                // For automated first offer, we default to FULL_TUITION (Full Programme) 
+                // as requested: Bachelors x 3, Masters x 2 with Early Bird on 1st year.
+                const duration = (appData as any)?.Course?.duration || '3 years';
+                const years = getProgramYears(duration, degreeLevel as any);
+                const discountedTotalFee = calculateFullProgramDiscountedFee(annualFee, years);
+                const discountAmount = (annualFee * years) - discountedTotalFee;
 
                 const deadline = new Date();
                 deadline.setDate(deadline.getDate() + 30); // 30 day deadline
@@ -67,12 +72,13 @@ export async function updateApplicationStatus(applicationId: string, status: App
                     .from('admission_offers')
                     .insert({
                         application_id: applicationId,
-                        tuition_fee: discountedFee,
+                        tuition_fee: discountedTotalFee,
                         discount_amount: discountAmount,
                         payment_deadline: deadline.toISOString(),
-                        offer_type: 'FULL',
+                        offer_type: 'FULL_TUITION',
                         status: 'PENDING'
                     });
+
             }
 
             const { generateAndStoreOfferLetter } = await import('./pdf-actions');

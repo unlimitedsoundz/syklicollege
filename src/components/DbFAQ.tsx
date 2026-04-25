@@ -34,8 +34,8 @@ export default function DbFAQ({ pageSlug, fallbackFaqs, refreshKey }: DbFAQProps
 
                 console.log('DbFAQ: Looking up page for slug', pageSlug, 'result:', pageData, 'error:', pageError);
 
-                if (pageError || !pageData) {
-                    console.warn('FAQ page not found for slug:', pageSlug, pageError);
+                if (pageError || !pageData || !supabase) {
+                    console.warn('FAQ page not found or Supabase not initialized for slug:', pageSlug, pageError);
                     if (mounted) {
                         setFaqs([]);
                     }

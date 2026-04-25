@@ -48,7 +48,7 @@ export default function OfferLetterEmail({
                                 width="465"
                                 height="150"
                                 alt="Scholarships"
-                                className="w-full object-cover"
+                                className="w-full object-cover object-top"
                             />
                         </Section>
 
@@ -124,6 +124,7 @@ export default function OfferLetterEmail({
         </Html>
     );
 }
+
 
 
 

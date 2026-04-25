@@ -12,7 +12,7 @@ import {
     generateAdmissionLetterAction
 } from '../actions';
 import { togglePortalAccess } from '@/app/admin/user-actions';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { useState, useEffect, use, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
@@ -551,9 +551,11 @@ function ApplicationReviewContent() {
                                     <FinancialOfferForm
                                         applicationId={id!}
                                         baseTuition={getTuitionFee(app.course?.degreeLevel || 'BACHELOR', mapSchoolToTuitionField(app.course?.school?.slug || 'technology'))}
-                                        programYears={getProgramYears(app.course?.duration || '3 years')}
+                                        programYears={getProgramYears(app.course?.duration || '3 years', app.course?.degreeLevel)}
+                                        degreeLevel={app.course?.degreeLevel}
                                         onSuccess={fetchData}
                                     />
+
                                 </div>
                             )}
                         </div>

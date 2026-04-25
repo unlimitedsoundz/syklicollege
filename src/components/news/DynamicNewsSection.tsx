@@ -1,54 +1,87 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import Image from 'next/image';
 import { createClient } from '@/utils/supabase/client';
 import { formatToDDMMYYYY } from '@/utils/date';
 import { Calendar, MapPin } from "@phosphor-icons/react";
+import { Card } from '@/components/ui/Card';
 
 interface DynamicNewsSectionProps {
     limit?: number;
     showExcerpt?: boolean;
+    excludeId?: string | number;
+    contentType?: 'news' | 'event' | 'blog' | 'all';
 }
 
-export default function DynamicNewsSection({ limit = 9, showExcerpt = true }: DynamicNewsSectionProps) {
+export default function DynamicNewsSection({ 
+    limit = 9, 
+    showExcerpt = true, 
+    excludeId,
+    contentType = 'all'
+}: DynamicNewsSectionProps) {
     const [items, setItems] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function fetchContent() {
             const supabase = createClient();
+            let newsData: any[] = [];
+            let eventsData: any[] = [];
+            let blogData: any[] = [];
 
-            // Fetch news
-            const { data: newsData } = await supabase
-                .from('News')
-                .select('*')
-                .eq('published', true)
-                .order('publishDate', { ascending: false })
-                .limit(limit);
+            // Fetch news if needed
+            if (contentType === 'all' || contentType === 'news') {
+                const { data } = await supabase
+                    .from('News')
+                    .select('*')
+                    .eq('published', true)
+                    .order('publishDate', { ascending: false })
+                    .limit(limit);
+                newsData = data || [];
+            }
 
-            // Fetch events
-            const { data: eventsData } = await supabase
-                .from('Event')
-                .select('*')
-                .eq('published', true)
-                .order('date', { ascending: true })
-                .limit(limit);
+            // Fetch events if needed
+            if (contentType === 'all' || contentType === 'event') {
+                const { data } = await supabase
+                    .from('Event')
+                    .select('*')
+                    .eq('published', true)
+                    .order('date', { ascending: true })
+                    .limit(limit);
+                eventsData = data || [];
+            }
+
+            // Fetch blogs if needed
+            if (contentType === 'blog') {
+                const { data } = await supabase
+                    .from('blogs')
+                    .select('*')
+                    .eq('published', true)
+                    .order('publishDate', { ascending: false })
+                    .limit(limit);
+                blogData = data || [];
+            }
 
             // Combine and sort
-            const combined = [
-                ...(newsData || []).map((n: any) => ({ ...n, type: 'news', sortDate: n.publishDate })),
-                ...(eventsData || []).map((e: any) => ({ ...e, type: 'event', sortDate: e.date }))
-            ].sort((a, b) => new Date(b.sortDate).getTime() - new Date(a.sortDate).getTime())
-                .slice(0, limit);
+            let combined = [
+                ...newsData.map((n: any) => ({ ...n, type: 'news', sortDate: n.publishDate })),
+                ...eventsData.map((e: any) => ({ ...e, type: 'event', sortDate: e.date })),
+                ...blogData.map((b: any) => ({ ...b, type: 'blog', sortDate: b.publishDate }))
+            ].sort((a, b) => new Date(b.sortDate).getTime() - new Date(a.sortDate).getTime());
 
-            setItems(combined);
+            // Exclude current item if needed
+            if (excludeId) {
+                combined = combined.filter(item => item.id !== excludeId);
+            }
+
+            setItems(combined.slice(0, limit));
             setLoading(false);
         }
 
         fetchContent();
-    }, [limit]);
+    }, [limit, contentType]);
 
     if (loading) {
         return (
@@ -68,54 +101,65 @@ export default function DynamicNewsSection({ limit = 9, showExcerpt = true }: Dy
     }
 
     if (items.length === 0) {
-        return <div className="text-center py-12 text-neutral-500">No recent news or upcoming events found.</div>;
+        const typeLabel = contentType === 'all' ? 'news or events' : contentType;
+        return <div className="text-center py-12 text-neutral-500">No recent {typeLabel} found.</div>;
     }
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
             {items.map((item) => {
                 const isEvent = item.type === 'event';
-                const href = isEvent ? `/news/events/${item.slug}` : `/news/${item.slug}`;
+                const isBlog = item.type === 'blog';
+                
+                let href = `/news/${item.slug}`;
+                if (isEvent) href = `/news/events/${item.slug}`;
+                if (isBlog) href = `https://ourblogs.kestora.online/${item.slug}`;
+
                 const dateLabel = formatToDDMMYYYY(item.sortDate);
-                const label = isEvent ? 'Event' : 'News';
+                let label = 'News';
+                if (isEvent) label = 'Event';
+                if (isBlog) label = 'Blog';
+
                 const fallbackImage = "/images/admissions/events.jpg";
 
                 return (
-                    <Link key={item.id} href={href} className="group flex flex-col h-full bg-neutral-100 shadow-none">
-                        <div className="aspect-video bg-neutral-200 overflow-hidden mb-4 relative">
-                            <Image
-                                src={item.imageUrl || fallbackImage}
-                                alt={item.title}
-                                fill
-                                unoptimized
-                                className="object-cover group-hover:scale-105 transition-transform duration-500"
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            />
-                            <div className="absolute top-4 left-4">
-                                <span className={`px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest ${isEvent ? 'bg-amber-500 text-black' : 'bg-black text-white'}`}>
-                                    {label}
-                                </span>
+                    <Card
+                        key={item.id}
+                        title={item.title}
+                        subtitle={
+                            <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-black">
+                                {isEvent ? <Calendar size={14} weight="bold" className="text-amber-600" /> : null}
+                                <span>{dateLabel}</span>
                             </div>
-                        </div>
-                        <div className="flex-1 flex flex-col p-5">
-                            <div className="mb-2 flex items-center gap-2 text-sm font-bold text-black uppercase tracking-wider">
-                                {isEvent && <Calendar size={14} weight="bold" className="text-amber-600" />}
-                                {dateLabel}
-                            </div>
-                            <h3 className="text-xl font-bold mb-2 group-hover:underline leading-tight">{item.title}</h3>
-                            {showExcerpt && (
-                                <p className="text-[18px] text-black line-clamp-3 mb-4 flex-1">
-                                    {item.excerpt || item.content?.replace(/[#*`]/g, '')}
-                                </p>
-                            )}
-                            {isEvent && item.location && (
-                                <div className="mt-auto pt-3 flex items-center text-xs text-neutral-500 uppercase tracking-wider gap-1">
-                                    <MapPin size={12} weight="bold" />
-                                    {item.location}
+                        }
+                        badge={{
+                            label: label,
+                            className: isEvent ? 'bg-amber-500 text-black' : (isBlog ? 'bg-primary text-white' : 'bg-black text-white')
+                        }}
+                        image={{
+                            src: item.imageUrl || fallbackImage,
+                            alt: item.title
+                        }}
+                        body={
+                            showExcerpt && (
+                                <div className="space-y-4">
+                                    <p className="line-clamp-3">{item.excerpt || item.content?.replace(/[#*`]/g, '')}</p>
+                                    {isEvent && item.location && (
+                                        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-neutral-500">
+                                            <MapPin size={12} weight="bold" />
+                                            <span>{item.location}</span>
+                                        </div>
+                                    )}
                                 </div>
-                            )}
-                        </div>
-                    </Link>
+                            )
+                        }
+                        cta={{
+                            label: "Read more",
+                            linkComponentProps: {
+                                href: href
+                            }
+                        }}
+                    />
                 );
             })}
         </div>

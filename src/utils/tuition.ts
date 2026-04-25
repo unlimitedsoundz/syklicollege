@@ -4,10 +4,10 @@ export type TuitionField = 'BUSINESS' | 'ARTS' | 'TECHNOLOGY' | 'SCIENCE';
 
 export const TUITION_FEES: Record<DegreeLevel, Record<TuitionField, number>> = {
     BACHELOR: {
-        BUSINESS: 4000,
-        ARTS: 4000,
+        BUSINESS: 6000,
+        ARTS: 6000,
         TECHNOLOGY: 6000,
-        SCIENCE: 7500,
+        SCIENCE: 9500,
     },
     MASTER: {
         BUSINESS: 6000,
@@ -46,14 +46,28 @@ export function calculateDiscountedFee(totalFee: number): number {
 }
 
 /**
- * Gets total program years based on duration string.
+ * Calculates the total program fee with early bird discount applied to the first year only.
  */
-export function getProgramYears(duration: string): number {
+export function calculateFullProgramDiscountedFee(annualFee: number, years: number): number {
+    const firstYearDiscounted = calculateDiscountedFee(annualFee);
+    const remainingYears = (years - 1) * annualFee;
+    return firstYearDiscounted + remainingYears;
+}
+
+/**
+ * Gets total program years based on duration string and degree level.
+ */
+export function getProgramYears(duration: string, level?: DegreeLevel): number {
+    // Explicit overrides based on user request: Bachelors x 3, Masters x 2
+    if (level === 'BACHELOR') return 3;
+    if (level === 'MASTER') return 2;
+
     if (duration.toLowerCase().includes('2 years')) return 2;
     if (duration.toLowerCase().includes('3 years')) return 3;
     if (duration.toLowerCase().includes('4 years')) return 4;
     return 2; // Default
 }
+
 
 /**
  * Maps a School ID/Slug to a TuitionField.

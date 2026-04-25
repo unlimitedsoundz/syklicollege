@@ -1,6 +1,8 @@
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { CaretLeft, GraduationCap, Globe, ShieldCheck, Lightbulb, Leaf, Briefcase, Buildings, Heart, MapTrifold, Certificate } from "@phosphor-icons/react/dist/ssr";
+import { Info } from '@/components/ui/Info';
+import { Highlight } from '@/components/ui/Highlight';
 
 export const metadata = {
     title: 'Why Study in Finland? 10 Reasons International Students Choose Helsinki | Kestora University',
@@ -66,7 +68,7 @@ const reasons = [
 
 export default function WhyStudyInFinlandPage() {
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-white font-sans text-black">
             {/* Hero */}
             <div className="h-[55vh] min-h-[450px] relative overflow-hidden bg-neutral-900">
                 <Image
@@ -74,20 +76,16 @@ export default function WhyStudyInFinlandPage() {
                     alt="Aerial view of Helsinki, Finland with university campus and harbour"
                     fill
                     priority
-                    className="object-cover opacity-50"
+                    className="object-cover object-top opacity-50"
                     sizes="100vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-transparent to-transparent opacity-90" />
                 <div className="absolute bottom-0 left-0 w-full p-8 md:p-16 text-white max-w-5xl">
-                    <div className="flex items-center gap-3 mb-4">
-                        <span className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest bg-black text-white">News</span>
-                        <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-400">14.02.2026</span>
-                    </div>
-                    <h1 className="text-3xl md:text-5xl font-bold mb-4 leading-tight">
-                        Why Study in Finland? 10 Reasons International Students Choose Helsinki
+                    <h1 className="text-aalto-7 font-bold mb-4 leading-aalto-7 tracking-aalto-3">
+                        Why Study in Finland?
                     </h1>
-                    <p className="text-neutral-300 text-lg max-w-2xl">
-                        Finland has become one of Europe&apos;s most attractive study destinations — and Helsinki, the capital city, is at the heart of it all.
+                    <p className="text-neutral-300 text-aalto-4 max-w-2xl leading-aalto-2">
+                        Discover why Finland has become one of Europe&apos;s most attractive study destinations.
                     </p>
                 </div>
             </div>
@@ -101,44 +99,68 @@ export default function WhyStudyInFinlandPage() {
 
             {/* Article body */}
             <div className="container mx-auto px-4 pb-16 md:pb-24 max-w-4xl">
+                
+                <Info 
+                    items={[
+                        { title: "Published", body: "14.2.2026" },
+                        { title: "Updated", body: "15.2.2026" },
+                        { title: "Author", body: "Kestora Admissions" },
+                        {
+                            tagGroup: {
+                                tags: [
+                                    { label: "News" },
+                                    { label: "International" },
+                                    { label: "Helsinki" }
+                                ]
+                            }
+                        }
+                    ]}
+                />
+
                 {/* Intro */}
                 <div className="mb-12">
-                    <p className="text-xl text-neutral-700 leading-relaxed">
-                        Every year, thousands of international students choose Finland for their higher education. The combination of academic excellence, personal safety, career opportunities, and a high quality of life makes it a uniquely compelling destination. Here are <strong>10 powerful reasons</strong> why you should consider Helsinki for your studies.
+                    <p className="text-aalto-4 text-neutral-800 leading-aalto-3 font-medium">
+                        Every year, thousands of international students choose Finland for their higher education. The combination of academic excellence, personal safety, career opportunities, and a high quality of life makes it a uniquely compelling destination.
                     </p>
                 </div>
 
+                <Highlight 
+                    body="Finland's education system is built on equality and high quality. We don't just teach facts; we teach students how to think and innovate."
+                    source="Dr. Elena Nieminen, Head of International Admissions"
+                    alignment="right"
+                />
+
                 {/* Content Image */}
-                <div className="mb-12">
-                    <div className="relative aspect-[16/9] rounded-xl overflow-hidden">
+                <div className="mb-16">
+                    <div className="relative aspect-[16/9] overflow-hidden">
                         <Image
                             src="/images/news/helsinki-study-hero.png"
                             alt="International students at Kestora University campus in Helsinki"
                             fill
-                            className="object-cover"
+                            className="object-cover object-top"
                             sizes="(max-width: 768px) 100vw, 800px"
                         />
                     </div>
-                    <p className="text-xs text-neutral-500 mt-3">Kestora University | Photo by Markus Aalborg</p>
+                    <p className="text-xs font-bold uppercase tracking-widest text-neutral-500 mt-4">Kestora University Campus | Helsinki</p>
                 </div>
 
                 {/* Reasons */}
-                <div className="space-y-10">
+                <div className="space-y-16">
                     {reasons.map((reason, index) => {
                         const Icon = reason.icon;
                         return (
-                            <div key={index} className="flex gap-6 items-start group">
-                                {/* Number + Icon */}
-                                <div className="flex-shrink-0 w-14 h-14 bg-neutral-900 text-white flex items-center justify-center rounded-xl font-bold text-lg relative">
+                            <div key={index} className="flex gap-8 items-start">
+                                {/* Number */}
+                                <div className="flex-shrink-0 w-16 h-16 bg-black text-white flex items-center justify-center font-bold text-2xl">
                                     {index + 1}
                                 </div>
                                 {/* Content */}
                                 <div className="flex-1">
-                                    <h2 className="text-xl md:text-2xl font-bold mb-2 text-neutral-900 flex items-center gap-3">
-                                        <Icon size={22} weight="bold" className="text-neutral-400 hidden md:block" />
+                                    <h2 className="text-aalto-5 font-bold mb-4 text-black tracking-tight flex items-center gap-4">
+                                        <Icon size={28} weight="bold" className="text-neutral-300" />
                                         {reason.title}
                                     </h2>
-                                    <p className="text-neutral-600 leading-relaxed text-[17px]">
+                                    <p className="text-aalto-3 text-neutral-600 font-medium leading-aalto-3">
                                         {reason.content}
                                     </p>
                                 </div>
@@ -148,34 +170,34 @@ export default function WhyStudyInFinlandPage() {
                 </div>
 
                 {/* Divider */}
-                <div className="my-16 border-t border-neutral-200" />
+                <div className="my-20 border-t border-neutral-100" />
 
                 {/* CTA Section */}
-                <div className="bg-neutral-900 text-white p-8 md:p-12 rounded-2xl">
-                    <h2 className="text-2xl md:text-3xl font-bold mb-4">Ready to Start Your Journey?</h2>
-                    <p className="text-neutral-300 text-lg mb-8 max-w-2xl">
-                        Kestora University offers world-class English-taught programmes in Business, Technology, Science, and Arts &amp; Architecture. Applications for Autumn 2026 are now open.
+                <div className="bg-black text-white p-12 md:p-16 text-left">
+                    <h2 className="text-aalto-6 font-bold mb-6 tracking-tight">Ready to Start Your Journey?</h2>
+                    <p className="text-aalto-3 text-neutral-400 mb-10 max-w-2xl font-medium leading-aalto-3">
+                        Kestora University offers world-class English-taught programmes in Business, Technology, Science, and Arts & Architecture. Applications for Autumn 2026 are now open.
                     </p>
-                    <div className="flex flex-wrap gap-4">
-                        <Link href="/admissions" className="bg-white text-black px-6 py-3 rounded-full font-bold hover:bg-neutral-200 transition-colors">
+                    <div className="flex flex-wrap gap-6">
+                        <Link href="/admissions" className="bg-white text-black px-10 py-5 font-bold hover:bg-neutral-200 transition-all uppercase tracking-widest text-sm">
                             Apply Now
                         </Link>
-                        <Link href="/studies" className="border border-neutral-600 text-white px-6 py-3 rounded-full font-bold hover:border-white transition-colors">
+                        <Link href="/studies" className="border border-neutral-700 text-white px-10 py-5 font-bold hover:border-white transition-all uppercase tracking-widest text-sm">
                             Explore Programmes
                         </Link>
                     </div>
                 </div>
 
                 {/* Related links */}
-                <div className="mt-12 grid md:grid-cols-3 gap-6">
+                <div className="mt-20 grid md:grid-cols-3 gap-8">
                     {[
-                        { title: "Student Life at Kestora", href: "/student-life", desc: "Explore campus, housing, and activities." },
-                        { title: "Tuition & Scholarships", href: "/admissions/tuition", desc: "Fees, discounts, and financial aid." },
-                        { title: "International Students", href: "/student-guide/international", desc: "Visa, arrival, and settlement guide." },
+                        { title: "Student Life", href: "/student-life", desc: "Explore campus and housing." },
+                        { title: "Tuition Fees", href: "/admissions/tuition", desc: "Scholarships and aids." },
+                        { title: "Arrival Guide", href: "/student-guide/arrival", desc: "Settling in Helsinki." },
                     ].map(link => (
-                        <Link key={link.href} href={link.href} className="bg-neutral-50 p-6 rounded-xl hover:bg-neutral-100 transition-colors group">
-                            <h3 className="font-bold text-neutral-900 mb-1 group-hover:underline">{link.title}</h3>
-                            <p className="text-sm text-neutral-500">{link.desc}</p>
+                        <Link key={link.href} href={link.href} className="bg-neutral-50 p-8 hover:bg-neutral-100 transition-all group border-l-2 border-transparent hover:border-black">
+                            <h3 className="font-bold text-black mb-2 group-hover:underline">{link.title}</h3>
+                            <p className="text-sm font-bold text-neutral-500 uppercase tracking-widest leading-relaxed">{link.desc}</p>
                         </Link>
                     ))}
                 </div>
@@ -183,3 +205,4 @@ export default function WhyStudyInFinlandPage() {
         </div>
     );
 }
+

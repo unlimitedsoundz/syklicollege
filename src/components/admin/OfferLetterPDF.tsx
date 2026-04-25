@@ -245,6 +245,14 @@ export const OfferLetterPDF = ({ data }: OfferLetterProps) => (
                         <Text style={styles.gridLabel}>Degree Level</Text>
                         <Text style={styles.gridValue}>{data.degree_level}</Text>
                     </View>
+                    <View style={styles.gridItem}>
+                        <Text style={styles.gridLabel}>Programme Duration</Text>
+                        <Text style={styles.gridValue}>17.08.2026 – {data.degree_level.includes('Master') ? '17.08.2028' : '17.08.2029'}</Text>
+                    </View>
+                    <View style={styles.gridItem}>
+                        <Text style={styles.gridLabel}>Total Credits</Text>
+                        <Text style={styles.gridValue}>{data.degree_level.includes('Master') ? '120 ECTS' : '180 ECTS'}</Text>
+                    </View>
                 </View>
             </View>
 

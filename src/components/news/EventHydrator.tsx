@@ -23,14 +23,14 @@ export default function EventHydrator({ initialEvent, children }: EventHydratorP
 
             if (data && !error) {
                 // Only update if there's a meaningful change (simple check)
-                if (data.updatedAt !== initialEvent.updatedAt || data.content !== initialEvent.content) {
+                if (data.updated_at !== initialEvent.updated_at || data.content !== initialEvent.content) {
                     setEvent(data as Event);
                 }
             }
         }
 
         fetchLatest();
-    }, [initialEvent.id, initialEvent.updatedAt, initialEvent.content]);
+    }, [initialEvent.id, initialEvent.updated_at, initialEvent.content]);
 
     return <>{children(event)}</>;
 }

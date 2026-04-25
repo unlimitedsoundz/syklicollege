@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { ArrowLeft } from "@phosphor-icons/react/dist/ssr";
 
 export const metadata = {

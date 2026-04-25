@@ -1,7 +1,8 @@
 
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import Image from 'next/image';
 import { CaretRight, Envelope, Phone, MapPin, ShareNetwork, ArrowRight } from "@phosphor-icons/react/dist/ssr";
+import { Breadcrumbs } from '@aalto-dx/react-modules';
 
 export const metadata = {
     title: 'Contact Information | Kestora University Admission Services',
@@ -36,7 +37,7 @@ export default function AdmissionsContactInfo() {
                                         </ul>
                                     </li>
                                     <li><Link href="/admissions" className="underline block py-2 text-black hover:text-black transition-colors">Events for applicants</Link></li>
-                                    <li><Link href="https://ourblogs.kestora.online/" target="_blank" rel="noopener noreferrer" className="underline block py-2 text-black hover:text-black transition-colors">Student stories</Link></li>
+                                    <li><Link href="https://ourblogs.kestora.online/" target="_blank" className="underline block py-2 text-black hover:text-black transition-colors">Student stories</Link></li>
                                 </ul>
                             </div>
                         </aside>
@@ -45,13 +46,13 @@ export default function AdmissionsContactInfo() {
                         <div className="lg:w-3/4">
                             
                             {/* Breadcrumbs */}
-                            <nav className="mb-8 flex items-center gap-2 text-xs font-medium text-black uppercase tracking-widest">
-                                <Link href="/" className="underline hover:text-black">Home</Link>
-                                <span>/</span>
-                                <Link href="/admissions" className="underline hover:text-black">Admissions</Link>
-                                <span>/</span>
-                                <span className="text-black">Contact Information</span>
-                            </nav>
+                            <Breadcrumbs 
+                                items={[
+                                    { label: 'Home', linkComponentProps: { href: '/' } },
+                                    { label: 'Admissions', linkComponentProps: { href: '/admissions' } },
+                                    { label: 'Contact Information' }
+                                ]} 
+                            />
 
                             {/* Title & Ingress */}
                             <div className="mb-12">
@@ -71,7 +72,7 @@ export default function AdmissionsContactInfo() {
                                         alt="Kestora University Campus" 
                                         width={1600}
                                         height={900}
-                                        className="w-full h-full object-cover"
+                                        className="w-full h-full object-cover object-top"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
                                 </div>
@@ -186,3 +187,4 @@ export default function AdmissionsContactInfo() {
         </div>
     );
 }
+

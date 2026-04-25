@@ -2,7 +2,7 @@
 
 import { ProgrammeInstruction } from '@/utils/programme-instructions';
 import { ArrowRight, Info, CaretRight } from "@phosphor-icons/react/dist/ssr";
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 
 interface Props {
     instructions: ProgrammeInstruction;
@@ -19,24 +19,22 @@ export default function WelcomeStep({ instructions, nextStepHref }: Props) {
                             {instructions.welcomeMessage}
                         </h2>
                     </div>
-                    <p className="text-[#2d2d2d] text-xs leading-relaxed uppercase tracking-tight font-medium opacity-80">
+                    <p className="text-black text-[13px] leading-relaxed font-medium opacity-80">
                         Please read the following instructions carefully before proceeding with your application.
                         Preparing your documents in advance will ensure a smooth process.
                     </p>
                 </div>
 
                 <div className="space-y-6 pt-4">
-                    <h3 className="text-xs font-semibold uppercase tracking-widest text-[#2d2d2d] flex items-center gap-2">
+                    <h3 className="text-[13px] font-semibold text-black flex items-center gap-2 normal-case">
                         <Info size={14} weight="regular" />
                         Application Guidance
                     </h3>
                     <ul className="space-y-4">
                         {instructions.instructions.map((step, index) => (
-                            <li key={index} className="flex items-start gap-4">
-                                <span className="flex-shrink-0 w-6 h-6 border border-primary text-primary rounded-full text-xs flex items-center justify-center font-bold">
-                                    {index + 1}
-                                </span>
-                                <span className="text-sm text-[#2d2d2d] font-medium leading-relaxed uppercase tracking-tight">
+                            <li key={index} className="flex items-start gap-3 group">
+                                <ArrowRight size={16} weight="bold" className="text-black shrink-0 mt-1" />
+                                <span className="text-[15px] text-black font-semibold leading-relaxed">
                                     {step}
                                 </span>
                             </li>
@@ -48,7 +46,7 @@ export default function WelcomeStep({ instructions, nextStepHref }: Props) {
             <div className="pt-8 border-t border-neutral-100 flex justify-end">
                 <Link
                     href={nextStepHref}
-                    className="w-full flex items-center justify-center gap-2 bg-primary text-white px-8 py-4 rounded-sm text-xs font-black uppercase tracking-widest hover:bg-blue-700 transition-all text-center shadow-lg"
+                    className="flex items-center justify-center gap-2 bg-black text-white px-8 py-4 rounded-sm text-[13px] font-bold normal-case hover:bg-neutral-800 transition-all text-center shadow-lg min-w-[200px]"
                 >
                     Begin Application
                     <CaretRight size={16} weight="bold" />

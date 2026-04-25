@@ -1,5 +1,5 @@
 
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import Image from 'next/image';
 import { School } from '@/types/database';
 
@@ -12,8 +12,10 @@ export const metadata = {
 };
 
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema';
+import { Hero } from '@/components/layout/Hero';
 
 import { createStaticClient } from '@/lib/supabase/static';
+import { Card } from '@/components/ui/Card';
 
 export default async function SchoolsPage() {
     const supabase = createStaticClient();
@@ -34,54 +36,41 @@ export default async function SchoolsPage() {
                 { name: 'Schools', item: '/schools' }
             ]} />
             {/* Hero Section */}
-
-            <section className="bg-white text-neutral-900 relative overflow-hidden pt-32 pb-8 md:pt-48 md:pb-12">
-                <div className="container mx-auto px-4 relative z-10">
-                    <h1 className="text-4xl font-bold mb-6 tracking-tight pt-8">Our Schools</h1>
-                    <p className="text-[21px] text-neutral-600 max-w-2xl leading-relaxed">
-                        Kestora University is organized into specialized schools, each driving innovation in technology, business, science, and design through world-class research and English-taught Bachelor’s and Master’s programmes.
-                    </p>
-                </div>
-            </section>
+            <Hero
+                title="Our Schools"
+                body="Kestora University is organized into specialized schools, each driving innovation in technology, business, science, and design through world-class research and English-taught Bachelor’s and Master’s programmes."
+                backgroundColor="#6c531b"
+                tinted
+                lightText={true}
+                breadcrumbs={[
+                    { label: 'Home', href: '/' },
+                    { label: 'Schools' }
+                ]}
+                image={{
+                    src: "/images/campus-welcome-v2.png",
+                    alt: "Academic Schools"
+                }}
+            />
 
             <div className="container mx-auto px-4 py-16 md:py-24">
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {(schools as School[])?.map((school, index) => (
-                        <Link
-                            href={`/schools/${school.slug}`}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    {(schools as School[])?.map((school) => (
+                        <Card
                             key={school.id}
-                            className="group relative h-[450px] md:h-[500px] overflow-hidden rounded-3xl shadow-xl bg-neutral-900"
-                        >
-                            {/* Background Image */}
-                            <div className="absolute inset-0 bg-neutral-900">
-                                {school.imageUrl ? (
-                                    <Image
-                                        src={school.imageUrl}
-                                        alt={school.name}
-                                        fill
-                                        className="object-cover opacity-60"
-                                        sizes="(max-width: 768px) 100vw, 50vw"
-                                        priority={index < 2}
-                                    />
-                                ) : (
-                                    <div className="w-full h-full opacity-60 bg-gradient-to-br from-neutral-800 to-neutral-900" />
-                                )}
-                            </div>
-
-                            {/* Content Overlay */}
-                            <div className="absolute inset-0 p-8 md:p-12 flex flex-col justify-end text-white bg-gradient-to-t from-black/90 via-black/40 to-transparent">
-                                <h2 className="text-3xl md:text-4xl font-bold mb-4 group-hover:translate-x-2 transition-transform duration-300">
-                                    {school.name}
-                                </h2>
-                                <p className="text-neutral-300 line-clamp-3 mb-6 text-lg max-w-xl">
-                                    {school.description}
-                                </p>
-                                <div className="flex items-center gap-2 text-white font-semibold uppercase tracking-wider text-sm">
-                                    Explore School <span className="text-[#f3e600]">→</span>
-                                </div>
-                            </div>
-                        </Link>
+                            title={school.name}
+                            image={school.imageUrl ? {
+                                src: school.imageUrl,
+                                alt: school.name
+                            } : undefined}
+                            body={school.description || ""}
+                            cta={{
+                                label: "Explore School",
+                                linkComponentProps: {
+                                    href: `/schools/${school.slug}`
+                                }
+                            }}
+                        />
                     ))}
                 </div>
             </div>

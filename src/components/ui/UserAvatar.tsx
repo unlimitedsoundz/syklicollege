@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import Image from 'next/image';
 import { useState } from 'react';
 import { User } from "@phosphor-icons/react/dist/ssr";
@@ -41,7 +41,7 @@ export function UserAvatar({ src, firstName, email, size = 'md', className = '',
                     alt={firstName || email || 'User'}
                     fill
                     onError={() => setHasImageError(true)}
-                    className="object-cover force-circle"
+                    className="object-cover object-top force-circle"
                 />
             ) : showPlaceholder ? (
                 <div className="flex items-center justify-center w-full h-full bg-neutral-100/10 backdrop-blur-sm">
@@ -57,3 +57,4 @@ export function UserAvatar({ src, firstName, email, size = 'md', className = '',
         </div>
     );
 }
+

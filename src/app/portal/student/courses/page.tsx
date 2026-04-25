@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { CaretLeft as ArrowLeft } from "@phosphor-icons/react/dist/ssr";
 import RegistrationClient from './RegistrationClient';
 
@@ -62,7 +62,7 @@ export default function CourseRegistrationPage() {
                 .eq('status', 'OPEN')
                 .order('open_at', { ascending: false })
                 .limit(1)
-                .single();
+                .maybeSingle();
 
             // 3. Fetch Subjects available for this student's program
             const { data: subjects } = await supabase

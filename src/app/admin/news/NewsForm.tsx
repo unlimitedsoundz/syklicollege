@@ -100,7 +100,7 @@ export default function NewsForm({ id, isNew, newsItem }: NewsFormProps) {
                                     src={previewImage}
                                     alt="Preview"
                                     fill
-                                    className="object-cover"
+                                    className="object-cover object-top"
                                     unoptimized
                                 />
                             </div>
@@ -180,3 +180,4 @@ export default function NewsForm({ id, isNew, newsItem }: NewsFormProps) {
         </form>
     );
 }
+

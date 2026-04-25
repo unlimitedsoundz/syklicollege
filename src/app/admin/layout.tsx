@@ -3,8 +3,8 @@
 import { createClient } from '@/utils/supabase/client';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect, useMemo } from 'react';
-import Link from 'next/link';
-import { SquaresFour as LayoutDashboard, BookOpen, Newspaper, Calendar, GraduationCap, Users, Buildings as SchoolIcon, FileText, House as Home, Cpu, Microscope, SignOut as LogOut, CreditCard as InvoiceIcon, Question as HelpCircle } from "@phosphor-icons/react";
+import { Link } from "@aalto-dx/react-components";
+import { SquaresFour as LayoutDashboard, BookOpen, Newspaper, Calendar, GraduationCap, Users, Buildings as SchoolIcon, FileText, House as Home, Cpu, Microscope, SignOut as LogOut, CreditCard as InvoiceIcon, Question as HelpCircle, X } from "@phosphor-icons/react";
 import { Logo } from '@/components/ui/Logo';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 
@@ -145,10 +145,10 @@ export default function AdminLayout({
                 <Logo className="text-white h-10" />
                 <button
                     onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                    className="text-white p-2 hover:bg-neutral-800 rounded-lg transition-colors"
+                    className="text-white p-2 hover:bg-neutral-800 rounded-lg transition-all active:scale-95"
                 >
                     {isSidebarOpen ? (
-                        <LogOut size={24} weight="bold" className="rotate-180" />
+                        <X size={24} weight="bold" />
                     ) : (
                         <LayoutDashboard size={24} weight="bold" />
                     )}
@@ -173,25 +173,25 @@ export default function AdminLayout({
                     <Logo className="text-white h-16" />
                 </div>
 
-                <nav className="flex-1 px-4 py-4 space-y-1 overflow-y-auto custom-scrollbar">
+                <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto custom-scrollbar">
                     {navItems.map((item) => {
                         const isActive = pathname === item.href;
                         return (
                             <Link
                                 key={item.href}
                                 href={item.href}
-                                className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive
-                                    ? 'bg-neutral-800 text-white'
-                                    : 'text-white/60 hover:text-white hover:bg-neutral-800/50'
+                                className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive
+                                    ? 'bg-white/10 text-white'
+                                    : 'text-white/50 hover:text-white hover:bg-white/5'
                                     }`}
                             >
                                 <item.icon size={18} weight={isActive ? "bold" : "regular"} />
-                                <span className="font-medium text-sm">{item.label}</span>
+                                <span className="font-bold text-xs uppercase tracking-widest">{item.label}</span>
                             </Link>
                         );
                     })}
-                    <div className="my-4 pt-4 border-t border-white/10">
-                        <Link href="/" className="block px-4 py-2 hover:bg-neutral-800 rounded-lg transition-colors text-white/60 text-[10px] font-bold uppercase tracking-widest">
+                    <div className="pt-6 pb-2">
+                        <Link href="/" className="block px-4 py-2 hover:bg-white/5 rounded-lg transition-colors text-white/40 text-[10px] font-black uppercase tracking-[0.2em]">
                             VIEW WEBSITE
                         </Link>
                     </div>
@@ -216,8 +216,10 @@ export default function AdminLayout({
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 p-4 md:p-8 overflow-y-auto w-full">
-                {children}
+            <main className="flex-1 p-4 md:p-10 overflow-y-auto w-full max-w-[100vw]">
+                <div className="max-w-7xl mx-auto">
+                    {children}
+                </div>
             </main>
         </div>
     );

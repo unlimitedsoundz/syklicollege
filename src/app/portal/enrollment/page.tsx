@@ -4,7 +4,7 @@ import { createClient } from '@/utils/supabase/client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
 import { Application } from '@/types/database';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { CaretLeft as ChevronLeft, DownloadSimple as Download } from "@phosphor-icons/react";
 import { formatToDDMMYYYY } from '@/utils/date';
 import PrintButton from '@/components/portal/PrintButton';

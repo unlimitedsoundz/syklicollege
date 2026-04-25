@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { Plus, Pencil, Trash, Eye, EyeSlash, ArrowLeft } from "@phosphor-icons/react/dist/ssr";
 import { createClient } from '@/utils/supabase/client';
 import RichTextEditor from '@/components/RichTextEditor';

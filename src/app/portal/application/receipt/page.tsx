@@ -2,7 +2,7 @@
 
 import { createClient } from '@/utils/supabase/client';
 import { notFound, useRouter, useSearchParams } from 'next/navigation';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { CaretLeft as ChevronLeft } from "@phosphor-icons/react/dist/ssr";
 import { formatToDDMMYYYY } from '@/utils/date';
 import PrintButton from '@/components/portal/PrintButton';
@@ -93,7 +93,7 @@ function ReceiptContent() {
             <div className="flex items-center justify-center min-h-[60vh]">
                 <div className="flex flex-col items-center gap-4">
                     <div className="w-12 h-12 border-4 border-neutral-200 border-t-black rounded-full animate-spin"></div>
-                    <p className="text-sm font-medium uppercase tracking-widest text-neutral-400">Loading Receipt...</p>
+                    <p className="text-[13px] font-normal text-black">Loading Receipt...</p>
                 </div>
             </div>
         );
@@ -113,11 +113,11 @@ function ReceiptContent() {
     if (!payment || (application.status !== 'ENROLLED' && application.status !== 'PAYMENT_SUBMITTED')) {
         return (
             <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-                <p className="text-xl font-bold text-neutral-900 uppercase tracking-tight">Receipt Not Available</p>
+                <p className="text-xl font-normal text-black">Receipt Not Available</p>
                 <p className="text-sm text-neutral-500 max-w-md text-center">Your payment receipt is not available yet. This may be because the payment is still being processed.</p>
                 <div className="flex gap-4">
-                    <button onClick={() => window.location.reload()} className="px-6 py-2 bg-black text-white text-[10px] font-bold uppercase tracking-widest rounded-sm">Retry</button>
-                    <Link href="/portal/dashboard" className="px-6 py-2 border border-neutral-200 text-[10px] font-bold uppercase tracking-widest rounded-sm">Dashboard</Link>
+                    <button onClick={() => window.location.reload()} className="px-6 py-2 bg-black text-white text-[11px] font-normal rounded-sm">Retry</button>
+                    <Link href="/portal/dashboard" className="px-6 py-2 border border-neutral-200 text-[11px] font-normal rounded-sm">Dashboard</Link>
                 </div>
             </div>
         );
@@ -129,17 +129,17 @@ function ReceiptContent() {
         return (
             <div className="flex items-center justify-center min-h-[60vh] font-rubik px-4">
                 <div className="max-w-md w-full bg-white border border-neutral-200 p-8 rounded-sm text-center shadow-sm">
-                    <div className="w-12 h-12 bg-amber-50 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-4 border border-amber-100">
-                        <Suspense><div className="w-5 h-5 border-2 border-amber-600 border-t-transparent rounded-full animate-spin"></div></Suspense>
+                    <div className="w-12 h-12 bg-neutral-50 text-black rounded-full flex items-center justify-center mx-auto mb-4 border border-neutral-200">
+                        <Suspense><div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div></Suspense>
                     </div>
-                    <h2 className="text-lg font-black uppercase tracking-tight text-neutral-900 mb-2">Payment Under Review</h2>
-                    <p className="text-xs text-neutral-500 font-medium leading-relaxed mb-8">
+                    <h2 className="text-lg font-normal text-black mb-2">Payment Under Review</h2>
+                    <p className="text-xs text-neutral-500 font-normal leading-relaxed mb-8">
                         Your transaction has been recorded (Ref: <span className="font-mono text-black">{payment?.transaction_reference || 'N/A'}</span>).<br />
                         The official receipt will be available here once our finance team confirms the funds.
                     </p>
                     <Link
                         href="/portal/dashboard"
-                        className="block w-full bg-black text-white px-6 py-3 rounded-sm text-[10px] font-black uppercase tracking-widest hover:bg-neutral-800 transition-all border border-black"
+                        className="block w-full bg-black text-white px-6 py-3 rounded-sm text-[11px] font-normal hover:bg-neutral-800 transition-all border border-black"
                     >
                         Return to Dashboard
                     </Link>
@@ -174,12 +174,12 @@ function ReceiptContent() {
     };
 
     return (
-        <div className="min-h-screen bg-neutral-100/50 py-6 md:py-12 px-4 sm:px-6 font-rubik">
+        <div className="min-h-screen bg-neutral-50 py-6 md:py-12 px-4 sm:px-6 font-sans">
             {/* Control Bar (Hidden on Print) */}
             <div className="max-w-[210mm] mx-auto mb-8 flex items-center justify-between print:hidden">
                 <Link
                     href="/portal/dashboard"
-                    className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-black hover:text-black transition-colors"
+                    className="flex items-center gap-2 text-[11px] font-normal text-black hover:text-black transition-colors"
                 >
                     <ChevronLeft size={14} weight="bold" />
                     Back to Dashboard
@@ -188,149 +188,86 @@ function ReceiptContent() {
             </div>
 
             {/* Document Container */}
-            <div className="w-full max-w-[210mm] mx-auto bg-white print:shadow-none p-6 md:p-8 print:border-0 relative overflow-hidden">
-
-                {isPending && (
-                    <div className="absolute top-12 right-12 opacity-10 pointer-events-none z-0 border-[8px] border-black p-4 rotate-[-15deg]">
-                        <span className="text-6xl font-black uppercase tracking-widest text-black">PENDING</span>
+            <div className="w-full max-w-[210mm] mx-auto p-6 md:p-8 print:p-0 relative z-10 text-black">
+                
+                {/* Header */}
+                <div className="mb-12">
+                    <div className="relative w-32 h-8 mb-4">
+                        <Image
+                            src="/logo-kestora.png"
+                            alt="Kestora University"
+                            fill
+                            style={{ objectFit: 'contain', objectPosition: 'left center' }}
+                        />
                     </div>
-                )}
+                    <div className="text-[13px] uppercase tracking-wider mb-1">Official Tuition Receipt</div>
+                    <div className="text-[11px] leading-relaxed">
+                        Kestora University – Helsinki Campus<br />
+                        Pohjoisesplanadi 51, 00150 Helsinki, Finland<br />
+                        financial.services@kestora.online
+                    </div>
+                </div>
 
-                {/* Header Header */}
-                <div className="flex flex-col sm:flex-row print-header-row justify-between items-start mb-8 gap-4 relative z-10 border-b-2 border-black pb-6 p-1">
-                    <div className="space-y-4">
-                        <div className="relative w-40 h-10">
+                {/* Transaction Info */}
+                <div className="mb-10 space-y-4">
+                    <div>
+                        <div className="text-[10px] uppercase text-neutral-500 mb-1">Receipt Information</div>
+                        <div className="text-sm">
+                            Transaction ID: <span className="font-mono">{payment?.transaction_reference || 'N/A'}</span><br />
+                            Date: {formatToDDMMYYYY(payment?.created_at)}<br />
+                            Status: {isPending ? 'Pending Verification' : 'Verified & Completed'}
+                        </div>
+                    </div>
+
+                    <div>
+                        <div className="text-[10px] uppercase text-neutral-500 mb-1">Student Details</div>
+                        <div className="text-base">
+                            {application.personal_info?.firstName} {application.personal_info?.lastName}<br />
+                            Passport: {application.personal_info?.passportNumber || 'N/A'}<br />
+                            {application.contact_details?.city}, {application.contact_details?.country}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Breakdown */}
+                <div className="mb-10">
+                    <div className="text-[10px] uppercase text-neutral-500 mb-2">Payment Details</div>
+                    <div className="space-y-2 text-sm">
+                        <div className="flex justify-between py-2 border-b border-neutral-100">
+                            <span>Description</span>
+                            <span>Amount</span>
+                        </div>
+                        <div className="flex justify-between py-2">
+                            <span>
+                                {isDeposit ? 'Tuition Deposit' : 'Tuition Fees'} - {application.course?.title}<br />
+                                <span className="text-[11px] text-neutral-500">Academic Year {academicYear}</span>
+                            </span>
+                            <span>€ {payment.amount.toLocaleString()}</span>
+                        </div>
+                        <div className="flex justify-between pt-4 border-t-2 border-black text-lg">
+                            <span>Total Paid</span>
+                            <span>€ {payment?.amount?.toLocaleString() || '0'}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="mt-20">
+                    <div className="flex flex-col items-start gap-1">
+                        <div className="relative w-72 h-36 -ml-8 -mb-4">
                             <Image
-                                src="/logo-kestora.png"
-                                alt="Kestora University"
+                                src="/registrar-signature.png"
+                                alt="Registrar Signature"
                                 fill
                                 style={{ objectFit: 'contain', objectPosition: 'left center' }}
+                                className="mix-blend-multiply"
                             />
                         </div>
-                        <div className="space-y-0.5">
-                            <div className="text-[12px] font-black uppercase tracking-[0.05em] text-black">Kestora University</div>
-                            <div className="text-[9px] text-black font-medium leading-relaxed max-w-[200px]">
-                                Kestora University – Helsinki Campus, Pohjoisesplanadi 51, 00150 Helsinki, Finland<br />
-                                Phone: +358 09 42721884<br />
-                                financial.services@kestora.online
-                            </div>
-                        </div>
+                        <div className="text-sm font-bold">Timo Ottonien</div>
+                        <div className="text-[10px] text-neutral-500 uppercase tracking-widest">University Registrar</div>
                     </div>
-                    <div className="text-right flex flex-col items-end print-right mt-4 sm:mt-0">
-                        <div className="text-2xl font-black text-black uppercase tracking-tighter leading-none mb-1">Receipt</div>
-                        <div className="flex flex-col items-end gap-0.5">
-                            <span className="text-[10px] font-black uppercase tracking-widest text-black">Transaction ID</span>
-                            <span className="text-xs font-mono font-bold text-black border-r-4 border-black pr-3">{payment?.transaction_reference || 'N/A'}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mb-8 relative z-10">
-                    <div className="md:col-span-7 space-y-6">
-                        <div>
-                            <div className="text-[9px] font-black text-black uppercase tracking-widest mb-2 border-b border-black pb-0.5">Received From (Payer)</div>
-                            <div className="space-y-0.5">
-                                <div className="text-lg font-black text-black uppercase tracking-tight">
-                                    {application.personal_info?.firstName} {application.personal_info?.lastName}
-                                </div>
-                                <div className="text-sm text-black font-medium">
-                                    {application.contact_details?.addressLine1 || application.contact_details?.address}<br />
-                                    {application.contact_details?.city}, {application.contact_details?.country}
-                                </div>
-                                <div className="text-[10px] font-bold text-black border border-black inline-block px-2 py-0.5 mt-2">
-                                    PASSPORT No: {application.personal_info?.passportNumber || 'N/A'}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div className="text-[10px] font-black text-black uppercase tracking-widest mb-3 border-b border-black pb-1">Payment Method & Status</div>
-                            <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <div className="text-[9px] font-bold text-black uppercase mb-0.5">Method</div>
-                                    <div className="text-xs font-bold text-black uppercase">{formatPaymentMethod(payment.payment_method)}</div>
-                                </div>
-                                <div>
-                                    <div className="text-[9px] font-bold text-black uppercase mb-0.5">Status</div>
-                                    {isPending ? (
-                                        <div className="inline-flex items-center gap-1.5 text-xs font-black text-amber-600 uppercase">
-                                            <div className="w-1.5 h-1.5 bg-amber-600 rounded-full animate-pulse" />
-                                            Pending Verification
-                                        </div>
-                                    ) : (
-                                        <div className="inline-flex items-center gap-1.5 text-xs font-black text-emerald-600 uppercase">
-                                            <div className="w-1.5 h-1.5 bg-emerald-600 rounded-full" />
-                                            Verified & Completed
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="md:col-span-5">
-                        <div className="bg-white p-4 space-y-4">
-                            <div className="flex flex-col gap-0.5 pr-4">
-                                <span className="text-[8px] font-bold text-black uppercase">Amount Paid (EUR)</span>
-                                <span className="text-2xl font-black text-black leading-none">€ {payment?.amount?.toLocaleString() || '0'}</span>
-                            </div>
-                            <div className="space-y-2 pt-4 border-t border-black">
-                                <div className="flex justify-between items-center text-[9px] font-bold">
-                                    <span className="text-black uppercase tracking-wider">Date Received</span>
-                                    <span className="text-black">{formatToDDMMYYYY(payment?.created_at)}</span>
-                                </div>
-                                <div className="flex justify-between items-center text-[9px] font-bold">
-                                    <span className="text-black uppercase tracking-wider">Currency</span>
-                                    <span className="text-black">{offer.currency || 'EUR'}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Body Table */}
-                <div className="relative z-10 mb-8">
-                    <div className="text-[10px] font-black text-black uppercase tracking-widest mb-3 border-b border-black pb-1">Payment Breakdown</div>
-                    <table className="w-full text-sm border-collapse">
-                        <thead>
-                            <tr className="text-[9px] font-black uppercase tracking-widest text-black border-b-2 border-black">
-                                <th className="text-left py-2 px-2">Description</th>
-                                <th className="text-center py-2 px-2">Duration</th>
-                                <th className="text-right py-2 px-2">Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-black">
-                            <tr>
-                                <td className="py-4 px-2">
-                                    <div className="font-bold text-black uppercase tracking-tight">
-                                        {isDeposit ? 'Tuition Deposit' : 'Tuition Fees'} - {application.course?.title}
-                                    </div>
-                                    <div className="text-[10px] text-black mt-0.5">
-                                        Intake: {intake} | Academic Year {academicYear}
-                                    </div>
-                                </td>
-                                <td className="py-4 px-2 text-center align-top">
-                                    <div className="text-xs font-bold text-black">
-                                        {isDeposit ? 'Deposit (1st Year)' : `${yearsPaid} ${yearsPaid === 1 ? 'Year' : 'Years'}`}
-                                    </div>
-                                </td>
-                                <td className="py-4 px-2 text-right align-top whitespace-nowrap">
-                                    <div className="font-bold text-black text-sm md:text-base">€ {payment.amount.toLocaleString()}</div>
-                                </td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr className="border-t-2 border-black">
-                                <td colSpan={2} className="py-4 px-2 text-[10px] md:text-[11px] font-black uppercase tracking-widest text-right">Total Net Paid</td>
-                                <td className="py-4 px-2 text-right text-base md:text-xl font-black text-black whitespace-nowrap">€ {payment?.amount?.toLocaleString() || '0'}</td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-
-                <div className="relative z-10 mt-auto pt-8">
-                    <p className="text-[8px] text-black uppercase tracking-widest leading-relaxed text-center font-medium">
-                        This document serves as an official proof of payment for the specified student and program. It is electronically generated and verified through the Kestora SIS Gateway.
+                    
+                    <p className="text-[10px] text-neutral-500 leading-relaxed max-w-prose mt-8">
+                        This is an official document of Kestora University. Verified through the Kestora SIS Gateway.
                     </p>
                 </div>
 
@@ -368,7 +305,7 @@ export default function TuitionReceiptPage() {
             <div className="flex items-center justify-center min-h-[60vh]">
                 <div className="flex flex-col items-center gap-4">
                     <div className="w-12 h-12 border-4 border-neutral-200 border-t-black rounded-full animate-spin"></div>
-                    <p className="text-sm font-medium uppercase tracking-widest text-neutral-400">Loading Receipt...</p>
+                    <p className="text-[13px] font-normal text-black">Loading Receipt...</p>
                 </div>
             </div>
         }>

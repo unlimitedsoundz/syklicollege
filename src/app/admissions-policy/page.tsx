@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 
 export const metadata: Metadata = {
     title: 'Admissions Policy — Kestora University',

@@ -1,6 +1,8 @@
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import Image from 'next/image';
 import { CaretLeft, ArrowRight, Calendar, FileText, CheckCircle, GraduationCap, Globe, Clock, User, Trophy as Award } from '@phosphor-icons/react/dist/ssr';
+import { Hero } from '@/components/layout/Hero';
+import { Breadcrumbs } from '@aalto-dx/react-modules';
 import GuideSidebarLayout from '@/components/layout/StudentGuideLayout';
 import AdmissionsCTA from '@/components/admissions/AdmissionsCTA';
 import MasterFAQ from '@/components/admissions/MasterFAQ';
@@ -34,6 +36,8 @@ const sections = [
 
 
 
+
+
 export default function MasterAdmissionsPage() {
     const pageSlug = 'admissions/master';
     const getSectionDefault = (sectionKey: string) => getPageContentSection(pageSlug, sectionKey)?.defaultContent ?? '';
@@ -41,53 +45,43 @@ export default function MasterAdmissionsPage() {
     return (
         <GuideSidebarLayout sections={sections}>
             <div className="min-h-screen bg-white">
-            {/* 1. HERO SECTION (Split Style) */}
-            <section className="text-black overflow-hidden" style={{ backgroundColor: '#FFFDD0' }}>
-                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-12 pb-12 lg:pb-0 h-auto lg:h-[600px] lg:py-0 relative mb-0">
-                    {/* Left Content */}
-                    <div className="lg:w-1/2 space-y-6 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
-                        <DbPageContent
-                            tagName="h1"
-                            className="font-bold leading-[1.1] tracking-tight pt-8 text-black"
-                            style={{ fontSize: '40px' }}
-                            pageSlug={pageSlug}
-                            sectionKey="hero_title"
-                            fallbackContent={getSectionDefault('hero_title')}
-                        />
-                        <DbPageContent
-                            tagName="p"
-                            className="text-[21px] text-black max-w-xl leading-relaxed my-2"
-                            pageSlug={pageSlug}
-                            sectionKey="hero_subtitle"
-                            fallbackContent={getSectionDefault('hero_subtitle')}
-                        />
-                        <div className="pt-2">
-                            <Link
-                                href="#steps"
-                                className="text-lg font-bold underline underline-offset-8 decoration-black hover:opacity-70 transition-colors text-black inline-flex items-center gap-2"
-                            >
-                                How to apply <ArrowRight size={20} weight="bold" />
-                            </Link>
-                        </div>
-                    </div>
-
-                    {/* Right Image */}
-                    <div className="lg:w-1/2 h-full w-full relative lg:translate-y-16 z-20 flex justify-center lg:block order-first lg:order-none">
-                        <div className="h-full">
-                            <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800">
-                                <Image
-                                    src="/images/admissions/master_hero_refined.jpg"
-                                    alt="Master's Application"
-                                    fill
-                                    priority
-                                    className="object-cover"
-                                    sizes="(max-width: 1024px) 368px, 50vw"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            {/* HERO SECTION */}
+            <Hero
+                title={
+                    <DbPageContent
+                        tagName="span"
+                        pageSlug={pageSlug}
+                        sectionKey="hero_title"
+                        fallbackContent={getSectionDefault('hero_title')}
+                    />
+                }
+                body={
+                    <DbPageContent
+                        tagName="span"
+                        pageSlug={pageSlug}
+                        sectionKey="hero_subtitle"
+                        fallbackContent={getSectionDefault('hero_subtitle')}
+                    />
+                }
+                backgroundColor="#9bd84c"
+                tinted
+                breadcrumbs={[
+                    { label: 'Home', href: '/' },
+                    { label: 'Admissions', href: '/admissions' },
+                    { label: 'Master' }
+                ]}
+                image={{
+                    src: "/images/admissions/master_hero_refined.jpg",
+                    alt: "Master's Application"
+                }}
+            >
+                <Link
+                    href="#steps"
+                    className="text-aalto-3 font-bold underline underline-offset-8 decoration-black hover:opacity-70 transition-colors text-black inline-flex items-center gap-2"
+                >
+                    How to apply <ArrowRight size={20} weight="bold" />
+                </Link>
+            </Hero>
 
             <div className="container mx-auto px-4 py-8 md:py-16">
                 <Link href="/admissions" className="inline-flex items-center gap-3 text-black font-bold uppercase tracking-widest text-sm mb-12 hover:opacity-50 transition-all group">
@@ -276,6 +270,9 @@ export default function MasterAdmissionsPage() {
                               <h2 className="text-4xl font-bold mb-0 uppercase tracking-widest text-black leading-none">FAQ</h2>
                              <MasterFAQ />
                           </section>
+
+
+
 
                     </main>
                 </div>

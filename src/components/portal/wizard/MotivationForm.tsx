@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -63,8 +63,8 @@ export default function MotivationForm({ applicationId, initialData, onUpdate }:
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="space-y-4">
                 <div>
-                    <label className="block text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-1">Motivation Letter / Statement of Purpose</label>
-                    <p className="text-xs text-[#2d2d2d] mb-2 leading-relaxed">
+                    <label className="block text-[13px] font-semibold text-black mb-1">Motivation Letter / Statement of Purpose <span className="text-red-500">*</span></label>
+                    <p className="text-[13px] text-[#2d2d2d] mb-2 leading-relaxed">
                         Tell us why you want to study at Kestora University and why you are a good fit for this programme.
                     </p>
                     <textarea
@@ -74,13 +74,13 @@ export default function MotivationForm({ applicationId, initialData, onUpdate }:
                         placeholder="Type your statement here..."
                     />
                     {form.formState.errors.statementOfPurpose && (
-                        <p className="text-red-500 text-xs font-semibold uppercase mt-1">{form.formState.errors.statementOfPurpose.message}</p>
+                        <p className="text-red-500 text-xs font-semibold mt-1">{form.formState.errors.statementOfPurpose.message}</p>
                     )}
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
                     <div>
-                        <label className="block text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-1">English Proficiency</label>
+                        <label className="block text-[13px] font-semibold text-black mb-1">English Proficiency</label>
                         <select
                             {...form.register('languageProficiency.englishLevel')}
                             className="w-full px-3 py-1.5 bg-neutral-50 rounded text-sm focus:ring-1 focus:ring-black outline-none font-medium"
@@ -93,7 +93,7 @@ export default function MotivationForm({ applicationId, initialData, onUpdate }:
                     </div>
 
                     <div>
-                        <label className="block text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-1">Test (e.g. IELTS)</label>
+                        <label className="block text-[13px] font-semibold text-black mb-1">Test (e.g. IELTS)</label>
                         <input
                             {...form.register('languageProficiency.testTaken')}
                             className="w-full px-3 py-1.5 bg-neutral-50 rounded text-sm focus:ring-1 focus:ring-black outline-none font-medium"
@@ -102,7 +102,7 @@ export default function MotivationForm({ applicationId, initialData, onUpdate }:
                     </div>
 
                     <div>
-                        <label className="block text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-1">Score</label>
+                        <label className="block text-[13px] font-semibold text-black mb-1">Score</label>
                         <input
                             {...form.register('languageProficiency.testScore')}
                             className="w-full px-3 py-1.5 bg-neutral-50 rounded text-sm focus:ring-1 focus:ring-black outline-none font-medium"
@@ -111,7 +111,7 @@ export default function MotivationForm({ applicationId, initialData, onUpdate }:
                     </div>
 
                     <div>
-                        <label className="block text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-1">How did you hear?</label>
+                        <label className="block text-[13px] font-semibold text-black mb-1">How did you hear?</label>
                         <input
                             {...form.register('howDidYouHear')}
                             className="w-full px-3 py-1.5 bg-neutral-50 rounded text-sm focus:ring-1 focus:ring-black outline-none font-medium"
@@ -125,7 +125,7 @@ export default function MotivationForm({ applicationId, initialData, onUpdate }:
                 <div className="flex items-center gap-4">
                     <Link
                         href={`?id=${applicationId}&step=4`}
-                        className="text-[#2d2d2d] hover:text-black font-semibold text-xs uppercase tracking-widest transition-colors"
+                        className="text-black hover:text-black font-semibold text-[13px] transition-colors"
                     >
                         Back
                     </Link>
@@ -143,7 +143,7 @@ export default function MotivationForm({ applicationId, initialData, onUpdate }:
                                 setIsSaving(false);
                             }
                         }}
-                        className="text-[#2d2d2d] hover:text-primary font-semibold text-xs uppercase tracking-widest transition-colors"
+                        className="text-black hover:text-primary font-semibold text-[13px] transition-colors"
                     >
                         Save & Exit
                     </button>
@@ -152,7 +152,7 @@ export default function MotivationForm({ applicationId, initialData, onUpdate }:
                 <button
                     type="submit"
                     disabled={isSaving}
-                    className="w-full flex items-center justify-center gap-2 bg-primary text-white px-8 py-4 rounded-sm text-xs font-black uppercase tracking-widest hover:bg-blue-700 transition-all disabled:opacity-50"
+                    className="flex items-center justify-center gap-2 bg-black text-white px-8 py-4 rounded-sm text-[13px] font-black hover:bg-neutral-800 transition-all disabled:opacity-50 min-w-[200px]"
                 >
                     {isSaving ? (
                         <>

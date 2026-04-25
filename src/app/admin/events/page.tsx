@@ -2,7 +2,7 @@
 
 import { createClient } from '@/utils/supabase/client';
 import { Calendar, MapPin, Trash, PencilSimple as Edit, CircleNotch as Loader2 } from "@phosphor-icons/react";
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { useState, useEffect } from 'react';
 
 export default function AdminEventsPage() {

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { CheckCircle as CheckCircle2, ArrowRight, CircleNotch as Loader2, ShieldCheck, Eye, EyeSlash } from "@phosphor-icons/react/dist/ssr";
 import { registerAdmin } from '../actions';
 import DateSelector from '@/components/ui/DateSelector';

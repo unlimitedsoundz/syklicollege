@@ -15,6 +15,7 @@ import {
     ArrowRight
 } from "@phosphor-icons/react/dist/ssr";
 import { formatToDDMMYYYY } from '@/utils/date';
+import { SearchField } from '@/components/ui/SearchField';
 
 import {
     batchGenerateInvoices,
@@ -198,16 +199,11 @@ export default function FinanceManagementClient({
 
             {/* Controls */}
             <div className="bg-white border-2 border-black p-4 rounded-sm flex flex-col md:flex-row gap-4">
-                <div className="flex-1 relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" size={16} weight="bold" />
-                    <input
-                        type="text"
-                        placeholder="Search by student or reference..."
-                        className="w-full pl-10 pr-4 py-2 border-2 border-neutral-100 focus:border-black outline-none transition-all text-sm font-bold uppercase"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
+                <SearchField
+                    placeholder="Search by student or reference..."
+                    value={searchTerm}
+                    onChange={(v) => setSearchTerm(v)}
+                />
                 <div className="flex gap-2">
                     <select
                         className="px-4 py-2 border-2 border-neutral-100 focus:border-black outline-none transition-all text-[10px] font-black uppercase tracking-widest bg-white"
@@ -247,7 +243,7 @@ export default function FinanceManagementClient({
 
             {/* Table Area */}
             <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
+                <table className="w-full border-collapse min-w-[800px]">
                     <thead>
                         <tr className="border-b-2 border-black">
                             <th className="text-left py-4 px-2 text-[10px] font-black uppercase tracking-widest text-neutral-400">Reference / ID</th>
@@ -439,21 +435,19 @@ export default function FinanceManagementClient({
                             <div>
                                 <label className="block text-[10px] font-black uppercase text-neutral-400 mb-1">Select Student</label>
                                 <div className="relative">
-                                    <input
-                                        type="text"
-                                        placeholder="Search by name or ID..."
-                                        className="w-full px-4 py-3 border-2 border-black font-bold outline-none mb-2"
-                                        value={studentSearch}
-                                        onChange={async (e) => {
-                                            setStudentSearch(e.target.value);
-                                            if (e.target.value.length > 2) {
-                                                const res = await searchStudents(e.target.value);
-                                                setStudentResults(res);
-                                            } else if (e.target.value.length === 0) {
-                                                setStudentResults(students);
-                                            }
-                                        }}
-                                    />
+                                <SearchField
+                                    placeholder="Search by name or ID..."
+                                    value={studentSearch}
+                                    onChange={async (v) => {
+                                        setStudentSearch(v);
+                                        if (v.length > 2) {
+                                            const res = await searchStudents(v);
+                                            setStudentResults(res);
+                                        } else if (v.length === 0) {
+                                            setStudentResults(students);
+                                        }
+                                    }}
+                                />
                                     {studentSearch && invoiceStudentId === '' && (
                                         <div className="bg-white border-2 border-black max-h-40 overflow-y-auto mb-4">
                                             {studentResults.map(s => (

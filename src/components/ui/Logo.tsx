@@ -1,4 +1,4 @@
-import Link from "next/link"
+import { Link } from "@aalto-dx/react-components"
 import Image from "next/image"
 
 export function Logo({ className = "", onClick }: { className?: string, onClick?: () => void }) {
@@ -10,7 +10,8 @@ export function Logo({ className = "", onClick }: { className?: string, onClick?
             className={`flex items-center gap-2 group ${className}`}
             onClick={onClick}
         >
-            <div className={`relative transition-all duration-300 ${isDarkBackground ? 'brightness-0 invert' : ''}`}>
+            <div className={`relative transition-all duration-300 ${isDarkBackground ? 'invert' : ''}`}>
+
                 <Image
                     src="/logo-kestora.png"
                     alt="Kestora University"

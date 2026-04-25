@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { PencilSimple as Edit2, Trash, House as Home, CheckCircle, Clock, XCircle, Buildings as Building2, Users, Bed, CurrencyEur as DollarSign, Plus, Check, X } from "@phosphor-icons/react/dist/ssr";
 import { formatToDDMMYYYY } from '@/utils/date';
 import { HousingBuilding, HousingRoom, HousingAssignment, HousingApplication, Semester } from '@/types/database';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { createClient } from '@/utils/supabase/client';
 
 interface HousingManagementClientProps {

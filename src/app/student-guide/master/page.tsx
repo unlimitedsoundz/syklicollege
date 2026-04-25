@@ -1,8 +1,11 @@
-import { ArrowLeft, Calendar, CaretRight, CheckCircle, FileText, Info, MapPin, ArrowRight } from "@phosphor-icons/react/dist/ssr";
-import Link from 'next/link';
+import { ArrowLeft, Calendar, CaretRight, CheckCircle, FileText, Info, MapPin, ArrowRight, IdentificationBadge, Laptop, GraduationCap, House, Briefcase } from "@phosphor-icons/react/dist/ssr";
+import { Link } from "@aalto-dx/react-components";
 import Image from 'next/image';
+import { Hero } from '@/components/layout/Hero';
 import { Metadata } from 'next';
 import GuideSidebarLayout from '@/components/layout/StudentGuideLayout';
+import { Card } from '@/components/ui/Card';
+import { ContentBox } from '@/components/ui/ContentBox';
 
 export const metadata: Metadata = {
     title: 'Master\'s Students Guide | Kestora University',
@@ -14,6 +17,7 @@ export const metadata: Metadata = {
 
 export default function MastersGuidePage() {
     const sections = [
+        { id: 'intro', title: 'Welcome', content: '' },
         { id: 'accept', title: 'Accept Admission', content: '' },
         { id: 'documents', title: 'Submit Documents', content: '' },
         { id: 'tuition', title: 'Tuition & Scholarships', content: '' },
@@ -21,272 +25,188 @@ export default function MastersGuidePage() {
         { id: 'enrolment', title: 'Enrolment', content: '' },
         { id: 'housing', title: 'Housing', content: '' },
         { id: 'arrival', title: 'Arrival & Orientation', content: '' },
-        { id: 'it-account', title: 'IT Account', content: '' },
     ];
 
     return (
         <GuideSidebarLayout sections={sections}>
-            <div className="min-h-screen bg-white">
-            {/* HERO SECTION */}
-            <section className="text-black overflow-hidden" style={{ backgroundColor: '#FDF2F8' }}>
-                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-12 pb-12 lg:pb-0 h-auto lg:h-[600px] lg:py-0 relative mb-0">
-                    {/* Left Content */}
-                    <div className="lg:w-1/2 space-y-6 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
-                        <h1 className="font-bold leading-[1.1] tracking-tight pt-8 text-black" style={{ fontSize: '40px' }}>
-                            Master’s Students Guide
-                        </h1>
-                        <p className="text-[21px] text-black max-w-xl leading-relaxed">
-                            Essential steps and instructions for newly admitted Master’s students at Kestora University. Follow this guide to ensure a smooth start to your studies.
-                        </p>
-                    </div>
+            <div className="min-h-screen bg-white text-black font-sans pb-20">
+                {/* HERO SECTION */}
+                <Hero
+                    title="Master’s Students Guide"
+                    body="Essential steps and instructions for newly admitted Master’s students at Kestora University. Follow this guide to ensure a smooth start to your studies."
+                    backgroundColor="#dc6ade"
+                    tinted
+                    lightText={true}
+                    breadcrumbs={[
+                        { label: 'Home', href: '/' },
+                        { label: 'Student Guide', href: '/student-guide' },
+                        { label: "Master's Guide" }
+                    ]}
+                    image={{
+                        src: "/images/student-guide-hero.png",
+                        alt: "Master Students"
+                    }}
+                />
 
-                    {/* Right Image */}
-                    <div className="lg:w-1/2 h-full w-full relative lg:translate-y-16 z-20 flex justify-center lg:block order-first lg:order-none">
-                        <div className="h-full">
-                            <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800">
-                                <Image
-                                    src="/images/student-guide-hero.png"
-                                    alt="Master Students"
-                                    fill
-                                    priority
-                                    className="object-cover"
-                                    sizes="(max-width: 1024px) 368px, 50vw"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <div className="container mx-auto px-4 py-8 md:py-16">
-                <Link
-                    href="/student-guide"
-                    className="inline-flex items-center text-neutral-500 hover:text-black mb-8 transition-colors"
-                >
-                    <ArrowLeft size={20} weight="bold" className="mr-2" /> Back to Student Guide
-                </Link>
-                <div className="flex flex-col lg:flex-row gap-16">
-                    {/* Main Content */}
-                    <main className="lg:w-full space-y-8 md:space-y-16">
-
-                        {/* Intro Box */}
-                        <div className="bg-neutral-100 p-8 rounded-2xl">
-                            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-                                Congratulations on Your Admission!
-                            </h2>
-                            <p className="text-neutral-700 mb-4">
-                                Once your admission is confirmed, your school’s Learning Services team will be your main point of contact.
-                                Detailed contact info is in your admission email.
-                            </p>
-                            <div className="flex flex-wrap gap-4 mt-6">
-                                <Link href="/student-guide/international" className="text-sm font-bold underline hover:text-black">
-                                    International Students Info →
-                                </Link>
-                                <Link href="/student-guide/arrival" className="text-sm font-bold underline hover:text-black">
-                                    Arrival Guide →
-                                </Link>
-                            </div>
-                        </div>
+                <div className="container mx-auto px-4 py-16 md:py-24 max-w-6xl">
+                    <div className="space-y-20">
+                        {/* Intro */}
+                        <section id="intro" className="scroll-mt-32">
+                            <ContentBox
+                                icon="info"
+                                title="Congratulations on Your Admission!"
+                                body={
+                                    <div className="space-y-6 text-left">
+                                        <p className="text-aalto-3 text-black font-medium leading-relaxed">
+                                            Once your admission is confirmed, your school’s Learning Services team will be your main point of contact.
+                                        </p>
+                                        <div className="flex flex-wrap gap-6">
+                                            <Link href="/student-guide/international" className="text-xs font-bold underline hover:text-black uppercase tracking-widest">
+                                                International Info →
+                                            </Link>
+                                            <Link href="/student-guide/arrival" className="text-xs font-bold underline hover:text-black uppercase tracking-widest">
+                                                Arrival Guide →
+                                            </Link>
+                                        </div>
+                                    </div>
+                                }
+                            />
+                        </section>
 
                         {/* 1. Accept Admission */}
                         <section id="accept" className="scroll-mt-32">
-                            <div className="flex items-start gap-4 mb-6">
-                                <div className="w-10 h-10 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold flex-shrink-0">1</div>
-                                <h2 className="text-3xl font-bold pt-1">Accept Your Admission Offer</h2>
-                            </div>
-
-                            <div className="bg-neutral-100 p-6 rounded-xl mb-6">
-                                <h3 className="font-bold text-neutral-900 flex items-center gap-2 mb-2">
-                                    Deadline
-                                </h3>
-                                <p className="font-medium">5 June 2026 at 15:00 (UTC +3)</p>
-                            </div>
-
-                            <div className="prose max-w-none text-neutral-700">
-                                <h3 className="font-bold text-lg mb-2">How to Accept</h3>
-                                <ul className="list-disc pl-5 mb-6 space-y-2">
-                                    <li>Log in to the online study application service.</li>
-                                    <li>Follow the instructions sent with your admission letter.</li>
-                                    <li>If you encounter technical issues, contact Student Services immediately.</li>
-                                </ul>
-
-                                <div className="bg-neutral-100 p-10 rounded-none">
-                                    <h4 className="font-bold mb-6 text-xl">Important Conditions</h4>
-                                     <ul className="space-y-4">
-                                        <li className="flex gap-4 items-start">
-                                            <ArrowRight size={18} weight="bold" className="mt-1 text-black" />
-                                            <span className="font-medium">Your acceptance is <strong>binding</strong>. Once accepted, strictly no cancellations.</span>
-                                        </li>
-                                        <li className="flex gap-4 items-start">
-                                            <ArrowRight size={18} weight="bold" className="mt-1 text-black" />
-                                            <span className="font-medium">If declining, inform the system immediately to free the spot for others.</span>
-                                        </li>
-                                        <li className="flex gap-4 items-start">
-                                            <ArrowRight size={18} weight="bold" className="mt-1 text-black" />
-                                            <span className="font-medium">You can accept only <strong>one</strong> higher education study place in Finland per term.</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                            <h2 className="text-aalto-5 font-bold mb-10 text-black tracking-tight">1. Accept Your Admission Offer</h2>
+                            <ContentBox
+                                size="large"
+                                icon="calendar"
+                                title="Deadline: 5 June 2026"
+                                body={
+                                    <div className="space-y-8 text-left">
+                                        <p className="text-3xl font-bold text-black">15:00 (UTC +3)</p>
+                                        <p className="text-sm font-bold text-neutral-600 leading-relaxed">
+                                            Log in to the online study application service and follow instructions. Your acceptance is binding.
+                                        </p>
+                                        <div className="bg-neutral-100 p-6 rounded-xl border-l-4 border-black">
+                                            <h4 className="font-bold text-lg mb-2">Important Conditions</h4>
+                                            <ul className="text-sm font-bold space-y-2">
+                                                <li>• You can accept only one study place in Finland per term.</li>
+                                                <li>• Binding acceptance: strictly no cancellations after acceptance.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                }
+                            />
                         </section>
 
                         {/* 2. Documents */}
                         <section id="documents" className="scroll-mt-32">
-                            <div className="flex items-start gap-4 mb-6">
-                                <div className="w-10 h-10 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold flex-shrink-0">2</div>
-                                <h2 className="text-3xl font-bold pt-1">Submit Certified Documents</h2>
-                            </div>
-
-                            <p className="mb-6 text-neutral-700">
-                                Most applicants must submit officially certified (attested) copies of their Bachelor’s degree certificate and transcripts.
-                                Official translations are required if documents are not in English, Finnish, or Swedish.
-                            </p>
-
-                            <div className="grid md:grid-cols-2 gap-4 mb-6">
-                                <div className="p-5 rounded-xl">
-                                    <span className="block text-sm text-neutral-500 mb-1">For decisions published 15 May</span>
-                                    <strong className="block text-lg">19 June 2026</strong>
-                                    <span className="text-sm text-neutral-500">at 15:00 (UTC +3)</span>
-                                </div>
-                                <div className="p-5 rounded-xl">
-                                    <span className="block text-sm text-neutral-500 mb-1">For decisions after 15 May</span>
-                                    <strong className="block text-lg">21 August 2026</strong>
-                                    <span className="text-sm text-neutral-500">at 15:00 (UTC +3)</span>
-                                </div>
+                            <h2 className="text-aalto-5 font-bold mb-10 text-black tracking-tight">2. Submit Certified Documents</h2>
+                            <div className="grid md:grid-cols-2 gap-8">
+                                <Card
+                                    title="Submission Deadline (May)"
+                                    body="For decisions published by 15 May, submit certified copies by 19 June 2026."
+                                    badge={{ label: "19 June" }}
+                                />
+                                <Card
+                                    title="Submission Deadline (Aug)"
+                                    body="For decisions after 15 May, submit certified copies by 21 August 2026."
+                                    badge={{ label: "21 August" }}
+                                />
                             </div>
                         </section>
 
                         {/* 3. Tuition */}
                         <section id="tuition" className="scroll-mt-32">
-                            <div className="flex items-start gap-4 mb-6">
-                                <div className="w-10 h-10 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold flex-shrink-0">3</div>
-                                <h2 className="text-3xl font-bold pt-1">Tuition & Scholarships</h2>
-                            </div>
-                            <div className="prose max-w-none text-neutral-700">
-                                <p className="mb-4">
-                                    Non-EU/EEA citizens are generally required to pay tuition fees.
-                                    <strong> You are strongly encouraged to pay by 14 August 2026.</strong>
-                                </p>
-                                <p className="mb-6">
-                                    If you have a <strong>Kestora University Excellence Scholarship</strong>, you must accept the terms before the scholarship is valid.
-                                    Failure to accept in time may result in forfeiting the scholarship.
-                                </p>
+                            <h2 className="text-aalto-5 font-bold mb-10 text-black tracking-tight">3. Tuition & Scholarships</h2>
+                            <div className="grid md:grid-cols-2 gap-8">
+                                <Card
+                                    title="Tuition Fees"
+                                    body="Non-EU/EEA citizens are generally required to pay. Recommended deadline: 14 August 2026."
+                                />
+                                <Card
+                                    title="Excellence Scholarship"
+                                    body="You must accept scholarship terms before they become valid. Don't forfeit your award."
+                                    badge={{ label: "Action Required" }}
+                                />
                             </div>
                         </section>
 
                         {/* 4. Residence Permit */}
                         <section id="residence" className="scroll-mt-32">
-                            <div className="flex items-start gap-4 mb-6">
-                                <div className="w-10 h-10 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold flex-shrink-0">4</div>
-                                <h2 className="text-3xl font-bold pt-1">Residence Permit & Registration</h2>
-                            </div>
+                            <h2 className="text-aalto-5 font-bold mb-10 text-black tracking-tight">4. Residence Permit</h2>
                             <div className="grid md:grid-cols-3 gap-6">
-                                <div className="bg-neutral-100 p-6 rounded-xl">
-                                    <h4 className="font-bold mb-2">Non-EU/EEA Citizens</h4>
-                                    <p className="text-sm text-neutral-600">Apply for a student residence permit immediately. Schedule a visit to a Finnish mission promptly.</p>
-                                </div>
-                                <div className="bg-neutral-100 p-6 rounded-xl">
-                                    <h4 className="font-bold mb-2">EU/EEA Citizens</h4>
-                                    <p className="text-sm text-neutral-600">Register your right of residence at the Finnish Immigration Service within 3 months of arrival.</p>
-                                </div>
-                                <div className="bg-neutral-100 p-6 rounded-xl">
-                                    <h4 className="font-bold mb-2">Nordic Citizens</h4>
-                                    <p className="text-sm text-neutral-600">Register personal data in the Finnish Population Information System upon arrival.</p>
-                                </div>
+                                <Card title="Non-EU/EEA" body="Apply immediately and schedule a visit to a Finnish mission promptly." />
+                                <Card title="EU/EEA" body="Register right of residence within 3 months of arrival." />
+                                <Card title="Nordic" body="Register personal data in the Population Info System upon arrival." />
                             </div>
-                        </section>
-
-                        {/* 5. Incomplete Degree (Simple Text) */}
-                        <section className="scroll-mt-32 pl-6 py-2">
-                            <h3 className="font-bold text-xl mb-2">5. Submit Degree Certificate if Incomplete</h3>
-                            <p className="text-neutral-700">
-                                Conditionally admitted students must submit their final certified degree certificate by <strong>21 August 2026</strong>.
-                                Failure to graduate by 31 July 2026 leads to cancellation of the study place.
-                            </p>
                         </section>
 
                         {/* 6. Enrolment */}
                         <section id="enrolment" className="scroll-mt-32">
-                            <div className="flex items-start gap-4 mb-6">
-                                <div className="w-10 h-10 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold flex-shrink-0">6</div>
-                                <h2 className="text-3xl font-bold pt-1">Enrol for the Academic Year</h2>
-                            </div>
-                            <div className="bg-neutral-100 rounded-xl p-8">
-                                <div className="flex flex-col md:flex-row gap-8 items-center mb-6">
-                                    <div className="flex-1">
-                                        <h3 className="font-bold text-lg mb-2">Enrolment Period</h3>
-                                        <p className="text-neutral-600">Opens 18 May 2026</p>
-                                        <p className="font-bold text-black">Recommended deadline: 23 April 2026</p>
+                            <h2 className="text-aalto-5 font-bold mb-10 text-black tracking-tight">5. Enrol for the Academic Year</h2>
+                            <ContentBox
+                                icon="identificationBadge"
+                                title="Enrolment Opens 18 May"
+                                body={
+                                    <div className="space-y-6 text-left">
+                                        <p className="text-sm font-bold text-neutral-700 leading-relaxed">Recommended deadline: 23 April 2026. Enroll through the national student service.</p>
+                                        <div className="grid sm:grid-cols-2 gap-8">
+                                            <div>
+                                                <h4 className="font-bold text-black mb-1">Attending</h4>
+                                                <p className="text-xs text-neutral-500 font-bold">Starting studies immediately with full rights.</p>
+                                            </div>
+                                            <div>
+                                                <h4 className="font-bold text-black mb-1">Non-attending</h4>
+                                                <p className="text-xs text-neutral-500 font-bold">Deferring for military or parental reasons.</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="flex-1 pl-8">
-                                        <h3 className="font-bold text-lg mb-2">Status Options</h3>
-                                        <ul className="space-y-4 text-sm text-black font-medium">
-                                            <li className="flex gap-2 items-center underline tracking-tight"><ArrowRight size={14} weight="bold" /> <strong>Attending:</strong> Starting studies immediately</li>
-                                            <li className="flex gap-2 items-center underline tracking-tight"><ArrowRight size={14} weight="bold" /> <strong>Non-attending:</strong> Deferring for approved reasons (e.g. military service)</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <p className="text-sm text-neutral-500">Enroll through the national student information service.</p>
-                            </div>
+                                }
+                            />
                         </section>
 
                         {/* 7. Housing */}
                         <section id="housing" className="scroll-mt-32">
-                            <div className="flex items-start gap-4 mb-6">
-                                <div className="w-10 h-10 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold flex-shrink-0">7</div>
-                                <h2 className="text-3xl font-bold pt-1">Apply for Student Housing</h2>
-                            </div>
-                            <p className="text-black font-medium mb-4">
-                                Apply as soon as you accept your study place. Queue times can be long.
-                                You can apply through local student housing foundations (HOAS/KUNI).
-                                Kestora University does provide on-campus housing directly, we assist with the application process.
-                            </p>
+                            <h2 className="text-aalto-5 font-bold mb-10 text-black tracking-tight">6. Apply for Student Housing</h2>
+                            <Card
+                                title="Start Your Application"
+                                body="Apply as soon as you accept your study place. Queue times are long. Kestora assists with the application process for student housing."
+                                cta={{ label: "Housing Guide", linkComponentProps: { href: "/student-guide/housing-for-students" } }}
+                            />
                         </section>
 
                         {/* 8. Arrival */}
                         <section id="arrival" className="scroll-mt-32">
-                            <div className="flex items-start gap-4 mb-6">
-                                <div className="w-10 h-10 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold flex-shrink-0">8</div>
-                                <h2 className="text-3xl font-bold pt-1">Plan Your Arrival</h2>
-                            </div>
-                            <p className="text-neutral-700 mb-6">
-                                Courses begin in late August. Plan to arrive before orientation activities start.
-                                Pre-orientation modules are available online in July/August.
-                            </p>
+                            <ContentBox
+                                size="large"
+                                icon="graduationCap"
+                                title="Arrival & Orientation"
+                                body={
+                                    <div className="space-y-8 text-left">
+                                        <p className="text-aalto-2 text-black font-medium leading-relaxed">
+                                            Courses begin in late August. Plan to arrive before orientation activities start.
+                                        </p>
+                                        <div className="grid md:grid-cols-2 gap-8">
+                                            <Card
+                                                title="IT Account"
+                                                body="Activate your account after enrolment for access to Email, Moodle, and Registration."
+                                            />
+                                            <Card
+                                                title="Student Benefits"
+                                                body="Access student card, healthcare (FSHS), and transport discounts."
+                                            />
+                                        </div>
+                                    </div>
+                                }
+                            />
                         </section>
 
-                        {/* 9. IT Account */}
-                        <section id="it-account" className="scroll-mt-32">
-                            <div className="flex items-start gap-4 mb-6">
-                                <div className="w-10 h-10 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold flex-shrink-0">9</div>
-                                <h2 className="text-3xl font-bold pt-1">Activate IT Account & Benefits</h2>
-                            </div>
-                            <ul className="grid md:grid-cols-2 gap-4">
-                                <li className="bg-neutral-100 p-4 rounded-lg flex gap-3">
-                                    <FileText className="text-black" weight="regular" />
-                                    <div>
-                                        <span className="font-bold block text-sm">Kestora IT Account</span>
-                                        <span className="text-xs text-neutral-500">Email, Moodle, Course Registration</span>
-                                    </div>
-                                </li>
-                                <li className="bg-neutral-100 p-4 rounded-lg flex gap-3">
-                                    <CheckCircle className="text-black" weight="bold" />
-                                    <div>
-                                        <span className="font-bold block text-sm">Student Benefits</span>
-                                        <span className="text-xs text-neutral-500">Student Card, Healthcare (FSHS), Transport</span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </section>
-
-                        <div className="mt-12 pt-8 text-sm text-neutral-500">
+                        <div className="mt-12 pt-8 border-t border-neutral-200 text-xs text-neutral-500 font-bold uppercase tracking-widest">
                             <p>Content adapted from official admissions and student guidance information.</p>
                         </div>
-
-                    </main>
+                    </div>
                 </div>
             </div>
-        </div>
         </GuideSidebarLayout>
     );
 }

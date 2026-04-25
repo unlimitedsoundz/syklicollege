@@ -1,37 +1,109 @@
+'use client';
+
 import * as React from "react"
+import { Link } from "@aalto-dx/react-components";
+import { ProgressIndicator } from "./ProgressIndicator";
+
+export interface ButtonProps {
+    label?: string;
+    type?: 'primary' | 'secondary' | 'accent' | 'outline' | 'ghost' | 'link' | 'link-white' | 'white';
+    htmlType?: 'button' | 'submit' | 'reset';
+    variant?: 'primary' | 'secondary' | 'accent' | 'outline' | 'ghost' | 'link' | 'link-white' | 'white';
+    size?: 'default' | 'sm' | 'lg' | 'icon' | 'none';
+    isLoading?: boolean;
+    href?: string;
+    onClick?: (e: React.MouseEvent<HTMLElement>) => void;
+    className?: string;
+    disabled?: boolean;
+    children?: React.ReactNode;
+    icon?: React.ReactNode;
+    iconPosition?: 'left' | 'right';
+}
 
 const buttonVariants = {
-    primary: "bg-[var(--color-primary)] text-white hover:bg-[#153e32] shadow-sm",
-    secondary: "bg-[var(--color-secondary)] text-white hover:bg-[#254073] shadow-sm",
-    accent: "bg-[var(--color-accent)] text-white hover:bg-[#2b9086] shadow-sm",
-    outline: "border border-[var(--color-border)] bg-transparent hover:bg-[var(--color-muted)] text-[var(--color-foreground)]",
-    ghost: "hover:bg-[var(--color-muted)] text-[var(--color-foreground)]",
-    link: "text-[var(--color-primary)] underline-offset-4 hover:underline",
+    primary: "bg-black text-white hover:bg-neutral-800 shadow-sm",
+    secondary: "bg-neutral-100 text-black hover:bg-neutral-200 shadow-sm",
+    accent: "bg-[#0055A4] text-white hover:bg-[#004488] shadow-sm",
+    white: "bg-white text-black hover:bg-neutral-100 shadow-sm",
+    outline: "border-2 border-black bg-transparent text-black hover:bg-neutral-50",
+    ghost: "hover:bg-neutral-100 text-black",
+    link: "text-black underline-offset-4 hover:underline",
+    "link-white": "text-white underline-offset-8 hover:opacity-70 underline decoration-white",
 }
 
 const buttonSizes = {
-    default: "h-10 px-4 py-2",
-    sm: "h-9 rounded-md px-3",
-    lg: "h-11 rounded-md px-8",
+    default: "h-12 px-8 py-4",
+    sm: "h-9 px-3",
+    lg: "h-14 px-10",
     icon: "h-10 w-10",
+    none: "",
 }
 
-export interface ButtonProps
-    extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?: keyof typeof buttonVariants
-    size?: keyof typeof buttonSizes
-    asChild?: boolean
-    className?: string
-}
+/**
+ * Standardized Button component for the Kestora University project.
+ * Aliased from @aalto-dx/react-components.
+ */
+const Button = React.forwardRef<HTMLElement, ButtonProps>(
+    ({ 
+        className = "", 
+        type = "primary", 
+        htmlType = "button",
+        variant, 
+        size = "default", 
+        label, 
+        children, 
+        isLoading,
+        onClick,
+        href,
+        disabled,
+        icon,
+        iconPosition = 'right',
+        ...props 
+    }, ref) => {
+        const activeVariant = variant || type;
+        
+        // Base classes depend on size/variant
+        const isLink = activeVariant.startsWith('link');
+        const baseClasses = isLink 
+            ? "inline-flex items-center gap-2 font-bold transition-all focus-visible:outline-none"
+            : "inline-flex items-center justify-center gap-2 rounded-sm text-[11px] font-black uppercase tracking-widest transition-all focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50";
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ className = "", variant = "primary", size = "default", asChild = false, ...props }, ref) => {
+        const combinedClassName = `${baseClasses} ${buttonVariants[activeVariant]} ${buttonSizes[size]} ${className}`;
+
+        const content = isLoading ? (
+            <ProgressIndicator size={16} variant={activeVariant === 'primary' ? 'white' : 'default'} />
+        ) : (
+            <>
+                {icon && iconPosition === 'left' && icon}
+                {label || children}
+                {icon && iconPosition === 'right' && icon}
+            </>
+        );
+
+        if (href && !disabled) {
+            return (
+                <Link 
+                    href={href} 
+                    className={combinedClassName}
+                    onClick={onClick as any}
+                    {...(props as any)}
+                >
+                    {content}
+                </Link>
+            );
+        }
+
         return (
             <button
-                ref={ref}
-                className={`inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] disabled:pointer-events-none disabled:opacity-50 ${buttonVariants[variant]} ${buttonSizes[size]} ${className}`}
+                ref={ref as any}
+                type={htmlType}
+                onClick={onClick as any}
+                disabled={disabled || isLoading}
+                className={combinedClassName}
                 {...props}
-            />
+            >
+                {content}
+            </button>
         )
     }
 )

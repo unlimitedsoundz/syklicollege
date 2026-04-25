@@ -1,6 +1,6 @@
 
 import { createStaticClient } from '@/lib/supabase/static';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 
 export const metadata = {
@@ -27,43 +27,43 @@ export default async function ProjectsPage() {
                 </p>
                 <div className="grid gap-8">
                     {projects?.map((project) => (
-                        <div key={project.id} className="bg-black p-8 rounded-xl border border-neutral-800 hover:border-neutral-600 transition-all text-white">
+                        <div key={project.id} className="bg-neutral-100 p-8 rounded-xl border-none transition-all text-black hover:bg-neutral-200/50">
                             <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-6">
                                 <div>
                                     <div className="flex items-center gap-3 mb-2">
-                                        <span className="bg-neutral-100 text-neutral-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1">
+                                        <span className="bg-white text-neutral-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1">
                                             {project.fundingSource || 'Internal'}
                                         </span>
                                     </div>
-                                    <h2 className="text-2xl font-bold text-white mb-2">
-                                        <Link href={`/research/projects/${project.slug}`} className="hover:underline transition-colors text-white">
+                                    <h2 className="text-2xl font-bold text-black mb-2">
+                                        <Link href={`/research/projects/${project.slug}`} className="hover:underline transition-colors text-black">
                                             {project.title}
                                         </Link>
                                     </h2>
                                 </div>
-                                <div className="flex-shrink-0 w-full md:w-48 h-32 md:h-auto rounded-lg overflow-hidden bg-neutral-100 relative">
+                                <div className="flex-shrink-0 w-full md:w-48 h-32 md:h-auto rounded-lg overflow-hidden bg-neutral-200 relative">
                                     {project.imageUrl ? (
                                         <img
                                             src={project.imageUrl}
                                             alt={project.title}
-                                            className="w-full h-full object-cover"
+                                            className="w-full h-full object-cover object-top"
                                         />
                                     ) : (
-                                        <div className="w-full h-full flex items-center justify-center bg-neutral-200 text-neutral-400">
+                                        <div className="w-full h-full flex items-center justify-center bg-neutral-300 text-neutral-500">
                                             <span className="text-xs uppercase font-bold tracking-widest text-neutral-400">No Image</span>
                                         </div>
                                     )}
                                 </div>
                             </div>
 
-                            <p className="text-neutral-300 mb-8 max-w-4xl text-lg leading-relaxed">{project.description}</p>
+                            <p className="text-neutral-600 mb-8 max-w-4xl text-lg leading-relaxed">{project.description}</p>
 
                             <div className="flex flex-wrap items-center justify-between gap-4 pt-6">
-                                <div className="flex items-center gap-2 text-sm text-neutral-400">
-                                    <span className="font-bold text-neutral-200">Lead:</span>
+                                <div className="flex items-center gap-2 text-sm text-neutral-500">
+                                    <span className="font-bold text-neutral-800">Lead:</span>
                                     <span>{project.leadResearcher}</span>
                                 </div>
-                                <Link href={`/research/projects/${project.slug}`} className="text-white font-bold flex items-center gap-2 hover:gap-3 transition-all">
+                                <Link href={`/research/projects/${project.slug}`} className="text-black font-bold flex items-center gap-2 hover:gap-3 transition-all">
                                     Read Project Details <ArrowRight size={18} weight="bold" />
                                 </Link>
                             </div>
@@ -80,3 +80,4 @@ export default async function ProjectsPage() {
         </div>
     );
 }
+

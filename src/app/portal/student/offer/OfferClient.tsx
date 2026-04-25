@@ -2,7 +2,7 @@
 
 import React, { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import { DownloadSimple as Download, CheckCircle, XCircle, FileText, CircleNotch as Loader2, WarningCircle as AlertCircle, Trophy as Award, Percent } from "@phosphor-icons/react/dist/ssr";
+import { CircleNotch as Loader2 } from "@phosphor-icons/react/dist/ssr";
 import { acceptApplicationOffer } from './actions';
 import { createClient } from '@/utils/supabase/client';
 import { format } from 'date-fns';
@@ -67,7 +67,6 @@ export function OfferClient({ admission }: OfferClientProps) {
                 <div className="bg-white border-2 border-neutral-200 rounded-xl overflow-hidden min-h-[500px] md:min-h-[700px] flex flex-col shadow-sm">
                     <div className="p-2 md:p-4 border-b border-neutral-100 flex items-center justify-between bg-neutral-50/50">
                         <div className="flex items-center gap-2">
-                            <FileText size={18} weight="regular" className="text-neutral-400" />
                             <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-neutral-500">
                                 {isLetterGenerated ? 'Official Admission Letter' : 'Letter of Offer'} - {admission.student_id}
                             </span>
@@ -88,7 +87,7 @@ export function OfferClient({ admission }: OfferClientProps) {
                                 }
                             }}
                         >
-                            <Download size={18} weight="bold" />
+                            View
                         </a>
                     </div>
 
@@ -101,7 +100,6 @@ export function OfferClient({ admission }: OfferClientProps) {
                             />
                         ) : (
                             <div className="h-full flex flex-col items-center justify-center p-12 text-center text-neutral-400">
-                                <AlertCircle size={48} weight="regular" className="mb-4 opacity-20" />
                                 <p className="font-medium">File not found. Please contact admissions.</p>
                             </div>
                         )}
@@ -114,10 +112,6 @@ export function OfferClient({ admission }: OfferClientProps) {
                 {/* Financial Summary - Only show if not enrolled and not paid */}
                 {!(isOfferAcceptedOnly || isLetterGenerated || admission.offer_status === 'PAID') && (
                     <div className="bg-black text-white p-6 rounded-2xl shadow-xl overflow-hidden relative">
-                        <div className="absolute top-0 right-0 p-4 opacity-10 rotate-12">
-                            <Award size={80} weight="thin" />
-                        </div>
-
                         <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-neutral-500 mb-6">Financial Summary</h3>
 
                         <div className="space-y-5 relative z-10">
@@ -145,7 +139,6 @@ export function OfferClient({ admission }: OfferClientProps) {
                                 </div>
                                 {admission.discount_amount > 0 && (
                                     <div className="bg-emerald-500/20 text-emerald-400 px-3 py-1.5 rounded-xl border border-emerald-500/30 flex items-center gap-2">
-                                        <Percent size={12} weight="bold" />
                                         <span className="text-[10px] font-black uppercase">Early Bird Applied</span>
                                     </div>
                                 )}
@@ -200,7 +193,6 @@ export function OfferClient({ admission }: OfferClientProps) {
                                                 className="w-full bg-emerald-600 text-white font-bold py-4 rounded-xl hover:bg-emerald-700 transition-all flex items-center justify-center gap-3 shadow-lg shadow-emerald-200 group active:scale-[0.98]"
                                             >
                                                 Pay Tuition Fees
-                                                <Award size={18} weight="bold" className="group-hover:scale-110 transition-transform" />
                                             </button>
                                         )}
 
@@ -212,15 +204,15 @@ export function OfferClient({ admission }: OfferClientProps) {
                                                 </div>
 
                                                 <button disabled className="w-full bg-neutral-50 text-neutral-400 font-bold py-3 rounded-lg flex items-center justify-center gap-2 cursor-not-allowed text-[10px] uppercase tracking-widest border border-neutral-100">
-                                                    <FileText size={14} weight="bold" /> Admission Letter <span className="text-[9px] opacity-60">(Locked)</span>
+                                                    Admission Letter <span className="text-[9px] opacity-60">(Locked)</span>
                                                 </button>
 
                                                 <button disabled className="w-full bg-neutral-50 text-neutral-400 font-bold py-3 rounded-lg flex items-center justify-center gap-2 cursor-not-allowed text-[10px] uppercase tracking-widest border border-neutral-100">
-                                                    <FileText size={14} weight="bold" /> View Receipt <span className="text-[9px] opacity-60">(Locked)</span>
+                                                    View Receipt <span className="text-[9px] opacity-60">(Locked)</span>
                                                 </button>
 
                                                 <button disabled className="w-full bg-neutral-50 text-neutral-400 font-bold py-3 rounded-lg flex items-center justify-center gap-2 cursor-not-allowed text-[10px] uppercase tracking-widest border border-neutral-100">
-                                                    <CheckCircle size={14} weight="bold" /> Enter Portal <span className="text-[9px] opacity-60">(Locked)</span>
+                                                    Enter Portal <span className="text-[9px] opacity-60">(Locked)</span>
                                                 </button>
                                             </div>
                                         )}
@@ -242,7 +234,7 @@ export function OfferClient({ admission }: OfferClientProps) {
                                                     }
                                                 }}
                                             >
-                                                <FileText size={16} weight="bold" /> View {isLetterGenerated ? 'Admission Letter' : 'Offer Letter'}
+                                                View {isLetterGenerated ? 'Admission Letter' : 'Offer Letter'}
                                                 {admission.application_status === 'PAYMENT_SUBMITTED' && ' (Locked)'}
                                             </a>
                                         )}
@@ -255,7 +247,6 @@ export function OfferClient({ admission }: OfferClientProps) {
                             </div>
                         ) : (
                             <div className="flex flex-col items-center">
-                                <XCircle size={48} weight="bold" className="text-red-500 mb-4" />
                                 <div>
                                     <h2 className="text-xl font-black uppercase tracking-tight">Offer Rejected</h2>
                                     <p className="text-sm font-medium opacity-80 mt-1">
@@ -286,7 +277,7 @@ export function OfferClient({ admission }: OfferClientProps) {
                                 disabled={isPending}
                                 className="bg-black text-white font-bold py-2.5 md:py-3 rounded-lg hover:bg-neutral-800 transition-all flex items-center justify-center gap-1.5 md:gap-2 disabled:opacity-50 active:scale-95 text-[10px] md:text-xs uppercase tracking-wider md:tracking-widest"
                             >
-                                {isPending ? <Loader2 className="animate-spin" size={14} weight="bold" /> : <><CheckCircle size={14} weight="bold" /> Accept<span className="hidden md:inline"> Offer</span></>}
+                                {isPending ? <Loader2 className="animate-spin" size={14} weight="bold" /> : <>Accept<span className="hidden md:inline"> Offer</span></>}
                             </button>
 
                             <button
@@ -294,7 +285,7 @@ export function OfferClient({ admission }: OfferClientProps) {
                                 disabled={isPending}
                                 className="bg-white text-red-600 border-2 border-red-500/10 font-bold py-2.5 md:py-3 rounded-lg hover:bg-red-50 transition-all flex items-center justify-center gap-1.5 md:gap-2 disabled:opacity-50 active:scale-95 text-[10px] md:text-xs uppercase tracking-wider md:tracking-widest"
                             >
-                                {isPending ? <Loader2 className="animate-spin" size={14} weight="bold" /> : <><XCircle size={14} weight="bold" /> Reject<span className="hidden md:inline"> Offer</span></>}
+                                {isPending ? <Loader2 className="animate-spin" size={14} weight="bold" /> : <>Reject<span className="hidden md:inline"> Offer</span></>}
                             </button>
                         </div>
 
@@ -306,13 +297,12 @@ export function OfferClient({ admission }: OfferClientProps) {
                                 rel="noopener noreferrer"
                                 className="w-full bg-neutral-100 text-neutral-700 font-bold py-2 md:py-2.5 rounded-lg hover:bg-neutral-200 transition-all flex items-center justify-center gap-2 active:scale-95 text-[10px] md:text-xs uppercase tracking-wider"
                             >
-                                <FileText size={14} weight="bold" /> View Letter
+                                View Letter
                             </a>
                         )}
 
                         <div className="pt-3 md:pt-4 border-t border-neutral-100">
                             <div className="flex items-start gap-2">
-                                <AlertCircle size={12} weight="bold" className="text-neutral-400 mt-0.5 shrink-0" />
                                 <p className="text-[8px] md:text-[9px] font-bold text-neutral-400 uppercase leading-snug tracking-wider md:tracking-widest">
                                     BY ACCEPTING, YOU AGREE TO THE CODE OF CONDUCT, ACADEMIC REGULATIONS, AND TERMS OUTLINED IN THE OFFICIAL OFFER LETTER.
                                 </p>

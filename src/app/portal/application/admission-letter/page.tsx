@@ -2,7 +2,7 @@
 
 import { createClient } from '@/utils/supabase/client';
 import { notFound, useRouter, useSearchParams } from 'next/navigation';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { CaretLeft as ChevronLeft } from "@phosphor-icons/react/dist/ssr";
 import { formatToDDMMYYYY } from '@/utils/date';
 import PrintButton from '@/components/portal/PrintButton';
@@ -170,6 +170,7 @@ function AdmissionLetterContent() {
     ) : 'Address Pending';
 
     const programStart = '24th August 2026'; // Hardcoded as per previous logic
+    const admissionRef = admission?.admission_reference || application.application_number || application.id.slice(0, 8).toUpperCase();
 
     return (
         <div className="min-h-screen bg-neutral-100/50 py-6 md:py-12 px-4 sm:px-6 font-rubik">
@@ -186,14 +187,14 @@ function AdmissionLetterContent() {
             </div>
 
             {/* Document Container - A4 Size */}
-            <div className="w-full max-w-[210mm] mx-auto bg-white print:shadow-none p-[15mm] md:p-[20mm] border border-neutral-200 print:border-0 relative overflow-hidden min-h-[297mm] flex flex-col justify-between text-black">
+            <div className="w-full max-w-[210mm] mx-auto bg-white print:shadow-none p-[15mm] md:p-[20mm] print:p-[10mm] border border-neutral-200 print:border-0 relative overflow-hidden min-h-[297mm] flex flex-col justify-between text-black">
 
                 {/* Content Wrapper */}
-                <div className="space-y-6">
+                <div className="space-y-3 print:space-y-1">
                     {/* 1. Header (Logo & Contact + To Block) */}
-                    <div className="flex flex-col md:flex-row justify-between items-start gap-6 border-b-2 border-black pb-4">
-                        <div className="space-y-6">
-                            <div className="relative w-48 h-12">
+                    <div className="flex flex-col md:flex-row justify-between items-start gap-4 border-b border-black pb-3">
+                        <div className="space-y-4">
+                            <div className="relative w-40 h-10">
                                 <Image
                                     src="/logo-kestora.png"
                                     alt="Kestora University"
@@ -202,112 +203,110 @@ function AdmissionLetterContent() {
                                 />
                             </div>
                             {/* To: Section */}
-                            <div className="text-[11px] leading-relaxed text-black font-medium">
-                                <span className="text-[9px] font-bold text-black uppercase tracking-widest block mb-1">To:</span>
-                                <strong className="text-sm block mb-1 text-black">{studentName}</strong>
+                            <div className="text-[10px] leading-tight text-black">
+                                <span className="text-[8px] font-bold text-black uppercase tracking-widest block mb-0.5">To:</span>
+                                <strong className="text-xs block mb-0.5 text-black">{studentName}</strong>
                                 <span className="text-black block">{studentAddress}</span>
-                                <span className="block mt-2 font-mono text-xs text-black">Student ID: {displayStudentId}</span>
+                                <span className="block mt-1 font-mono text-[10px] text-black">Student ID: {displayStudentId}</span>
                             </div>
                         </div>
-                        <div className="text-left md:text-right text-[10px] font-medium text-black leading-relaxed uppercase tracking-wide">
-                            <strong className="text-black block mb-2 text-xs">Kestora University – Helsinki Campus</strong>
+                        <div className="text-left md:text-right text-[9px] font-medium text-black leading-tight uppercase tracking-wide">
+                            <strong className="text-black block mb-1 text-[10px]">Kestora University – Helsinki Campus</strong>
                             Pohjoisesplanadi 51<br />
                             00150 Helsinki, Finland<br />
                             Phone: +358 09 42721884<br />
-                            <div className="mt-2 text-[9px]">
-                                kestora.online<br />
-                                admissions@kestora.online
+                            <div className="mt-1 text-[8px]">
+                                kestora.online | admissions@kestora.online
                             </div>
                         </div>
                     </div>
 
-                    <div className="text-center mb-10 pt-4">
-                        <h1 className="text-3xl font-bold uppercase tracking-[0.1em] text-black">
+                    <div className="text-center mb-4 print:mb-2 pt-2 print:pt-0">
+                        <h1 className="text-2xl print:text-lg font-bold uppercase tracking-[0.1em] text-black">
                             Official Admission Letter
                         </h1>
                     </div>
 
                     {/* Admission Details Grid */}
-                    <div className="grid grid-cols-3 gap-6 p-4 mb-8 border-y border-black">
+                    <div className="grid grid-cols-3 gap-4 print:gap-1 p-3 print:p-1 mb-4 print:mb-2 border-y border-black">
                         <div className="text-center">
-                            <span className="block text-[8px] font-bold text-black uppercase tracking-widest mb-1">Enrollment Date</span>
-                            <span className="block font-bold text-xs text-black">{issueDate}</span>
+                            <span className="block text-[7px] font-bold text-black uppercase tracking-widest mb-0.5 print:mb-0">Enrollment Date</span>
+                            <span className="block font-bold text-[10px] text-black">{issueDate}</span>
                         </div>
                         <div className="text-center">
-                            <span className="block text-[8px] font-bold text-black uppercase tracking-widest mb-1">Admission Reference</span>
-                            <span className="block font-bold text-xs text-black font-mono">{admission?.admission_reference || application.application_number || application.id.slice(0, 8).toUpperCase()}</span>
+                            <span className="block text-[7px] font-bold text-black uppercase tracking-widest mb-0.5 print:mb-0">Admission Reference</span>
+                            <span className="block font-bold text-[10px] text-black font-mono">{admissionRef}</span>
                         </div>
                         <div className="text-center">
-                            <span className="block text-[8px] font-bold text-black uppercase tracking-widest mb-1">Official Student ID</span>
-                            <span className="block font-bold text-xs text-black font-mono">{displayStudentId}</span>
+                            <span className="block text-[7px] font-bold text-black uppercase tracking-widest mb-0.5 print:mb-0">Official Student ID</span>
+                            <span className="block font-bold text-[10px] text-black font-mono">{displayStudentId}</span>
                         </div>
                     </div>
 
                     {/* Official Statement */}
-                    <div className="text-sm leading-relaxed text-black mb-8">
-                        <p className="mb-4 text-black">
+                    <div className="text-xs print:text-[10px] leading-normal text-black mb-4 print:mb-2">
+                        <p className="mb-2 print:mb-1 text-black">
                             This letter serves as official notification that {studentName} (Passport: {passportNumber}, DOB: {dob}) has been formally admitted and fully enrolled as a degree student at Kestora University for the 2026 - 2027 academic year.
                         </p>
                         <p className="text-black">
-                            Having satisfied all academic entrance criteria and fulfilled the mandated tuition fee obligations, the student is officially registered for the <strong className="text-black">{application.course?.title} ({application.course?.programType || 'Full-time'})</strong>. This program is a full-time course of study conducted in the English language at our Helsinki campus location (Pohjoisesplanadi 51, 00150 Helsinki, Finland).
+                            Having satisfied all academic entrance criteria and fulfilled the mandated tuition fee obligations, the student is officially registered for the <strong className="text-black">{application.course?.title} ({application.course?.programType || 'Full-time'})</strong>. This program is a full-time course of study conducted in the English language at our Helsinki campus location.
                         </p>
                     </div>
 
+
                     {/* Details Table */}
-                    <div className="space-y-1 mb-10">
+                    <div className="space-y-0 mb-4 print:mb-2">
                         {[
                             { label: 'Date of Admission', value: issueDate },
                             { label: 'Academic Year', value: academicYear },
                             { label: 'Intake', value: intake },
+                            { label: 'Programme Start Date', value: '17.08.2026' },
+                            { label: 'Programme End Date', value: (application.course?.degreeLevel || '').toUpperCase() === 'MASTER' ? '17.08.2028' : '17.08.2029' },
+                            { label: 'Total Credits', value: (application.course?.degreeLevel || '').toUpperCase() === 'MASTER' ? '120 ECTS' : '180 ECTS' },
                             { label: 'Programme of Study', value: `${application.course?.title} (${application.course?.programType || 'Full-time'})` }
                         ].map((row, idx) => (
-                            <div key={idx} className="flex justify-between py-2 border-b border-black">
-                                <span className="text-xs font-bold uppercase text-black">{row.label}</span>
-                                <span className="text-xs font-medium text-black">{row.value}</span>
+                            <div key={idx} className="flex justify-between py-1.5 print:py-0.5 border-b border-black/10">
+                                <span className="text-[10px] print:text-[9px] font-bold uppercase text-black">{row.label}</span>
+                                <span className="text-[10px] print:text-[9px] font-medium text-black">{row.value}</span>
                             </div>
                         ))}
                     </div>
 
                     {/* Rights & Access, Official Use, Next Steps, Refund Policy */}
-                    <div className="grid grid-cols-2 gap-x-12 gap-y-8">
+                    <div className="grid grid-cols-2 gap-x-8 gap-y-4 print:gap-y-2">
                         <div>
-                            <h4 className="text-[10px] font-bold uppercase tracking-widest mb-2 border-b border-black pb-1 text-center text-black">Student Rights & Access</h4>
-                            <p className="text-[10px] text-black leading-relaxed">
-                                As an enrolled student, you are granted full access to:
-                            </p>
-                            <ul className="list-disc ml-4 text-[10px] text-black space-y-1 mt-1">
-                                <li>Campus facilities (Library, Labs, Study Areas)</li>
-                                <li>Digital learning resources and student portal</li>
-                                <li>Academic advising and student support services</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 className="text-[10px] font-bold text-black uppercase tracking-widest mb-2 border-b border-black pb-1 text-center">Immigration / Official Use</h4>
-                            <p className="text-[10px] text-black leading-relaxed italic">
-                                This document is an official certificate of admission and may be used for visa applications, residence permit processing (Migri), and other official purposes requiring proof of student status in Finland.
+                            <h4 className="text-[9px] font-bold uppercase tracking-widest mb-1 border-b border-black pb-0.5 text-center text-black">Student Rights</h4>
+                            <p className="text-[9px] text-black leading-tight">
+                                Access to campus facilities (Library, Labs), digital resources, and student portal.
                             </p>
                         </div>
                         <div>
-                            <h4 className="text-[10px] font-bold text-black uppercase tracking-widest mb-2 border-b border-black pb-1 text-center">Next Steps</h4>
-                            <ul className="list-decimal ml-4 text-[10px] text-black space-y-1">
-                                <li>Activate your student email and IT account (credentials sent separately).</li>
-                                <li>Register for the orientation week sessions via the student portal.</li>
-                                <li>Submit your housing application if you have not done so.</li>
-                                <li>Arrival instructions will be communicated to your student email.</li>
+                            <h4 className="text-[9px] font-bold text-black uppercase tracking-widest mb-1 border-b border-black pb-0.5 text-center">Official Use</h4>
+                            <p className="text-[9px] text-black leading-tight italic">
+                                Certificate of admission for visa applications and residence permit processing (Migri).
+                            </p>
+                        </div>
+                        <div>
+                            <h4 className="text-[9px] font-bold text-black uppercase tracking-widest mb-1 border-b border-black pb-0.5 text-center">Next Steps</h4>
+                            <ul className="list-decimal ml-3 text-[9px] text-black space-y-0.5 leading-tight">
+                                <li>Activate IT account and student email.</li>
+                                <li>Register for orientation sessions.</li>
+                                <li>Submit housing application if pending.</li>
                             </ul>
                         </div>
                         <div>
-                            <h4 className="text-[10px] font-bold text-black uppercase tracking-widest mb-2 border-b border-black pb-1 text-center">Refund Policy</h4>
-                            <p className="text-[10px] text-black leading-relaxed">
-                                Tuition fees are subject to the university’s refund policy. Full details can be found at <a href="https://kestora.online/refund-withdrawal-policy/" className="underline text-black">kestora.online/refund-withdrawal-policy/</a>.
+                            <h4 className="text-[9px] font-bold text-black uppercase tracking-widest mb-1 border-b border-black pb-0.5 text-center">Refund Policy</h4>
+                            <p className="text-[9px] text-black leading-tight">
+                                Subject to the university’s refund policy at <a href="https://kestora.online/refund-withdrawal-policy/" className="underline text-black">kestora.online/refund</a>.
                             </p>
                         </div>
                     </div>
 
                     {/* Signature Block */}
-                    <div className="mt-8 pt-4 border-t border-black flex flex-row justify-between items-end">
+                    <div className="mt-4 print:mt-2 pt-2 print:pt-1 border-t border-black flex flex-row justify-between items-end">
                         <div className="w-1/2">
-                            <div className="w-40 h-16 mb-2 relative">
+                            <div className="w-32 h-12 print:h-10 mb-1 print:mb-0.5 relative">
+
                                 <Image
                                     src="/images/anna-virtanen-signature.jpg"
                                     alt="Official Signature"
@@ -315,9 +314,9 @@ function AdmissionLetterContent() {
                                     style={{ objectFit: 'contain', objectPosition: 'left bottom' }}
                                 />
                             </div>
-                            <div className="text-[11px] font-black text-black uppercase">Office of the Registrar</div>
-                            <div className="text-[11px] font-bold text-black mt-0.5">Dosentti (Docent) Anna Virtanen, FT (Doctor of Philosophy)</div>
-                            <div className="text-[10px] font-bold text-black uppercase tracking-widest">Kestora University | Finland</div>
+                            <div className="text-[10px] font-black text-black uppercase">Office of the Registrar</div>
+                            <div className="text-[9px] font-bold text-black">Dosentti Anna Virtanen, FT</div>
+                            <div className="text-[8px] font-bold text-black uppercase tracking-widest">Kestora University | Finland</div>
                         </div>
                     </div>
 

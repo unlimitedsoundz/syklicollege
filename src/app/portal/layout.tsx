@@ -4,6 +4,7 @@ import { ReactNode, useState, useEffect, useMemo } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import PortalHeader from '@/components/portal/PortalHeader';
+import { ProgressIndicator } from "@aalto-dx/react-components";
 
 export default function PortalLayout({ children }: { children: ReactNode }) {
     const [loading, setLoading] = useState(true);
@@ -122,7 +123,7 @@ export default function PortalLayout({ children }: { children: ReactNode }) {
     if (loading && !authorized) {
         return (
             <div className="min-h-screen bg-white flex items-center justify-center font-open-sans">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-neutral-900"></div>
+                <ProgressIndicator size={32} />
             </div>
         );
     }

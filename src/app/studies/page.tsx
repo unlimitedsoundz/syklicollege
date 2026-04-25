@@ -1,5 +1,5 @@
 
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import Image from 'next/image';
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 
@@ -12,6 +12,8 @@ export const metadata = {
 };
 
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema';
+import { Hero } from '@/components/layout/Hero';
+import { Card } from '@/components/ui/Card';
 
 export default function StudiesPage() {
     return (
@@ -21,26 +23,26 @@ export default function StudiesPage() {
                 { name: 'Studies', item: '/studies' }
             ]} />
             {/* Hero */}
-            <section className="bg-black text-white pt-32 pb-16 md:pt-48 md:pb-32 overflow-hidden relative border-b border-white/10">
-                <div className="container mx-auto px-4 relative z-10">
-                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 tracking-tight leading-tight">
-                        Study at Kestora University
-                    </h1>
-                    <p className="text-xl md:text-2xl text-white max-w-2xl leading-relaxed mb-12">
-                        From undergraduate degrees to executive education, we offer diverse paths for learners at every stage of their journey.
-                    </p>
-                    <div className="flex flex-wrap gap-4">
-                        <Link href="/admissions" className="bg-white text-black px-8 py-4 font-bold uppercase tracking-widest hover:bg-neutral-200 transition-colors">
-                            Apply Now
-                        </Link>
-                        <Link href="#programmes" className="bg-white/10 text-white px-8 py-4 font-bold uppercase tracking-widest hover:bg-white/20 transition-colors border border-white/20">
-                            Explore Programmes
-                        </Link>
-                    </div>
+            <Hero
+                title="Study at Kestora University"
+                body="From undergraduate degrees to executive education, we offer diverse paths for learners at every stage of their journey."
+                backgroundColor="#392d56"
+                tinted
+                lightText={true}
+                breadcrumbs={[
+                    { label: 'Home', href: '/' },
+                    { label: 'Studies' }
+                ]}
+            >
+                <div className="flex flex-wrap gap-4">
+                    <Link href="/admissions" className="text-aalto-3 font-bold underline underline-offset-8 decoration-white hover:opacity-70 transition-colors text-white inline-flex items-center gap-2">
+                        Apply Now <ArrowRight size={20} weight="bold" />
+                    </Link>
+                    <Link href="#programmes" className="text-aalto-3 font-bold underline underline-offset-8 decoration-white hover:opacity-70 transition-colors text-white inline-flex items-center gap-2">
+                        Explore Programmes <ArrowRight size={20} weight="bold" />
+                    </Link>
                 </div>
-                {/* Abstract bg element */}
-                <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-neutral-800 to-transparent opacity-20 -skew-x-12 translate-x-1/4" />
-            </section>
+            </Hero>
 
             <div id="programmes" className="container mx-auto px-0 md:px-4 py-12 md:py-32">
                 <div className="grid md:grid-cols-2 gap-4 md:gap-12">
@@ -51,17 +53,17 @@ export default function StudiesPage() {
                                 src="/images/bachelors-group-v2.png"
                                 alt="Bachelor's"
                                 fill
-                                className="object-cover transition-transform duration-1000 group-hover:scale-105 opacity-60"
+                                className="object-cover object-top transition-transform duration-1000 group-hover:scale-105 opacity-60"
                                 sizes="(max-width: 768px) 100vw, 50vw"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
                         </div>
                         <div className="absolute inset-0 p-8 md:p-12 flex flex-col justify-end text-white">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-4 uppercase tracking-tight">Bachelor's Degrees</h2>
-                            <p className="text-white/80 mb-8 text-lg max-w-md leading-relaxed">
+                            <h2 className="text-aalto-4 font-bold mb-aalto-p2 uppercase tracking-aalto-3">Bachelor's Degrees</h2>
+                            <p className="text-aalto-2 text-white/80 mb-8 max-w-md leading-aalto-2">
                                 Build a strong foundation in sustainability, business, design, or technology. Our undergraduate programmes combine theory with real-world practice.
                             </p>
-                             <Link href="/admissions/bachelor" className="inline-flex items-center gap-3 font-bold uppercase tracking-[0.2em] hover:gap-5 transition-all text-sm">
+                             <Link href="/admissions/bachelor" className="inline-flex items-center gap-3 font-bold uppercase tracking-aalto-3 hover:gap-5 transition-all text-aalto-1 text-white">
                                  View Bachelor's Programmes <ArrowRight size={20} weight="bold" className="align-middle" />
                              </Link>
                         </div>
@@ -74,17 +76,17 @@ export default function StudiesPage() {
                                 src="/images/admissions/master_hero_refined.jpg"
                                 alt="Master's"
                                 fill
-                                className="object-cover transition-transform duration-1000 group-hover:scale-105 opacity-60"
+                                className="object-cover object-top transition-transform duration-1000 group-hover:scale-105 opacity-60"
                                 sizes="(max-width: 768px) 100vw, 50vw"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
                         </div>
                         <div className="absolute inset-0 p-8 md:p-12 flex flex-col justify-end text-white">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-4 uppercase tracking-tight">Master's Degrees</h2>
-                            <p className="text-white/80 mb-8 text-lg max-w-md leading-relaxed">
+                            <h2 className="text-aalto-4 font-bold mb-aalto-p2 uppercase tracking-aalto-3">Master's Degrees</h2>
+                            <p className="text-aalto-2 text-white/80 mb-8 max-w-md leading-aalto-2">
                                 Deepen your expertise and lead the change. Our graduate programmes are designed for professionals and ambitious researchers.
                             </p>
-                             <Link href="/admissions/master" className="inline-flex items-center gap-3 font-bold uppercase tracking-[0.2em] hover:gap-5 transition-all text-sm">
+                             <Link href="/admissions/master" className="inline-flex items-center gap-3 font-bold uppercase tracking-aalto-3 hover:gap-5 transition-all text-aalto-1 text-white">
                                  View Master's Programmes <ArrowRight size={20} weight="bold" className="align-middle" />
                              </Link>
                         </div>
@@ -93,24 +95,30 @@ export default function StudiesPage() {
 
                 {/* Additional Study Options */}
                 <div className="mt-32">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-16 text-center uppercase tracking-widest">More Ways to Learn</h2>
-                    <div className="grid md:grid-cols-3 gap-0 border border-neutral-100">
+                    <h2 className="text-aalto-5 font-bold mb-16 text-center uppercase tracking-aalto-3">More Ways to Learn</h2>
+                    <div className="grid md:grid-cols-3 gap-8">
                         {[
                             { title: "Lifelong Learning", desc: "Short courses and professional development modules.", link: "/admissions#lifelong" },
                             { title: "Open University", desc: "Flexible studies open to everyone, regardless of background.", link: "/admissions#online-opportunities" },
                             { title: "Summer School", desc: "Intensive summer courses in Helsinki.", link: "/admissions#summer" }
                         ].map((item, i) => (
-                            <Link href={item.link} key={i} className={`bg-white p-10 hover:bg-black hover:text-white transition-all group ${i !== 2 ? 'border-b md:border-b-0 md:border-r border-neutral-100' : ''}`}>
-                                <h3 className="text-xl font-bold mb-6 uppercase tracking-wider">{item.title}</h3>
-                                <p className="text-black group-hover:text-white/80 mb-8 leading-relaxed">{item.desc}</p>
-                                 <span className="font-bold text-sm uppercase tracking-widest flex items-center gap-3">
-                                     Learn more <ArrowRight size={18} weight="bold" className="align-middle" />
-                                 </span>
-                            </Link>
+                            <Card 
+                                key={i}
+                                title={item.title}
+                                body={item.desc}
+                                cta={{
+                                    label: "Learn more",
+                                    linkComponentProps: {
+                                        href: item.link
+                                    }
+                                }}
+                            />
                         ))}
                     </div>
                 </div>
+
             </div>
         </div>
     );
 }
+

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { CaretDown, CaretUp, FileText, ArrowSquareOut as ExternalLink } from "@phosphor-icons/react/dist/ssr";
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 
 interface Publication {
     title: string;

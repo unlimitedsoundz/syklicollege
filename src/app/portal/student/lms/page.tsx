@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { CaretLeft as ArrowLeft, ArrowSquareOut as ExternalLink, BookOpen } from "@phosphor-icons/react/dist/ssr";
 import { formatToDDMMYYYY } from '@/utils/date';
 
@@ -110,7 +110,7 @@ export default function LmsPage() {
                             </p>
                         </div>
                     ) : lmsAccess ? (
-                        <div className="bg-white border-2 border-black p-8 rounded-sm shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                        <div className="bg-card border-2 border-black p-8 rounded-sm shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
                             <div className="flex items-start justify-between mb-6">
                                 <div className="flex items-center gap-4">
                                     <div className="w-16 h-16 bg-black text-white rounded-sm flex items-center justify-center">
@@ -163,7 +163,7 @@ export default function LmsPage() {
                             </a>
                         </div>
                     ) : (
-                        <div className="bg-white border-2 border-black p-12 rounded-sm text-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                        <div className="bg-card border-2 border-black p-12 rounded-sm text-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
                             <BookOpen size={48} weight="bold" className="mx-auto text-neutral-900 mb-6" />
                             <h2 className="text-xl font-black uppercase mb-2">LMS Not Provisioned</h2>
                             <p className="text-sm text-neutral-600 max-w-md mx-auto leading-relaxed">

@@ -113,7 +113,7 @@ export default function FacultyForm({ id, isNew, facultyMember, schools, departm
                                 <label className="text-sm font-bold text-neutral-600 mb-2 block">Profile Photo</label>
                                 <div className="relative group aspect-square rounded-2xl bg-neutral-100 overflow-hidden border border-neutral-200 flex items-center justify-center">
                                     {previewImage ? (
-                                        <img src={previewImage} alt="Preview" className="w-full h-full object-cover" />
+                                        <img src={previewImage} alt="Preview" className="w-full h-full object-cover object-top" />
                                     ) : (
                                         <div className="text-center p-4">
                                             <Upload size={32} weight="regular" className="text-neutral-300 mx-auto mb-2" />
@@ -281,3 +281,4 @@ export default function FacultyForm({ id, isNew, facultyMember, schools, departm
         </form>
     );
 }
+

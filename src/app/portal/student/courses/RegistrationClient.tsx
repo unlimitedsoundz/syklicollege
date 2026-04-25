@@ -19,6 +19,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { formatToDDMMYYYY } from '@/utils/date';
 import { UserAvatar } from '@/components/ui/UserAvatar';
+import { SearchField } from '@/components/ui/SearchField';
 
 interface RegistrationClientProps {
     student: any;
@@ -45,7 +46,7 @@ export default function RegistrationClient({
         setIsMounted(true);
     }, []);
 
-    const totalCredits = initialEnrollments.reduce((sum, e) => sum + (e.module?.credits || 0), 0);
+    const totalCredits = initialEnrollments.reduce((sum, e) => sum + (e.module?.credits || e.subject?.creditUnits || 0), 0);
     const MAX_CREDITS = 35;
     const creditProgress = (totalCredits / MAX_CREDITS) * 100;
 
@@ -89,16 +90,16 @@ export default function RegistrationClient({
     return (
         <div className="space-y-6">
             {/* Header Section */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-xl border border-neutral-200 shadow-sm">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-neutral-50 p-6 rounded-none border-none">
                 <div>
-                    <div className="flex items-center gap-2 text-primary font-bold text-[10px] uppercase tracking-widest mb-1 leading-none">
+                    <div className="flex items-center gap-2 text-black font-medium text-[10px] uppercase tracking-widest mb-1 leading-none">
                         <GraduationCap size={14} weight="bold" />
                         Academic Systems • Course Registration
                     </div>
-                    <h1 className="text-2xl font-black text-neutral-900 mb-1 leading-none">Course Enrollment</h1>
-                    <p className="text-neutral-500 font-medium">
+                    <h1 className="text-2xl font-black text-black mb-1 leading-none">Course Enrollment</h1>
+                    <p className="text-black font-medium">
                         {window?.semester?.name || 'Academic Term'} • Registration Window:
-                        <span className={window?.status === 'OPEN' ? 'text-primary ml-1' : 'text-amber-600 ml-1'}>
+                        <span className="text-black ml-1">
                             {window?.status || 'Closed'}
                         </span>
                     </p>
@@ -106,9 +107,9 @@ export default function RegistrationClient({
 
                 <div className="flex items-center gap-4">
                     <div className="text-right hidden sm:block">
-                        <p className="text-xs font-bold text-neutral-400 uppercase tracking-widest leading-none mb-1">Student</p>
-                        <p className="font-bold text-neutral-900">{student.user?.first_name} {student.user?.last_name}</p>
-                        <p className="text-[10px] text-neutral-400 font-mono">{student.user?.student_id || student.student_id}</p>
+                        <p className="text-xs font-bold text-black uppercase tracking-widest leading-none mb-1">Student</p>
+                        <p className="font-bold text-black">{student.user?.first_name} {student.user?.last_name}</p>
+                        <p className="text-[10px] text-black font-mono">{student.user?.student_id || student.student_id}</p>
                     </div>
                     <UserAvatar
                         src={student.user?.avatar_url}
@@ -130,30 +131,29 @@ export default function RegistrationClient({
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Left Column: Stats & Credit Counter */}
                 <div className="space-y-4">
-                    <div className="bg-white p-5 rounded-xl border border-neutral-200 shadow-sm">
-                        <h2 className="text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-4">Study Load</h2>
+                    <div className="bg-neutral-50 p-5 rounded-none border-none">
+                        <h2 className="text-[10px] font-black uppercase tracking-widest text-black mb-4">Study Load</h2>
 
                         <div className="flex justify-between items-end mb-2">
-                            <span className="text-3xl font-black text-neutral-900">{totalCredits}</span>
-                            <span className="text-sm font-bold text-neutral-400">/ {MAX_CREDITS} ECTS</span>
+                            <span className="text-3xl font-black text-black">{totalCredits}</span>
+                            <span className="text-sm font-bold text-black">/ {MAX_CREDITS} ECTS</span>
                         </div>
 
                         <div className="h-2 w-full bg-neutral-100 rounded-full overflow-hidden mb-4">
                             <div
-                                className={`h-full transition-all duration-500 rounded-full ${creditProgress > 90 ? 'bg-red-500' : creditProgress > 70 ? 'bg-amber-500' : 'bg-primary'
-                                    }`}
+                                className="h-full transition-all duration-500 rounded-none bg-black"
                                 style={{ width: `${Math.min(creditProgress, 100)}%` }}
                             />
                         </div>
 
-                        <ul className="space-y-4 pt-4 border-t border-neutral-50">
+                        <ul className="space-y-4 pt-4 border-t border-black/5">
                             <li className="flex items-center justify-between text-sm">
-                                <span className="text-neutral-500">Registered Courses</span>
-                                <span className="font-bold">{initialEnrollments.length}</span>
+                                <span className="text-black/60">Registered Courses</span>
+                                <span className="font-bold text-black">{initialEnrollments.length}</span>
                             </li>
                             <li className="flex items-center justify-between text-sm">
-                                <span className="text-neutral-500">Status</span>
-                                <span className="text-primary font-bold flex items-center gap-1">
+                                <span className="text-black/60">Status</span>
+                                <span className="text-black font-bold flex items-center gap-1">
                                     <CheckCircle size={14} weight="bold" /> Active
                                 </span>
                             </li>
@@ -181,16 +181,11 @@ export default function RegistrationClient({
                 {/* Right Column: Module List */}
                 <div className="lg:col-span-2 space-y-6">
                     {/* Search Bar */}
-                    <div className="relative">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" size={16} />
-                        <input
-                            type="text"
-                            placeholder="Search by code or title..."
-                            className="w-full pl-10 pr-4 py-3 bg-white border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all text-sm"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
-                    </div>
+                    <SearchField
+                        placeholder="Search by code or title..."
+                        value={searchQuery}
+                        onChange={(v) => setSearchQuery(v)}
+                    />
 
                     {/* Modules Grid */}
                     <div className="space-y-4">
@@ -200,34 +195,34 @@ export default function RegistrationClient({
                             return (
                                 <div
                                     key={module.id}
-                                    className={`bg-white border p-5 rounded-xl transition-all group flex flex-col md:flex-row gap-4 ${enrolled
-                                        ? 'border-primary/30 bg-primary/5 shadow-sm'
-                                        : 'border-neutral-200 hover:border-neutral-300'
+                                    className={`bg-neutral-50 border-none p-5 rounded-none transition-all group flex flex-col md:flex-row gap-4 ${enrolled
+                                        ? 'bg-neutral-100'
+                                        : 'hover:bg-neutral-100'
                                         }`}
                                 >
                                     <div className="flex-1">
                                         <div className="flex items-center gap-2 mb-2">
-                                            <span className="text-[10px] font-mono font-bold bg-neutral-100 px-2 py-0.5 rounded text-neutral-500">
+                                            <span className="text-[10px] font-mono font-bold bg-black text-white px-2 py-0.5 rounded-none">
                                                 {module.code}
                                             </span>
-                                            <span className="text-[10px] font-bold bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded uppercase">
+                                            <span className="text-[10px] font-bold bg-black text-white px-2 py-0.5 rounded-none uppercase">
                                                 {module.credits} ECTS
                                             </span>
                                         </div>
-                                        <h3 className="text-lg font-bold text-neutral-900 group-hover:text-black mb-1">
+                                        <h3 className="text-lg font-bold text-black group-hover:underline mb-1">
                                             {module.title}
                                         </h3>
-                                        <p className="text-sm text-neutral-500 mb-4 line-clamp-2">
+                                        <p className="text-sm text-black mb-4 line-clamp-2">
                                             {module.description}
                                         </p>
-                                        <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-neutral-400">
+                                        <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-black/60">
                                             <span className="flex items-center gap-1.5">
                                                 <User size={14} /> {module.instructor}
                                             </span>
                                             <span className="flex items-center gap-1.5">
                                                 <BookOpen size={14} /> {module.academic_level}
                                             </span>
-                                            <span className="flex items-center gap-1.5 text-[#fd6402]/80">
+                                            <span className="flex items-center gap-1.5 text-black">
                                                 <AlertCircle size={14} /> Prereq: {module.prerequisites || 'None'}
                                             </span>
                                         </div>
@@ -235,8 +230,8 @@ export default function RegistrationClient({
 
                                     <div className="flex flex-col justify-between items-end gap-4 min-w-[120px]">
                                         <div className="text-right">
-                                            <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest mb-1">Availability</p>
-                                            <p className="text-xs font-bold text-neutral-900">
+                                            <p className="text-[10px] font-bold text-black/40 uppercase tracking-widest mb-1">Availability</p>
+                                            <p className="text-xs font-bold text-black">
                                                 {module.capacity} Seats Total
                                             </p>
                                         </div>
@@ -245,7 +240,7 @@ export default function RegistrationClient({
                                             <button
                                                 onClick={() => handleDrop(module.id)}
                                                 disabled={isPending}
-                                                className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-red-50 text-red-600 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-red-100 transition-all disabled:opacity-50"
+                                                className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-white border border-black text-black rounded-none text-xs font-bold uppercase tracking-widest hover:bg-neutral-50 transition-all disabled:opacity-50"
                                             >
                                                 <Trash size={14} weight="bold" /> Drop
                                             </button>
@@ -266,7 +261,7 @@ export default function RegistrationClient({
                         {filteredModules.length === 0 && (
                             <div className="text-center py-20 bg-neutral-50 rounded-3xl border border-dashed border-neutral-200">
                                 <Search className="mx-auto text-neutral-300 mb-4" size={48} />
-                                <p className="text-neutral-500 font-medium">No subjects found matching your search.</p>
+                                <p className="text-black font-medium">No subjects found matching your search.</p>
                             </div>
                         )}
                     </div>

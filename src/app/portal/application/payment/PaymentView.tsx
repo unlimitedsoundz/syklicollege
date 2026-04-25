@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Check, FileText } from "@phosphor-icons/react/dist/ssr";
 import { createClient } from '@/utils/supabase/client';
 import { invokeEdgeFunction } from '@/utils/supabase/invoke';
 import PayGoWireCheckout from './PayGoWireCheckout';
@@ -88,11 +87,10 @@ export default function TuitionPaymentPage({ admissionOffer, application }: {
     if (application.status === 'ENROLLED' || application.status === 'PAYMENT_SUBMITTED') {
         const isEnrolled = application.status === 'ENROLLED';
         return (
-            <div className="max-w-md mx-auto mt-6 md:mt-12 bg-white p-6 md:p-12 rounded-sm text-center shadow-sm animate-in fade-in zoom-in-95 duration-500">
-                <div className="w-20 h-20 bg-neutral-50 border border-neutral-100 text-black rounded-full flex items-center justify-center mx-auto mb-8">
-                    <Check size={40} weight="bold" />
+            <div className="max-w-md mx-auto mt-6 md:mt-12 bg-white p-6 md:p-12 rounded-4px text-center shadow-sm animate-in fade-in zoom-in-95 duration-500">
+                <div className="w-20 h-20 bg-neutral-50 border border-neutral-100 text-black force-circle flex items-center justify-center mx-auto mb-8">
                 </div>
-                <h2 className="text-2xl font-normal text-black mb-4 uppercase tracking-tighter">
+                <h2 className="text-2xl font-normal text-black mb-4 tracking-tighter">
                     {isEnrolled ? 'Tuition Paid Successfully' : 'Payment Verification Pending'}
                 </h2>
                 <p className="text-sm text-black mb-8 max-w-[280px] mx-auto leading-relaxed">
@@ -101,18 +99,18 @@ export default function TuitionPaymentPage({ admissionOffer, application }: {
                         : <>Your payment has been recorded and is currently under review. <span className="font-semibold text-black">Access to student services is paused</span> until our finance team verifies the transaction.</>
                     }
                 </p>
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col items-center gap-3">
                     {isEnrolled && (
                         <button
                             onClick={() => router.push(`/portal/application/receipt?id=${application.id}`)}
-                            className="w-full bg-black text-white px-8 py-4 rounded-sm text-[10px] font-black uppercase tracking-widest transition-all hover:bg-neutral-800 shadow-lg shadow-black/5"
+                            className="w-fit min-w-[240px] h-[48px] bg-black text-white px-8 rounded-4px text-[11px] font-normal uppercase tracking-widest transition-all hover:bg-neutral-800 shadow-lg shadow-black/5"
                         >
                             View Receipt
                         </button>
                     )}
                     <button
                         onClick={() => router.push('/portal/dashboard')}
-                        className={`w-full px-8 py-4 rounded-sm text-[10px] font-black uppercase tracking-widest transition-all ${isEnrolled ? 'bg-white text-black border border-neutral-200 hover:bg-neutral-50' : 'bg-black text-white hover:bg-neutral-800 shadow-lg shadow-black/5'}`}
+                        className={`w-fit min-w-[240px] h-[48px] px-8 rounded-4px text-[11px] font-normal uppercase tracking-widest transition-all ${isEnrolled ? 'bg-white text-black border border-neutral-200 hover:bg-neutral-50' : 'bg-black text-white hover:bg-neutral-800 shadow-lg shadow-black/5'}`}
                     >
                         Return to Dashboard
                     </button>
@@ -123,7 +121,7 @@ export default function TuitionPaymentPage({ admissionOffer, application }: {
 
     return (
         <div className="max-w-6xl mx-auto py-6 md:py-12 px-4 font-rubik text-black">
-            <div className="mb-6 md:mb-12 text-center md:text-left bg-neutral-50 md:bg-transparent rounded-sm p-6 md:p-0 border-none">
+            <div className="mb-6 md:mb-12 text-center md:text-left bg-neutral-50 md:bg-transparent rounded-4px p-6 md:p-0 border-none">
                 <div className="mb-4 flex justify-center md:justify-start">
                     <Image
                         src="https://cdn.brandfetch.io/id1L6oKjVX/theme/dark/logo.svg?c=1bxid64Mup7aczewSAYMX&t=1667924686641"
@@ -133,23 +131,23 @@ export default function TuitionPaymentPage({ admissionOffer, application }: {
                         className="h-8 w-auto object-contain"
                     />
                 </div>
-                <h1 className="text-[20px] md:text-[24px] font-normal uppercase tracking-tighter text-black leading-tight md:leading-none">Tuition Payment via FLYWIRE</h1>
+                <h1 className="text-[20px] md:text-[24px] font-normal text-black leading-tight md:leading-none">Tuition Payment via Flywire</h1>
                 <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-3 mt-4">
-                    <p className="text-sm text-black font-normal uppercase tracking-widest">
+                    <p className="text-[11px] text-black font-normal uppercase tracking-widest">
                         Official SIS Gateway
                     </p>
 
                     <div className="flex items-center gap-2 opacity-100 transition-all">
-                        <span className="text-sm text-black font-normal uppercase tracking-widest">Via Flywire Gateway</span>
+                        <span className="text-[11px] text-black font-normal uppercase tracking-widest">Via Flywire Gateway</span>
                     </div>
                 </div>
             </div>
 
             {/* Payment Summary Header */}
             <div className="mb-12 px-2 md:px-0">
-                <div className="p-6 md:p-8 bg-neutral-50 rounded-sm">
-                    <h2 className="text-sm font-bold mb-2 uppercase tracking-widest text-neutral-500">Invoice Type</h2>
-                    <div className="font-black text-2xl md:text-3xl mb-1 uppercase tracking-tighter text-black">{invoiceTypeLabel}</div>
+                <div className="p-6 md:p-8 bg-neutral-50 rounded-4px">
+                    <h2 className="text-sm font-normal mb-2 uppercase tracking-widest text-neutral-500">Invoice Type</h2>
+                    <div className="font-normal text-2xl md:text-3xl mb-1 uppercase tracking-tighter text-black">{invoiceTypeLabel}</div>
                     <p className="text-sm text-neutral-600 leading-relaxed mt-2 max-w-2xl">
                         This invoice has been prepared for your {invoiceTypeLabel.toLowerCase()} by the finance department. 
                         Payment of this amount is required to proceed with your enrollment.
@@ -160,16 +158,16 @@ export default function TuitionPaymentPage({ admissionOffer, application }: {
             <div className="grid lg:grid-cols-12 gap-6 lg:gap-12 items-start">
                 {/* Invoice / Summary */}
                 <div className="lg:col-span-4 space-y-6">
-                    <div className="bg-white p-4 md:p-8 rounded-sm">
-                        <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-4 overflow-hidden">
+                    <div className="bg-white p-4 md:p-8 rounded-4px">
+                        <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-4">
                             <div>
-                                <div className="text-[10px] font-normal text-black uppercase tracking-widest mb-1">Student Details</div>
-                                <div className="font-bold text-black uppercase tracking-tight">{application.personal_info?.firstName} {application.personal_info?.lastName}</div>
+                                <div className="text-[11px] font-normal text-black uppercase tracking-widest mb-1">Student Details</div>
+                                <div className="font-normal text-black uppercase tracking-tight">{application.personal_info?.firstName} {application.personal_info?.lastName}</div>
                                 <div className="text-sm text-black mt-1">{application.contact_details?.email}</div>
                             </div>
-                            <div className="sm:text-right">
-                                <div className="text-[10px] font-normal text-black uppercase tracking-widest mb-1">Payment Reference</div>
-                                <div className="font-mono text-sm text-black bg-neutral-50 px-2 py-1 rounded-sm inline-block sm:block break-normal break-word whitespace-normal">
+                            <div className="sm:text-right w-full sm:w-auto">
+                                <div className="text-[11px] font-normal text-black uppercase tracking-widest mb-1">Payment Reference</div>
+                                <div className="font-mono text-[13px] text-black bg-neutral-50 px-3 py-1.5 rounded-4px inline-block break-all leading-none">
                                     {(() => {
                                         let hash = 0;
                                         const str = admissionOffer.id;
@@ -187,15 +185,15 @@ export default function TuitionPaymentPage({ admissionOffer, application }: {
                         <div className="space-y-4 mb-8">
                             <div className="flex justify-between text-sm">
                                 <span className="text-black font-normal uppercase tracking-wider">{invoiceTypeLabel}</span>
-                                <span className="font-medium text-black text-right">€ {finalAmount.toLocaleString()}</span>
+                                <span className="font-normal text-black text-right">€ {finalAmount.toLocaleString()}</span>
                             </div>
                             <div className="flex justify-between text-sm">
                                 <span className="text-black font-normal uppercase tracking-wider">Services Fee</span>
-                                <span className="font-medium text-black">€ 0.00</span>
+                                <span className="font-normal text-black">€ 0.00</span>
                             </div>
                             <div className="flex justify-between pt-2 font-normal text-lg text-black">
                                 <span>TOTAL</span>
-                                <span className="font-bold">€ {finalAmount.toLocaleString()}</span>
+                                <span className="font-normal">€ {finalAmount.toLocaleString()}</span>
                             </div>
                         </div>
                     </div>
@@ -205,7 +203,6 @@ export default function TuitionPaymentPage({ admissionOffer, application }: {
                 <div className="lg:col-span-8">
                     {error && (
                         <div className="mb-6 p-4 bg-red-50 text-red-600 text-sm font-normal uppercase tracking-widest border border-red-100 flex items-center gap-3">
-                            <div className="w-5 h-5 bg-red-100 rounded-full flex items-center justify-center">!</div>
                             {error}
                         </div>
                     )}

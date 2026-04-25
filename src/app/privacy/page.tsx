@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 
 export const metadata = {
     title: 'Privacy Policy | Kestora University',

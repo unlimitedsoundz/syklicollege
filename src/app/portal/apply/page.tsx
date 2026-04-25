@@ -56,8 +56,8 @@ export default function ApplyPage() {
 
     return (
         <div className="max-w-4xl">
-            <h1 className="text-xl font-black uppercase tracking-tight mb-1 text-neutral-900 leading-none">Select a Programme</h1>
-            <p className="text-neutral-600 text-[10px] font-bold uppercase tracking-widest mb-10 leading-relaxed max-w-2xl">
+            <h1 className="text-xl font-black mb-1 text-black leading-none">Select a Programme</h1>
+            <p className="text-black text-[10px] font-bold mb-10 leading-relaxed max-w-2xl">
                 Choose the programme you wish to apply for. Multiple active applications are permitted.
                 Ensure you meet the minimum entry requirements listed in the programme details.
             </p>

@@ -1,7 +1,7 @@
 
 import { Student, Course, Profile } from '@/types/database'; // Import from database types
 import { Layout } from '@phosphor-icons/react/dist/ssr';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import Image from 'next/image';
 
 
@@ -17,8 +17,8 @@ export default function AcademicDashboard({ student }: AcademicDashboardProps) {
         <div className="space-y-8">
             {/* Header */}
             <div>
-                <h1 className="text-xl md:text-2xl font-black uppercase tracking-tighter text-neutral-900 leading-none mb-1">Student Portal</h1>
-                <p className="text-neutral-500 text-[10px] md:text-xs font-bold uppercase tracking-widest">
+                <h1 className="text-xl md:text-2xl font-black text-black leading-none mb-1">Student Portal</h1>
+                <p className="text-black text-[11px] md:text-[13px] font-bold">
                     Academic Year 2026-2027 • Sem 1
                 </p>
             </div>
@@ -28,18 +28,18 @@ export default function AcademicDashboard({ student }: AcademicDashboardProps) {
                 <div className="lg:col-span-1 space-y-4">
 
                     {/* Student Profile (Simple) */}
-                    <div className="bg-white p-4 md:p-6 border border-neutral-200 rounded-sm">
-                        <h2 className="text-lg font-bold uppercase leading-tight text-neutral-900 mb-1">
+                    <div className="bg-white p-4 md:p-6 border border-neutral-100 rounded-sm">
+                        <h2 className="text-lg font-bold leading-tight text-black mb-1">
                             {student.user?.first_name} {student.user?.last_name}
                         </h2>
                         <div className="space-y-3 mb-4">
                             <div>
-                                <p className="text-[10px] uppercase text-black font-bold mb-0.5">Student ID</p>
-                                <p className="text-xs text-black font-mono">{student.user?.student_id || student.student_id}</p>
+                                <p className="text-[11px] text-black font-bold mb-0.5">Student ID</p>
+                                <p className="text-[13px] text-black font-mono">{student.student_id}</p>
                             </div>
                             <div className="pt-2">
-                                <p className="text-[10px] uppercase text-black font-bold mb-0.5">Programme</p>
-                                <p className="text-xs md:text-sm font-bold text-black">{student.program?.title}</p>
+                                <p className="text-[11px] text-black font-bold mb-0.5">Programme</p>
+                                <p className="text-[13px] md:text-[15px] font-bold text-black">{student.program?.title}</p>
                             </div>
                         </div>
                     </div>
@@ -47,12 +47,12 @@ export default function AcademicDashboard({ student }: AcademicDashboardProps) {
 
                     {/* Quick Stats */}
                     <div className="grid grid-cols-2 gap-3 md:gap-4">
-                        <div className="bg-neutral-50 p-3 md:p-4 border border-neutral-200 rounded-sm">
-                            <h4 className="text-[10px] uppercase font-bold text-black mb-1">Credits</h4>
+                        <div className="bg-neutral-50 p-3 md:p-4 border border-neutral-100 rounded-sm">
+                            <h4 className="text-[11px] font-bold text-black mb-1">Credits</h4>
                             <p className="text-xl md:text-2xl font-bold text-black">0 / 180</p>
                         </div>
-                        <div className="bg-neutral-50 p-3 md:p-4 border border-neutral-200 rounded-sm">
-                            <h4 className="text-[10px] uppercase font-bold text-black mb-1">GPA</h4>
+                        <div className="bg-neutral-50 p-3 md:p-4 border border-neutral-100 rounded-sm">
+                            <h4 className="text-[11px] font-bold text-black mb-1">GPA</h4>
                             <p className="text-xl md:text-2xl font-bold text-black">0.0</p>
                         </div>
                     </div>
@@ -60,6 +60,14 @@ export default function AcademicDashboard({ student }: AcademicDashboardProps) {
 
                 {/* Right Column: Dashboard Actions */}
                 <div className="lg:col-span-2 space-y-4 md:space-y-6">
+                    {/* Orientation/News */}
+                    <div>
+                        <h3 className="font-bold text-[13px] md:text-[15px] pb-2 md:pb-3 mb-3">Urgent Notifications</h3>
+                        <div className="bg-neutral-50 p-4 md:p-6 border-l-2 border-black">
+                            <p className="text-[13px] md:text-[15px] font-semibold mb-1">Orientation Week Starts</p>
+                            <p className="text-[11px] md:text-[13px] text-black">Monday, 10th August • 09:00 AM • Tomakinen Hall</p>
+                        </div>
+                    </div>
 
                     {/* Status Banner */}
                     <div className="bg-neutral-50 border border-neutral-200 p-4 md:p-6 flex items-start gap-4 rounded-sm">
@@ -67,12 +75,12 @@ export default function AcademicDashboard({ student }: AcademicDashboardProps) {
                             <Layout size={18} weight="regular" className="md:w-5 md:h-5" />
                         </div>
                         <div>
-                            <h3 className="font-bold text-black text-xs md:text-sm uppercase tracking-wide">Academic Status: Active</h3>
-                            <p className="text-black text-[10px] md:text-xs mt-1 leading-relaxed">
+                            <h3 className="font-bold text-black text-[13px] md:text-[15px]">Academic Status: Active</h3>
+                            <p className="text-black text-[11px] md:text-[13px] mt-1 leading-relaxed">
                                 You are officially enrolled for the upcoming term. Orientation schedule has been sent to your institutional email.
                                 <br /><span className="opacity-75">View <Link href="/refund-withdrawal-policy/" className="underline hover:text-neutral-700">Refund Policy</Link>.</span>
                             </p>
-                            <div className="mt-3 md:mt-4 flex gap-3 text-[10px] md:text-xs text-neutral-900">
+                            <div className="mt-3 md:mt-4 flex gap-3 text-[11px] md:text-[13px] text-black">
                                 <span className="bg-white/50 px-2 py-1 rounded"><strong>Email:</strong> {student.institutional_email}</span>
                             </div>
                         </div>
@@ -80,7 +88,7 @@ export default function AcademicDashboard({ student }: AcademicDashboardProps) {
 
                     {/* Academic Services Section */}
                     <div>
-                        <h3 className="font-bold text-xs md:text-sm uppercase tracking-widest pb-2 md:pb-3 mb-4 md:mb-6 flex items-center gap-2">
+                        <h3 className="font-bold text-[13px] md:text-[15px] pb-2 md:pb-3 mb-4 md:mb-6 flex items-center gap-2">
                             Academic Services
                         </h3>
                         <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-4">
@@ -148,13 +156,13 @@ export default function AcademicDashboard({ student }: AcademicDashboardProps) {
                                             src={item.image}
                                             alt={item.label}
                                             fill
-                                            className="object-cover opacity-80"
+                                            className="object-cover object-top opacity-80"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                                     </div>
                                     <div className="p-3 md:p-4">
-                                        <h4 className="font-bold text-[10px] md:text-xs uppercase tracking-wide mb-0.5 leading-tight">{item.label}</h4>
-                                        <p className="hidden md:block text-[10px] text-black font-medium">{item.desc}</p>
+                                        <h4 className="font-bold text-[11px] md:text-[13px] tracking-wide mb-0.5 leading-tight">{item.label}</h4>
+                                        <p className="hidden md:block text-[11px] text-black font-medium">{item.desc}</p>
                                     </div>
                                 </Link>
                             ))}
@@ -163,7 +171,7 @@ export default function AcademicDashboard({ student }: AcademicDashboardProps) {
 
                     {/* Campus Services Section */}
                     <div>
-                        <h3 className="font-bold text-xs md:text-sm uppercase tracking-widest pb-2 md:pb-3 mb-4 md:mb-6 flex items-center gap-2">
+                        <h3 className="font-bold text-[13px] md:text-[15px] pb-2 md:pb-3 mb-4 md:mb-6 flex items-center gap-2">
                             Campus Services & Amenities
                         </h3>
                         <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-4">
@@ -200,29 +208,22 @@ export default function AcademicDashboard({ student }: AcademicDashboardProps) {
                                             src={item.image}
                                             alt={item.label}
                                             fill
-                                            className="object-cover opacity-80"
+                                            className="object-cover object-top opacity-80"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                                     </div>
                                     <div className="p-3 md:p-4">
-                                        <h4 className="font-bold text-[10px] md:text-xs uppercase tracking-wide mb-0.5 leading-tight">{item.label}</h4>
-                                        <p className="hidden md:block text-[10px] text-black font-medium">{item.desc}</p>
+                                        <h4 className="font-bold text-[11px] md:text-[13px] tracking-wide mb-0.5 leading-tight">{item.label}</h4>
+                                        <p className="hidden md:block text-[11px] text-black font-medium">{item.desc}</p>
                                     </div>
                                 </Link>
                             ))}
                         </div>
                     </div>
 
-                    {/* Orientation/News */}
-                    <div>
-                        <h3 className="font-bold text-xs md:text-sm uppercase tracking-widest pb-2 md:pb-3 mb-3">Urgent Notifications</h3>
-                        <div className="bg-neutral-50 p-4 md:p-6 border-l-2 border-black">
-                            <p className="text-xs md:text-sm font-bold mb-1">Orientation Week Starts</p>
-                            <p className="text-[10px] md:text-xs text-black">Monday, 25th August • 09:00 AM • Main Auditorium</p>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     );
 }
+

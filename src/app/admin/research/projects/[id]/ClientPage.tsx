@@ -1,6 +1,6 @@
 'use client';
 
-import { createClient } from '@/utils/supabase/client';
+import { createClient } from '../../../../../utils/supabase/client';
 import { notFound, useRouter } from 'next/navigation';
 import { CaretLeft as ArrowLeft, FloppyDisk as Save, CircleNotch as Loader2 } from "@phosphor-icons/react";
 import Link from 'next/link';
@@ -37,7 +37,7 @@ export default function ResearchProjectEditor({ params: paramsPromise }: { param
         };
 
         fetchProject();
-    }, [id, isNew]);
+    }, [id, isNew, supabase]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -51,6 +51,7 @@ export default function ResearchProjectEditor({ params: paramsPromise }: { param
             fundingSource: formData.get('fundingSource') as string,
             description: formData.get('description') as string,
             content: formData.get('content') as string,
+            imageUrl: formData.get('imageUrl') as string,
         };
 
         try {
@@ -79,112 +80,119 @@ export default function ResearchProjectEditor({ params: paramsPromise }: { param
         );
     }
 
-    if (!isNew && !project) {
-        return notFound();
+    if (!isNew && !project && id) {
+        return (
+            <div className="p-8 text-center">
+                <h2 className="text-xl font-bold mb-4 text-neutral-900 uppercase">Project Not Found</h2>
+                <Link href="/admin/research/projects" className="text-neutral-500 hover:text-black font-bold uppercase tracking-widest text-xs">
+                    Back to Projects
+                </Link>
+            </div>
+        );
     }
 
     return (
-        <div className="max-w-4xl mx-auto animate-in fade-in duration-500">
-            <Link href="/admin/research/projects" className="inline-flex items-center gap-2 text-neutral-500 hover:text-neutral-900 mb-6 transition-colors font-bold">
-                <ArrowLeft size={18} weight="bold" /> Back to Projects
+        <div className="max-w-4xl mx-auto animate-in fade-in duration-500 px-4 md:px-0">
+            <Link href="/admin/research/projects" className="inline-flex items-center gap-2 text-neutral-500 hover:text-neutral-900 mb-6 transition-colors font-bold uppercase tracking-widest text-[10px]">
+                <ArrowLeft size={14} weight="bold" /> Back to Projects
             </Link>
 
-            <h1 className="text-3xl font-bold mb-8 uppercase tracking-tight text-neutral-900">
+            <h1 className="text-2xl md:text-3xl font-black mb-8 uppercase tracking-tight text-neutral-900 leading-tight">
                 {isNew ? 'New Research Project' : `Edit: ${project?.title}`}
             </h1>
 
-            <form onSubmit={handleSubmit} className="bg-white p-8 rounded-2xl shadow-sm border border-neutral-200 space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
+            <form onSubmit={handleSubmit} className="bg-white p-6 md:p-8 rounded-none border border-neutral-200 space-y-6 md:space-y-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                        <label className="text-sm font-bold text-neutral-700 uppercase tracking-wider">Project Title</label>
+                        <label className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Project Title</label>
                         <input
                             type="text"
                             name="title"
                             required
                             defaultValue={project?.title || ''}
-                            className="w-full p-4 bg-neutral-50 border border-neutral-200 rounded-xl focus:ring-2 focus:ring-black focus:border-black outline-none transition-all font-bold"
+                            className="w-full p-4 bg-neutral-50 border border-neutral-200 rounded-none focus:ring-1 focus:ring-black focus:border-black outline-none transition-all font-bold"
                             placeholder="e.g. Carbon Neutral Construction 2030"
                         />
                     </div>
                     <div className="space-y-2">
-                        <label className="text-sm font-bold text-neutral-700 uppercase tracking-wider">Slug (URL)</label>
+                        <label className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Slug (URL)</label>
                         <input
                             type="text"
                             name="slug"
                             required
                             defaultValue={project?.slug || ''}
-                            className="w-full p-4 bg-neutral-50 border border-neutral-200 rounded-xl focus:ring-2 focus:ring-black focus:border-black outline-none transition-all font-mono text-sm"
+                            className="w-full p-4 bg-neutral-50 border border-neutral-200 rounded-none focus:ring-1 focus:ring-black focus:border-black outline-none transition-all font-mono text-sm"
                             placeholder="e.g. carbon-neutral-2030"
                         />
                     </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                        <label className="text-sm font-bold text-neutral-700 uppercase tracking-wider">Lead Researcher</label>
+                        <label className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Lead Researcher</label>
                         <input
                             type="text"
                             name="leadResearcher"
                             defaultValue={project?.leadResearcher || ''}
-                            className="w-full p-4 bg-neutral-50 border border-neutral-200 rounded-xl focus:ring-2 focus:ring-black focus:border-black outline-none transition-all font-bold"
+                            className="w-full p-4 bg-neutral-50 border border-neutral-200 rounded-none focus:ring-1 focus:ring-black focus:border-black outline-none transition-all font-bold"
                             placeholder="e.g. Dr. Sarah Mitchell"
                         />
                     </div>
                     <div className="space-y-2">
-                        <label className="text-sm font-bold text-neutral-700 uppercase tracking-wider">Funding Source</label>
+                        <label className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Funding Source</label>
                         <input
                             type="text"
                             name="fundingSource"
                             defaultValue={project?.fundingSource || ''}
-                            className="w-full p-4 bg-neutral-50 border border-neutral-200 rounded-xl focus:ring-2 focus:ring-black focus:border-black outline-none transition-all font-bold"
+                            className="w-full p-4 bg-neutral-50 border border-neutral-200 rounded-none focus:ring-1 focus:ring-black focus:border-black outline-none transition-all font-bold"
                             placeholder="e.g. EU Horizon"
                         />
                     </div>
                 </div>
 
                 <div className="space-y-2">
-                    <label className="text-sm font-bold text-neutral-700 uppercase tracking-wider">Short Description</label>
+                    <label className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Short Description</label>
                     <textarea
                         name="description"
                         required
-                        className="w-full p-4 bg-neutral-50 border border-neutral-200 rounded-xl focus:ring-2 focus:ring-black focus:border-black outline-none transition-all h-24 font-bold"
+                        className="w-full p-4 bg-neutral-50 border border-neutral-200 rounded-none focus:ring-1 focus:ring-black focus:border-black outline-none transition-all h-24 font-bold"
                         defaultValue={project?.description || ''}
                         placeholder="Brief summary shown on the listing page..."
                     />
                 </div>
 
                 <div className="space-y-2">
-                    <label className="text-sm font-bold text-neutral-700 uppercase tracking-wider">Full Content</label>
+                    <label className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Full Content</label>
                     <textarea
                         name="content"
-                        className="w-full p-4 bg-neutral-50 border border-neutral-200 rounded-xl focus:ring-2 focus:ring-black focus:border-black outline-none transition-all h-64 font-mono text-sm"
+                        className="w-full p-4 bg-neutral-50 border border-neutral-200 rounded-none focus:ring-1 focus:ring-black focus:border-black outline-none transition-all h-64 font-mono text-sm"
                         defaultValue={project?.content || ''}
                         placeholder="Markdown content or HTML..."
                     />
-                    <p className="text-[10px] uppercase font-black text-neutral-400 tracking-widest">HTML or Markdown supported.</p>
+                    <p className="text-[10px] uppercase font-black text-neutral-400 tracking-widest mt-2">HTML or Markdown supported.</p>
                 </div>
 
-                <div className="space-y-2">
-                    <label className="text-sm font-bold text-neutral-700 uppercase tracking-wider">Cover Image Link (URL)</label>
+                <div className="space-y-4">
+                    <label className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Cover Image Link (URL)</label>
                     {project?.imageUrl && (
-                        <div className="w-32 h-32 relative mb-2 rounded-xl overflow-hidden bg-neutral-100 border border-neutral-200">
-                            <img src={project.imageUrl} alt="Current" className="w-full h-full object-cover" />
+                        <div className="w-full max-w-[200px] aspect-video relative rounded-none overflow-hidden bg-neutral-100 border border-neutral-200">
+                            <img src={project.imageUrl} alt="Current" className="w-full h-full object-cover object-top" />
                         </div>
                     )}
                     <input
                         type="text"
                         name="imageUrl"
                         defaultValue={project?.imageUrl || ''}
-                        className="w-full p-4 bg-neutral-50 border border-neutral-200 rounded-xl focus:ring-2 focus:ring-black focus:border-black outline-none transition-all font-mono text-xs"
+                        className="w-full p-4 bg-neutral-50 border border-neutral-200 rounded-none focus:ring-1 focus:ring-black focus:border-black outline-none transition-all font-mono text-xs"
                         placeholder="https://example.com/image.jpg"
                     />
                 </div>
 
-                <div className="pt-6 border-t border-neutral-100 flex justify-end">
+                <div className="pt-8 border-t border-neutral-100 flex justify-end">
                     <button
                         type="submit"
                         disabled={saving}
-                        className="bg-neutral-900 text-white px-8 py-4 rounded-xl font-bold flex items-center gap-2 hover:bg-neutral-800 transition-colors shadow-xl disabled:opacity-50"
+                        className="w-full md:w-auto bg-neutral-900 text-white px-8 py-4 rounded-none font-bold flex items-center justify-center gap-2 hover:bg-neutral-800 transition-colors disabled:opacity-50"
                     >
                         {saving ? <Loader2 className="animate-spin" size={18} weight="bold" /> : <Save size={18} weight="bold" />}
                         {isNew ? 'Create Project' : 'Update Project'}

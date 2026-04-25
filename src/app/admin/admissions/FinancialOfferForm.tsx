@@ -5,17 +5,20 @@ import { Trophy as Award, Info, Percent, CheckCircle as CheckCircle2 } from "@ph
 import { createAdmissionOffer } from './actions';
 import {
     EARLY_PAYMENT_DISCOUNT_PERCENT,
-    calculateDiscountedFee
+    calculateDiscountedFee,
+    calculateFullProgramDiscountedFee
 } from '@/utils/tuition';
+import { DegreeLevel } from '@/types/database';
 
 interface FinancialOfferFormProps {
     applicationId: string;
     baseTuition: number;
     programYears: number;
+    degreeLevel?: DegreeLevel;
     onSuccess?: () => void;
 }
 
-export function FinancialOfferForm({ applicationId, baseTuition, programYears, onSuccess }: FinancialOfferFormProps) {
+export function FinancialOfferForm({ applicationId, baseTuition, programYears, degreeLevel, onSuccess }: FinancialOfferFormProps) {
     const [offerType, setOfferType] = useState<'DEPOSIT' | 'FIRST_YEAR' | 'FULL_PROGRAM'>('FIRST_YEAR');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
@@ -28,8 +31,17 @@ export function FinancialOfferForm({ applicationId, baseTuition, programYears, o
     if (offerType === 'FULL_PROGRAM') currentBase = fullProgramBase;
     if (offerType === 'DEPOSIT') currentBase = baseTuition * 0.5;
 
-    const discountedFee = isDeposit ? Math.round(currentBase) : calculateDiscountedFee(currentBase);
+    let discountedFee: number;
+    if (isDeposit) {
+        discountedFee = Math.round(currentBase);
+    } else if (offerType === 'FULL_PROGRAM') {
+        discountedFee = calculateFullProgramDiscountedFee(baseTuition, programYears);
+    } else {
+        discountedFee = calculateDiscountedFee(currentBase);
+    }
+
     const discountAmount = isDeposit ? 0 : currentBase - discountedFee;
+
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

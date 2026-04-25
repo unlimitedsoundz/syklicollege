@@ -27,6 +27,10 @@ export const pageContentPages: PageContentPage[] = [
         slug: 'admissions-application-process',
         name: 'Application Process',
     },
+    {
+        slug: 'admissions',
+        name: 'Admissions Landing',
+    },
 ];
 
 export const pageContentSections: PageContentSection[] = [
@@ -49,9 +53,9 @@ export const pageContentSections: PageContentSection[] = [
         defaultContent: `<div class="space-y-4">
     <h3 class="text-2xl font-bold text-black">Prepare in Advance</h3>
     <ul class="space-y-3 text-black">
-        <li class="flex gap-4 items-start"><ArrowRight size={20} weight="bold" className="mt-1 shrink-0" /> Check programme-specific eligibility</li>
-        <li class="flex gap-4 items-start"><ArrowRight size={20} weight="bold" className="mt-1 shrink-0" /> Prepare official documents and translations</li>
-        <li class="flex gap-4 items-start"><ArrowRight size={20} weight="bold" className="mt-1 shrink-0" /> Schedule language tests and GMAT/GRE if required</li>
+        <li class="flex gap-4 items-start"><ArrowRight size={20} weight="regular" className="mt-1 shrink-0" /> Check programme-specific eligibility</li>
+        <li class="flex gap-4 items-start"><ArrowRight size={20} weight="regular" className="mt-1 shrink-0" /> Prepare official documents and translations</li>
+        <li class="flex gap-4 items-start"><ArrowRight size={20} weight="regular" className="mt-1 shrink-0" /> Schedule language tests and GMAT/GRE if required</li>
     </ul>
 </div>`,
     },
@@ -60,9 +64,9 @@ export const pageContentSections: PageContentSection[] = [
         sectionKey: 'documents_content',
         label: 'Required Documents Content',
         defaultContent: `<div class="grid gap-6 md:grid-cols-2">
-    <div class="bg-gray-50 p-8 rounded-2xl"><h4 class="font-bold mb-2">Certified Educational Documents</h4><p class="text-sm">Must be submitted after admission decision by 13 May or 14 August 2026.</p></div>
-    <div class="bg-gray-50 p-8 rounded-2xl"><h4 class="font-bold mb-2">Translations</h4><p class="text-sm">Non-English/Finnish/Swedish documents require official translations.</p></div>
-    <div class="bg-gray-50 p-8 rounded-2xl"><h4 class="font-bold mb-2">Passport/ID</h4><p class="text-sm">Color PDF of the personal information page.</p></div>
+    <div class="bg-card p-8 rounded-2xl"><h4 class="font-bold mb-2">Certified Educational Documents</h4><p class="text-sm">Must be submitted after admission decision by 13 May or 14 August 2026.</p></div>
+    <div class="bg-card p-8 rounded-2xl"><h4 class="font-bold mb-2">Translations</h4><p class="text-sm">Non-English/Finnish/Swedish documents require official translations.</p></div>
+    <div class="bg-card p-8 rounded-2xl"><h4 class="font-bold mb-2">Passport</h4><p class="text-sm">Color PDF of the personal information page.</p></div>
 </div>`,
     },
     {
@@ -71,9 +75,9 @@ export const pageContentSections: PageContentSection[] = [
         label: 'Specific Requirements Content',
         defaultContent: `<h2 class="text-3xl font-bold mb-8 text-black">Specific Requirements Checklist</h2>
 <div class="space-y-6">
-    <div class="p-8 bg-gray-50 rounded-2xl shadow-sm"><h3 class="font-bold text-lg mb-2">Art and Design</h3><p>Applicants without a formal Bachelor’s degree may apply if they have equivalent skills through portfolios, work experience, or other studies.</p></div>
-    <div class="p-8 bg-gray-50 rounded-2xl shadow-sm"><h3 class="font-bold text-lg mb-2">Business and Economics</h3><p>Some programmes require GMAT or GRE scores.</p></div>
-    <div class="p-8 bg-gray-50 rounded-2xl shadow-sm"><h3 class="font-bold text-lg mb-2">Technology/Engineering</h3><p>Some may require relevant coursework or skills in mathematics, programming, or design.</p></div>
+    <div class="p-8 bg-card rounded-2xl shadow-sm"><h3 class="font-bold text-lg mb-2">Art and Design</h3><p>Applicants without a formal Bachelor’s degree may apply if they have equivalent skills through portfolios, work experience, or other studies.</p></div>
+    <div class="p-8 bg-card rounded-2xl shadow-sm"><h3 class="font-bold text-lg mb-2">Business and Economics</h3><p>Some programmes require GMAT or GRE scores.</p></div>
+    <div class="p-8 bg-card rounded-2xl shadow-sm"><h3 class="font-bold text-lg mb-2">Technology/Engineering</h3><p>Some may require relevant coursework or skills in mathematics, programming, or design.</p></div>
 </div>`,
     },
     {
@@ -108,10 +112,10 @@ export const pageContentSections: PageContentSection[] = [
         label: 'Benefits Section',
         defaultContent: `<p class="text-lg text-black leading-relaxed">Studying at Kestora combines small-group teaching, practical case work, and a modern campus environment. Our Bachelor’s students benefit from personalised guidance, strong industry links, and a curriculum designed for international careers.</p>
 <ul class="space-y-3">
-    <li class="flex gap-3 items-start"><strong>International Classroom:</strong> Study with students from around the world.</li>
-    <li class="flex gap-3 items-start"><strong>Career-Ready Skills:</strong> Focus on finance, management, and economics.</li>
-    <li class="flex gap-3 items-start"><strong>Practical Learning:</strong> Case studies, projects, and internships.</li>
-    <li class="flex gap-3 items-start"><strong>Personalised Support:</strong> Small class sizes and close faculty contact.</li>
+    <li class="flex gap-3 items-start">International Classroom: Study with students from around the world.</li>
+    <li class="flex gap-3 items-start">Career-Ready Skills: Focus on finance, management, and economics.</li>
+    <li class="flex gap-3 items-start">Practical Learning: Case studies, projects, and internships.</li>
+    <li class="flex gap-3 items-start">Personalised Support: Small class sizes and close faculty contact.</li>
 </ul>`,
     },
     {
@@ -120,10 +124,10 @@ export const pageContentSections: PageContentSection[] = [
         label: 'Progression Section',
         defaultContent: `<p class="text-lg text-black leading-relaxed">Completing a Bachelor’s degree at Kestora opens seamless progression paths into Master’s programmes, specialised tracks, and international partner universities.</p>
 <ul class="space-y-3">
-    <li class="flex gap-3 items-start"><strong>Internal Continuation:</strong> Direct progression to Kestora Master’s programmes.</li>
-    <li class="flex gap-3 items-start"><strong>Specialised Tracks:</strong> Accounting, Economics, or Management.</li>
-    <li class="flex gap-3 items-start"><strong>International Opportunities:</strong> Partner universities worldwide.</li>
-    <li class="flex gap-3 items-start"><strong>Research Integration:</strong> Bachelor theses as a bridge to advanced research.</li>
+    <li class="flex gap-3 items-start">Internal Continuation: Direct progression to Kestora Master’s programmes.</li>
+    <li class="flex gap-3 items-start">Specialised Tracks: Accounting, Economics, or Management.</li>
+    <li class="flex gap-3 items-start">International Opportunities: Partner universities worldwide.</li>
+    <li class="flex gap-3 items-start">Research Integration: Bachelor theses as a bridge to advanced research.</li>
 </ul>`,
     },
     {
@@ -132,12 +136,12 @@ export const pageContentSections: PageContentSection[] = [
         label: 'Scholarships Section',
         defaultContent: `<div class="space-y-4 text-lg text-black">
     <div class="p-8 pl-16 bg-neutral-50 border-l-4 border-black rounded-r-lg">
-        <strong>Tuition Fee:</strong> Included in degree tuition for full-time BSc students.
+        Tuition Fee: Included in degree tuition for full-time BSc students.
     </div>
     <ul class="space-y-3 pt-4">
-        <li class="flex gap-3 items-start"><strong>Merit-Based:</strong> For exceptional academic records.</li>
-        <li class="flex gap-3 items-start"><strong>Need-Based:</strong> Financial assistance for eligible students.</li>
-        <li class="flex gap-3 items-start"><strong>International:</strong> Merit and need-based support for global talent.</li>
+        <li class="flex gap-3 items-start">Merit-Based: For exceptional academic records.</li>
+        <li class="flex gap-3 items-start">Need-Based: Financial assistance for eligible students.</li>
+        <li class="flex gap-3 items-start">International: Merit and need-based support for global talent.</li>
     </ul>
     <p><a href="/admissions/tuition" class="text-black font-bold hover:underline inline-block mt-2">See detailed scholarship info →</a></p>
 </div>`,
@@ -147,7 +151,7 @@ export const pageContentSections: PageContentSection[] = [
         sectionKey: 'admissions_content',
         label: 'Admissions Info Section',
         defaultContent: `<div class="grid md:grid-cols-2 gap-12">
-    <div class="bg-gray-50 p-8 rounded-2xl">
+    <div class="bg-card p-8 rounded-2xl">
         <h3 class="text-xl font-bold mb-6 text-black">Eligibility</h3>
         <ul class="space-y-3 text-black pt-4">
             <li class="flex gap-3 items-start">High school diploma or equivalent</li>
@@ -155,7 +159,7 @@ export const pageContentSections: PageContentSection[] = [
             <li class="flex gap-3 items-start">Strong mathematics and academic records</li>
         </ul>
     </div>
-    <div class="bg-gray-50 p-8 rounded-2xl">
+    <div class="bg-card p-8 rounded-2xl">
         <h3 class="text-xl font-bold mb-6 text-black">Selection Criteria</h3>
         <ul class="space-y-3 text-black pt-4">
             <li class="flex gap-3 items-start">Academic excellence</li>
@@ -170,11 +174,11 @@ export const pageContentSections: PageContentSection[] = [
         sectionKey: 'more_content',
         label: 'Learn More Section',
         defaultContent: `<div class="grid grid-cols-2 md:grid-cols-5 gap-6 text-left">
-    <a href="/student-life#facilities" class="p-4 bg-neutral-50 rounded-xl hover:bg-neutral-100 transition-colors block"><h4 class="font-bold mb-1">Modern Campus</h4><p class="text-xs text-black">State-of-the-art facilities</p></a>
-    <a href="/student-life#services" class="p-4 bg-neutral-50 rounded-xl hover:bg-neutral-100 transition-colors block"><h4 class="font-bold mb-1">Support</h4><p class="text-xs text-black">Advisors and counseling</p></a>
-    <a href="/student-life#organizations" class="p-4 bg-neutral-50 rounded-xl hover:bg-neutral-100 transition-colors block"><h4 class="font-bold mb-1">Community</h4><p class="text-xs text-black">Global network</p></a>
-    <a href="/collaboration" class="p-4 bg-neutral-50 rounded-xl hover:bg-neutral-100 transition-colors block"><h4 class="font-bold mb-1">Careers</h4><p class="text-xs text-black">Internships and mentoring</p></a>
-    <a href="/student-life" class="p-4 bg-neutral-50 rounded-xl hover:bg-neutral-100 transition-colors block"><h4 class="font-bold mb-1">Student Life</h4><p class="text-xs text-black">Clubs and sports</p></a>
+    <a href="/student-life#facilities" class="p-4 bg-card rounded-xl hover:bg-neutral-100 transition-colors block no-underline"><h4 class="font-bold mb-1">Modern Campus</h4><p class="text-xs text-black">State-of-the-art facilities</p></a>
+    <a href="/student-life#services" class="p-4 bg-card rounded-xl hover:bg-neutral-100 transition-colors block no-underline"><h4 class="font-bold mb-1">Support</h4><p class="text-xs text-black">Advisors and counseling</p></a>
+    <a href="/student-life#organizations" class="p-4 bg-card rounded-xl hover:bg-neutral-100 transition-colors block no-underline"><h4 class="font-bold mb-1">Community</h4><p class="text-xs text-black">Global network</p></a>
+    <a href="/collaboration" class="p-4 bg-card rounded-xl hover:bg-neutral-100 transition-colors block no-underline"><h4 class="font-bold mb-1">Careers</h4><p class="text-xs text-black">Internships and mentoring</p></a>
+    <a href="/student-life" class="p-4 bg-card rounded-xl hover:bg-neutral-100 transition-colors block no-underline"><h4 class="font-bold mb-1">Student Life</h4><p class="text-xs text-black">Clubs and sports</p></a>
 </div>`,
     },
     {
@@ -185,9 +189,9 @@ export const pageContentSections: PageContentSection[] = [
     <div>
         <h2 class="text-3xl font-bold mb-6 text-black">Fairs and Events</h2>
         <ul class="space-y-4 text-black">
-            <li class="flex gap-3 items-start"><strong>Open Days:</strong> Explore campus and meet faculty.</li>
-            <li class="flex gap-3 items-start"><strong>Virtual Info Sessions:</strong> Online webinars on applications.</li>
-            <li class="flex gap-3 items-start"><strong>Education Fairs:</strong> Meet us in your city.</li>
+            <li class="flex gap-3 items-start">Open Days: Explore campus and meet faculty.</li>
+            <li class="flex gap-3 items-start">Virtual Info Sessions: Online webinars on applications.</li>
+            <li class="flex gap-3 items-start">Education Fairs: Meet us in your city.</li>
         </ul>
         <div class="mt-8"><a href="/news" class="bg-white text-black px-6 py-3 rounded-full font-bold hover:bg-gray-100 transition-colors inline-block">See Upcoming Events</a></div>
     </div>
@@ -198,8 +202,8 @@ export const pageContentSections: PageContentSection[] = [
         pageSlug: 'admissions-bachelor',
         sectionKey: 'quote_content',
         label: 'Quote Banner',
-        defaultContent: `<h3 class="text-2xl md:text-3xl leading-tight mb-6 font-bold">"We empower students with the analytical skills and global mindset needed for complex financial decision-making."</h3>
-<p class="text-sm font-bold uppercase tracking-widest">— Dean of Admissions</p>`,
+        defaultContent: `<h3 class="text-2xl md:text-3xl leading-tight mb-4 font-bold">"We empower students with the analytical skills and global mindset needed for complex financial decision-making."</h3>
+<p class="text-sm font-bold tracking-widest">— Dean of Admissions</p>`,
     },
     {
         pageSlug: 'admissions/master',
@@ -235,7 +239,7 @@ export const pageContentSections: PageContentSection[] = [
         pageSlug: 'admissions/master',
         sectionKey: 'study_options_content',
         label: 'Study Options Section',
-        defaultContent: `<p class="text-lg text-black leading-relaxed">Kestora University offers Master’s programmes in several fields. Applicants may apply to a maximum of <strong>two programmes</strong> per application.</p>
+        defaultContent: `<p class="text-lg text-black leading-relaxed">Kestora University offers Master’s programmes in several fields. Applicants may apply to a maximum of two programmes per application.</p>
 <div class="grid md:grid-cols-3 gap-6">
     <div class="p-8 bg-gradient-to-br from-gray-50 to-gray-100 rounded-3xl text-black shadow-sm"><h3 class="font-bold text-xl mb-2">Business & Economics</h3><p class="text-sm leading-relaxed">MSc in Accounting & Finance, Strategic Management, and related areas.</p></div>
     <div class="p-8 bg-gradient-to-br from-gray-50 to-gray-100 rounded-3xl text-black shadow-sm"><h3 class="font-bold text-xl mb-2">Art & Design</h3><p class="text-sm leading-relaxed">MA in Design, Architecture, and Visual Arts.</p></div>
@@ -248,10 +252,10 @@ export const pageContentSections: PageContentSection[] = [
         label: 'Scholarships Section',
         defaultContent: `<p class="text-lg text-black leading-relaxed">At Kestora University, we believe in rewarding academic excellence and supporting students through various financial aid options. Our scholarship programme is designed to help international talent thrive in Finland.</p>
 <ul class="space-y-4">
-    <li class="flex gap-4 items-start"><strong>Merit-Based Scholarships</strong> Awarded to top-performing applicants based on academic record.</li>
-    <li class="flex gap-4 items-start"><strong>Performance Waivers</strong> Maintain a 3.5 GPA and 55 ECTS/year for a 50% waiver from the 2nd year onwards.</li>
+    <li class="flex gap-4 items-start">Merit-Based Scholarships Awarded to top-performing applicants based on academic record.</li>
+    <li class="flex gap-4 items-start">Performance Waivers Maintain a 3.5 GPA and 55 ECTS/year for a 50% waiver from the 2nd year onwards.</li>
 </ul>
-<p><a href="/admissions/tuition" class="inline-flex items-center gap-2 text-black font-bold hover:text-black transition-colors">See detailed tuition info →</a></p>`,
+<p><a href="/admissions/tuition" class="inline-flex items-center gap-2 text-black font-bold hover:opacity-70 transition-colors">See detailed tuition info →</a></p>`,
     },
     {
         pageSlug: 'admissions/master',
@@ -263,7 +267,7 @@ export const pageContentSections: PageContentSection[] = [
         <li>Degree must enable eligibility for Master’s study in the awarding country.</li>
         <li>Only long-cycle degrees are considered in place of a Bachelor’s.</li>
     </ul>
-    <div class="mt-8 pt-6 border-t border-gray-200 text-sm"><strong>Important:</strong> Previous Master’s degrees alone do not qualify you for admission.</div>
+    <div class="mt-8 pt-6 border-t border-gray-200 text-sm">Important: Previous Master’s degrees alone do not qualify you for admission.</div>
 </div>`,
     },
     {
@@ -281,9 +285,9 @@ export const pageContentSections: PageContentSection[] = [
         pageSlug: 'admissions/master',
         sectionKey: 'incomplete_content',
         label: 'Incomplete Degree Section',
-        defaultContent: `<p>You may apply before your Bachelor’s degree is complete if you will graduate by <strong>31 July 2026</strong>.</p>
+        defaultContent: `<p>You may apply before your Bachelor’s degree is complete if you will graduate by 31 July 2026.</p>
 <ul class="space-y-3 pt-4">
-    <li>Admission is conditional upon submission of certified final degree documents by <strong>14 August 2026</strong>.</li>
+    <li>Admission is conditional upon submission of certified final degree documents by 14 August 2026.</li>
     <li>Failure to submit by the deadline will cancel your study right.</li>
 </ul>`,
     },
@@ -293,9 +297,9 @@ export const pageContentSections: PageContentSection[] = [
         label: 'Application Steps Section',
         defaultContent: `<div class="space-y-8">
     <div><h3 class="text-xl font-bold mb-4">Prepare in Advance</h3><ul class="space-y-3 text-sm"><li>Check programme-specific eligibility</li><li>Prepare official documents and translations</li><li>Schedule language tests and GMAT/GRE if required</li></ul></div>
-    <div><h3 class="text-[18px] font-bold mb-4">Fill in the Online Application 2026</h3><p class="mb-2 font-medium">Application period: 1 Dec 2025 – 31 March 2026</p><ul class="space-y-3 text-sm"><li>Only one form per applicant</li><li>Include up to two programmes ranked by preference</li><li>Edit application until closing date</li></ul></div>
-    <div><h3 class="text-xl font-bold mb-4">Application Fee</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm mb-4"><div class="p-6 bg-gray-50 rounded-3xl shadow-sm"><div class="font-bold">Non-EU/EEA/Swiss</div><div class="text-2xl font-bold mt-1">Free</div></div><div class="p-6 bg-gradient-to-br from-gray-50 to-gray-100 rounded-3xl shadow-sm"><div class="font-bold">EU/EEA/Swiss</div><div class="text-2xl font-bold mt-1">Free</div></div></div><p class="text-sm">No payment required to submit your application.</p></div>
-    <div><h3 class="text-xl font-bold mb-4">Upload Required Documents</h3><p class="mb-4 font-bold">Deadline: 23 April 2026 at 15:00 (UTC+2)</p><ul class="grid sm:grid-cols-2 gap-4 text-sm mb-6"><li>Bachelor’s degree & transcripts</li><li>Proof of English proficiency (optional)</li><li>International passport only</li><li>CV, Motivation Letter</li><li>Portfolio (if required)</li><li>GMAT/GRE (if required)</li></ul><p class="text-xs text-gray-500">File format: PDF only, named appropriately.</p></div>
+    <div><h3 class="text-[18px] font-bold mb-4">Fill in the Online Application 2026</h3><p class="mb-2">Application period: 1 Dec 2025 – 23 April 2026</p><ul class="space-y-3 text-sm"><li>Only one form per applicant</li><li>Can include two programmes ranked by preference</li><li>Edit application until closing date</li></ul></div>
+    <div><h3 class="text-xl font-bold mb-4">Application Fee</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm mb-4"><div class="p-6 bg-gray-50 rounded-3xl shadow-sm"><div>Non-EU/EEA/Swiss</div><div class="text-2xl font-bold mt-1">Free</div></div><div class="p-6 bg-gradient-to-br from-gray-50 to-gray-100 rounded-3xl shadow-sm"><div>EU/EEA/Swiss</div><div class="text-2xl font-bold mt-1">Free</div></div></div><p class="text-sm">No payment required to submit your application.</p></div>
+    <div><h3 class="text-xl font-bold mb-4">Upload Required Documents</h3><p class="mb-4">Fill the Application Form Deadline: 23 April 2026 at 15:00 (UTC+2)</p><ul class="grid sm:grid-cols-2 gap-4 text-sm mb-6"><li>Bachelor’s degree & transcripts</li><li>Proof of English proficiency</li><li>International passport only</li><li>CV, Motivation Letter</li><li>Portfolio (if required)</li><li>GMAT/GRE (if required)</li></ul><p class="text-xs text-gray-500">File format: PDF only, named appropriately.</p></div>
 </div>`,
     },
     {
@@ -305,7 +309,7 @@ export const pageContentSections: PageContentSection[] = [
         defaultContent: `<div class="grid gap-6 md:grid-cols-2">
     <div class="bg-gradient-to-br from-gray-50 to-gray-100 p-8 rounded-3xl shadow-sm"><h4 class="font-bold mb-2">Certified Educational Documents</h4><p class="text-sm">Must be submitted after admission decision by 13 May or 14 August 2026.</p></div>
     <div class="bg-gradient-to-br from-gray-50 to-gray-100 p-8 rounded-3xl shadow-sm"><h4 class="font-bold mb-2">Translations</h4><p class="text-sm">Non-English/Finnish/Swedish documents require official translations.</p></div>
-    <div class="bg-gradient-to-br from-gray-50 to-gray-100 p-8 rounded-3xl shadow-sm"><h4 class="font-bold mb-2">Passport/ID</h4><p class="text-sm">Color PDF of the personal information page.</p></div>
+    <div class="bg-gradient-to-br from-gray-50 to-gray-100 p-8 rounded-3xl shadow-sm"><h4 class="font-bold mb-2">Passport</h4><p class="text-sm">Color PDF of the personal information page.</p></div>
 </div>`,
     },
     {
@@ -328,10 +332,10 @@ export const pageContentSections: PageContentSection[] = [
         sectionKey: 'gmat_content',
         label: 'GMAT / GRE Section',
         defaultContent: `<div class="bg-gradient-to-br from-gray-50 to-gray-100 p-12 rounded-3xl text-black shadow-sm">
-    <p class="mb-6 font-medium">Certain programmes in <strong>Business and Economics</strong> require a GMAT or GRE score.</p>
+    <p class="mb-6 font-medium">Certain programmes in Business and Economics require a GMAT or GRE score.</p>
     <ul class="space-y-4 text-sm">
-        <li><strong>Minimum Focus Edition score:</strong> 555</li>
-        <li><strong>GRE General Test equivalent accepted</strong></li>
+        <li>Minimum Focus Edition score: 555</li>
+        <li>GRE General Test equivalent accepted</li>
     </ul>
     <p class="mt-8 text-sm">Scores must be sent directly by the testing organization to Kestora University.</p>
 </div>`,
@@ -378,7 +382,7 @@ export const pageContentSections: PageContentSection[] = [
         sectionKey: 'fee_structure_content',
         label: 'Fee Structure Section',
         defaultContent: `<p class="text-lg leading-relaxed mb-6">Tuition fees at Kestora University depend on your degree level, field of study, and start date. The exact amount for your programme is always listed in your personal admission letter.</p>
-<div class="bg-gray-100 p-6 md:p-12 pl-6 md:pl-16 rounded-xl"><p class="font-medium"><strong>Note:</strong> Students whose right to study began on or before 1 August 2025 may have different fee levels. The tables below apply to new students starting in <strong>2026</strong>.</p></div>`,
+<div class="bg-gray-100 p-6 md:p-12 pl-6 md:pl-16 rounded-xl"><p class="font-medium">Note: Students whose right to study began on or before 1 August 2025 may have different fee levels. The tables below apply to new students starting in 2026.</p></div>`,
     },
     {
         pageSlug: 'admissions/tuition',
@@ -386,11 +390,11 @@ export const pageContentSections: PageContentSection[] = [
         label: 'Bachelor Fees Section',
         defaultContent: `<p class="text-black mb-6 font-medium">Right to study starting on or after 1 August 2026</p>
 <div class="rounded-xl overflow-hidden">
-    <div class="md:hidden divide-y divide-neutral-200 bg-white">
-        <div class="p-4 space-y-2 bg-white"><div class="flex justify-between items-start"><span class="text-sm font-bold uppercase tracking-wider text-neutral-500">Field of Study</span><span class="font-bold text-black">Business</span></div><div class="flex justify-between"><span class="text-sm font-bold uppercase tracking-wider text-neutral-500">Tuition Fee / Year</span><span class="text-black">€6 000</span></div><div class="flex justify-between"><span class="text-sm font-bold uppercase tracking-wider text-neutral-500">Tuition Deposit</span><span class="text-black">€3 000</span></div></div>
-        <div class="p-4 space-y-2 bg-white"><div class="flex justify-between items-start"><span class="text-sm font-bold uppercase tracking-wider text-neutral-500">Field of Study</span><span class="font-bold text-black">Arts and Architecture</span></div><div class="flex justify-between"><span class="text-sm font-bold uppercase tracking-wider text-neutral-500">Tuition Fee / Year</span><span class="text-black">€6 000</span></div><div class="flex justify-between"><span class="text-sm font-bold uppercase tracking-wider text-neutral-500">Tuition Deposit</span><span class="text-black">€3 000</span></div></div>
-        <div class="p-4 space-y-2 bg-white"><div class="flex justify-between items-start"><span class="text-sm font-bold uppercase tracking-wider text-neutral-500">Field of Study</span><span class="font-bold text-black">Technology & Engineering</span></div><div class="flex justify-between"><span class="text-sm font-bold uppercase tracking-wider text-neutral-500">Tuition Fee / Year</span><span class="text-black">€6 000</span></div><div class="flex justify-between"><span class="text-sm font-bold uppercase tracking-wider text-neutral-500">Tuition Deposit</span><span class="text-black">€3 000</span></div></div>
-        <div class="p-4 space-y-2 bg-white"><div class="flex justify-between items-start"><span class="text-sm font-bold uppercase tracking-wider text-neutral-500">Field of Study</span><span class="font-bold text-black">Science</span></div><div class="flex justify-between"><span class="text-sm font-bold uppercase tracking-wider text-neutral-500">Tuition Fee / Year</span><span class="text-black">€9 500</span></div><div class="flex justify-between"><span class="text-sm font-bold uppercase tracking-wider text-neutral-500">Tuition Deposit</span><span class="text-black">€4 750</span></div></div>
+    <div class="md:hidden divide-y divide-neutral-200 bg-card">
+        <div class="p-4 space-y-2 bg-card"><div class="flex justify-between items-start"><span class="text-sm font-bold uppercase tracking-wider text-neutral-500">Field of Study</span><span class="font-bold text-black">Business</span></div><div class="flex justify-between"><span class="text-sm font-bold uppercase tracking-wider text-neutral-500">Tuition Fee / Year</span><span class="text-black">€6 000</span></div><div class="flex justify-between"><span class="text-sm font-bold uppercase tracking-wider text-neutral-500">Tuition Deposit</span><span class="text-black">€3 000</span></div></div>
+        <div class="p-4 space-y-2 bg-card"><div class="flex justify-between items-start"><span class="text-sm font-bold uppercase tracking-wider text-neutral-500">Field of Study</span><span class="font-bold text-black">Arts and Architecture</span></div><div class="flex justify-between"><span class="text-sm font-bold uppercase tracking-wider text-neutral-500">Tuition Fee / Year</span><span class="text-black">€6 000</span></div><div class="flex justify-between"><span class="text-sm font-bold uppercase tracking-wider text-neutral-500">Tuition Deposit</span><span class="text-black">€3 000</span></div></div>
+        <div class="p-4 space-y-2 bg-card"><div class="flex justify-between items-start"><span class="text-sm font-bold uppercase tracking-wider text-neutral-500">Field of Study</span><span class="font-bold text-black">Technology & Engineering</span></div><div class="flex justify-between"><span class="text-sm font-bold uppercase tracking-wider text-neutral-500">Tuition Fee / Year</span><span class="text-black">€6 000</span></div><div class="flex justify-between"><span class="text-sm font-bold uppercase tracking-wider text-neutral-500">Tuition Deposit</span><span class="text-black">€3 000</span></div></div>
+        <div class="p-4 space-y-2 bg-card"><div class="flex justify-between items-start"><span class="text-sm font-bold uppercase tracking-wider text-neutral-500">Field of Study</span><span class="font-bold text-black">Science</span></div><div class="flex justify-between"><span class="text-sm font-bold uppercase tracking-wider text-neutral-500">Tuition Fee / Year</span><span class="text-black">€9 500</span></div><div class="flex justify-between"><span class="text-sm font-bold uppercase tracking-wider text-neutral-500">Tuition Deposit</span><span class="text-black">€4 750</span></div></div>
     </div>
     <table class="hidden md:table w-full text-left border-collapse">
         <thead class="bg-black text-white"><tr><th class="p-4 font-bold">Field of Study</th><th class="p-4 font-bold">Tuition Fee / Year</th><th class="p-4 font-bold">Tuition Deposit</th></tr></thead>
@@ -409,25 +413,25 @@ export const pageContentSections: PageContentSection[] = [
         sectionKey: 'master_fees_content',
         label: 'Master Fees Section',
         defaultContent: `<p class="text-lg text-black leading-relaxed mb-8">Tuition fees for Master’s programmes are determined by the field of study. They are generally consistent with Bachelor’s fees, and students should verify the exact amount in their personal admission letter.</p>
-<div class="bg-gray-100 rounded-2xl p-6 md:p-12"><h3 class="text-2xl font-bold mb-4">Early Bird Tuition Waiver (EBTW)</h3><p class="text-black mb-4">New Master’s students may receive a 25% waiver on their first academic year’s tuition if they accept their offer as instructed.</p><ul class="space-y-2 mb-6 text-sm text-black"><li>Accept your admission offer as instructed</li></ul><div class="bg-white p-6 md:p-12 pl-6 md:pl-16"><h5 class="font-bold text-sm mb-4 uppercase tracking-wider text-black">Waived Fees (1st Year Only)</h5><div class="space-y-2 text-black"><div class="flex justify-between border-b border-gray-300 pb-2"><span>Business</span><span class="font-bold">€4 500</span></div><div class="flex justify-between border-b border-gray-300 pb-2"><span>Arts and Architecture</span><span class="font-bold">€4 500</span></div><div class="flex justify-between border-b border-gray-300 pb-2"><span>Technology & Engineering</span><span class="font-bold">€4 500</span></div><div class="flex justify-between pt-1"><span>Science</span><span class="font-bold">€7 125</span></div></div></div></div>`,
+<div class="bg-gray-100 rounded-2xl p-6 md:p-12"><h3 class="text-2xl font-bold mb-4">Early Bird Tuition Waiver (EBTW)</h3><p class="text-black mb-4">New Master’s students may receive a 25% waiver on their first academic year’s tuition if they accept their offer as instructed.</p><ul class="space-y-2 mb-6 text-sm text-black"><li>Accept your admission offer as instructed</li></ul><div class="bg-card p-6 md:p-12 pl-6 md:pl-16"><h5 class="font-bold text-sm mb-4 uppercase tracking-wider text-black">Waived Fees (1st Year Only)</h5><div class="space-y-2 text-black"><div class="flex justify-between border-b border-gray-300 pb-2"><span>Business</span><span class="font-bold">€4 500</span></div><div class="flex justify-between border-b border-gray-300 pb-2"><span>Arts and Architecture</span><span class="font-bold">€4 500</span></div><div class="flex justify-between border-b border-gray-300 pb-2"><span>Technology & Engineering</span><span class="font-bold">€4 500</span></div><div class="flex justify-between pt-1"><span>Science</span><span class="font-bold">€7 125</span></div></div></div></div>`,
     },
     {
         pageSlug: 'admissions/tuition',
         sectionKey: 'merit_scholarship_content',
         label: 'Merit Scholarship Section',
-        defaultContent: `<div class="mb-8"><h3 class="text-2xl font-bold mb-4">Continuing Merit Scholarship</h3><p class="text-lg leading-relaxed mb-6">Kestora University rewards academic excellence. After the first year, international students can apply for a merit scholarship covering <strong>50% of tuition</strong> for the next academic year.</p><div class="grid md:grid-cols-2 gap-8"><div class="space-y-4"><h4 class="font-bold text-sm uppercase tracking-widest mb-2">Academic Criteria</h4><ul class="space-y-3"><li>Complete at least <strong>55 ECTS credits</strong> per academic year</li><li>Maintain a minimum weighted GPA of <strong>3.5 / 5.0</strong></li></ul></div><div class="space-y-4"><h4 class="font-bold text-sm uppercase tracking-widest mb-2">Application & Review</h4><p class="text-sm leading-relaxed">Scholarship eligibility is automatically reviewed every August and eligible students will be notified before the autumn tuition deadline.</p></div></div></div>`,
+        defaultContent: `<div class="mb-8"><h3 class="text-2xl font-bold mb-4">Continuing Merit Scholarship</h3><p class="text-lg leading-relaxed mb-6">Kestora University rewards academic excellence. After the first year, international students can apply for a merit scholarship covering 50% of tuition for the next academic year.</p><div class="grid md:grid-cols-2 gap-8"><div class="space-y-4"><h4 class="font-bold text-sm uppercase tracking-widest mb-2">Academic Criteria</h4><ul class="space-y-3"><li>Complete at least 55 ECTS credits per academic year</li><li>Maintain a minimum weighted GPA of 3.5 / 5.0</li></ul></div><div class="space-y-4"><h4 class="font-bold text-sm uppercase tracking-widest mb-2">Application & Review</h4><p class="text-sm leading-relaxed">Scholarship eligibility is automatically reviewed every August and eligible students will be notified before the autumn tuition deadline.</p></div></div></div>`,
     },
     {
         pageSlug: 'admissions/tuition',
         sectionKey: 'payment_methods_content',
         label: 'Payment Methods Section',
-        defaultContent: `<div class="space-y-8"><div class="bg-gray-100 p-6 md:p-12 rounded-2xl"><p class="text-lg leading-relaxed mb-4">Kestora partners with <a href="https://www.flywire.com/" target="_blank" rel="noopener noreferrer" class="underline">Flywire</a> to provide secure, convenient payment options using local and international channels.</p><p class="leading-relaxed">All tuition payments are processed through Flywire for accurate tracking, faster confirmation, and proper allocation to your student account.</p></div><div class="bg-white p-6 md:p-12 shadow-sm rounded-xl"><h3 class="text-xl font-bold mb-4 uppercase tracking-tight">Step-by-Step Payment Process</h3><div class="space-y-6"><div><h4 class="font-bold mb-1">Accept Your Offer</h4><p class="text-sm leading-relaxed">Once you accept your offer through the portal, you will be redirected to the Flywire payment page.</p></div><div><h4 class="font-bold mb-1">Choose Where You’re Paying From</h4><p class="text-sm leading-relaxed">Select the country from which you will make your payment. Flywire shows local payment options specific to your location.</p></div><div><h4 class="font-bold mb-1">Review Payment Details</h4><p class="text-sm leading-relaxed">Confirm your full name, student ID, programme, amount payable, and payment reference before submitting.</p></div><div><h4 class="font-bold mb-1">Select Your Payment Method</h4><p class="text-sm leading-relaxed">Choose one of the available Flywire payment methods based on your country and preference.</p></div><div><h4 class="font-bold mb-1">Complete the Payment</h4><p class="text-sm leading-relaxed">Follow the on-screen instructions to pay securely.</p></div><div><h4 class="font-bold mb-1">Payment Confirmation</h4><p class="text-sm leading-relaxed">Once payment is confirmed, your payment status updates automatically and an official receipt is issued.</p></div></div></div><div class="grid md:grid-cols-2 gap-6"><div class="bg-gray-100 p-8 rounded-2xl shadow-sm"><h3 class="text-xl font-bold mb-4 uppercase tracking-tight">Processing Time</h3><p class="leading-relaxed">Most payments are confirmed within <strong>24–72 hours</strong>, depending on the selected payment method.</p></div><div class="bg-gray-100 p-8 rounded-2xl shadow-sm"><h3 class="text-xl font-bold mb-4">Need Help With Payment?</h3><p class="leading-relaxed">If you experience any difficulties, contact the Admissions Office through your student portal or by email.</p><a href="mailto:admissions@kestora.online" class="inline-flex items-center gap-2 font-bold uppercase tracking-widest text-black underline">Email Admissions</a></div></div><div class="bg-gray-100 p-6 rounded-xl shadow-sm"><p class="text-sm leading-relaxed">If payment is not received by 23 April 2026, the waiver may be voided and the full fee required to confirm enrolment.</p><p class="text-sm">This waiver applies only to the first academic year and cannot be combined with other waivers.</p></div></div>`,
+        defaultContent: `<div class="space-y-8"><div class="bg-gray-100 p-6 md:p-12 rounded-2xl"><p class="text-lg leading-relaxed mb-4">Kestora partners with <a href="https://www.flywire.com/" target="_blank" rel="noopener noreferrer" class="underline">Flywire</a> to provide secure, convenient payment options using local and international channels.</p><p class="leading-relaxed">All tuition payments are processed through Flywire for accurate tracking, faster confirmation, and proper allocation to your student account.</p></div><div class="bg-card p-6 md:p-12 shadow-sm rounded-xl"><h3 class="text-xl font-bold mb-4 uppercase tracking-tight">Step-by-Step Payment Process</h3><div class="space-y-6"><div><h4 class="font-bold mb-1">Accept Your Offer</h4><p class="text-sm leading-relaxed">Once you accept your offer through the portal, you will be redirected to the Flywire payment page.</p></div><div><h4 class="font-bold mb-1">Choose Where You’re Paying From</h4><p class="text-sm leading-relaxed">Select the country from which you will make your payment. Flywire shows local payment options specific to your location.</p></div><div><h4 class="font-bold mb-1">Review Payment Details</h4><p class="text-sm leading-relaxed">Confirm your full name, student ID, programme, amount payable, and payment reference before submitting.</p></div><div><h4 class="font-bold mb-1">Select Your Payment Method</h4><p class="text-sm leading-relaxed">Choose one of the available Flywire payment methods based on your country and preference.</p></div><div><h4 class="font-bold mb-1">Complete the Payment</h4><p class="text-sm leading-relaxed">Follow the on-screen instructions to pay securely.</p></div><div><h4 class="font-bold mb-1">Payment Confirmation</h4><p class="text-sm leading-relaxed">Once payment is confirmed, your payment status updates automatically and an official receipt is issued.</p></div></div></div><div class="grid md:grid-cols-2 gap-6"><div class="bg-gray-100 p-8 rounded-2xl shadow-sm"><h3 class="text-xl font-bold mb-4 uppercase tracking-tight">Processing Time</h3><p class="leading-relaxed">Most payments are confirmed within 24–72 hours, depending on the selected payment method.</p></div><div class="bg-gray-100 p-8 rounded-2xl shadow-sm"><h3 class="text-xl font-bold mb-4">Need Help With Payment?</h3><p class="leading-relaxed">If you experience any difficulties, contact the Admissions Office through your student portal or by email.</p><a href="mailto:admissions@kestora.online" class="inline-flex items-center gap-2 font-bold uppercase tracking-widest text-black underline">Email Admissions</a></div></div><div class="bg-gray-100 p-6 rounded-xl shadow-sm"><p class="text-sm leading-relaxed">If payment is not received by 23 April 2026, the waiver may be voided and the full fee required to confirm enrolment.</p><p class="text-sm">This waiver applies only to the first academic year and cannot be combined with other waivers.</p></div></div>`,
     },
     {
         pageSlug: 'admissions/tuition',
         sectionKey: 'timing_content',
         label: 'Payment Schedule Section',
-        defaultContent: `<div class="grid md:grid-cols-2 gap-8"><div class="bg-gray-100 p-6 rounded-2xl shadow-sm"><h3 class="text-xl font-bold mb-4">First Academic Year</h3><p class="leading-relaxed">After accepting the admission offer, pay the full tuition fee in a single instalment. Payment in multiple instalments is not permitted for first-year enrolment.</p></div><div class="bg-gray-100 p-6 rounded-2xl shadow-sm"><h3 class="text-xl font-bold mb-4">After the First Year</h3><p class="leading-relaxed">Students are encouraged to pay the full fee in one instalment during the annual enrolment period. Alternatively, two instalments may be allowed, but this can affect your attendance status.</p><div class="mt-4 p-4 bg-gray-100 rounded-lg text-sm"><strong>Important:</strong> Non-attending status may affect visa or residence permit conditions.</div></div></div><p class="mt-8 text-black text-center">For further details, consult the official Kestora University enrolment guidelines.</p>`,
+        defaultContent: `<div class="grid md:grid-cols-2 gap-8"><div class="bg-gray-100 p-6 rounded-2xl shadow-sm"><h3 class="text-xl font-bold mb-4">First Academic Year</h3><p class="leading-relaxed">After accepting the admission offer, pay the full tuition fee in a single instalment. Payment in multiple instalments is not permitted for first-year enrolment.</p></div><div class="bg-gray-100 p-6 rounded-2xl shadow-sm"><h3 class="text-xl font-bold mb-4">After the First Year</h3><p class="leading-relaxed">Students are encouraged to pay the full fee in one instalment during the annual enrolment period. Alternatively, two instalments may be allowed, but this can affect your attendance status.</p><div class="mt-4 p-4 bg-gray-100 rounded-lg text-sm">Important: Non-attending status may affect visa or residence permit conditions.</div></div></div><p class="mt-8 text-black text-center">For further details, consult the official Kestora University enrolment guidelines.</p>`,
     },
     {
         pageSlug: 'admissions/tuition',
@@ -439,7 +443,7 @@ export const pageContentSections: PageContentSection[] = [
         pageSlug: 'admissions/tuition',
         sectionKey: 'health_insurance_content',
         label: 'Health Insurance Section',
-        defaultContent: `<div class="bg-gray-100 rounded-2xl p-6 md:p-12 shadow-sm"><div class="flex flex-col md:flex-row items-start gap-6"><div class="relative w-16 h-16 md:w-20 md:h-20 shrink-0 bg-white rounded-xl overflow-hidden shadow-sm"><img src="/images/swisscare-logo.png" alt="SwissCare" class="object-contain w-full h-full p-1" /></div><div><h3 class="text-xl font-bold mb-3">SwissCare — Recommended Insurance Partner</h3><p class="leading-relaxed mb-4">Non-EU/EEA students must have valid private health insurance for a Finnish residence permit. SwissCare is recommended for its student plans and accepted coverage.</p><ul class="space-y-2 mb-6 text-sm"><li>Medical consultations and hospitalization</li><li>Emergency repatriation and evacuation</li><li>Dental emergencies and mental health support</li><li>Coverage accepted for residence permit applications</li></ul><a href="https://www.swisscare.com" target="_blank" rel="noopener noreferrer" class="inline-block text-black underline">Visit SwissCare →</a></div></div></div>`,
+        defaultContent: `<div class="bg-gray-100 rounded-2xl p-6 md:p-12 shadow-sm"><div class="flex flex-col md:flex-row items-start gap-6"><div class="relative w-16 h-16 md:w-20 md:h-20 shrink-0 bg-card rounded-xl overflow-hidden shadow-sm"><img src="/images/swisscare-logo.png" alt="SwissCare" class="object-contain w-full h-full p-1" /></div><div><h3 class="text-xl font-bold mb-3">SwissCare — Recommended Insurance Partner</h3><p class="leading-relaxed mb-4">Non-EU/EEA students must have valid private health insurance for a Finnish residence permit. SwissCare is recommended for its student plans and accepted coverage.</p><ul class="space-y-2 mb-6 text-sm"><li>Medical consultations and hospitalization</li><li>Emergency repatriation and evacuation</li><li>Dental emergencies and mental health support</li><li>Coverage accepted for residence permit applications</li></ul><a href="https://www.swisscare.com" target="_blank" rel="noopener noreferrer" class="inline-block text-black underline">Visit SwissCare →</a></div></div></div>`,
     },
     {
         pageSlug: 'admissions/tuition',
@@ -452,6 +456,18 @@ export const pageContentSections: PageContentSection[] = [
         sectionKey: 'contact_content',
         label: 'Contact Section',
         defaultContent: `<p class="text-white mb-10 max-w-2xl mx-auto text-lg leading-relaxed">If you have questions about payment processes, deadlines, or refunds, contact the Tuition Fee Office.</p><a href="mailto:tuition@kestora.online" class="inline-flex items-center gap-2 bg-white text-black px-8 py-4 rounded-full font-bold hover:bg-gray-100 transition-all shadow-md">Contact Tuition Office</a>`,
+    },
+    {
+        pageSlug: 'admissions',
+        sectionKey: 'hero_title',
+        label: 'Hero Title',
+        defaultContent: 'Admissions to Kestora University',
+    },
+    {
+        pageSlug: 'admissions',
+        sectionKey: 'hero_subtitle',
+        label: 'Hero Subtitle',
+        defaultContent: 'Apply to Kestora University Helsinki and begin your Bachelor’s or Master’s studies in an internationally focused learning environment. Our admissions process is transparent, supportive, and open to students from around the world.',
     },
 ];
 

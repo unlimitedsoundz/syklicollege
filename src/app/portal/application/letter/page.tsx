@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import { Application } from '@/types/database';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { CaretLeft as ChevronLeft, CheckCircle, WarningCircle as AlertCircle } from "@phosphor-icons/react/dist/ssr";
 import { formatToDDMMYYYY } from '@/utils/date';
 import PrintButton from '@/components/portal/PrintButton';
@@ -175,7 +175,7 @@ function AdmissionLetterContent() {
             </div>
 
             {/* Letter Container */}
-            <div className="w-full max-w-[210mm] mx-auto bg-white shadow-xl print:shadow-none min-h-[297mm] p-6 md:p-[25mm] relative overflow-hidden text-black border border-neutral-100 print:border-0" style={{ fontFamily: '"Inter", sans-serif' }}>
+            <div className="w-full max-w-[210mm] mx-auto bg-white shadow-xl print:shadow-none min-h-[297mm] p-6 md:p-[20mm] print:p-[10mm] relative overflow-hidden text-black border border-neutral-100 print:border-0" style={{ fontFamily: '"Inter", sans-serif' }}>
                 
                 {/* 1. Header: Logo & Address */}
                 <div className="flex flex-col md:flex-row justify-between items-start gap-6 md:gap-0 mb-6 md:mb-8 border-b-2 border-neutral-900 pb-4">
@@ -200,9 +200,9 @@ function AdmissionLetterContent() {
                     </div>
                 </div>
 
-                {application.status === 'ENROLLED' ? (
+                {['ENROLLED', 'ADMISSION_LETTER_READY', 'ADMISSION_LETTER_GENERATED'].includes(application.status) ? (
                     /* ADMISSION LETTER VIEW */
-                    <div className="space-y-6">
+                    <div className="space-y-4 print:space-y-2">
                         {/* 1a. Recipient Address Block (Top Left) */}
                         <div className="mb-6 flex flex-col justify-between items-start gap-8">
                             <div className="flex-1">
@@ -222,30 +222,31 @@ function AdmissionLetterContent() {
                             </div>
                         </div>
 
-                        <div className="text-center mb-10 pt-4">
-                            <h1 className="text-3xl font-bold uppercase tracking-[0.1em] text-black">
+                        <div className="text-center mb-6 print:mb-4 pt-2">
+                            <h1 className="text-2xl print:text-xl font-bold uppercase tracking-[0.1em] text-black">
                                 Official Admission Letter
                             </h1>
                         </div>
                         {/* Admission Details Grid */}
-                        <div className="grid grid-cols-3 gap-6 p-4 mb-8 border-y border-black">
+                        <div className="grid grid-cols-3 gap-4 print:gap-2 p-3 print:p-2 mb-6 print:mb-4 border-y border-black">
                             <div className="text-center">
-                                <span className="block text-[8px] font-bold text-black uppercase tracking-widest mb-1">Enrollment Date</span>
+                                <span className="block text-[8px] font-bold text-black uppercase tracking-widest mb-0.5">Enrollment Date</span>
                                 <span className="block font-bold text-xs text-black">{formatToDDMMYYYY(today.toISOString())}</span>
                             </div>
                             <div className="text-center">
-                                <span className="block text-[8px] font-bold text-black uppercase tracking-widest mb-1">Admission Reference</span>
+                                <span className="block text-[8px] font-bold text-black uppercase tracking-widest mb-0.5">Admission Reference</span>
                                 <span className="block font-bold text-xs font-mono text-black">{application.id.slice(0, 8).toUpperCase()}</span>
                             </div>
                             <div className="text-center">
-                                <span className="block text-[8px] font-bold text-black uppercase tracking-widest mb-1">Official Student ID</span>
+                                <span className="block text-[8px] font-bold text-black uppercase tracking-widest mb-0.5">Official Student ID</span>
                                 <span className="block font-bold text-xs font-mono text-black">{application.user?.student_id || 'KU9166922'}</span>
                             </div>
                         </div>
 
+
                         {/* Official Statement */}
-                        <div className="text-sm leading-relaxed text-black mb-8">
-                            <p className="mb-4 text-black">
+                        <div className="text-sm print:text-xs leading-relaxed text-black mb-6 print:mb-4">
+                            <p className="mb-2 print:mb-1 text-black">
                                 This letter serves as official notification that {application.personal_info?.firstName} {application.personal_info?.lastName} (Passport: {application.personal_info?.passportNumber || 'N/A'}, DOB: {formatToDDMMYYYY(application.user?.date_of_birth || application.personal_info?.dateOfBirth || today.toISOString())}) has been formally admitted and fully enrolled as a degree student at Kestora University for the 2026 - 2027 academic year.
                             </p>
                             <p className="text-black">
@@ -253,23 +254,28 @@ function AdmissionLetterContent() {
                             </p>
                         </div>
 
+
                         {/* Details Table */}
-                        <div className="space-y-1 mb-10">
+                        <div className="space-y-0.5 mb-8 print:mb-4">
                             {[
                                 { label: 'Date of Admission', value: formatToDDMMYYYY(today.toISOString()) },
                                 { label: 'Academic Year', value: '2026 - 2027' },
                                 { label: 'Intake', value: 'August / Autumn 2026' },
+                                { label: 'Programme Start Date', value: '17.08.2026' },
+                                { label: 'Programme End Date', value: (application.course?.degreeLevel || '').toUpperCase() === 'MASTER' ? '17.08.2028' : '17.08.2029' },
+                                { label: 'Total Credits', value: (application.course?.degreeLevel || '').toUpperCase() === 'MASTER' ? '120 ECTS' : '180 ECTS' },
                                 { label: 'Programme of Study', value: `${application.course?.title} (${application.course?.programType || 'Full-time'})` }
                             ].map((row, idx) => (
-                                <div key={idx} className="flex justify-between py-2 border-b border-black">
-                                    <span className="text-xs font-bold uppercase text-black">{row.label}</span>
-                                    <span className="text-xs font-medium text-black">{row.value}</span>
+                                <div key={idx} className="flex justify-between py-1.5 print:py-1 border-b border-black">
+                                    <span className="text-[11px] print:text-[10px] font-bold uppercase text-black">{row.label}</span>
+                                    <span className="text-[11px] print:text-[10px] font-medium text-black">{row.value}</span>
                                 </div>
                             ))}
+
                         </div>
 
                         {/* Rights & Access, Official Use, Next Steps, Refund Policy */}
-                        <div className="grid grid-cols-2 gap-x-12 gap-y-8">
+                        <div className="grid grid-cols-2 gap-x-12 gap-y-6 print:gap-y-4">
                             <div>
                                 <h4 className="text-[10px] font-bold text-black uppercase tracking-widest mb-2 border-b border-black pb-1 text-center">Student Rights & Access</h4>
                                 <p className="text-[10px] text-black leading-relaxed">
@@ -305,9 +311,10 @@ function AdmissionLetterContent() {
                         </div>
 
                         {/* Signature Block */}
-                        <div className="mt-8 pt-4 border-t border-black flex justify-between items-end">
+                        <div className="mt-6 print:mt-4 pt-4 print:pt-2 border-t border-black flex justify-between items-end">
                             <div>
-                                <div className="w-40 h-16 mb-2 relative">
+                                <div className="w-40 h-16 print:h-12 mb-2 print:mb-1 relative">
+
                                     <Image
                                         src="/images/anna-virtanen-signature.jpg"
                                         alt="Official Signature"
@@ -330,100 +337,110 @@ function AdmissionLetterContent() {
                 ) : (
                     /* OFFER LETTER VIEW (EXISTING) */
                     <>
-                        <div className="text-center mb-6">
-                            <h1 className="text-2xl font-bold uppercase tracking-[0.2em] text-black">
+                        <div className="text-center mb-6 print:mb-3">
+                            <h1 className="text-2xl print:text-xl font-bold uppercase tracking-[0.2em] text-black">
                                 Official Letter of Offer
                             </h1>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 p-4 mb-6">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 print:gap-2 p-4 print:p-2 mb-6 print:mb-4">
                             <div>
-                                <span className="block text-[9px] font-bold text-black uppercase tracking-widest mb-1">Date Issued</span>
+                                <span className="block text-[9px] font-bold text-black uppercase tracking-widest mb-1 print:mb-0">Date Issued</span>
                                 <span className="font-bold text-xs">{formatToDDMMYYYY(today.toISOString())}</span>
                             </div>
                             <div>
-                                <span className="block text-[9px] font-bold text-black uppercase tracking-widest mb-1">Offer Reference</span>
-                                <span className="font-bold text-xs font-mono">{application.admission_details?.offer_reference || 'OFFR-PENDING'}</span>
+                                <span className="block text-[9px] font-bold text-black uppercase tracking-widest mb-1 print:mb-0">Status</span>
+                                <span className="font-bold text-xs">{application.status.replaceAll('_', ' ')}</span>
                             </div>
                             <div>
-                                <span className="block text-[9px] font-bold text-black uppercase tracking-widest mb-1">Application ID</span>
+                                <span className="block text-[9px] font-bold text-black uppercase tracking-widest mb-1 print:mb-0">Application ID</span>
                                 <span className="font-bold text-xs font-mono">{application.id.slice(0, 8).toUpperCase()}</span>
                             </div>
                         </div>
 
+
                         {/* 2. Applicant Info */}
-                        <div className="mb-6">
-                            <h4 className="text-[10px] font-bold text-black uppercase tracking-widest mb-3 pb-1">Applicant & Programme Details</h4>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-12">
+                        <div className="mb-6 print:mb-4">
+                            <h4 className="text-[10px] font-bold text-black uppercase tracking-widest mb-3 print:mb-2 pb-1">Applicant & Programme Details</h4>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-y-3 print:gap-y-1.5 gap-x-12">
                                 <div>
-                                    <div className="text-[9px] font-bold text-black uppercase tracking-widest mb-1">Full Name (Passport Match)</div>
-                                    <div className="text-sm font-bold text-black">{application.personal_info?.firstName} {application.personal_info?.lastName}</div>
+                                    <div className="text-[9px] font-bold text-black uppercase tracking-widest mb-1 print:mb-0">Full Name (Passport Match)</div>
+                                    <div className="text-sm print:text-xs font-bold text-black">{application.personal_info?.firstName} {application.personal_info?.lastName}</div>
                                 </div>
                                 <div>
-                                    <div className="text-[9px] font-bold text-black uppercase tracking-widest mb-1">Intake & Year</div>
-                                    <div className="text-sm font-bold text-black">Autumn Semester 2026</div>
+                                    <div className="text-[9px] font-bold text-black uppercase tracking-widest mb-1 print:mb-0">Intake & Year</div>
+                                    <div className="text-sm print:text-xs font-bold text-black">Autumn Semester 2026</div>
                                 </div>
                                 <div>
-                                    <div className="text-[9px] font-bold text-black uppercase tracking-widest mb-1">Intended Programme</div>
-                                    <div className="text-sm font-bold text-black">{application.course?.title}</div>
+                                    <div className="text-[9px] font-bold text-black uppercase tracking-widest mb-1 print:mb-0">Intended Programme</div>
+                                    <div className="text-sm print:text-xs font-bold text-black">{application.course?.title}</div>
                                 </div>
                                 <div>
-                                    <div className="text-[9px] font-bold text-black uppercase tracking-widest mb-1">Degree Level</div>
-                                    <div className="text-sm font-bold text-black">{application.course?.degreeLevel === 'MASTER' ? "Master's Degree" : "Bachelor's Degree"}</div>
+                                    <div className="text-[9px] font-bold text-black uppercase tracking-widest mb-1 print:mb-0">Degree Level</div>
+                                    <div className="text-sm print:text-xs font-bold text-black">{application.course?.degreeLevel === 'MASTER' ? "Master's Degree" : "Bachelor's Degree"}</div>
                                 </div>
                                 <div>
-                                    <div className="text-[9px] font-bold text-black uppercase tracking-widest mb-1">Study Mode</div>
-                                    <div className="text-sm font-bold text-black">{application.course?.programType || 'Full-time'}</div>
+                                    <div className="text-[9px] font-bold text-black uppercase tracking-widest mb-1 print:mb-0">Study Mode</div>
+                                    <div className="text-sm print:text-xs font-bold text-black">{application.course?.programType || 'Full-time'}</div>
+                                </div>
+                                <div>
+                                    <div className="text-[9px] font-bold text-black uppercase tracking-widest mb-1 print:mb-0">Programme Duration</div>
+                                    <div className="text-sm print:text-xs font-bold text-black">17.08.2026 – {(application.course?.degreeLevel || '').toUpperCase() === 'MASTER' ? '17.08.2028' : '17.08.2029'}</div>
+                                </div>
+                                <div>
+                                    <div className="text-[9px] font-bold text-black uppercase tracking-widest mb-1 print:mb-0">Total Credits</div>
+                                    <div className="text-sm print:text-xs font-bold text-black">{(application.course?.degreeLevel || '').toUpperCase() === 'MASTER' ? '120 ECTS' : '180 ECTS'}</div>
                                 </div>
                             </div>
                         </div>
 
+
                         {/* 3. Offer Statement */}
-                        <div className="p-4 md:p-6 mb-6">
-                            <p className="text-sm font-bold text-neutral-900 mb-3">
+                        <div className="p-4 md:p-6 print:p-2 mb-6 print:mb-3">
+                            <p className="text-sm print:text-xs font-bold text-neutral-900 mb-3 print:mb-1">
                                 Dear {application.personal_info?.firstName},
                             </p>
-                            <p className="text-sm leading-relaxed text-black mb-3">
+                            <p className="text-sm print:text-xs leading-relaxed text-black mb-3 print:mb-1">
                                 We are pleased to inform you that, following a thorough review of your application, the Admissions Committee of Kestora University has decided to offer you a place in the <strong>{application.course?.title}</strong> ({application.course?.programType || 'Full-time'}) programme for the <strong>Autumn 2026</strong> intake.
                             </p>
-                            <p className="text-sm leading-relaxed text-black">
+                            <p className="text-sm print:text-xs leading-relaxed text-black">
                                 This offer is subject to the conditions outlined below, including acceptance of the offer via the student portal and confirmation of tuition payment by the specified deadline. Upon fulfillment of these conditions, an official Letter of Admission will be issued confirming your enrollment.
                             </p>
                         </div>
 
+
                         {/* 4. Conditions */}
-                        <div className="mb-6 text-sm leading-relaxed text-black">
-                            <h4 className="text-[10px] font-bold text-black uppercase tracking-widest mb-3 pb-1">Conditions of Offer</h4>
-                            <p className="mb-3">This offer is conditional upon acceptance and fulfillment of all stated requirements:</p>
-                            <ul className="list-disc ml-5 space-y-1 mb-4">
+                        <div className="mb-6 print:mb-3 text-sm print:text-xs leading-relaxed text-black">
+                            <h4 className="text-[10px] font-bold text-black uppercase tracking-widest mb-3 print:mb-1 pb-1">Conditions of Offer</h4>
+                            <p className="mb-3 print:mb-1">This offer is conditional upon acceptance and fulfillment of all stated requirements:</p>
+                            <ul className="list-disc ml-5 space-y-1 mb-4 print:mb-2">
                                 <li>Formal acceptance of this offer via the student portal.</li>
                                 <li>Payment of required tuition deposit by the specified deadline.</li>
                                 <li>Submission of any outstanding original documents (if applicable).</li>
                             </ul>
-                            <p className="text-xs text-black font-medium">
-                                "This offer is conditional upon acceptance and fulfillment of all stated requirements."
-                            </p>
                         </div>
 
+
                         {/* 5. Tuition & Financial Information */}
-                        <div className="mb-6">
-                            <h4 className="text-[10px] font-bold text-black uppercase tracking-widest mb-3 pb-1">Tuition & Financial Information</h4>
-                            <p className="text-xs text-black mb-2">The following tuition information is provided for your reference based on the programme and degree level.</p>
+                        <div className="mb-6 print:mb-3">
+                            <h4 className="text-[10px] font-bold text-black uppercase tracking-widest mb-3 print:mb-1 pb-1">Tuition & Financial Information</h4>
+                            <p className="text-xs print:text-[10px] text-black mb-2 print:mb-1">The following tuition information is provided for your reference based on the programme and degree level.</p>
                             <div className="overflow-hidden">
-                                <table className="w-full text-sm text-left">
+                                <table className="w-full text-sm print:text-xs text-left">
                                     <tbody className="text-black">
                                         <tr className="font-bold bg-neutral-50/10 text-black border-y border-neutral-100">
-                                            <td className="py-4 px-4 uppercase tracking-tighter">Tuition Deposit (50% to Secure Place)</td>
-                                            <td className="py-4 px-4 text-right text-lg border-l border-neutral-100">€{(Math.round(((tuitionFee || 0) + (discountAmount || 0)) * 0.5)).toLocaleString()} EUR</td>
+                                            <td className="py-4 print:py-2 px-4 print:px-2 uppercase tracking-tighter">Tuition Deposit (50% to Secure Place)</td>
+                                            <td className="py-4 print:py-2 px-4 print:px-2 text-right text-lg print:text-base border-l border-neutral-100">€{(Math.round(((tuitionFee || 0) + (discountAmount || 0)) * 0.5)).toLocaleString()} EUR</td>
                                         </tr>
                                         <tr className="bg-white/50">
-                                            <td className="py-3 px-4 text-[10px] font-bold uppercase text-neutral-500">Remaining Balance (Due before commencement)</td>
-                                            <td className="py-3 px-4 text-right font-bold text-neutral-600">€{(Math.round(((tuitionFee || 0) + (discountAmount || 0)) * 0.5)).toLocaleString()} EUR</td>
+                                            <td className="py-3 print:py-1.5 px-4 print:px-2 text-[10px] font-bold uppercase text-neutral-500">Remaining Balance (Due before commencement)</td>
+                                            <td className="py-3 print:py-1.5 px-4 print:px-2 text-right font-bold text-neutral-600">€{(Math.round(((tuitionFee || 0) + (discountAmount || 0)) * 0.5)).toLocaleString()} EUR</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
+
 
                         {/* 6. Next Steps & Validity */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-6">
@@ -435,11 +452,20 @@ function AdmissionLetterContent() {
                                     <li>Admission letter issued after payment confirmation.</li>
                                 </ol>
                             </div>
-                            <div>
-                                <h4 className="text-[10px] font-bold text-black uppercase tracking-widest mb-3 pb-1">Offer Validity</h4>
-                                <div className="text-sm font-bold mb-1">{displayOffer.payment_deadline ? formatToDDMMYYYY(displayOffer.payment_deadline) : '14 Days from Issue'}</div>
-                                <p className="text-[10px] text-black">This offer will lapse automatically if not accepted by the specified date.</p>
-                            </div>
+                                <div>
+                                    <h4 className="text-[10px] font-bold text-black uppercase tracking-widest mb-3 pb-1">Payment Deadline</h4>
+                                    <div className="text-sm font-bold mb-1">
+                                        {displayOffer.accepted_at 
+                                            ? (() => {
+                                                const d = new Date(displayOffer.accepted_at);
+                                                d.setDate(d.getDate() + 7);
+                                                return formatToDDMMYYYY(d.toISOString());
+                                            })()
+                                            : '7 Days from Acceptance'
+                                        }
+                                    </div>
+                                    <p className="text-[10px] text-black">Required to secure your place after accepting the offer.</p>
+                                </div>
                         </div>
 
                         {/* 7. Signature & Closing */}
@@ -460,10 +486,7 @@ function AdmissionLetterContent() {
                                     Kestora University | Finland
                                 </div>
                             </div>
-                            <div className="text-left md:text-right">
-                                <p className="text-[10px] text-black mb-1 font-mono">Verified Document ID</p>
-                                <p className="text-[10px] text-black font-mono font-bold">{application.admission_details?.offer_reference || 'OFFR-PENDING'}</p>
-                            </div>
+
                         </div>
 
                         {/* Mandatory Disclaimer */}

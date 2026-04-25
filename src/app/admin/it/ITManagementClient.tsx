@@ -19,6 +19,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { formatToDDMMYYYY } from '@/utils/date';
 import { createClient } from '@/utils/supabase/client';
+import { SearchField } from '@/components/ui/SearchField';
 
 interface ITManagementClientProps {
     assets: any[];
@@ -215,14 +216,11 @@ export default function ITManagementClient({
                     </button>
                 </div>
 
-                <div className="relative w-full md:w-64">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" size={14} weight="bold" />
-                    <input
-                        type="text"
+                <div className="w-full md:w-64">
+                    <SearchField
                         placeholder="Search..."
-                        className="w-full pl-9 pr-4 py-2 border-2 border-neutral-100 focus:border-black outline-none text-[10px] font-bold uppercase"
                         value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
+                        onChange={(v) => setSearchTerm(v)}
                     />
                 </div>
             </div>
@@ -266,8 +264,8 @@ export default function ITManagementClient({
                     ))}
                 </div>
             ) : (
-                <div className="bg-white border-2 border-black rounded-sm overflow-hidden">
-                    <table className="w-full text-left border-collapse">
+                <div className="bg-white border-2 border-black rounded-sm overflow-x-auto">
+                    <table className="w-full text-left border-collapse min-w-[700px]">
                         <thead>
                             <tr className="bg-neutral-50 border-b-2 border-black">
                                 <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Student</th>

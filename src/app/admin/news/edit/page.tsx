@@ -2,7 +2,7 @@
 
 import { createClient } from '@/utils/supabase/client';
 import { CaretLeft as ArrowLeft, CircleNotch as Loader2 } from "@phosphor-icons/react";
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import NewsForm from '../NewsForm';
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';

@@ -1,8 +1,9 @@
 'use client';
 
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import Image from 'next/image';
 import { MapPin, Train, Building, BookOpen, Books as Library, House as Home, Users, Coffee, Compass, Info, ArrowRight, GraduationCap } from "@phosphor-icons/react";
+import { Hero } from '@/components/layout/Hero';
 import GuideSidebarLayout from '@/components/layout/StudentGuideLayout';
 
 export default function StudentLifeContent() {
@@ -21,34 +22,22 @@ export default function StudentLifeContent() {
     return (
         <GuideSidebarLayout sections={sections}>
             <div className="min-h-screen bg-white">
-            {/* Hero Section */}
-            <section className="bg-black text-white border-b border-white/10 overflow-hidden">
-                <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-[1fr,600px] items-center gap-12 py-12 lg:py-0 lg:h-[650px] relative mb-0">
-                    {/* Left Content */}
-                    <div className="space-y-8 flex flex-col justify-center h-full">
-                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight uppercase">
-                            Student Life
-                        </h1>
-                        <p className="text-xl md:text-2xl text-white/80 max-w-xl leading-relaxed">
-                            Experience a supportive and vibrant campus environment. From coastal landscapes to modern academic facilities, discover how our community thrives in the heart of Helsinki.
-                        </p>
-                    </div>
-
-                    {/* Right Image Container */}
-                    <div className="w-full h-[400px] lg:h-full flex justify-center lg:block order-first lg:order-none opacity-80">
-                        <div className="relative w-full h-full bg-neutral-900 overflow-hidden">
-                            <Image
-                                src="/images/1775992308619-019d8163-44a0-737f-adcd-915c11eb6189.png"
-                                alt="Student Life"
-                                fill
-                                priority
-                                className="object-cover"
-                                sizes="(max-width: 1024px) 100vw, 600px"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </section>
+            {/* HERO SECTION */}
+            <Hero
+                title="Student life"
+                body="Experience a supportive and vibrant campus environment. From coastal landscapes to modern academic facilities, discover how our community thrives in the heart of Helsinki."
+                backgroundColor="#392d56"
+                tinted
+                lightText={true}
+                breadcrumbs={[
+                    { label: 'Home', href: '/' },
+                    { label: 'Student life' }
+                ]}
+                image={{
+                    src: "/images/1775992308619-019d8163-44a0-737f-adcd-915c11eb6189.png",
+                    alt: "Student Life"
+                }}
+            />
 
             <div className="container mx-auto px-4 py-12 md:py-24">
                 <div className="flex flex-col lg:flex-row gap-16">
@@ -57,11 +46,11 @@ export default function StudentLifeContent() {
 
                         {/* Location */}
                         <section id="location" className="scroll-mt-32">
-                            <h2 className="text-4xl font-bold mb-10 pb-6 border-b-2 border-black uppercase tracking-widest">Campus setting</h2>
+                            <h2 className="text-aalto-5 font-bold mb-aalto-p6 text-black tracking-tight">Campus setting</h2>
                             <div className="grid lg:grid-cols-2 gap-0 overflow-hidden group">
                                 {/* Left: Text Content */}
                                 <div className="p-12 md:p-20 flex flex-col justify-center bg-white order-2 lg:order-1">
-                                    <p className="text-xl text-black leading-relaxed font-medium">
+                                    <p className="text-aalto-3 text-black leading-aalto-3">
                                         The Kestora University campus is located in the Helsinki metropolitan area and forms a compact academic district where teaching facilities, student services, housing, and leisure areas are closely integrated. The campus is surrounded by coastal landscapes and protected green areas, offering a unique balance between urban infrastructure and natural surroundings.
                                     </p>
                                 </div>
@@ -72,7 +61,7 @@ export default function StudentLifeContent() {
                                         src="/images/news/helsinki_study_hero_1771086748710.png"
                                         alt="Campus Setting"
                                         fill
-                                        className="object-cover"
+                                        className="object-cover object-top"
                                         sizes="(max-width: 1024px) 100vw, 50vw"
                                     />
                                 </div>
@@ -81,7 +70,7 @@ export default function StudentLifeContent() {
 
                         {/* Accessibility */}
                         <section id="accessibility" className="scroll-mt-32">
-                            <h2 className="text-4xl font-bold mb-10 pb-6 border-b-2 border-black uppercase tracking-widest">Global access</h2>
+                            <h2 className="text-aalto-5 font-bold mb-aalto-p6 text-black tracking-tight">Global access</h2>
                             <div className="grid lg:grid-cols-2 gap-0 overflow-hidden group">
                                 {/* Left: Square Image */}
                                 <div className="relative aspect-square overflow-hidden bg-white">
@@ -89,7 +78,7 @@ export default function StudentLifeContent() {
                                         src="/images/student-life/accessibility.jpg"
                                         alt="Accessibility"
                                         fill
-                                        className="object-cover"
+                                        className="object-cover object-top"
                                         sizes="(max-width: 1024px) 100vw, 50vw"
                                     />
                                 </div>
@@ -97,10 +86,10 @@ export default function StudentLifeContent() {
                                 {/* Right: Text Content */}
                                 <div className="p-12 md:p-20 flex flex-col justify-center bg-black text-white">
                                     <div className="space-y-8">
-                                        <p className="text-xl text-white/80 leading-relaxed font-medium">
+                                        <p className="text-aalto-3 text-white/90 leading-aalto-3">
                                             The campus is directly connected to public transport networks. A dedicated metro station provides fast access to central Helsinki, with travel times typically under twenty minutes.
                                         </p>
-                                        <p className="text-xl text-white/80 leading-relaxed font-medium">
+                                        <p className="text-aalto-3 text-white/90 leading-aalto-3">
                                             Cycling infrastructure is well developed, with marked bike paths and secure bicycle parking available throughout the campus area.
                                         </p>
                                     </div>
@@ -110,15 +99,15 @@ export default function StudentLifeContent() {
 
                         {/* Architecture */}
                         <section id="architecture" className="scroll-mt-32">
-                            <h2 className="text-4xl font-bold mb-10 pb-6 border-b-2 border-black uppercase tracking-widest">Built environment</h2>
-                            <p className="text-xl text-black leading-relaxed font-medium max-w-4xl">
+                            <h2 className="text-aalto-5 font-bold mb-aalto-p6 text-black tracking-tight">Built environment</h2>
+                            <p className="text-aalto-3 text-black leading-aalto-3 max-w-4xl">
                                 The campus features a mix of historically significant buildings and modern academic facilities. Architectural planning emphasizes openness and shared spaces. Teaching buildings, research facilities, and libraries are designed to support collaboration, independent study, and project-based learning.
                             </p>
                         </section>
 
                         {/* Academic Facilities */}
                         <section id="facilities" className="scroll-mt-32">
-                            <h2 className="text-2xl font-bold mb-10 uppercase tracking-widest text-black">
+                            <h2 className="text-aalto-5 font-bold mb-aalto-p6 text-black tracking-tight">
                                 Learning Spaces
                             </h2>
                             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-0 mb-12">
@@ -127,13 +116,13 @@ export default function StudentLifeContent() {
                                     { title: "Collaborative Studios", image: "/images/student-life/studios.jpg" },
                                     { title: "Quiet Study Zones", image: "/images/student-life/quiet.jpg" }
                                 ].map((item, idx) => (
-                                    <div key={item.title} className={`group cursor-pointer bg-white overflow-hidden p-8`}>
+                                    <div key={item.title} className={`group cursor-pointer bg-card overflow-hidden p-8`}>
                                         <div className="h-64 mb-8 overflow-hidden relative">
                                             <Image
                                                 src={item.image}
                                                 alt={item.title}
                                                 fill
-                                                className="object-cover"
+                                                className="object-cover object-top"
                                                 sizes="(max-width: 768px) 100vw, 33vw"
                                             />
                                         </div>
@@ -155,14 +144,14 @@ export default function StudentLifeContent() {
 
                         {/* Library */}
                         <section id="library" className="scroll-mt-32">
-                            <h2 className="text-4xl font-bold mb-10 pb-6 border-b-2 border-black uppercase tracking-widest">Knowledge center</h2>
+                            <h2 className="text-aalto-5 font-bold mb-aalto-p6 text-black tracking-tight">Knowledge center</h2>
                             <div className="grid lg:grid-cols-2 gap-0 overflow-hidden group">
                                 {/* Left: Text Content */}
                                 <div className="p-12 md:p-20 flex flex-col justify-center bg-white order-2 lg:order-1">
                                     <p className="text-xl text-black leading-relaxed font-medium mb-10">
                                         The central Learning Centre combines library services, digital resources, quiet reading zones, and collaborative areas. It serves as a primary academic hub for students across all fields of study.
                                     </p>
-                                    <p className="text-lg text-black/60 italic leading-relaxed border-l-4 border-black pl-8 font-medium">
+                                    <p className="text-lg text-black/60 italic leading-relaxed border-l-4 border-neutral-200 pl-8 font-medium">
                                         "Designed to foster cross-disciplinary synergy, the center bridges the gap between traditional research and modern creative workflows."
                                     </p>
                                 </div>
@@ -173,7 +162,7 @@ export default function StudentLifeContent() {
                                          src="/images/1775991969255-019d815e-0f7b-7a9f-8c49-7c04a49f0de8.png"
                                          alt="Library"
                                          fill
-                                         className="object-cover"
+                                         className="object-cover object-top"
                                          sizes="(max-width: 1024px) 100vw, 50vw"
                                      />
                                 </div>
@@ -182,15 +171,15 @@ export default function StudentLifeContent() {
 
                         {/* Housing */}
                         <section id="housing" className="scroll-mt-32">
-                            <h2 className="text-4xl font-bold mb-12 uppercase tracking-widest text-black">Living at Kestora</h2>
+                            <h2 className="text-aalto-5 font-bold mb-aalto-p6 text-black tracking-tight">Living at Kestora</h2>
                             <div className="grid md:grid-cols-2 gap-4 lg:gap-8">
-                                <div className="bg-neutral-100 p-12 group">
+                                <div className="bg-card p-12 group">
                                     <div className="h-64 mb-10 relative overflow-hidden">
                                         <Image
                                             src="/images/student-life/apartments.jpg"
                                             alt="Shared Apartments"
                                             fill
-                                            className="object-cover"
+                                            className="object-cover object-top"
                                             sizes="(max-width: 768px) 100vw, 50vw"
                                         />
                                     </div>
@@ -198,13 +187,13 @@ export default function StudentLifeContent() {
                                     <p className="text-black leading-relaxed font-medium mb-8">Private room with shared kitchen and bathroom facilities. Affordable and social options for students looking for community.</p>
                                     <span className="inline-block bg-black text-white px-6 py-2 text-sm font-bold uppercase tracking-[0.3em]">From ~300€/month</span>
                                 </div>
-                                <div className="bg-neutral-100 p-12 group">
+                                <div className="bg-card p-12 group">
                                     <div className="h-64 mb-10 relative overflow-hidden">
                                         <Image
                                             src="/images/student-life/studio-apartments.jpg"
                                             alt="Studio Apartments"
                                             fill
-                                            className="object-cover"
+                                            className="object-cover object-top"
                                             sizes="(max-width: 768px) 100vw, 50vw"
                                         />
                                     </div>
@@ -217,7 +206,7 @@ export default function StudentLifeContent() {
 
                         {/* Organizations */}
                         <section id="organizations" className="scroll-mt-32">
-                            <h2 className="text-4xl font-bold mb-10 pb-6 border-b-2 border-black uppercase tracking-widest">Associations</h2>
+                            <h2 className="text-aalto-5 font-bold mb-aalto-p6 text-black tracking-tight">Associations</h2>
                             <div className="grid lg:grid-cols-2 gap-0 overflow-hidden group mb-12">
                                 {/* Left: Square Image */}
                                 <div className="relative aspect-square md:aspect-auto md:h-full min-h-[400px] overflow-hidden bg-white">
@@ -225,7 +214,7 @@ export default function StudentLifeContent() {
                                         src="/images/1775951882929-019d7efa-a205-73f9-9f42-775ee91c38fe.png"
                                         alt="Student Union & Communities"
                                         fill
-                                        className="object-cover"
+                                        className="object-cover object-top"
                                         sizes="(max-width: 1024px) 100vw, 50vw"
                                     />
                                 </div>
@@ -247,7 +236,7 @@ export default function StudentLifeContent() {
                             <div>
                                 <ul className="grid sm:grid-cols-2 gap-6">
                                     {["Academic networking", "Cultural events", "Sports teams", "Debate & hobbies"].map((item) => (
-                                        <li key={item} className="p-6 border-b-2 border-black font-bold uppercase tracking-widest text-sm flex items-center gap-4">
+                                        <li key={item} className="p-6 border-b border-neutral-100 font-bold uppercase tracking-widest text-sm flex items-center gap-4">
                                             <ArrowRight size={20} weight="bold" className="text-black" />
                                             {item}
                                         </li>
@@ -258,7 +247,7 @@ export default function StudentLifeContent() {
 
                         {/* Services */}
                         <section id="services" className="scroll-mt-32">
-                            <h2 className="text-4xl font-bold mb-12 uppercase tracking-widest text-black">Integrated help</h2>
+                            <h2 className="text-aalto-5 font-bold mb-aalto-p6 text-black tracking-tight">Integrated help</h2>
                             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-0">
                                 {[
                                     { name: "Restaurants", desc: "Opiskelija Cafe", image: "/images/student-cafe.png" },
@@ -266,13 +255,13 @@ export default function StudentLifeContent() {
                                     { name: "Health", desc: "Medical Support", image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=800&auto=format&fit=crop" },
                                     { name: "Guidance", desc: "Career Support", image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=800&auto=format&fit=crop" }
                                 ].map((item, idx) => (
-                                    <div key={item.name} className={`bg-white group hover:bg-black hover:text-white transition-all p-8 flex flex-col`}>
+                                    <div key={item.name} className={`bg-card group hover:bg-black hover:text-white transition-all p-8 flex flex-col`}>
                                         <div className="h-32 relative mb-6">
                                             <Image
                                                 src={item.image}
                                                 alt={item.name}
                                                 fill
-                                                className="object-cover"
+                                                className="object-cover object-top"
                                             />
                                         </div>
                                         <h3 className="font-bold text-lg uppercase tracking-tighter mb-2">{item.name}</h3>
@@ -284,7 +273,7 @@ export default function StudentLifeContent() {
 
                         {/* Future Growth */}
                         <section id="future" className="scroll-mt-32">
-                            <h2 className="text-2xl font-bold mb-8 uppercase tracking-widest text-black">
+                            <h2 className="text-aalto-5 font-bold mb-aalto-p6 text-black tracking-tight">
                                 Evolution
                             </h2>
                             <p className="text-xl text-black leading-relaxed font-medium max-w-4xl">
@@ -295,7 +284,7 @@ export default function StudentLifeContent() {
 
                         {/* Summary */}
                         <section id="summary" className="scroll-mt-32 bg-black text-white p-12 md:p-20">
-                            <h2 className="text-3xl font-black uppercase tracking-tighter mb-8">Integrated Experience</h2>
+                            <h2 className="text-aalto-5 font-bold mb-8 text-white tracking-tight">Integrated Experience</h2>
                             <p className="text-xl text-white/80 leading-relaxed font-medium max-w-4xl">
                                 Studying at Kestora University means being part of an integrated academic ecosystem where teaching, research, and daily living coexist seamlessly. The combination of first-class infrastructure and natural surroundings supports both academic success and radical personal wellbeing.
                             </p>
@@ -308,3 +297,4 @@ export default function StudentLifeContent() {
         </GuideSidebarLayout>
     );
 }
+

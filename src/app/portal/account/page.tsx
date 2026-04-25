@@ -2,7 +2,7 @@
 
 import { createClient } from '@/utils/supabase/client';
 import { User, Envelope as Mail, Globe, Calendar, GraduationCap, Clock, ShieldCheck, CircleNotch as Loader2, PencilLine, Check, X } from "@phosphor-icons/react";
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { formatToDDMMYYYY } from '@/utils/date';
 import AvatarUpload from '@/components/portal/AvatarUpload';
 import { useState, useEffect } from 'react';
@@ -106,13 +106,13 @@ export default function ProfilePage() {
         <div className="max-w-3xl mx-auto space-y-6">
             <div className="flex justify-between items-end">
                 <div>
-                    <h1 className="text-xl font-black uppercase tracking-tight text-[#2d2d2d]">Student Profile</h1>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-[#2d2d2d]">Account Details</p>
+                    <h1 className="text-xl font-black text-black tracking-tight">Student Profile</h1>
+                    <p className="text-[10px] font-bold text-black">Account Details</p>
                 </div>
                 {!isEditing && (
                     <button
                         onClick={() => setIsEditing(true)}
-                        className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-neutral-500 hover:text-neutral-900 transition-colors"
+                        className="flex items-center gap-2 text-[10px] font-black text-neutral-500 hover:text-black transition-colors"
                     >
                         <PencilLine size={16} weight="bold" />
                         Edit Info
@@ -122,12 +122,12 @@ export default function ProfilePage() {
 
             {isIncomplete && !isEditing && (
                 <div className="bg-red-50 border border-red-100 p-4 flex items-center justify-between">
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-red-700">
+                    <p className="text-[10px] font-bold text-red-700">
                         Your profile is incomplete. This may block application submissions.
                     </p>
                     <button
                         onClick={() => setIsEditing(true)}
-                        className="text-[9px] font-black uppercase tracking-widest bg-red-700 text-white px-3 py-1.5 rounded-sm hover:bg-red-800 transition-all"
+                        className="text-[9px] font-black bg-red-700 text-white px-3 py-1.5 rounded-sm hover:bg-red-800 transition-all"
                     >
                         Fix Now
                     </button>
@@ -139,20 +139,20 @@ export default function ProfilePage() {
                 <div className="md:col-span-8 space-y-6">
                     <div className="bg-white p-6 border border-neutral-200">
                         <div className="flex items-center justify-between border-b border-neutral-100 pb-2 mb-4">
-                            <h3 className="text-[10px] font-black uppercase tracking-widest text-[#2d2d2d]">Account Information</h3>
+                            <h3 className="text-[10px] font-black text-black">Account Information</h3>
                             {isEditing && (
                                 <div className="flex items-center gap-3">
                                     <button
                                         onClick={() => setIsEditing(false)}
                                         disabled={isSaving}
-                                        className="text-[9px] font-black uppercase tracking-widest text-neutral-400 hover:text-neutral-600 disabled:opacity-50"
+                                        className="text-[9px] font-black text-neutral-400 hover:text-neutral-600 disabled:opacity-50"
                                     >
                                         Cancel
                                     </button>
                                     <button
                                         onClick={handleSave}
                                         disabled={isSaving}
-                                        className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-neutral-900 disabled:opacity-50"
+                                        className="flex items-center gap-1.5 text-[9px] font-black text-black disabled:opacity-50"
                                     >
                                         {isSaving ? <Loader2 size={12} className="animate-spin" /> : <Check size={14} weight="bold" />}
                                         Save Changes
@@ -173,7 +173,7 @@ export default function ProfilePage() {
                                         required
                                     />
                                     <div className="space-y-1">
-                                        <label className="block text-[10px] font-black uppercase text-[#2d2d2d]">Country of Residence</label>
+                                        <label className="block text-[10px] font-black text-black">Country of Residence</label>
                                         <input
                                             type="text"
                                             value={editData.country_of_residence}
@@ -195,13 +195,13 @@ export default function ProfilePage() {
                     </div>
 
                     <div className="bg-neutral-900 p-6 text-white">
-                        <h3 className="text-[10px] font-black uppercase tracking-widest text-white/70 mb-2">Account Security</h3>
-                        <p className="text-[10px] font-bold leading-relaxed mb-4 uppercase tracking-tight text-white/90">
+                        <h3 className="text-[10px] font-black text-white/70 mb-2">Account Security</h3>
+                        <p className="text-[10px] font-bold leading-relaxed mb-4 tracking-tight text-white/90">
                             Your account is protected by Kestora University biometric-ready authentication.
                         </p>
                         <a
                             href="mailto:kestora@kestora.online?subject=Data Update Request"
-                            className="inline-block text-[9px] font-black uppercase tracking-widest bg-white/10 hover:bg-white/20 px-4 py-2 rounded transition-all"
+                            className="inline-block text-[9px] font-black bg-white/10 hover:bg-white/20 px-4 py-2 rounded transition-all"
                         >
                             Request Data Update
                         </a>
@@ -217,19 +217,19 @@ export default function ProfilePage() {
                             firstName={profile.first_name}
                             email={user.email}
                         />
-                        <h2 className="text-sm font-black uppercase tracking-tight text-[#2d2d2d]">
+                        <h2 className="text-sm font-black text-black tracking-tight">
                             {profile.first_name} {profile.last_name}
                         </h2>
 
                         <div className="mt-4 pt-4 border-t border-neutral-100 flex flex-col gap-1 items-center">
-                            <div className="text-[9px] font-black uppercase tracking-widest leading-none text-[#2d2d2d]">Student ID</div>
-                            <div className="text-base font-black leading-none text-[#2d2d2d]">{profile.student_id || <Loader2 className="animate-spin text-neutral-300" size={16} />}</div>
+                            <div className="text-[9px] font-black leading-none text-black">Student ID</div>
+                            <div className="text-base font-black leading-none text-black">{profile.student_id || <Loader2 className="animate-spin text-neutral-300" size={16} />}</div>
                         </div>
                     </div>
 
                     <Link
                         href="/portal/dashboard"
-                        className="flex items-center justify-center w-full py-3 bg-neutral-100 rounded text-[10px] font-black uppercase tracking-widest hover:bg-neutral-200 transition-all"
+                        className="flex items-center justify-center w-full py-3 bg-neutral-100 rounded text-[10px] font-black hover:bg-neutral-200 transition-all"
                     >
                         Dashboard
                     </Link>
@@ -242,8 +242,8 @@ export default function ProfilePage() {
 function ProfileItem({ label, value }: { label: string, value?: string }) {
     return (
         <div className="space-y-0.5">
-            <div className="text-[9px] font-black uppercase tracking-widest text-[#2d2d2d]">{label}</div>
-            <div className="text-xs font-bold leading-tight text-[#2d2d2d]">{value || 'N/A'}</div>
+            <div className="text-[9px] font-black text-black">{label}</div>
+            <div className="text-xs font-bold leading-tight text-black">{value || 'N/A'}</div>
         </div>
     );
 }

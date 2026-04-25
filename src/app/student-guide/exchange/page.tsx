@@ -1,7 +1,10 @@
-import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
-import Link from 'next/link';
+import { ArrowRight, Info, Users, GraduationCap, BookOpen, House, Heart, ListChecks } from "@phosphor-icons/react/dist/ssr";
+import { Link } from "@aalto-dx/react-components";
 import Image from 'next/image';
+import { Hero } from '@/components/layout/Hero';
 import GuideSidebarLayout from '@/components/layout/StudentGuideLayout';
+import { Card } from '@/components/ui/Card';
+import { ContentBox } from '@/components/ui/ContentBox';
 
 export const metadata = {
     title: 'Exchange Student Guide | Kestora University',
@@ -23,244 +26,194 @@ export default function ExchangeStudentsPage() {
     ];
 
     return (
-            <GuideSidebarLayout sections={sections}>
-            <div className="min-h-screen bg-white">
-            <section className="text-black overflow-hidden" style={{ backgroundColor: '#FDF2F8' }}>
-                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-12 pb-12 lg:pb-0 h-auto lg:h-[600px] lg:py-0 relative mb-0">
-                    {/* Left Content */}
-                    <div className="lg:w-1/2 space-y-6 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
-                        <h1 className="font-bold leading-[1.1] tracking-tight pt-8 text-black" style={{ fontSize: '40px' }}>
-                            Exchange Students Guide
-                        </h1>
-                        <p className="text-[21px] text-black max-w-xl leading-relaxed">
-                            Everything you need to know for your exchange semester or year at Kestora University. We look forward to welcoming you to our vibrant international community!
-                        </p>
-                    </div>
+        <GuideSidebarLayout sections={sections}>
+            <div className="min-h-screen bg-white text-black font-sans pb-20">
+            {/* Hero Section */}
+            <Hero
+                title="Exchange Students Guide"
+                body="Everything you need to know for your exchange semester or year at Kestora University. We look forward to welcoming you to our vibrant international community!"
+                backgroundColor="#dc6ade"
+                tinted
+                lightText={true}
+                breadcrumbs={[
+                    { label: 'Home', href: '/' },
+                    { label: 'Student Guide', href: '/student-guide' },
+                    { label: 'Exchange Students' }
+                ]}
+                image={{
+                    src: "/images/news/helsinki_study_hero_1771086684833.png",
+                    alt: "Exchange Students"
+                }}
+            />
 
-                    {/* Right Image */}
-                    <div className="lg:w-1/2 h-full w-full relative lg:translate-y-16 z-20 flex justify-center lg:block order-first lg:order-none">
-                        <div className="h-full">
-                            <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800">
-                                <Image
-                                    src="/images/news/helsinki_study_hero_1771086684833.png"
-                                    alt="Exchange Students"
-                                    fill
-                                    priority
-                                    className="object-cover"
-                                    sizes="(max-width: 1024px) 368px, 50vw"
-                                />
-                            </div>
+            <div className="container mx-auto px-4 py-16 md:py-24 max-w-6xl">
+                <div className="space-y-20">
+                    {/* Welcome */}
+                    <section id="intro" className="scroll-mt-32">
+                        <ContentBox
+                            size="large"
+                            icon="info"
+                            title="Welcome to Kestora University!"
+                            body={
+                                <div className="space-y-8 text-left">
+                                    <p className="text-aalto-3 text-black font-medium leading-relaxed">
+                                        Completing an exchange at Kestora University is a unique opportunity to experience Finnish education, culture, and student life.
+                                    </p>
+                                    <div className="grid md:grid-cols-2 gap-8">
+                                        <div>
+                                            <h4 className="font-bold text-lg mb-2 flex items-center gap-2">
+                                                <Users size={24} /> International Office
+                                            </h4>
+                                            <p className="text-sm text-neutral-600 font-bold">Our exchange coordinators are here to support you with learning agreements and general advice.</p>
+                                        </div>
+                                        <div>
+                                            <h4 className="font-bold text-lg mb-2 flex items-center gap-2">
+                                                <Users size={24} /> Student Tutors
+                                            </h4>
+                                            <p className="text-sm text-neutral-600 font-bold">Every exchange student is assigned a local buddy to help you settle in and meet new friends.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        />
+                    </section>
+
+                    {/* Orientation */}
+                    <section id="orientation" className="scroll-mt-32">
+                        <ContentBox
+                            size="large"
+                            icon="graduationCap"
+                            title="Orientation Week"
+                            body={
+                                <div className="space-y-8 text-left">
+                                    <p className="text-sm font-bold text-black uppercase tracking-widest">Mandatory for all incoming exchange students.</p>
+                                    <div className="grid sm:grid-cols-2 gap-4">
+                                        {[
+                                            "Campus tours", "IT system training",
+                                            "Course registration help", "Social events & parties",
+                                            "Survival Finnish session", "Meet your tutors"
+                                        ].map(item => (
+                                            <div key={item} className="flex items-center gap-3 bg-card p-4 rounded-xl border border-neutral-100 shadow-sm">
+                                                <ArrowRight size={16} weight="bold" />
+                                                <span className="text-sm font-bold">{item}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            }
+                        />
+                    </section>
+
+                    {/* Course Selection */}
+                    <section id="courses" className="scroll-mt-32">
+                        <h2 className="text-aalto-5 font-bold mb-10 text-black tracking-tight">Course Selection</h2>
+                        <div className="grid md:grid-cols-2 gap-8">
+                            <ContentBox
+                                icon="bookOpen"
+                                title="Learning Agreement"
+                                body={
+                                    <ul className="space-y-3 text-sm font-bold text-neutral-700">
+                                        <li>• Signed by home university & Kestora before arrival.</li>
+                                        <li>• Updateable during the first 2 weeks.</li>
+                                        <li>• Standard workload: 30 ECTS per semester.</li>
+                                    </ul>
+                                }
+                            />
+                            <ContentBox
+                                icon="info"
+                                title="Academic Breadth"
+                                body="While primarily focused on your nominating department, interdisciplinary study is often possible across our diverse schools."
+                            />
                         </div>
-                    </div>
-                </div>
-            </section>
+                    </section>
 
-            <div className="container mx-auto px-4 py-8 md:py-16">
-                <Link
-                    href="/student-guide"
-                    className="inline-flex items-center text-black hover:opacity-70 mb-8 transition-colors font-bold"
-                >
-                    Back to Student Guide
-                </Link>
-                <div className="flex flex-col lg:flex-row gap-16">
-                    {/* Main Content */}
-                    <main className="lg:w-full space-y-8 md:space-y-16">
+                    {/* Registration */}
+                    <section id="registration" className="scroll-mt-32">
+                        <h2 className="text-aalto-5 font-bold mb-10 text-black tracking-tight">Registration & Enrollment</h2>
+                        <div className="grid md:grid-cols-2 gap-8">
+                            <Card
+                                title="Academic Enrollment"
+                                body="Enroll as 'Attending' once your IT account is active to enable study rights and catalog access."
+                            />
+                            <Card
+                                title="Course Registration"
+                                body="You must sign up for each course separately in the student portal after semester enrollment."
+                            />
+                        </div>
+                    </section>
 
-                        {/* Welcome */}
-                        <section id="intro" className="scroll-mt-32">
-                            <h2 className="text-3xl font-bold mb-6 text-black">Welcome to Kestora University!</h2>
-                            <p className="text-lg text-black leading-relaxed">
-                                Completing an exchange at Kestora University is a unique opportunity to experience Finnish education,
-                                culture, and student life. This guide will help you navigate the practical steps of your exchange.
-                            </p>
-                            <div className="mt-8 grid md:grid-cols-2 gap-6">
-                                <div className="bg-neutral-50 p-6 rounded-2xl">
-                                    <h3 className="font-bold mb-2 flex items-center gap-2 text-black">
-                                        International Office
-                                    </h3>
-                                    <p className="text-sm text-black">
-                                        Our exchange coordinators are here to support you with learning agreements,
-                                        official signatures, and general advice.
-                                    </p>
+                    {/* Housing */}
+                    <section id="housing" className="scroll-mt-32">
+                        <ContentBox
+                            icon="house"
+                            title="Housing & Arrival"
+                            body={
+                                <div className="space-y-6 text-left">
+                                    <p className="text-sm font-bold text-neutral-700">Apply for housing through foundations (HOAS/KUNI) as soon as you receive your acceptance letter.</p>
+                                    <div className="grid sm:grid-cols-2 gap-8">
+                                        <div>
+                                            <h4 className="font-bold text-black mb-2">Travel to Campus</h4>
+                                            <p className="text-xs text-neutral-500 font-bold"> commuter train or shuttle from Helsinki-Vantaa (HEL).</p>
+                                        </div>
+                                        <div>
+                                            <h4 className="font-bold text-black mb-2">When to Arrive?</h4>
+                                            <p className="text-xs text-neutral-500 font-bold">2-3 days before Orientation Week recommended.</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="bg-neutral-50 p-6 rounded-2xl">
-                                    <h3 className="font-bold mb-2 flex items-center gap-2 text-black">
-                                        Student Tutors
-                                    </h3>
-                                    <p className="text-sm text-black">
-                                        Every exchange student is assigned a local "buddy" or peer tutor to help you
-                                        settle in and meet new friends.
-                                    </p>
-                                </div>
-                            </div>
-                        </section>
+                            }
+                        />
+                    </section>
 
-                        {/* 1. Orientation */}
-                        <section id="orientation" className="scroll-mt-32">
-                            <div className="flex items-start gap-4 mb-6">
-                                <h2 className="text-3xl font-bold pt-1 text-black">Orientation Week</h2>
-                            </div>
-                            <div className="prose max-w-none text-black">
-                                <p className="mb-4 font-bold">Orientation is mandatory for all incoming exchange students.</p>
-                                <p className="mb-6">
-                                    Orientation week usually takes place during the last week of August (for Autumn semester)
-                                    and first week of January (for Spring semester).
-                                </p>
-                                <div className="bg-neutral-50 p-6 rounded-xl">
-                                    <h4 className="font-bold text-black mb-4">What happens during Orientation?</h4>
-                                    <ul className="grid sm:grid-cols-2 gap-4 text-sm">
-                                        <li className="flex gap-2 items-center"><ArrowRight size={20} weight="bold" className="text-black" /> <span className="font-bold">Campus tours</span></li>
-                                        <li className="flex gap-2 items-center"><ArrowRight size={20} weight="bold" className="text-black" /> <span className="font-bold">IT system training</span></li>
-                                        <li className="flex gap-2 items-center"><ArrowRight size={20} weight="bold" className="text-black" /> <span className="font-bold">Course registration help</span></li>
-                                        <li className="flex gap-2 items-center"><ArrowRight size={20} weight="bold" className="text-black" /> <span className="font-bold">Social events & parties</span></li>
-                                        <li className="flex gap-2 items-center"><ArrowRight size={20} weight="bold" className="text-black" /> <span className="font-bold">Survival Finnish session</span></li>
-                                        <li className="flex gap-2 items-center"><ArrowRight size={20} weight="bold" className="text-black" /> <span className="font-bold">Meet your tutors</span></li>
+                    {/* Student Life */}
+                    <section id="living" className="scroll-mt-32">
+                        <h2 className="text-aalto-5 font-bold mb-10 text-black tracking-tight">Student Life & Benefits</h2>
+                        <div className="grid md:grid-cols-3 gap-6">
+                            <Card
+                                title="Student Card"
+                                body="Massive discounts on trains, buses, and campus meals."
+                            />
+                            <Card
+                                title="Student Union"
+                                body="Join clubs, attend grand balls, and traditional dinner parties."
+                            />
+                            <Card
+                                title="Sauna Culture"
+                                body="Most student housing has shared saunas. Relax and socialize!"
+                            />
+                        </div>
+                    </section>
+
+                    {/* Checklist */}
+                    <section id="checklist" className="scroll-mt-32">
+                        <ContentBox
+                            backgroundColor="#472247"
+                            title={<span className="text-white">Departure Checklist</span>}
+                            body={
+                                <div className="space-y-8">
+                                    <ul className="grid sm:grid-cols-2 gap-4">
+                                        {[
+                                            'Valid Passport / ID card',
+                                            'Acceptance Letter',
+                                            'Signed Learning Agreement',
+                                            'Health Insurance',
+                                            'Housing contract',
+                                            'Warm clothing'
+                                        ].map((item, i) => (
+                                            <li key={i} className="flex gap-3 items-center text-white font-bold text-sm">
+                                                <ArrowRight size={14} weight="bold" />
+                                                {item}
+                                            </li>
+                                        ))}
                                     </ul>
+                                    <p className="text-neutral-500 text-sm italic">Questions? Contact exchange@kestora.online</p>
                                 </div>
-                            </div>
-                        </section>
-
-                        {/* 2. Course Selection */}
-                        <section id="courses" className="scroll-mt-32">
-                            <div className="flex items-start gap-4 mb-6">
-                                <h2 className="text-3xl font-bold pt-1 text-black">Course Selection</h2>
-                            </div>
-                            <div className="space-y-6">
-                                <p className="text-black">
-                                    As an exchange student, you are primarily expected to take courses from the department
-                                    that nominates you. However, interdisciplinary study is often possible.
-                                </p>
-                                <div className="p-8 bg-neutral-50 rounded-xl">
-                                    <h3 className="font-bold text-lg mb-6 text-black">
-                                        Learning Agreement (LA)
-                                    </h3>
-                                    <ul className="space-y-4 text-black text-sm">
-                                        <li className="flex gap-3 items-center">
-                                            <ArrowRight size={20} weight="bold" className="text-black" />
-                                            <span><strong className="font-bold">Initial LA:</strong> Should be signed by your home university and Kestora before arrival.</span>
-                                        </li>
-                                        <li className="flex gap-3 items-center">
-                                            <ArrowRight size={20} weight="bold" className="text-black" />
-                                            <span><strong className="font-bold">Changes to LA:</strong> If courses are full or cancelled, you can update your LA during the first 2 weeks of the semester.</span>
-                                        </li>
-                                        <li className="flex gap-3 items-center">
-                                            <ArrowRight size={20} weight="bold" className="text-black" />
-                                            <span><strong className="font-bold">Credits:</strong> Most courses are 5 ECTS. A full-time workload is 30 ECTS per semester.</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </section>
-
-                        {/* 3. Registration */}
-                        <section id="registration" className="scroll-mt-32">
-                            <div className="flex items-start gap-4 mb-6">
-                                <h2 className="text-3xl font-bold pt-1 text-black">Registration & Enrollment</h2>
-                            </div>
-                            <div className="grid md:grid-cols-2 gap-8">
-                                <div className="bg-neutral-50 p-6 rounded-xl">
-                                    <h4 className="font-bold mb-2 text-black">Academic Enrollment</h4>
-                                    <p className="text-sm text-black">
-                                        Once your IT account is active, you must enroll for the semester as "Attending".
-                                        This enables your study right and access to the course catalog.
-                                    </p>
-                                </div>
-                                <div className="bg-neutral-50 p-6 rounded-xl">
-                                    <h4 className="font-bold mb-2 text-black">Individual Course Registration</h4>
-                                    <p className="text-sm text-black">
-                                        Registering for the semester is NOT the same as registering for courses.
-                                        You must sign up for each course separately in the student portal.
-                                    </p>
-                                </div>
-                            </div>
-                        </section>
-
-                        {/* 4. Housing */}
-                        <section id="housing" className="scroll-mt-32">
-                            <div className="flex items-start gap-4 mb-6">
-                                <h2 className="text-3xl font-bold pt-1 text-black">Housing & Arrival</h2>
-                            </div>
-                            <div className="bg-white p-8 mb-6">
-                                <h3 className="font-bold text-lg mb-2 text-black">Student Housing</h3>
-                                <p className="text-black mb-4">
-                                    Accommodation in Finland is highly sought after. Apply for housing through local student housing foundations (HOAS/KUNI)
-                                    as soon as you receive your acceptance letter.
-                                </p>
-                                <div className="bg-neutral-50 p-4 rounded-lg flex gap-3 text-sm text-black">
-                                    <p>Kestora University does provide on-campus housing directly, we assist with the application process.</p>
-                                </div>
-                            </div>
-                            <div className="grid md:grid-cols-2 gap-6">
-                                <div>
-                                    <h4 className="font-bold mb-2 text-black">Travel to Campus</h4>
-                                    <p className="text-sm text-black">
-                                        The closest airport is Helsinki-Vantaa (HEL). From there, you can take a commuter train or shuttle to the campus area.
-                                    </p>
-                                </div>
-                                <div>
-                                    <h4 className="font-bold mb-2 text-black">When to Arrive?</h4>
-                                    <p className="text-sm text-black">
-                                        We recommend arriving 2-3 days before Orientation Week to move into your apartment and settle in.
-                                    </p>
-                                </div>
-                            </div>
-                        </section>
-
-                        {/* 5. Student Life */}
-                        <section id="living" className="scroll-mt-32">
-                            <div className="flex items-start gap-4 mb-6">
-                                <h2 className="text-3xl font-bold pt-1 text-black">Student Life & Benefits</h2>
-                            </div>
-                            <p className="text-black mb-6">
-                                Finland offers an incredible student experience. As an exchange student, you are eligible for many
-                                of the same benefits as degree students.
-                            </p>
-                            <div className="grid md:grid-cols-3 gap-6">
-                                <div className="p-5 bg-neutral-50 rounded-xl">
-                                    <h4 className="font-bold text-sm mb-2 text-black">Student Card</h4>
-                                    <p className="text-xs text-black">Access massive discounts on trains, buses, and campus meals (€2.95 per lunch!).</p>
-                                </div>
-                                <div className="p-5 bg-neutral-50 rounded-xl">
-                                    <h4 className="font-bold text-sm mb-2 text-black">Student Union</h4>
-                                    <p className="text-xs text-black">Join clubs, attend the grand annual balls, and participate in "sitsit" (traditional dinner parties).</p>
-                                </div>
-                                <div className="p-5 bg-neutral-50 rounded-xl">
-                                    <h4 className="font-bold text-sm mb-2 text-black">Sauna Culture</h4>
-                                    <p className="text-xs text-black">Most student housing buildings have shared saunas. It's the best way to relax and socialize!</p>
-                                </div>
-                            </div>
-                        </section>
-
-                        {/* Checklist */}
-                        <section id="checklist" className="scroll-mt-32 bg-neutral-50 p-10 rounded-3xl">
-                            <h2 className="text-2xl font-bold mb-6 text-black">Departure Checklist</h2>
-                            <p className="text-black mb-8 font-bold">Before you leave your home country, make sure you have:</p>
-                            <ul className="space-y-4">
-                                {[
-                                    'Valid Passport / ID card',
-                                    'Acceptance Letter from Kestora University',
-                                    'Signed Learning Agreement',
-                                    'Health Insurance (EHIC for EU, private for non-EU)',
-                                    'Housing contract and first month\'s rent receipt',
-                                    'Warm clothing (if arriving for Autumn/Winter!)',
-                                ].map((item, i) => (
-                                    <li key={i} className="flex gap-4 items-center text-black font-bold">
-                                        <ArrowRight size={20} weight="bold" className="text-black" />
-                                        {item}
-                                    </li>
-                                ))}
-                            </ul>
-                            <div className="mt-8 pt-8 border-t border-black/10">
-                                <div className="flex items-center gap-4 text-sm text-black">
-                                    <p>Questions? Contact <span className="underline cursor-pointer font-bold">exchange@kestora.online</span></p>
-                                </div>
-                            </div>
-                        </section>
-
-                    </main>
+                            }
+                        />
+                    </section>
                 </div>
             </div>
-        </div>
+            </div>
         </GuideSidebarLayout>
     );
 }

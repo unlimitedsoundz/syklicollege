@@ -125,21 +125,21 @@ export default function HousingDashboardClient({ student, application, assignmen
         <div className="space-y-8">
             <div>
                 <h1 className="text-2xl font-black uppercase tracking-tighter mb-0.5 leading-none">Housing & Accommodation</h1>
-                <p className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">
+                <p className="text-[10px] font-bold text-black uppercase tracking-widest">
                     Campus Residences
                 </p>
             </div>
 
             {/* PAYMENT ALERT / INVOICE SECTION */}
             {pendingInvoice && (
-                <div className="bg-blue-50 border-2 border-blue-500 p-5 rounded-sm shadow-sm">
+                <div className="bg-neutral-50 border border-black p-5 rounded-none">
                     <div className="flex items-start justify-between">
                         <div>
-                            <h3 className="text-lg font-black uppercase text-blue-900 mb-2">Payment Required</h3>
-                            <p className="text-sm font-medium text-blue-800 mb-4">
+                            <h3 className="text-lg font-black uppercase text-black mb-2">Payment Required</h3>
+                            <p className="text-sm font-medium text-black mb-4">
                                 You have a pending invoice: <strong>{pendingInvoice.reference_number}</strong>
                             </p>
-                            <div className="text-2xl font-black text-blue-900 mb-4">
+                            <div className="text-2xl font-black text-black mb-4">
                                 €{(pendingInvoice.total_amount - (pendingInvoice.paid_amount || 0)).toFixed(2)}
                             </div>
 
@@ -149,19 +149,19 @@ export default function HousingDashboardClient({ student, application, assignmen
                                     setCheckoutAmount(pendingInvoice.total_amount - (pendingInvoice.paid_amount || 0));
                                     setShowCheckout(true);
                                 }}
-                                className="px-6 py-2 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-sm hover:bg-blue-700"
+                                className="px-6 py-2 bg-black text-white text-[10px] font-black uppercase tracking-widest rounded-none hover:bg-neutral-800"
                             >
                                 Pay Now <ChevronRight size={14} weight="bold" className="inline ml-1" />
                             </button>
                         </div>
-                        <CreditCard className="text-blue-400" size={48} weight="regular" />
+                        <CreditCard className="text-black" size={48} weight="regular" />
                     </div>
                 </div>
             )}
 
             {showCheckout && selectedInvoice && (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-                    <div className="bg-white w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-sm relative">
+                    <div className="bg-white w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-none relative">
                         <button
                             onClick={() => setShowCheckout(false)}
                             className="absolute right-6 top-6 z-10 p-2 bg-neutral-100 rounded-full hover:bg-neutral-200 transition-colors"
@@ -183,28 +183,28 @@ export default function HousingDashboardClient({ student, application, assignmen
 
             {/* Current Status Card */}
             {assignment ? (
-                <div className="bg-white border-2 border-black p-6 rounded-sm shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+                <div className="bg-card border border-black p-6 rounded-none">
                     <div className="flex items-start justify-between mb-6">
                         <div>
-                            <h2 className="text-xl font-black uppercase">Room Assignment</h2>
-                            <p className="text-[10px] font-bold text-neutral-500 uppercase mt-1">Active</p>
+                            <h2 className="text-xl font-black uppercase text-black">Room Assignment</h2>
+                            <p className="text-[10px] font-bold text-black uppercase mt-1">Active</p>
                         </div>
-                        <CheckCircle className="text-green-500" size={32} weight="bold" />
+                        <CheckCircle className="text-black" size={32} weight="bold" />
                     </div>
 
                     <div className="grid md:grid-cols-3 gap-6 mb-6">
                         <div>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-1">Building</p>
-                            <p className="font-bold text-lg">{assignment.room?.building?.name}</p>
-                            <p className="text-xs text-neutral-500">{assignment.room?.building?.campus_location}</p>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-black mb-1">Building</p>
+                            <p className="font-bold text-lg text-black">{assignment.room?.building?.name}</p>
+                            <p className="text-xs text-black">{assignment.room?.building?.campus_location}</p>
                         </div>
                         <div>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-1">Room</p>
-                            <p className="font-bold text-lg">{assignment.room?.room_number}</p>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-black mb-1">Room</p>
+                            <p className="font-bold text-lg text-black">{assignment.room?.room_number}</p>
                             {assignment.room?.amenities && assignment.room.amenities.length > 0 && (
                                 <div className="flex flex-wrap gap-1 mt-1">
                                     {assignment.room.amenities.map((amenity: string, idx: number) => (
-                                        <span key={idx} className="text-[9px] bg-neutral-100 px-1.5 py-0.5 rounded text-neutral-600 font-bold uppercase">
+                                        <span key={idx} className="text-[9px] bg-neutral-100 px-1.5 py-0.5 rounded-none text-black font-bold uppercase">
                                             {amenity}
                                         </span>
                                     ))}
@@ -212,8 +212,8 @@ export default function HousingDashboardClient({ student, application, assignmen
                             )}
                         </div>
                         <div>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-1">Status</p>
-                            <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-[10px] font-black uppercase">
+                            <p className="text-[10px] font-black uppercase tracking-widest text-black mb-1">Status</p>
+                            <span className="px-2 py-1 bg-neutral-100 text-black rounded-none text-[10px] font-black uppercase">
                                 {assignment.status}
                             </span>
                         </div>
@@ -221,26 +221,22 @@ export default function HousingDashboardClient({ student, application, assignmen
 
                     <div className="pt-6 border-t border-neutral-100 flex justify-between items-center">
                         <div>
-                            <p className="text-[10px] font-bold text-neutral-400 uppercase mb-2">Lease Duration</p>
-                            <p className="text-sm font-medium">{formatToDDMMYYYY(assignment.start_date)} - {formatToDDMMYYYY(assignment.end_date)}</p>
+                            <p className="text-[10px] font-bold text-black uppercase mb-2">Lease Duration</p>
+                            <p className="text-sm font-medium text-black">{formatToDDMMYYYY(assignment.start_date)} - {formatToDDMMYYYY(assignment.end_date)}</p>
                         </div>
-                        {/* PDF Generation disabled for static export stability */}
-                        {/* <button className="px-4 py-2 bg-neutral-100 border-2 border-neutral-200 text-[10px] font-black uppercase tracking-widest rounded-sm text-neutral-400 cursor-not-allowed">
-                            Download Lease PDF (Coming Soon)
-                            </button> */}
                     </div>
                 </div>
             ) : application ? (
-                <div className="bg-white border-2 border-amber-500 p-6 rounded-sm shadow-[6px_6px_0px_0px_rgba(0,0,0,0.1)]">
+                <div className="bg-card border border-black p-6 rounded-none">
                     <div className="flex items-start justify-between mb-6">
                         <div>
-                            <h2 className="text-xl font-black uppercase">Application Pending</h2>
-                            <p className="text-[10px] font-bold text-amber-600 uppercase mt-1">{application.status}</p>
+                            <h2 className="text-xl font-black uppercase text-black">Application Pending</h2>
+                            <p className="text-[10px] font-bold text-black uppercase mt-1">{application.status}</p>
                         </div>
-                        <Clock className="text-amber-500" size={32} weight="bold" />
+                        <Clock className="text-black" size={32} weight="bold" />
                     </div>
 
-                    <p className="text-sm text-neutral-600 mb-4">
+                    <p className="text-sm text-black mb-4">
                         Your housing application is currently under review.
                     </p>
 
@@ -249,12 +245,12 @@ export default function HousingDashboardClient({ student, application, assignmen
             ) : (
                 <>
                     {!showForm ? (
-                        <div className="bg-neutral-50 border-2 border-neutral-200 p-6 rounded-sm">
+                        <div className="bg-neutral-50 border border-neutral-200 p-6 rounded-none">
                             <div className="flex items-start gap-4 mb-6">
-                                <AlertTriangle className="text-neutral-400" size={32} weight="bold" />
+                                <AlertTriangle className="text-black" size={32} weight="bold" />
                                 <div>
-                                    <h2 className="text-xl font-black uppercase mb-2">No Housing Application</h2>
-                                    <p className="text-sm text-neutral-600">
+                                    <h2 className="text-xl font-black uppercase text-black mb-2">No Housing Application</h2>
+                                    <p className="text-sm text-black">
                                         You have not yet submitted a housing application for this semester. Click the button below to begin.
                                     </p>
                                 </div>
@@ -268,11 +264,11 @@ export default function HousingDashboardClient({ student, application, assignmen
                             </button>
                         </div>
                     ) : (
-                        <div className="bg-white border-2 border-black p-6 rounded-sm shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                            <h2 className="text-xl font-black uppercase mb-6">Housing Application Form</h2>
+                        <div className="bg-card border border-black p-6 rounded-none">
+                            <h2 className="text-xl font-black uppercase text-black mb-6">Housing Application Form</h2>
 
-                            <div className="bg-blue-50 border border-blue-200 p-4 rounded-sm mb-6">
-                                <p className="text-sm text-blue-800">
+                            <div className="bg-neutral-50 border border-black p-4 rounded-none mb-6">
+                                <p className="text-sm text-black">
                                     <strong>📋 Application Process:</strong> Select your preferred semester and building below.
                                     After submission, you will receive an invoice for the <strong>First Month Deposit</strong>.
                                     <br className="mb-1" />Room assignment will be finalized once the deposit is paid.
@@ -280,29 +276,29 @@ export default function HousingDashboardClient({ student, application, assignmen
                             </div>
 
                             {success && (
-                                <div className="bg-green-50 border-2 border-green-500 p-4 rounded-sm mb-6">
+                                <div className="bg-neutral-50 border border-black p-4 rounded-none mb-6">
                                     <div className="flex items-center gap-2">
-                                        <CheckCircle className="text-green-600" size={20} weight="bold" />
-                                        <p className="text-sm font-bold text-green-800">Application submitted! Generating invoice...</p>
+                                        <CheckCircle className="text-black" size={20} weight="bold" />
+                                        <p className="text-sm font-bold text-black">Application submitted! Generating invoice...</p>
                                     </div>
                                 </div>
                             )}
 
                             {error && (
-                                <div className="bg-red-50 border-2 border-red-200 p-4 rounded-sm mb-6">
-                                    <p className="text-sm text-red-600 font-medium">{error}</p>
+                                <div className="bg-neutral-50 border border-black p-4 rounded-none mb-6">
+                                    <p className="text-sm text-black font-medium">{error}</p>
                                 </div>
                             )}
 
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 <div>
-                                    <label className="block text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-2">
+                                    <label className="block text-[10px] font-black uppercase tracking-widest text-black mb-2">
                                         Semester *
                                     </label>
                                     <select
                                         name="semester"
                                         required
-                                        className="w-full px-4 py-3 border-2 border-neutral-200 rounded-sm focus:border-black focus:outline-none"
+                                        className="w-full px-4 py-3 border border-neutral-200 rounded-none focus:border-black focus:outline-none text-black"
                                     >
                                         <option value="">Select Semester</option>
                                         {semesters.map(sem => (
@@ -312,12 +308,12 @@ export default function HousingDashboardClient({ student, application, assignmen
                                 </div>
 
                                 <div>
-                                    <label className="block text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-2">
+                                    <label className="block text-[10px] font-black uppercase tracking-widest text-black mb-2">
                                         Preferred Building
                                     </label>
                                     <select
                                         name="building"
-                                        className="w-full px-4 py-3 border-2 border-neutral-200 rounded-sm focus:border-black focus:outline-none"
+                                        className="w-full px-4 py-3 border border-neutral-200 rounded-none focus:border-black focus:outline-none text-black"
                                     >
                                         <option value="">No Preference</option>
                                         {buildings.map(building => (
@@ -330,44 +326,44 @@ export default function HousingDashboardClient({ student, application, assignmen
 
                                 <div className="grid md:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-2">
+                                        <label className="block text-[10px] font-black uppercase tracking-widest text-black mb-2">
                                             Move-In Date *
                                         </label>
                                         <input
                                             type="date"
                                             name="moveInDate"
                                             required
-                                            className="w-full px-4 py-3 border-2 border-neutral-200 rounded-sm focus:border-black focus:outline-none"
+                                            className="w-full px-4 py-3 border border-neutral-200 rounded-none focus:border-black focus:outline-none text-black"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-2">
+                                        <label className="block text-[10px] font-black uppercase tracking-widest text-black mb-2">
                                             Move-Out Date *
                                         </label>
                                         <input
                                             type="date"
                                             name="moveOutDate"
                                             required
-                                            className="w-full px-4 py-3 border-2 border-neutral-200 rounded-sm focus:border-black focus:outline-none"
+                                            className="w-full px-4 py-3 border border-neutral-200 rounded-none focus:border-black focus:outline-none text-black"
                                         />
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label className="block text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-2">
+                                    <label className="block text-[10px] font-black uppercase tracking-widest text-black mb-2">
                                         Additional Notes
                                     </label>
                                     <textarea
                                         name="notes"
                                         rows={4}
-                                        className="w-full px-4 py-3 border-2 border-neutral-200 rounded-sm focus:border-black focus:outline-none"
+                                        className="w-full px-4 py-3 border border-neutral-200 rounded-none focus:border-black focus:outline-none text-black"
                                         placeholder="Any special requirements or preferences..."
                                     />
                                 </div>
 
-                                <div className="flex items-start gap-2 p-3 bg-neutral-50 border border-neutral-200 rounded-sm">
+                                <div className="flex items-start gap-2 p-3 bg-neutral-50 border border-neutral-200 rounded-none">
                                     <input type="checkbox" required id="refundPolicyAgree" className="mt-0.5" />
-                                    <label htmlFor="refundPolicyAgree" className="text-[10px] text-neutral-600 leading-tight">
+                                    <label htmlFor="refundPolicyAgree" className="text-[10px] text-black leading-tight">
                                         I adhere to the <a href="/refund-withdrawal-policy" target="_blank" className="underline font-bold text-black">Refund & Withdrawal Policy</a> and understand the terms regarding deposit forfeiture and lease cancellation.
                                     </label>
                                 </div>
@@ -376,14 +372,14 @@ export default function HousingDashboardClient({ student, application, assignmen
                                     <button
                                         type="submit"
                                         disabled={loading}
-                                        className="px-6 py-3 bg-black text-white rounded-sm text-[10px] font-black uppercase tracking-widest hover:bg-neutral-800 transition-all disabled:opacity-50"
+                                        className="px-6 py-3 bg-black text-white rounded-none text-[10px] font-black uppercase tracking-widest hover:bg-neutral-800 transition-all disabled:opacity-50"
                                     >
                                         {loading ? 'Submitting...' : 'Submit Application'}
                                     </button>
                                     <button
                                         type="button"
                                         onClick={() => setShowForm(false)}
-                                        className="px-6 py-3 border-2 border-neutral-200 rounded-sm text-[10px] font-black uppercase tracking-widest hover:border-black transition-all"
+                                        className="px-6 py-3 border border-neutral-200 rounded-none text-[10px] font-black uppercase tracking-widest hover:border-black transition-all text-black"
                                     >
                                         Cancel
                                     </button>

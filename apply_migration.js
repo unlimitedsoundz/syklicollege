@@ -10,7 +10,7 @@ const client = new Client({
 async function main() {
     try {
         await client.connect();
-        const sql = fs.readFileSync('./src/db/10_add_invoice_type.sql', 'utf8');
+        const sql = fs.readFileSync('./create_page_contents_table.sql', 'utf8');
         await client.query(sql);
         console.log("✅ Migration applied successfully!");
     } catch (e) {

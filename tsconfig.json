@@ -25,6 +25,12 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@aalto-dx/react-components": [
+        "./src/components/ui"
+      ],
+      "@aalto-dx/react-modules": [
+        "./src/components/ui"
       ]
     }
   },

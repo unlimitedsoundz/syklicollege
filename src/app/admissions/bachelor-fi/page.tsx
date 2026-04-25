@@ -1,5 +1,5 @@
 
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import Image from 'next/image';
 import { ArrowRight, CheckCircle, Globe, Users, BookOpen, Briefcase, GraduationCap, Calendar, MapPin } from '@phosphor-icons/react/dist/ssr';
 import GuideSidebarLayout from '@/components/layout/StudentGuideLayout';
@@ -56,7 +56,7 @@ export default function BachelorAdmissionsFiPage() {
                                     alt="Bachelor's Students"
                                     fill
                                     priority
-                                    className="object-cover"
+                                    className="object-cover object-top"
                                     sizes="(max-width: 1024px) 368px, 50vw"
                                 />
                             </div>
@@ -99,7 +99,7 @@ export default function BachelorAdmissionsFiPage() {
                                 </div>
                                 <div className="bg-neutral-100 h-80 overflow-hidden relative group">
                                     <div className="absolute inset-0 bg-neutral-200 flex items-center justify-center text-black">
-                                        <Image src="/images/admissions/benefits.jpg" alt="Hyödyt Kestora Universityssa opiskelusta" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+                                        <Image src="/images/admissions/benefits.jpg" alt="Hyödyt Kestora Universityssa opiskelusta" fill className="object-cover object-top" sizes="(max-width: 768px) 100vw, 50vw" />
                                     </div>
                                 </div>
                             </div>
@@ -113,7 +113,7 @@ export default function BachelorAdmissionsFiPage() {
                             <div className="grid md:grid-cols-2 gap-8 items-center md:flex-row-reverse">
                                 <div className="bg-neutral-100 h-80 overflow-hidden relative order-last md:order-first">
                                     <div className="absolute inset-0 bg-neutral-200 flex items-center justify-center text-black">
-                                        <Image src="/images/admissions/progression.jpg" alt="Polku Maisteriksi" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+                                        <Image src="/images/admissions/progression.jpg" alt="Polku Maisteriksi" fill className="object-cover object-top" sizes="(max-width: 768px) 100vw, 50vw" />
                                     </div>
                                 </div>
                                 <div className="space-y-6 text-lg text-black">
@@ -179,7 +179,7 @@ export default function BachelorAdmissionsFiPage() {
                                     src="/images/admissions/scholarships.jpg"
                                     alt="Apurahat"
                                     fill
-                                    className="object-cover shadow-lg"
+                                    className="object-cover object-top shadow-lg"
                                     sizes="(max-width: 768px) 100vw, 50vw"
                                 />
                             </div>
@@ -258,7 +258,7 @@ export default function BachelorAdmissionsFiPage() {
                                         src="/images/admissions/events.jpg"
                                         alt="Messut ja Tapahtumat"
                                         fill
-                                        className="shadow-2xl object-cover"
+                                        className="shadow-2xl object-cover object-top"
                                         sizes="(max-width: 768px) 100vw, 50vw"
                                     />
                                 </div>
@@ -299,3 +299,4 @@ export default function BachelorAdmissionsFiPage() {
         </GuideSidebarLayout>
     );
 }
+

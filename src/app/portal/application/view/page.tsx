@@ -3,7 +3,7 @@
 import { createClient } from '@/utils/supabase/client';
 import { notFound, redirect, useSearchParams } from 'next/navigation';
 import { Application } from '@/types/database';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { CaretRight as ChevronRight, ArrowSquareOut as ExternalLink, FileText, CircleNotch as Loader2 } from "@phosphor-icons/react";
 import { formatToDDMMYYYY } from '@/utils/date';
 import { useState, useEffect, Suspense } from 'react';
@@ -86,8 +86,8 @@ function ViewApplicationContent() {
     if (error || !application) {
         return (
             <div className="max-w-4xl mx-auto py-20 text-center">
-                <h2 className="text-xl font-bold uppercase tracking-tight text-neutral-900 mb-4">{error || "Application not found"}</h2>
-                <Link href="/portal/dashboard" className="text-xs font-bold uppercase tracking-widest text-primary hover:underline">
+                <h2 className="text-xl font-bold text-black mb-4">{error || "Application not found"}</h2>
+                <Link href="/portal/dashboard" className="text-[13px] font-bold text-black hover:underline">
                     Back to Dashboard
                 </Link>
             </div>
@@ -95,15 +95,15 @@ function ViewApplicationContent() {
     }
 
     const sectionHeader = (title: string) => (
-        <h3 className="text-[10px] font-bold uppercase tracking-widest text-primary mb-4 pb-1 border-b border-primary/10">
+        <h3 className="text-[11px] font-black text-black mb-4 pb-1 border-b border-neutral-100">
             {title}
         </h3>
     );
 
     const dataRow = (label: string, value: any) => (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2 py-3 border-b border-neutral-50 last:border-0">
-            <span className="text-[10px] font-semibold uppercase tracking-tight text-neutral-400">{label}</span>
-            <span className="md:col-span-2 text-xs font-semibold text-neutral-900">
+            <span className="text-[11px] font-semibold text-black">{label}</span>
+            <span className="md:col-span-2 text-[13px] font-semibold text-black">
                 {value || <span className="text-neutral-300 italic">Not provided</span>}
             </span>
         </div>
@@ -114,21 +114,21 @@ function ViewApplicationContent() {
             {/* Header */}
             <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div>
-                    <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-neutral-400 mb-3">
-                        <Link href="/portal/dashboard" className="hover:text-primary transition-colors">Dashboard</Link>
+                    <div className="flex items-center gap-2 text-[11px] font-bold text-black mb-3">
+                        <Link href="/portal/dashboard" className="hover:text-black transition-colors">Dashboard</Link>
                         <ChevronRight size={10} weight="bold" />
                         <span>Application Summary</span>
                         <ChevronRight size={10} weight="bold" />
-                        <span className="text-neutral-900">#{application.application_number || application.id.slice(0, 8)}</span>
+                        <span className="text-black">#{application.application_number || application.id.slice(0, 8)}</span>
                     </div>
-                    <h1 className="text-2xl font-bold tracking-tight text-neutral-900 uppercase">
+                    <h1 className="text-2xl font-bold tracking-tight text-black">
                         {application.course?.title}
                     </h1>
                     <div className="flex items-center gap-4 mt-2">
-                        <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
+                        <span className="text-[11px] font-bold text-black">
                             Status: {application.status.replace('_', ' ')}
                         </span>
-                        <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-400">
+                        <span className="text-[11px] font-bold text-black">
                             Submitted: {application.submitted_at ? formatToDDMMYYYY(application.submitted_at) : 'Not submitted'}
                         </span>
                     </div>
@@ -137,7 +137,7 @@ function ViewApplicationContent() {
                     {isOfferAccepted ? (
                         <Link
                             href={`/portal/application/admission-letter/?id=${application.id}`}
-                            className="px-4 py-2 border border-primary text-primary rounded-sm text-[10px] font-bold uppercase tracking-widest hover:bg-neutral-50 transition-all flex items-center gap-2"
+                            className="px-4 py-2 border border-black text-black rounded-sm text-[11px] font-bold hover:bg-neutral-50 transition-all flex items-center gap-2"
                         >
                             <FileText size={14} weight="bold" />
                             Admission Letter
@@ -145,7 +145,7 @@ function ViewApplicationContent() {
                     ) : (
                         <button
                             disabled
-                            className="px-4 py-2 border border-neutral-200 text-neutral-400 bg-neutral-50 rounded-sm text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 cursor-not-allowed opacity-60"
+                            className="px-4 py-2 border border-neutral-200 text-neutral-400 bg-neutral-50 rounded-sm text-[11px] font-bold flex items-center gap-2 cursor-not-allowed opacity-60"
                             title="Admission letter becomes available once you accept your offer"
                         >
                             <FileText size={14} weight="bold" />
@@ -191,11 +191,11 @@ function ViewApplicationContent() {
                             {application.education_history?.education?.map((edu: any, index: number) => (
                                 <div key={index} className="bg-neutral-50 p-4 rounded-sm border border-neutral-100">
                                     <div className="flex justify-between items-start mb-2">
-                                        <h4 className="text-xs font-bold text-neutral-900 uppercase">{edu.institution}</h4>
-                                        <span className="text-[9px] font-bold text-neutral-400 uppercase tracking-widest">{edu.startYear} - {edu.endYear}</span>
+                                        <h4 className="text-[13px] font-bold text-black">{edu.institution}</h4>
+                                        <span className="text-[11px] font-bold text-black">{edu.startYear} - {edu.endYear}</span>
                                     </div>
-                                    <p className="text-[10px] font-semibold text-primary uppercase tracking-tight">{edu.degree}</p>
-                                    {edu.grade && <p className="text-[10px] text-neutral-500 mt-1 uppercase">Grade: {edu.grade}</p>}
+                                    <p className="text-[11px] font-semibold text-black">{edu.degree}</p>
+                                    {edu.grade && <p className="text-[11px] text-neutral-500 mt-1">Grade: {edu.grade}</p>}
                                 </div>
                             ))}
                         </div>
@@ -205,7 +205,7 @@ function ViewApplicationContent() {
                     <section>
                         {sectionHeader("Motivation Letter / Statement of Purpose")}
                         <div className="bg-neutral-50 p-6 rounded-sm border border-neutral-100 italic">
-                            <p className="text-xs text-neutral-700 leading-relaxed whitespace-pre-wrap">
+                            <p className="text-[13px] text-neutral-700 leading-relaxed whitespace-pre-wrap">
                                 "{application.motivation?.statementOfPurpose}"
                             </p>
                         </div>
@@ -224,12 +224,12 @@ function ViewApplicationContent() {
                                     className="flex items-center justify-between p-4 border border-neutral-100 rounded-sm hover:border-primary/20 transition-all group"
                                 >
                                     <div className="flex items-center gap-3">
-                                        <div className="w-8 h-8 rounded-full bg-primary/5 flex items-center justify-center text-primary">
+                                        <div className="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center text-black">
                                             <FileText size={16} weight="bold" />
                                         </div>
                                         <div>
-                                            <p className="text-[10px] font-bold text-neutral-900 uppercase tracking-tight">{doc.type}</p>
-                                            <p className="text-[9px] text-neutral-400 font-medium">{doc.name}</p>
+                                            <p className="text-[11px] font-bold text-black">{doc.type}</p>
+                                            <p className="text-[11px] text-neutral-400 font-medium">{doc.name}</p>
                                         </div>
                                     </div>
                                     <ExternalLink size={14} weight="bold" className="text-neutral-300 group-hover:text-primary transition-colors" />
@@ -243,7 +243,7 @@ function ViewApplicationContent() {
             <div className="mt-8 flex justify-center">
                 <Link
                     href="/portal/dashboard"
-                    className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 hover:text-neutral-900 transition-colors"
+                    className="text-[11px] font-bold text-neutral-400 hover:text-black transition-colors"
                 >
                     Back to Dashboard
                 </Link>

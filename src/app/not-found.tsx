@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
 
 export default function NotFound() {

@@ -1,8 +1,11 @@
-import { ArrowLeft, Calendar, CaretRight, CheckCircle, FileText, Info, MapPin, CreditCard, ArrowRight } from "@phosphor-icons/react/dist/ssr";
-import Link from 'next/link';
+import { ArrowLeft, Calendar, CaretRight, CheckCircle, FileText, Info, MapPin, CreditCard, ArrowRight, IdentificationBadge, Laptop, Heart, GraduationCap, House } from "@phosphor-icons/react/dist/ssr";
+import { Link } from "@aalto-dx/react-components";
+import { Hero } from '@/components/layout/Hero';
 import Image from 'next/image';
 import { Metadata } from 'next';
 import GuideSidebarLayout from '@/components/layout/StudentGuideLayout';
+import { Card } from '@/components/ui/Card';
+import { ContentBox } from '@/components/ui/ContentBox';
 
 export const metadata: Metadata = {
     title: 'Bachelor\'s Students Guide | Kestora University',
@@ -14,279 +17,184 @@ export const metadata: Metadata = {
 
 export default function BachelorsGuidePage() {
     const sections = [
+        { id: 'intro', title: 'Welcome', content: '' },
         { id: 'accept', title: 'Accept Admission', content: '' },
         { id: 'tuition', title: 'Tuition & Scholarships', content: '' },
         { id: 'residence', title: 'Residence Permit', content: '' },
         { id: 'enrolment', title: 'Enrolment', content: '' },
         { id: 'it-account', title: 'IT Account', content: '' },
         { id: 'healthcare', title: 'Healthcare & Fees', content: '' },
-        { id: 'benefits', title: 'Student Card', content: '' },
         { id: 'orientation', title: 'Orientation', content: '' },
-        { id: 'planning', title: 'Course Registration', content: '' },
         { id: 'housing', title: 'Housing & Aid', content: '' },
     ];
 
     return (
         <GuideSidebarLayout sections={sections}>
-            <div className="min-h-screen bg-white">
-            {/* HERO SECTION */}
-            <section className="text-black overflow-hidden" style={{ backgroundColor: '#FDF2F8' }}>
-                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-12 pb-12 lg:pb-0 h-auto lg:h-[600px] lg:py-0 relative mb-0">
-                    {/* Left Content */}
-                    <div className="lg:w-1/2 space-y-6 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
-                        <h1 className="font-bold leading-[1.1] tracking-tight pt-8 text-black" style={{ fontSize: '40px' }}>
-                            Bachelor’s Students Guide
-                        </h1>
-                        <p className="text-[21px] text-black max-w-xl leading-relaxed">
-                            Essential information for students admitted to Bachelor’s programmes taught in English. Read carefully to ensure a smooth start to your studies.
-                        </p>
-                    </div>
+            <div className="min-h-screen bg-white text-black font-sans pb-20">
+                {/* HERO SECTION */}
+                <Hero
+                    title="Bachelor’s Students Guide"
+                    body="Essential information for students admitted to Bachelor’s programmes taught in English. Read carefully to ensure a smooth start to your studies."
+                    backgroundColor="#dc6ade"
+                    tinted
+                    lightText={true}
+                    breadcrumbs={[
+                        { label: 'Home', href: '/' },
+                        { label: 'Student Guide', href: '/student-guide' },
+                        { label: "Bachelor's Guide" }
+                    ]}
+                    image={{
+                        src: "/images/bachelors-group-v2.png",
+                        alt: "Bachelor Students"
+                    }}
+                />
 
-                    {/* Right Image */}
-                    <div className="lg:w-1/2 h-full w-full relative lg:translate-y-16 z-20 flex justify-center lg:block order-first lg:order-none">
-                        <div className="h-full">
-                            <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800">
-                                <Image
-                                    src="/images/bachelors-group-v2.png"
-                                    alt="Bachelor Students"
-                                    fill
-                                    priority
-                                    className="object-cover"
-                                    sizes="(max-width: 1024px) 368px, 50vw"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <div className="container mx-auto px-4 py-8 md:py-16">
-                <Link
-                    href="/student-guide"
-                    className="inline-flex items-center text-neutral-500 hover:text-black mb-8 transition-colors"
-                >
-                    <ArrowLeft size={20} weight="bold" className="mr-2" /> Back to Student Guide
-                </Link>
-                <div className="flex flex-col lg:flex-row gap-16">
-
-                    {/* Main Content */}
-                    <main className="lg:w-3/4 space-y-8 md:space-y-16">
-
-                        {/* Intro Box */}
-                        <div className="bg-neutral-100 p-8 rounded-none border-l-4 border-black">
-                            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2 text-black">
-                                Welcome to Kestora University!
-                            </h2>
-                            <p className="text-black mb-4 font-medium leading-relaxed">
-                                This guide covers the critical steps from accepting your offer to arriving on campus.
-                                Follow the deadlines closely to secure your study place.
-                            </p>
-                        </div>
+                <div className="container mx-auto px-4 py-16 md:py-24 max-w-6xl">
+                    <div className="space-y-20">
+                        {/* Intro */}
+                        <section id="intro" className="scroll-mt-32">
+                            <ContentBox
+                                icon="info"
+                                title="Welcome to Kestora University!"
+                                body="This guide covers the critical steps from accepting your offer to arriving on campus. Follow the deadlines closely to secure your study place."
+                            />
+                        </section>
 
                         {/* 1. Accept Admission */}
                         <section id="accept" className="scroll-mt-32">
-                            <div className="flex items-start gap-4 mb-6">
-                                <div className="w-10 h-10 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold flex-shrink-0">1</div>
-                                <h2 className="text-3xl font-bold pt-1">Accept Your Admission Offer</h2>
-                            </div>
-
-                            <div className="bg-black text-white p-8 rounded-none mb-6">
-                                <h3 className="font-bold text-white flex items-center gap-2 mb-2 uppercase tracking-widest text-sm">
-                                    Deadline
-                                </h3>
-                                <p className="text-2xl font-bold">24 July 2026 at 15:00 (UTC +3)</p>
-                                <p className="text-sm text-neutral-400 mt-2">Accept by this date or lose your study place offer.</p>
-                            </div>
-
-                            <div className="prose max-w-none text-neutral-700">
-                                <h3 className="font-bold text-lg mb-2">How to Accept</h3>
-                                <ul className="list-disc pl-5 mb-6 space-y-2">
-                                    <li>Use the personal link sent via email or log in to the national admissions portal.</li>
-                                    <li>Follow instructions in your admission letter.</li>
-                                </ul>
-
-                                <div className="bg-neutral-100 p-10 rounded-none">
-                                    <h4 className="font-bold mb-6 text-xl">Waitlist & Multiple Offers</h4>
-                                     <ul className="space-y-4">
-                                        <li className="flex gap-4 items-start">
-                                            <ArrowRight size={18} weight="bold" className="mt-1 text-black" />
-                                            <span className="font-medium">You can accept only <strong>one</strong> degree study place per term.</span>
-                                        </li>
-                                        <li className="flex gap-4 items-start">
-                                            <ArrowRight size={18} weight="bold" className="mt-1 text-black" />
-                                            <span className="font-medium">You may accept a lower-ranked offer conditionally while waiting for a higher preference.</span>
-                                        </li>
-                                        <li className="flex gap-4 items-start">
-                                            <ArrowRight size={18} weight="bold" className="mt-1 text-black" />
-                                            <span className="font-medium">If a higher-ranked place opens, your acceptance transfers automatically.</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                            <h2 className="text-aalto-5 font-bold mb-10 text-black tracking-tight">1. Accept Your Admission Offer</h2>
+                            <ContentBox
+                                size="large"
+                                icon="calendar"
+                                title="Deadline: 24 July 2026"
+                                body={
+                                    <div className="space-y-8 text-left">
+                                        <p className="text-3xl font-bold text-black">15:00 (UTC +3)</p>
+                                        <p className="text-sm font-bold text-neutral-600 leading-relaxed">
+                                            Accept by this date or lose your study place offer. Use the personal link sent via email or log in to the national admissions portal.
+                                        </p>
+                                        <div className="bg-neutral-100 p-6 rounded-xl border-l-4 border-black">
+                                            <h4 className="font-bold text-lg mb-2">Waitlist & Multiple Offers</h4>
+                                            <ul className="text-sm font-bold space-y-2">
+                                                <li>• You can accept only one degree study place per term.</li>
+                                                <li>• Conditional acceptance for lower-ranked offers is possible.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                }
+                            />
                         </section>
 
                         {/* 2. Tuition */}
                         <section id="tuition" className="scroll-mt-32">
-                            <div className="flex items-start gap-4 mb-6">
-                                <div className="w-10 h-10 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold flex-shrink-0">2</div>
-                                <h2 className="text-3xl font-bold pt-1">Tuition Fees & Scholarships</h2>
-                            </div>
-
-                            <div className="bg-white border border-neutral-200 rounded-none p-10 mb-6">
-                                <div className="flex items-start gap-4 mb-4">
-                                    <div>
-                                        <h3 className="font-bold text-xl">General Rules</h3>
-                                        <p className="text-black font-medium mt-2">Non-EU/EEA students typically pay tuition. Fees are due after acceptance and before enrolment.</p>
-                                    </div>
-                                </div>
-                                <div className="border-t border-neutral-100 pt-6 mt-6">
-                                    <h4 className="font-bold text-black text-xl mb-3">Early Payment Discount (25%)</h4>
-                                    <p className="text-black font-medium mb-4 leading-relaxed">
-                                        New Bachelor’s students may receive a <strong>25% reduction</strong> on the first year’s fee if paid by the deadline (typically within 7 days of acceptance).
-                                    </p>
-                                    <p className="text-xs text-neutral-500 uppercase tracking-widest font-bold">Check your admission email for specific dates.</p>
-                                </div>
+                            <h2 className="text-aalto-5 font-bold mb-10 text-black tracking-tight">2. Tuition Fees & Scholarships</h2>
+                            <div className="grid md:grid-cols-2 gap-8">
+                                <Card
+                                    title="General Rules"
+                                    body="Non-EU/EEA students typically pay tuition. Fees are due after acceptance and before enrolment."
+                                />
+                                <Card
+                                    title="Early Payment Discount"
+                                    body="Receive a 25% reduction on the first year's fee if paid within 7 days of acceptance."
+                                    badge={{ label: "25% Off" }}
+                                />
                             </div>
                         </section>
 
                         {/* 3. Residence Permit */}
                         <section id="residence" className="scroll-mt-32">
-                            <div className="flex items-start gap-4 mb-6">
-                                <div className="w-10 h-10 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold flex-shrink-0">3</div>
-                                <h2 className="text-3xl font-bold pt-1">Residence Permit</h2>
-                            </div>
+                            <h2 className="text-aalto-5 font-bold mb-10 text-black tracking-tight">3. Residence Permit</h2>
                             <div className="grid md:grid-cols-3 gap-6">
-                                <div className="bg-neutral-50 p-6 rounded-xl">
-                                    <h4 className="font-bold mb-2">Non-EU/EEA</h4>
-                                    <p className="text-sm text-neutral-600">Apply for a student residence permit immediately. The process takes time.</p>
-                                </div>
-                                <div className="bg-neutral-50 p-6 rounded-xl">
-                                    <h4 className="font-bold mb-2">EU/EEA</h4>
-                                    <p className="text-sm text-neutral-600">Register right of residence at a local authority within 3 months of arrival.</p>
-                                </div>
-                                <div className="bg-neutral-50 p-6 rounded-xl">
-                                    <h4 className="font-bold mb-2">Nordic</h4>
-                                    <p className="text-sm text-neutral-600">Register with the Population Info System upon arrival for a personal ID code.</p>
-                                </div>
+                                <Card title="Non-EU/EEA" body="Apply for a student residence permit immediately. The process takes time." />
+                                <Card title="EU/EEA" body="Register right of residence at a local authority within 3 months of arrival." />
+                                <Card title="Nordic" body="Register with the Population Info System upon arrival for a personal ID code." />
                             </div>
                         </section>
 
                         {/* 4. Enrolment */}
                         <section id="enrolment" className="scroll-mt-32">
-                            <div className="flex items-start gap-4 mb-6">
-                                <div className="w-10 h-10 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold flex-shrink-0">4</div>
-                                <h2 className="text-3xl font-bold pt-1">Enrol for the Academic Year</h2>
-                            </div>
-                            <div className="bg-white border border-neutral-200 rounded-xl p-8">
-                                <h3 className="font-bold text-lg mb-4">Deadline: 14 August 2026 (Recommended)</h3>
-                                <p className="text-neutral-600 mb-6">
-                                    You must enrol as attending or non-attending to keep your study right.
-                                    Final deadline is 23 April 2026.
-                                </p>
-                                <div className="grid md:grid-cols-2 gap-6">
-                                    <div className="bg-neutral-50 p-4 rounded-lg">
-                                        <h4 className="font-bold mb-1">Attending</h4>
-                                        <p className="text-sm text-neutral-600">Start studies, get student number, register for courses.</p>
+                            <h2 className="text-aalto-5 font-bold mb-10 text-black tracking-tight">4. Enrol for the Academic Year</h2>
+                            <ContentBox
+                                icon="identificationBadge"
+                                title="Deadline: 14 August 2026"
+                                body={
+                                    <div className="grid md:grid-cols-2 gap-8 text-left">
+                                        <div>
+                                            <h4 className="font-bold text-black mb-2">Attending</h4>
+                                            <p className="text-sm text-neutral-600 font-bold">Start studies, get student number, and register for courses.</p>
+                                        </div>
+                                        <div>
+                                            <h4 className="font-bold text-black mb-2">Non-Attending</h4>
+                                            <p className="text-sm text-neutral-600 font-bold">Only for military service, parental leave, or medical reasons.</p>
+                                        </div>
                                     </div>
-                                    <div className="bg-neutral-50 p-4 rounded-lg">
-                                        <h4 className="font-bold mb-1">Non-Attending</h4>
-                                        <p className="text-sm text-neutral-600">Only for military service, parental leave, or medical reasons (requires documentation).</p>
-                                    </div>
-                                </div>
-                            </div>
+                                }
+                            />
                         </section>
 
                         {/* 5. IT Account */}
                         <section id="it-account" className="scroll-mt-32">
-                            <div className="flex items-start gap-4 mb-6">
-                                <div className="w-10 h-10 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold flex-shrink-0">5</div>
-                                <h2 className="text-3xl font-bold pt-1">Activate IT Account</h2>
-                            </div>
-                            <p className="text-neutral-700 mb-4">
-                                After enrolling, you will receive an email to activate your Kestora University IT account.
-                                This gives you access to email, learning platforms, and registration systems.
-                            </p>
+                            <ContentBox
+                                icon="laptop"
+                                title="5. Activate IT Account"
+                                body="After enrolling, you will receive an email to activate your Kestora University IT account. This gives you access to email and learning platforms."
+                            />
                         </section>
 
                         {/* 6. Healthcare */}
                         <section id="healthcare" className="scroll-mt-32">
-                            <div className="flex items-start gap-4 mb-6">
-                                <div className="w-10 h-10 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold flex-shrink-0">6</div>
-                                <h2 className="text-3xl font-bold pt-1">Student Healthcare (FSHS)</h2>
+                            <h2 className="text-aalto-5 font-bold mb-10 text-black tracking-tight">6. Healthcare & Fees</h2>
+                            <div className="grid md:grid-cols-2 gap-8">
+                                <Card
+                                    title="Student Healthcare (FSHS)"
+                                    body="All attending degree students must pay the healthcare fee to Kela for each term."
+                                />
+                                <Card
+                                    title="Student Card"
+                                    body="Once enrolled, get an electronic student card for public transport and restaurant discounts."
+                                />
                             </div>
-                            <p className="text-neutral-700 mb-4">
-                                All attending degree students (if eligible) must pay the healthcare fee to <a href="https://www.kela.fi/in-english" target="_blank" rel="noopener noreferrer" className="underline hover:text-black transition-colors">Kela</a> for each term.
-                                This covers student health services.
-                            </p>
-                            <p className="text-sm text-neutral-500">EU students should obtain a European Health Insurance Card (EHIC) before arrival.</p>
-                        </section>
-
-                        {/* 7. Student Card */}
-                        <section id="benefits" className="scroll-mt-32">
-                            <div className="flex items-start gap-4 mb-6">
-                                <div className="w-10 h-10 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold flex-shrink-0">7</div>
-                                <h2 className="text-3xl font-bold pt-1">Student Card & Benefits</h2>
-                            </div>
-                            <p className="text-neutral-700 mb-4">
-                                Once enrolled as attending, you can get an electronic student card for discounts on public transport (trains, buses) and student restaurants.
-                            </p>
                         </section>
 
                         {/* 8. Orientation */}
                         <section id="orientation" className="scroll-mt-32">
-                            <div className="flex items-start gap-4 mb-6">
-                                <div className="w-10 h-10 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold flex-shrink-0">8</div>
-                                <h2 className="text-3xl font-bold pt-1">Orientation & Start</h2>
-                            </div>
-                            <div className="bg-neutral-100 p-10 rounded-none border-l-4 border-black">
-                                <h3 className="font-bold text-xl mb-4 text-black">Orientation Week</h3>
-                                <p className="text-black font-medium mb-6 leading-relaxed text-lg">Usually held in August/September. Helps you meet tutors, learn systems, and settle in.</p>
-                                <ul className="space-y-4 pt-2">
-                                    <li className="flex gap-4 items-center font-bold text-black underline"><ArrowRight size={18} weight="bold" /> Check platforms for Pre-Orientation Modules.</li>
-                                    <li className="flex gap-4 items-center font-bold text-black underline"><ArrowRight size={18} weight="bold" /> Connect with your assigned Peer Tutor.</li>
-                                    <li className="flex gap-4 items-center font-bold text-black underline"><ArrowRight size={18} weight="bold" /> Join student life events and webinars before arrival.</li>
-                                </ul>
-                            </div>
+                            <ContentBox
+                                size="large"
+                                icon="graduationCap"
+                                title="Orientation & Start"
+                                body={
+                                    <div className="space-y-6 text-left">
+                                        <p className="text-sm font-bold text-neutral-700 leading-relaxed">Usually held in August/September. Helps you meet tutors, learn systems, and settle in.</p>
+                                        <ul className="space-y-4">
+                                            <li className="flex gap-4 items-center font-bold text-black underline text-sm"><ArrowRight size={14} weight="bold" /> Check platforms for Pre-Orientation Modules.</li>
+                                            <li className="flex gap-4 items-center font-bold text-black underline text-sm"><ArrowRight size={14} weight="bold" /> Connect with your assigned Peer Tutor.</li>
+                                        </ul>
+                                    </div>
+                                }
+                            />
                         </section>
 
-                        {/* 9. Course Registration */}
-                        <section id="planning" className="scroll-mt-32">
-                            <div className="flex items-start gap-4 mb-6">
-                                <div className="w-10 h-10 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold flex-shrink-0">9</div>
-                                <h2 className="text-3xl font-bold pt-1">Course Registration</h2>
-                            </div>
-                            <p className="text-neutral-700 mb-4">
-                                Once enrolled, use your IT account to build a study plan and register for courses.
-                                Contact academic advisors if you need help structuring your degree path.
-                            </p>
-                        </section>
-
-                        {/* 10. Housing & Aid */}
+                        {/* 10. Housing */}
                         <section id="housing" className="scroll-mt-32">
-                            <div className="flex items-start gap-4 mb-6">
-                                <div className="w-10 h-10 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold flex-shrink-0">10</div>
-                                <h2 className="text-3xl font-bold pt-1">Housing & Financial Aid</h2>
-                            </div>
-                            <div className="grid md:grid-cols-2 gap-6">
-                                <div>
-                                    <h3 className="font-bold mb-2 text-black">Housing</h3>
-                                    <p className="text-sm text-black font-medium">Apply immediately. Kestora University does provide on-campus housing directly, we assist with the application process.</p>
-                                </div>
-                                <div>
-                                    <h3 className="font-bold mb-2">Financial Aid</h3>
-                                    <p className="text-sm text-neutral-600">Check eligibility for Finnish student aid early and apply through <a href="https://www.kela.fi/in-english" target="_blank" rel="noopener noreferrer" className="underline hover:text-black transition-colors">Kela</a>.</p>
-                                </div>
+                            <h2 className="text-aalto-5 font-bold mb-10 text-black tracking-tight">7. Housing & Aid</h2>
+                            <div className="grid md:grid-cols-2 gap-8">
+                                <Card
+                                    title="Housing"
+                                    body="Apply immediately. Kestora assists with the application process for student housing."
+                                />
+                                <Card
+                                    title="Financial Aid"
+                                    body="Check eligibility for Finnish student aid early and apply through Kela."
+                                />
                             </div>
                         </section>
 
-                        <div className="mt-12 pt-8 border-t border-neutral-200 text-sm text-neutral-500">
+                        <div className="mt-12 pt-8 border-t border-neutral-200 text-xs text-neutral-500 font-bold uppercase tracking-widest">
                             <p>Content adapted from official admissions guide. Check your email regularly for updates.</p>
                         </div>
-
-                    </main>
+                    </div>
                 </div>
             </div>
-        </div>
         </GuideSidebarLayout>
     );
 }

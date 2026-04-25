@@ -1,7 +1,7 @@
 'use client';
 
 import { createClient } from '@/utils/supabase/client';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { CaretLeft as ArrowLeft, CircleNotch as Loader2 } from "@phosphor-icons/react";
 import HousingManagementClient from './HousingManagementClient';
 import { useState, useEffect } from 'react';

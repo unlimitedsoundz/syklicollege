@@ -48,7 +48,7 @@ export default function ImageUpload({ name, defaultValue }: ImageUploadProps) {
                                 alt="Preview"
                                 fill
                                 unoptimized
-                                className="object-cover"
+                                className="object-cover object-top"
                             />
                         </div>
                         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -82,3 +82,4 @@ export default function ImageUpload({ name, defaultValue }: ImageUploadProps) {
         </div>
     );
 }
+

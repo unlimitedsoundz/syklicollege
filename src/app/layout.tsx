@@ -6,19 +6,13 @@ import { Footer } from "@/components/layout/Footer";
 import { CookieConsent } from "@/components/layout/CookieConsent";
 import { AuthProvider } from "@/components/auth/AuthProvider";
 
-const inter = Inter({
-    subsets: ["latin"],
-    variable: "--font-inter",
-    display: "swap",
-});
+// next/font/google is disabled because build-time font fetching fails in this environment.
+// We use a standard Google Fonts link in the <head> instead.
+const inter = { variable: "font-inter-var" };
+const playfair = { variable: "font-playfair-var" };
 
 
 
-const playfair = Playfair_Display({
-    subsets: ["latin"],
-    variable: "--font-playfair",
-    display: "swap",
-});
 
 export const metadata: Metadata = {
     metadataBase: new URL('https://kestora.online'),
@@ -74,6 +68,15 @@ export default function RootLayout({
     return (
         <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
             <head>
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+                <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Playfair+Display:wght@400..900&family=Rubik:wght@300..900&display=swap" rel="stylesheet" />
+                <style dangerouslySetInnerHTML={{ __html: `
+                    :root {
+                        --font-inter: 'Inter', sans-serif;
+                        --font-playfair: 'Playfair Display', serif;
+                    }
+                ` }} />
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
@@ -110,6 +113,7 @@ export default function RootLayout({
                     }}
                 />
             </head>
+
             <body className="font-sans antialiased">
                 <AuthProvider>
                     <Header />

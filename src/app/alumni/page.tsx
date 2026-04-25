@@ -1,5 +1,9 @@
-import Link from 'next/link';
 import Image from 'next/image';
+import { Link } from "@aalto-dx/react-components";
+import { Hero } from '@/components/layout/Hero';
+import { ArrowRight, Globe, Users, GraduationCap, Heart, Briefcase } from "@phosphor-icons/react/dist/ssr";
+import { Card } from '@/components/ui/Card';
+import { ContentBox } from '@/components/ui/ContentBox';
 
 export const metadata = {
     title: 'Alumni Network — Kestora University | Career, Community & Events',
@@ -19,131 +23,106 @@ export default function AlumniPage() {
     ];
 
     return (
-        <div className="min-h-screen bg-white font-sans leading-relaxed">
-            {/* Hero Section (Emerald Split - Matching Admissions Style) */}
-            <section className="text-black overflow-hidden" style={{ backgroundColor: '#10B981' }}>
-                <div className="container mx-auto flex flex-col lg:flex-row items-center gap-2 lg:gap-16 pt-0 md:pt-12 pb-12 lg:pb-0 h-auto lg:h-[600px] lg:py-0 relative mb-0">
-                    {/* Left Content */}
-                    <div className="lg:w-1/2 space-y-6 relative z-10 flex flex-col justify-center h-full pt-2 lg:pt-0 px-4 md:px-0">
-                        <h1 className="font-bold leading-[1.1] tracking-tight pt-2 text-black" style={{ fontSize: '40px' }}>
-                            Kestora Alumni Network
-                        </h1>
-                        <p className="text-[21px] text-black max-w-xl leading-relaxed">
-                            Empowering a global network of professionals committed to sustainable impact, leadership, and innovation. Graduates become lifelong members of the Kestora community.
-                        </p>
-                    </div>
+        <div className="min-h-screen bg-white font-sans leading-relaxed pb-20">
+            {/* Hero Section */}
+            <Hero
+                title="Kestora Alumni Network"
+                body="Empowering a global network of professionals committed to sustainable impact, leadership, and innovation. Graduates become lifelong members of the Kestora community."
+                backgroundColor="#5dd089"
+                tinted
+                lightText={false}
+                breadcrumbs={[
+                    { label: 'Home', href: '/' },
+                    { label: 'Alumni' }
+                ]}
+                image={{
+                    src: "https://i.pinimg.com/1200x/40/7b/43/407b43fe5af80de6a8f6bdc4da7d1104.jpg",
+                    alt: "Kestora Alumni"
+                }}
+            />
 
-                    {/* Right Image */}
-                    <div className="lg:w-1/2 h-full w-full relative lg:translate-y-16 z-20 flex justify-center lg:block order-first lg:order-none">
-                        <div className="h-full w-full">
-                            <div className="relative w-full aspect-square md:aspect-auto lg:w-full lg:h-full bg-neutral-800">
-                                <Image
-                                    src="https://i.pinimg.com/1200x/40/7b/43/407b43fe5af80de6a8f6bdc4da7d1104.jpg"
-                                    alt="Kestora Alumni"
-                                    fill
-                                    priority
-                                    className="object-cover"
-                                    sizes="100vw"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Intro Content */}
-            <section className="py-12 md:py-20 bg-white">
-                <div className="container mx-auto px-4">
-                    <div className="max-w-4xl">
-                        <div className="prose prose-lg md:prose-xl text-neutral-600 max-w-none text-left">
-                            <p className="mb-6 md:mb-8 text-xl md:text-2xl font-normal text-neutral-900 leading-relaxed">
+            <div className="container mx-auto px-4 py-16 md:py-24 max-w-6xl">
+                <div className="space-y-20">
+                    {/* Intro Content */}
+                    <section id="intro">
+                        <div className="max-w-none">
+                            <p className="text-aalto-5 font-bold text-black leading-tight mb-8">
                                 The Master’s Alumni of Kestora University represent a growing global community of professionals who have completed advanced postgraduate studies at the institution.
                             </p>
-                            <p className="mb-6 md:mb-8 text-base md:text-lg text-neutral-600 leading-relaxed font-light">
+                            <p className="text-aalto-3 text-black font-medium leading-relaxed max-w-4xl">
                                 Our alumni are equipped with strong academic foundations, practical expertise, and a commitment to sustainable impact leadership and innovation. Graduates become lifelong members of the Kestora alumni community and continue to contribute to positive change across industries and societies.
                             </p>
                         </div>
-                    </div>
-                </div>
-            </section>
+                    </section>
 
-            {/* Key Pillars */}
-            <section className="py-12 md:py-20 bg-neutral-50">
-                <div className="container mx-auto px-4">
-                    <div className="grid md:grid-cols-2 gap-6 md:gap-12">
-                        {/* Pillar 1 */}
-                        <div className="bg-white p-6 md:p-12 rounded-2xl shadow-sm border border-neutral-100 flex flex-col h-full">
-                            <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-neutral-900 leading-tight">A Global Professional Network</h2>
-                            <div className="text-neutral-600 space-y-4 flex-1">
-                                <p className="text-base md:text-lg leading-relaxed font-light">
-                                    Kestora University Master’s Alumni are active across multiple regions and sectors including sustainability, business, technology, education, design, and public policy. This international network strengthens professional collaboration, knowledge exchange, and cross-sector partnerships.
-                                </p>
-                                <p className="text-base md:text-lg leading-relaxed font-light">
-                                    The global presence of our alumni reflects Kestora University’s focus on applied learning, responsible leadership, and real-world relevance.
+                    {/* Key Pillars */}
+                    <section id="pillars">
+                        <div className="grid md:grid-cols-2 gap-8">
+                            <ContentBox
+                                icon="globe"
+                                title="A Global Professional Network"
+                                body="Kestora University Master’s Alumni are active across sustainability, business, technology, education, design, and public policy. This international network strengthens professional collaboration and knowledge exchange."
+                            />
+                            <ContentBox
+                                icon="users"
+                                title="Continued Connection"
+                                body="At Kestora University, graduation marks the beginning of an ongoing relationship. Master’s Alumni remain connected through academic engagement, professional initiatives, and collaborative projects."
+                            />
+                        </div>
+                    </section>
+
+                    {/* Benefits List */}
+                    <section id="benefits">
+                        <ContentBox
+                            size="large"
+                            icon="briefcase"
+                            title="Alumni Benefits & Opportunities"
+                            body={
+                                <div className="text-left space-y-8">
+                                    <p className="text-aalto-2 text-black/70 font-bold leading-relaxed">
+                                        Master’s Alumni of Kestora University have access to continued engagement opportunities that support lifelong growth and connection.
+                                    </p>
+                                    <ul className="grid sm:grid-cols-2 gap-4">
+                                        {benefits.map((benefit, i) => (
+                                            <li key={i} className="flex items-start gap-3 bg-white p-4 rounded-none border border-neutral-100 shadow-sm">
+                                                <div className="w-2 h-2 bg-black mt-1.5 shrink-0" />
+                                                <span className="text-sm font-medium text-black leading-tight">{benefit}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            }
+                        />
+                    </section>
+
+                    {/* Impact and CTA */}
+                    <section id="impact">
+                        <div className="space-y-12">
+                            <div className="max-w-4xl">
+                                <h2 className="text-aalto-5 font-bold mb-8 text-black tracking-tight">Alumni Impact and Contribution</h2>
+                                <p className="text-aalto-2 text-black leading-relaxed font-bold mb-8">
+                                    Kestora University Master’s Alumni play an important role in advancing the institution’s mission and global impact. Through leadership, professional practice, research collaboration, and community engagement, alumni help shape sustainable solutions.
                                 </p>
                             </div>
-                        </div>
 
-                        {/* Pillar 2 */}
-                        <div className="bg-white p-6 md:p-12 rounded-2xl shadow-sm border border-neutral-100 flex flex-col h-full">
-                            <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-neutral-900 leading-tight">Continued Connection</h2>
-                            <div className="text-neutral-600 space-y-4 flex-1">
-                                <p className="text-base md:text-lg leading-relaxed font-light">
-                                    At Kestora University, graduation marks the beginning of an ongoing relationship. Master’s Alumni remain connected through academic engagement, professional initiatives, and collaborative projects.
-                                </p>
-                                <p className="text-base md:text-lg leading-relaxed font-light">
-                                    Alumni are encouraged to stay involved by contributing industry insights, participating in institutional activities, and supporting the academic and professional development of current students.
-                                </p>
-                            </div>
+                            <ContentBox
+                                backgroundColor="#255236"
+                                title={<span className="text-white">Stay Connected with Kestora Alumni</span>}
+                                body={
+                                    <div className="space-y-8">
+                                        <p className="text-neutral-400 font-bold max-w-2xl">
+                                            Master’s graduates are encouraged to remain active members of our alumni community. By staying connected, you strengthen professional networks and support future students.
+                                        </p>
+                                        <Link href="/contact" className="inline-flex items-center gap-2 bg-white text-black px-8 py-4 rounded-none font-medium hover:bg-neutral-200 transition-colors group">
+                                            Join the Network <ArrowRight size={20} weight="bold" />
+                                        </Link>
+                                    </div>
+                                }
+                            />
                         </div>
-                    </div>
+                    </section>
                 </div>
-            </section>
-
-            {/* Benefits List */}
-            <section className="py-12 md:py-24 bg-white">
-                <div className="container mx-auto px-4">
-                    <div className="max-w-3xl">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-neutral-900">Alumni Benefits & Opportunities</h2>
-                        <p className="text-neutral-600 text-base md:text-lg mb-8 md:mb-12 leading-relaxed">
-                            Master’s Alumni of Kestora University have access to continued engagement opportunities that support lifelong growth and connection.
-                        </p>
-                        <ul className="space-y-4 md:space-y-6">
-                            {benefits.map((benefit, i) => (
-                                <li key={i} className="flex items-start">
-                                    <span className="text-base md:text-lg text-neutral-700 leading-relaxed font-light">{benefit}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <section className="py-12 md:py-24 bg-white">
-                <div className="container mx-auto px-4">
-                    <div className="max-w-4xl flex flex-col items-start text-left">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-neutral-900 leading-tight">Alumni Impact and Contribution</h2>
-                        <div className="prose prose-base md:prose-lg text-neutral-600 mb-8 md:mb-12 max-w-none">
-                            <p className="text-base md:text-lg leading-relaxed font-light text-neutral-600">
-                                Kestora University Master’s Alumni play an important role in advancing the institution’s mission and global impact. Through leadership, professional practice, research collaboration, and community engagement, alumni help shape sustainable solutions and forward-thinking practices.
-                            </p>
-                            <p className="text-base md:text-lg leading-relaxed font-normal text-neutral-900">
-                                The success of our alumni reflects the academic quality, applied focus, and values of Kestora University.
-                            </p>
-                        </div>
-
-                        <div className="bg-black text-white p-8 md:p-12 rounded-2xl w-full text-left">
-                            <h3 className="text-xl md:text-2xl font-bold mb-4">Stay Connected with Kestora Alumni</h3>
-                            <p className="text-white/70 text-sm md:text-base mb-6 md:mb-8 max-w-2xl">
-                                Master’s graduates are encouraged to remain active members of our alumni community. By staying connected, you strengthen professional networks and support future students.
-                            </p>
-                            <Link href="/contact" className="inline-flex items-center gap-2 bg-white text-black px-6 py-3 md:px-8 md:py-4 rounded-full font-bold hover:bg-neutral-200 transition-colors group text-sm md:text-base">
-                                Join the Network
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            </div>
         </div>
     );
 }

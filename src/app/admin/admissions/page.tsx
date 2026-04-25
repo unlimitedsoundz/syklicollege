@@ -2,11 +2,11 @@
 
 import { createClient } from '@/utils/supabase/client';
 import { getAdmissionsApplications } from '@/app/admin/actions';
-import { Application } from '@/types/database';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { useState, useEffect } from 'react';
 import { User, Clock, FileText, CheckCircle, XCircle, CaretRight as ChevronRight, MagnifyingGlass as Search, CircleNotch as Loader2 } from "@phosphor-icons/react";
 import { formatToDDMMYYYY } from '@/utils/date';
+import { SearchField } from '@/components/ui/SearchField';
 
 export default function AdmissionsPage() {
     const [applications, setApplications] = useState<any[]>([]);
@@ -86,20 +86,18 @@ export default function AdmissionsPage() {
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <div className="relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" size={16} weight="bold" />
-                        <input
-                            placeholder="Search applications..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="bg-white border-none pl-10 pr-4 py-2.5 rounded-xl text-sm outline-none focus:ring-1 focus:ring-black transition-all w-64 font-medium"
-                        />
-                    </div>
+                <div className="w-64">
+                    <SearchField
+                        placeholder="Search applications..."
+                        value={searchQuery}
+                        onChange={(v) => setSearchQuery(v)}
+                    />
+                </div>
                 </div>
             </div>
 
             {/* Application Stages Pills */}
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
                 {[
                     { label: 'All', count: applications.length, status: null },
                     { label: 'Submitted', count: applications.filter(a => a.status === 'SUBMITTED').length, status: 'SUBMITTED' },
@@ -109,64 +107,67 @@ export default function AdmissionsPage() {
                     { label: 'Admitted', count: applications.filter(a => a.status === 'ADMITTED' || a.status === 'OFFER_ACCEPTED').length, status: 'ADMITTED' },
                     { label: 'Drafts', count: applications.filter(a => a.status === 'DRAFT').length, status: 'DRAFT' },
                 ].map((stage) => (
-                    <div key={stage.label} className="bg-white p-4 rounded-2xl flex flex-col gap-1">
-                        <span className="text-[10px] font-semibold text-neutral-400 uppercase tracking-widest leading-none">{stage.label}</span>
-                        <span className="text-2xl font-semibold text-neutral-900">{stage.count}</span>
+                    <div key={stage.label} className="bg-white p-3 md:p-4 flex flex-col gap-1 border border-neutral-100">
+                        <span className="text-[9px] md:text-[10px] font-semibold text-neutral-400 uppercase tracking-widest leading-none">{stage.label}</span>
+                        <span className="text-xl md:text-2xl font-semibold text-neutral-900">{stage.count}</span>
                     </div>
                 ))}
             </div>
 
 
-            <div className="bg-white rounded-3xl overflow-hidden shadow-sm border border-neutral-100">
+            <div className="bg-white border border-neutral-100">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
-                        <thead>
-                            <tr className="bg-neutral-50/50">
-                                <th className="p-6 text-[10px] font-semibold text-neutral-400 uppercase tracking-wider">Applicant Details</th>
+                        <thead className="hidden md:table-header-group bg-neutral-50/50">
+                            <tr>
+                                <th className="p-6 text-[10px] font-semibold text-neutral-400 uppercase tracking-wider">Applicant</th>
                                 <th className="p-6 text-[10px] font-semibold text-neutral-400 uppercase tracking-wider">Programme</th>
                                 <th className="p-6 text-[10px] font-semibold text-neutral-400 uppercase tracking-wider">Status</th>
-                                <th className="p-6 text-[10px] font-semibold text-neutral-400 uppercase tracking-wider">Submission Date</th>
+                                <th className="p-6 text-[10px] font-semibold text-neutral-400 uppercase tracking-wider">Date</th>
                                 <th className="p-6 text-[10px] font-semibold text-neutral-400 uppercase tracking-wider text-right">Actions</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-neutral-50 text-neutral-900">
+                        <tbody className="divide-y divide-neutral-50 text-neutral-900 block md:table-row-group">
                             {filteredApplications.length > 0 ? (
                                 filteredApplications.map((app) => (
-                                    <tr key={app.id} className="hover:bg-neutral-50/50 transition-colors group">
-                                        <td className="p-6">
-                                            <div className="flex items-center gap-4">
-                                                <div className="w-12 h-12 bg-neutral-900 rounded-2xl flex items-center justify-center text-white font-semibold text-lg">
-                                                    {app.user?.first_name?.[0] || app.user?.email?.[0]?.toUpperCase()}
+                                    <tr key={app.id} className="hover:bg-neutral-50/50 transition-colors group block md:table-row p-4 md:p-0">
+                                        <td className="block md:table-cell py-2 md:p-6">
+                                            <div className="flex flex-col">
+                                                <div className="font-semibold text-sm md:text-base uppercase tracking-tight">
+                                                    {(!app.user?.first_name || app.user?.first_name === 'Applicant') && app.personal_info?.firstName
+                                                        ? `${app.personal_info.firstName} ${app.personal_info.lastName || ''}`
+                                                        : `${app.user?.first_name || ''} ${app.user?.last_name || ''}`}
                                                 </div>
-                                                <div>
-                                                    <div className="font-semibold text-base uppercase tracking-tight">
-                                                        {(!app.user?.first_name || app.user?.first_name === 'Applicant') && app.personal_info?.firstName
-                                                            ? `${app.personal_info.firstName} ${app.personal_info.lastName || ''}`
-                                                            : `${app.user?.first_name || ''} ${app.user?.last_name || ''}`}
-                                                    </div>
-                                                    <div className="text-xs font-semibold text-neutral-400">
-                                                        {app.user?.email} • ID: <span className="text-neutral-900">{app.user?.student_id || 'N/A'}</span>
-                                                    </div>
+                                                <div className="text-[10px] md:text-xs font-semibold text-neutral-400">
+                                                    {app.user?.email}
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="p-6">
-                                            <div className="text-sm font-semibold text-neutral-900 uppercase tracking-tight leading-tight max-w-[200px]">
+                                        <td className="block md:table-cell py-2 md:p-6">
+                                            <div className="text-[11px] md:text-sm font-semibold text-neutral-500 md:text-neutral-900 uppercase tracking-tight leading-tight">
                                                 {app.course?.title}
                                             </div>
                                         </td>
-                                        <td className="p-6">
-                                            <StatusBadge status={app.status} />
+                                        <td className="block md:table-cell py-2 md:p-6">
+                                            <div className="flex items-center gap-2">
+                                                <span className="md:hidden text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Status:</span>
+                                                <StatusBadge status={app.status} />
+                                            </div>
                                         </td>
-                                        <td className="p-6 text-sm font-bold text-neutral-500">
-                                            {app.submitted_at ? formatToDDMMYYYY(app.submitted_at) : 'In Draft'}
+                                        <td className="block md:table-cell py-2 md:p-6">
+                                            <div className="flex items-center gap-2">
+                                                <span className="md:hidden text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Date:</span>
+                                                <span className="text-xs md:text-sm font-bold text-neutral-500">
+                                                    {app.submitted_at ? formatToDDMMYYYY(app.submitted_at) : 'In Draft'}
+                                                </span>
+                                            </div>
                                         </td>
-                                        <td className="p-6 text-right">
+                                        <td className="block md:table-cell pt-4 pb-2 md:p-6 text-right">
                                             <Link
                                                 href={`/admin/admissions/review?id=${app.id}`}
-                                                className="inline-flex items-center gap-2 bg-neutral-100 px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-black hover:text-white transition-all shadow-sm active:scale-95"
+                                                className="inline-flex items-center gap-2 bg-neutral-100 px-4 py-2 rounded-none text-xs text-black font-black uppercase tracking-widest hover:bg-black hover:text-white transition-all active:scale-95"
                                             >
-                                                Review <ChevronRight size={14} weight="bold" />
+                                                Review Application <ChevronRight size={14} weight="bold" />
                                             </Link>
                                         </td>
                                     </tr>
@@ -214,9 +215,11 @@ function StatusBadge({ status }: { status: string }) {
         'UNDER_REVIEW': 'REVIEWING',
     };
 
+    const s = status || 'DRAFT';
+
     return (
-        <span className={`px-2 py-1 rounded-md text-[10px] font-black uppercase tracking-tighter border ${variants[status] || variants['DRAFT']}`}>
-            {labels[status] || status.replaceAll('_', ' ')}
+        <span className={`px-2 py-1 rounded-none text-[10px] font-black uppercase tracking-tighter border ${variants[s] || variants['DRAFT']}`}>
+            {labels[s] || s.replace(/_/g, ' ')}
         </span>
     );
 }

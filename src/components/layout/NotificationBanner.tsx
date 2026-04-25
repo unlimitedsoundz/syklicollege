@@ -2,7 +2,7 @@
 "use client"
 
 import * as React from "react"
-import Link from "next/link"
+import { Link } from "@aalto-dx/react-components"
 import { Bell, ArrowRight } from "@phosphor-icons/react"
 
 export function NotificationBanner() {

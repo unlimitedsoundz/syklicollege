@@ -185,7 +185,7 @@ export default function DepartmentForm({ department, schools, facultyMembers }: 
                                     alt="Preview"
                                     fill
                                     unoptimized
-                                    className="object-cover"
+                                    className="object-cover object-top"
                                 />
                                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                     <p className="text-white text-sm font-bold">Change Image</p>
@@ -240,3 +240,4 @@ export default function DepartmentForm({ department, schools, facultyMembers }: 
         </form>
     );
 }
+

@@ -16,6 +16,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
+import { Button } from "@aalto-dx/react-components";
 import { Application } from '@/types/database';
 
 interface Props {
@@ -73,8 +74,8 @@ export default function ReviewStep({ application }: Props) {
     return (
         <div className="space-y-8">
             <div className="max-w-xl">
-                <h3 className="text-xl font-semibold uppercase tracking-tight mb-2 text-neutral-900 leading-none">Review & Submit</h3>
-                <p className="text-black text-[10px] font-medium uppercase tracking-widest leading-relaxed">
+                <h3 className="text-xl font-semibold mb-2 text-black leading-none">Review & Submit</h3>
+                <p className="text-black text-[11px] font-medium leading-relaxed">
                     Once submitted, your application will be locked for review.
                 </p>
             </div>
@@ -83,7 +84,7 @@ export default function ReviewStep({ application }: Props) {
             <div className="space-y-6">
                 {/* Personal & Contact Section */}
                 <div className="bg-neutral-50/50 p-6 rounded-2xl border border-neutral-100">
-                    <h4 className="text-xs font-semibold uppercase tracking-widest text-black mb-6 pb-2">
+                    <h4 className="text-[13px] font-semibold text-black mb-6 pb-2">
                         Personal & Contact Details
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -116,7 +117,7 @@ export default function ReviewStep({ application }: Props) {
 
                 {/* Academic History */}
                 <div className="bg-neutral-50/50 p-6 rounded-2xl border border-neutral-100">
-                    <h4 className="text-xs font-semibold uppercase tracking-widest text-black mb-6 pb-2">
+                    <h4 className="text-[13px] font-semibold text-black mb-6 pb-2">
                         Academic History
                     </h4>
                     {education.education?.length > 0 ? (
@@ -125,31 +126,31 @@ export default function ReviewStep({ application }: Props) {
                                 <div key={idx} className={idx !== 0 ? 'pt-4 border-t border-neutral-200/50' : ''}>
                                     <div className="flex justify-between items-start gap-4">
                                         <div className="space-y-0.5">
-                                            <div className="text-xs font-semibold uppercase tracking-tight text-neutral-900 leading-none">{edu.institution}</div>
-                                            <div className="text-[10px] font-medium text-[#2d2d2d] uppercase tracking-tight">{edu.degree}</div>
+                                            <div className="text-[13px] font-semibold text-black leading-none">{edu.institution}</div>
+                                            <div className="text-[11px] font-medium text-black">{edu.degree}</div>
                                         </div>
                                         <div className="text-right shrink-0">
-                                            <div className="text-[9px] font-semibold text-[#2d2d2d] uppercase tracking-widest">{edu.startYear} - {edu.endYear}</div>
-                                            <div className="text-[10px] font-medium text-neutral-900">Grade: {edu.grade || 'N/A'}</div>
+                                            <div className="text-[10px] font-semibold text-black">{edu.startYear} - {edu.endYear}</div>
+                                            <div className="text-[11px] font-medium text-black">Grade: {edu.grade || 'N/A'}</div>
                                         </div>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     ) : (
-                        <p className="text-[10px] text-[#2d2d2d] font-medium uppercase">No entries found.</p>
+                        <p className="text-[11px] text-black font-medium">No entries found.</p>
                     )}
                 </div>
 
                 {/* Motivation Section */}
                 <div className="bg-neutral-50/50 p-6 rounded-2xl border border-neutral-100">
-                    <h4 className="text-xs font-semibold uppercase tracking-widest text-black mb-6 pb-2">
+                    <h4 className="text-[13px] font-semibold text-black mb-6 pb-2">
                         Motivation Letter / Statement of Purpose
                     </h4>
                     <div className="space-y-4">
                         <div>
-                            <h4 className="text-[10px] font-bold uppercase tracking-widest text-primary mb-3">Motivation Letter / Statement of Purpose</h4>
-                            <div className="text-xs text-neutral-700 font-medium leading-relaxed bg-white p-4 rounded border border-neutral-100 whitespace-pre-wrap break-words">
+                            <h4 className="text-[11px] font-bold text-black mb-3">Motivation Letter / Statement of Purpose</h4>
+                            <div className="text-[13px] text-neutral-700 font-medium leading-relaxed bg-white p-4 rounded border border-neutral-100 whitespace-pre-wrap break-words">
                                 {motivation.statementOfPurpose || "No statement provided."}
                             </div>
                         </div>
@@ -162,12 +163,12 @@ export default function ReviewStep({ application }: Props) {
 
                 {/* Documents Summary */}
                 <div className="bg-neutral-50/50 p-6 rounded-2xl border border-neutral-100">
-                    <h4 className="text-xs font-semibold uppercase tracking-widest text-black mb-6 pb-2">
+                    <h4 className="text-[13px] font-semibold text-black mb-6 pb-2">
                         Uploaded Documents
                     </h4>
                     <div className="flex flex-wrap gap-2">
                         {application.documents?.map((doc: any, idx: number) => (
-                            <div key={idx} className="bg-white px-3 py-1.5 rounded-lg border border-neutral-100 text-xs font-semibold text-primary uppercase tracking-widest shadow-sm">
+                            <div key={idx} className="bg-white px-3 py-1.5 rounded-full border border-neutral-100 text-[13px] font-semibold text-black shadow-sm">
                                 {doc.type.replace('_', ' ')}
                             </div>
                         ))}
@@ -178,8 +179,8 @@ export default function ReviewStep({ application }: Props) {
             {/* Attestation & Submit */}
             <div className="p-6 bg-neutral-50 border border-neutral-100 rounded-sm space-y-6">
                 <div className="space-y-2">
-                    <h4 className="text-sm font-black uppercase tracking-widest text-neutral-900 leading-none">Final Declaration</h4>
-                    <p className="text-neutral-500 text-[10px] font-bold uppercase tracking-tight leading-relaxed">
+                    <h4 className="text-sm font-black text-black leading-none">Final Declaration</h4>
+                    <p className="text-black text-[11px] font-bold leading-relaxed">
                         I certify that the information provided is accurate and complete.
                     </p>
                 </div>
@@ -192,24 +193,22 @@ export default function ReviewStep({ application }: Props) {
                             onChange={(e) => setIsAttested(e.target.checked)}
                             className="appearance-none w-5 h-5 border-2 border-neutral-300 rounded-sm checked:bg-black checked:border-black transition-all cursor-pointer relative after:content-['✓'] after:absolute after:inset-0 after:flex after:items-center after:justify-center after:text-white after:opacity-0 checked:after:opacity-100 after:font-bold after:text-xs"
                         />
-                        <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-900 transition-colors group-hover:text-black">
+                        <span className="text-[11px] font-bold text-black transition-colors group-hover:text-black">
                             I verify that all data is correct
                         </span>
                     </label>
 
-                    <button
-                        type="submit"
-                        disabled={!isAttested || isSubmitting}
-                        className={`w-full py-4 rounded-sm font-black uppercase tracking-widest transition-all text-xs flex items-center justify-center gap-3 ${isAttested && !isSubmitting
-                            ? 'bg-primary text-white hover:bg-blue-700 hover:-translate-y-0.5 shadow-lg'
-                            : 'bg-neutral-200 text-neutral-500 cursor-not-allowed'
-                            }`}
-                    >
-                        {isSubmitting ? 'Submitting...' : 'Submit Official Application'}
-                        {!isSubmitting && <CaretRight size={16} weight="bold" />}
-                    </button>
+                    <Button
+                        htmlType="submit"
+                        disabled={!isAttested}
+                        isLoading={isSubmitting}
+                        type="primary"
+                        label="Submit Official Application"
+                        icon={<CaretRight size={16} weight="bold" />}
+                        className="min-w-[300px]"
+                    />
                     {!isAttested && (
-                        <p className="text-center text-[9px] font-bold uppercase tracking-widest text-neutral-400">
+                        <p className="text-center text-[10px] font-bold text-black/40">
                             Check verification box to enable submission
                         </p>
                     )}
@@ -222,7 +221,7 @@ export default function ReviewStep({ application }: Props) {
 function SummaryItem({ label, value }: { label: string, value?: string }) {
     return (
         <div className="py-2">
-            <div className="text-xs font-semibold uppercase tracking-widest text-black mb-1 leading-none">{label}</div>
+            <div className="text-[13px] font-semibold text-black mb-1 leading-none">{label}</div>
             <div className="text-sm font-semibold text-black leading-tight">{value || 'N/A'}</div>
         </div>
     );

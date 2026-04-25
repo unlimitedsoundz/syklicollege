@@ -42,7 +42,7 @@ export default function StudentStoriesCarousel() {
                                 src={story.image}
                                 alt={story.name}
                                 fill
-                                className="object-cover"
+                                className="object-cover object-top"
                                 sizes="(max-width: 1024px) 100vw, 50vw"
                             />
                         </div>
@@ -94,4 +94,5 @@ export default function StudentStoriesCarousel() {
         </div>
     );
 }
+
 

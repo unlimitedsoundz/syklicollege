@@ -85,7 +85,7 @@ export default function EventForm({ id, isNew, eventItem }: EventFormProps) {
                                     src={previewImage}
                                     alt="Preview"
                                     fill
-                                    className="object-cover"
+                                    className="object-cover object-top"
                                     unoptimized
                                 />
                             </div>
@@ -189,3 +189,4 @@ export default function EventForm({ id, isNew, eventItem }: EventFormProps) {
         </form>
     );
 }
+

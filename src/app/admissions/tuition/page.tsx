@@ -1,6 +1,7 @@
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import Image from 'next/image';
 import { ArrowLeft, ArrowRight, CreditCard, Bank as Landmark, ArrowClockwise as RefreshCw, Calendar, GraduationCap } from "@phosphor-icons/react/dist/ssr";
+import { Hero } from '@/components/layout/Hero';
 import GuideSidebarLayout from '@/components/layout/StudentGuideLayout';
 import TuitionFAQ from '@/components/admissions/TuitionFAQ';
 import DbPageContent from '@/components/DbPageContent';
@@ -9,6 +10,7 @@ import { registerFaqPage } from '@/lib/registerFaqPage';
 import { createClient } from '@supabase/supabase-js';
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema';
 import { SchemaLD } from '@/components/seo/SchemaLD';
+import { Breadcrumbs } from '@aalto-dx/react-modules';
 
 export const metadata = {
     title: 'Paying the Tuition Fee | Kestora University',
@@ -48,50 +50,40 @@ export default async function TuitionPaymentPage() {
     return (
         <GuideSidebarLayout sections={sections}>
             <div className="min-h-screen bg-white text-black font-sans">
-            {/* Hero Section */}
-            <section className="text-black overflow-hidden" style={{ backgroundColor: '#F3E8FF' }}>
-                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-12 pb-12 lg:pb-0 h-auto lg:h-[600px] lg:py-0 relative mb-0">
-                    {/* Left Content */}
-                    <div className="lg:w-1/2 space-y-6 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
-                        <DbPageContent
-                            tagName="h1"
-                            className="font-bold leading-[1.1] tracking-tight pt-8 text-black"
-                            style={{ fontSize: '40px' }}
-                            pageSlug={pageSlug}
-                            sectionKey="hero_title"
-                            fallbackContent={getSectionDefault('hero_title') || 'Paying the Tuition Fee'}
-                        />
-                        <DbPageContent
-                            tagName="p"
-                            className="text-[21px] text-black max-w-xl leading-relaxed"
-                            pageSlug={pageSlug}
-                            sectionKey="hero_subtitle"
-                            fallbackContent={getSectionDefault('hero_subtitle') || 'Information on tuition fee structure, payment methods, and scholarship opportunities for international students.'}
-                        />
-                        <div className="flex flex-col gap-4 pt-4">
-                            <Link href="#payment-methods" className="text-lg font-bold underline underline-offset-8 decoration-black hover:opacity-70 transition-colors text-black inline-flex items-center gap-2">
-                                View payment methods <ArrowRight size={20} weight="bold" />
-                            </Link>
-                        </div>
-                    </div>
-
-                    {/* Right Image */}
-                    <div className="lg:w-1/2 h-full w-full relative lg:translate-y-16 z-20 flex justify-center lg:block order-first lg:order-none">
-                        <div className="h-full">
-                            <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800">
-                                <Image
-                                    src="/images/admissions/tuition-hero.jpg"
-                                    alt="Tuition Hero"
-                                    fill
-                                    priority
-                                    className="object-cover"
-                                    sizes="(max-width: 1024px) 368px, 50vw"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            {/* HERO SECTION */}
+            <Hero
+                title={
+                    <DbPageContent
+                        tagName="span"
+                        pageSlug={pageSlug}
+                        sectionKey="hero_title"
+                        fallbackContent={getSectionDefault('hero_title') || 'Paying the Tuition Fee'}
+                    />
+                }
+                body={
+                    <DbPageContent
+                        tagName="span"
+                        pageSlug={pageSlug}
+                        sectionKey="hero_subtitle"
+                        fallbackContent={getSectionDefault('hero_subtitle') || 'Information on tuition fee structure, payment methods, and scholarship opportunities for international students.'}
+                    />
+                }
+                backgroundColor="#a987ff"
+                tinted
+                breadcrumbs={[
+                    { label: 'Home', href: '/' },
+                    { label: 'Admissions', href: '/admissions' },
+                    { label: 'Tuition' }
+                ]}
+                image={{
+                    src: "/images/admissions/tuition-hero.jpg",
+                    alt: "Tuition Hero"
+                }}
+            >
+                <Link href="#payment-methods" className="text-aalto-3 font-bold underline underline-offset-8 decoration-black hover:opacity-70 transition-colors text-black inline-flex items-center gap-2">
+                    View payment methods <ArrowRight size={20} weight="bold" />
+                </Link>
+            </Hero>
             <div className="container mx-auto px-4 py-8">
                 <Link href="/admissions" className="inline-flex items-center gap-2 text-black hover:text-black mb-8 transition-colors group">
                     <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" /> Back to Admissions
@@ -101,7 +93,7 @@ export default async function TuitionPaymentPage() {
                     {/* Main Content */}
                     <main className="lg:col-span-9 space-y-8 md:space-y-16">
                         <section id="fee-structure" className="scroll-mt-32">
-                            <h2 className="text-3xl font-bold mb-6 text-black pb-10 pl-2">How Much is the Tuition Fee?</h2>
+                            <h2 className="text-3xl font-bold mb-6 text-black">How Much is the Tuition Fee?</h2>
                             <DbPageContent pageSlug={pageSlug} sectionKey="fee_structure_content" fallbackContent={getSectionDefault('fee_structure_content')} />
                         </section>
 

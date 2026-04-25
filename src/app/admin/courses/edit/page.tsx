@@ -2,7 +2,7 @@
 
 import { createClient } from '@/utils/supabase/client';
 import { CaretLeft as ArrowLeft, FloppyDisk as Save, CircleNotch as Loader2 } from "@phosphor-icons/react";
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -81,12 +81,12 @@ function CourseEditorContent() {
     }
 
     return (
-        <div className="max-w-4xl mx-auto pt-12 pl-12 animate-in fade-in duration-500">
-            <div className="mb-8 flex items-center justify-between">
+        <div className="max-w-4xl mx-auto animate-in fade-in duration-500 px-4 md:px-0">
+            <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <Link href="/admin/courses" className="flex items-center gap-2 text-neutral-500 hover:text-black transition-colors font-bold">
                     <ArrowLeft size={18} weight="bold" /> Back to Courses
                 </Link>
-                <h1 className="text-3xl font-bold">{isNew ? 'Create New Course' : 'Edit Course'}</h1>
+                <h1 className="text-2xl md:text-3xl font-bold leading-tight">{isNew ? 'Create New Course' : 'Edit Course'}</h1>
             </div>
 
             <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-neutral-200 shadow-xl overflow-hidden">

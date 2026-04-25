@@ -34,9 +34,10 @@ serve(async (req) => {
         if (!applicationData && applicationId) {
                 const { data: app } = await supabase
                     .from('applications')
-                    .select('*, user:profiles(*), course:Course(title)')
+                    .select('*, user:profiles(*), course:Course(title, degreeLevel)')
                     .eq('id', applicationId)
                     .single();
+
 
             if (app) {
                 console.log(`[send-notification] Successfully fetched application data for ${applicationId}`);
@@ -46,8 +47,10 @@ serve(async (req) => {
                     first_name: app.user?.first_name || app.personal_info?.firstName,
                     last_name: app.user?.last_name || app.personal_info?.lastName,
                     student_id: app.user?.student_id,
-                    course_title: app.course?.title
+                    course_title: app.course?.title,
+                    course_degree_level: app.course?.degreeLevel
                 };
+
             } else {
                 console.warn(`[send-notification] Application not found for ID: ${applicationId}`);
             }
@@ -62,9 +65,10 @@ serve(async (req) => {
             if (offer?.application_id) {
                 const { data: app } = await supabase
                     .from('applications')
-                    .select('*, user:profiles(*), course:Course(title)')
+                    .select('*, user:profiles(*), course:Course(title, degreeLevel)')
                     .eq('id', offer.application_id)
                     .single();
+
 
                 if (app) {
                     applicationData = {
@@ -73,8 +77,10 @@ serve(async (req) => {
                         first_name: app.user?.first_name || app.personal_info?.firstName,
                         last_name: app.user?.last_name || app.personal_info?.lastName,
                         student_id: app.user?.student_id,
-                        course_title: app.course?.title
+                        course_title: app.course?.title,
+                        course_degree_level: app.course?.degreeLevel
                     };
+
                 }
             }
         }
@@ -154,6 +160,7 @@ serve(async (req) => {
                 .single();
             if (courseData) {
                 applicationData.course_title = courseData.title;
+                applicationData.course_degree_level = courseData.degreeLevel;
             }
         }
 
@@ -194,10 +201,19 @@ serve(async (req) => {
                     <p>Dear ${firstName},</p>
                     <p>We are delighted to inform you that you have been offered a conditional place to study at Kestora University.</p>
                     <div style="margin: 20px 0;">
-                        <p><strong>Your Offer Details:</strong></p>
-                        <p>Programme: ${applicationData?.course_title || 'Your Degree Programme'}</p>
-                        <p>Intake: August 2026 (Autumn Semester)</p>
-                        <p>Status: Conditional Offer</p>
+                        <p style="margin: 0 0 5px 0; font-weight: bold; text-decoration: underline;">Programme Details:</p>
+                        <p style="margin: 0 0 5px 0;"><strong>Programme:</strong> ${applicationData?.course_title || 'Your Degree Programme'}</p>
+                        <p style="margin: 0 0 5px 0;"><strong>Degree Level:</strong> ${applicationData?.course_degree_level === 'MASTER' ? "Master's Degree" : "Bachelor's Degree"}</p>
+                        <p style="margin: 0 0 5px 0;"><strong>Intake:</strong> August 2026 (Autumn Semester)</p>
+                        <p style="margin: 0 0 5px 0;"><strong>Duration:</strong> 17.08.2026 – ${applicationData?.course_degree_level === 'MASTER' ? '17.08.2028' : '17.08.2029'}</p>
+                        <p style="margin: 0 0 5px 0;"><strong>Total Credits:</strong> ${applicationData?.course_degree_level === 'MASTER' ? '120 ECTS' : '180 ECTS'}</p>
+                    </div>
+                    <div style="margin: 20px 0;">
+                        <p style="margin: 0 0 5px 0; font-weight: bold; text-decoration: underline;">Financial Summary (1st Year):</p>
+                        <p style="margin: 0 0 5px 0;">Annual Tuition Fee: €${applicationData?.course_degree_level === 'MASTER' ? '6,000' : (applicationData?.course_title?.toLowerCase().includes('science') ? '9,500' : '6,000')} EUR</p>
+                        <p style="margin: 0 0 5px 0;">Early Bird Waiver (25%): -€${applicationData?.course_degree_level === 'MASTER' ? '1,500' : (applicationData?.course_title?.toLowerCase().includes('science') ? '2,375' : '1,500')} EUR</p>
+                        <p style="margin: 0 0 5px 0;">Net First Year Fee: €${applicationData?.course_degree_level === 'MASTER' ? '4,500' : (applicationData?.course_title?.toLowerCase().includes('science') ? '7,125' : '4,500')} EUR</p>
+                        <p style="margin: 0; font-weight: bold;">Tuition Deposit (50% to Secure Place): €${applicationData?.course_degree_level === 'MASTER' ? '3,000' : (applicationData?.course_title?.toLowerCase().includes('science') ? '4,750' : '3,000')} EUR</p>
                     </div>
                     <div style="margin: 20px 0;">
                         <p><strong>What Does a Conditional Offer Mean?</strong></p>
@@ -249,9 +265,13 @@ serve(async (req) => {
                     <p>We are delighted to officially confirm your admission to Kestora University following the successful confirmation of your tuition payment.</p>
                     <p>You have been admitted to study:</p>
                     <div style="margin: 20px 0;">
-                        <p>Programme: ${applicationData?.course_title || 'Your Degree Programme'}</p>
-                        <p>Intake: ${applicationData?.intake || 'August 2026 (Autumn Semester)'}</p>
-                        <p>Student ID: ${applicationData?.student_id || ''}</p>
+                        <p style="margin: 0 0 5px 0; font-weight: bold; text-decoration: underline;">Enrolment Details:</p>
+                        <p style="margin: 0 0 5px 0;"><strong>Programme:</strong> ${applicationData?.course_title || 'Your Degree Programme'}</p>
+                        <p style="margin: 0 0 5px 0;"><strong>Degree Level:</strong> ${applicationData?.course_degree_level === 'MASTER' ? "Master's Degree" : "Bachelor's Degree"}</p>
+                        <p style="margin: 0 0 5px 0;"><strong>Intake:</strong> ${applicationData?.intake || 'August 2026 (Autumn Semester)'}</p>
+                        <p style="margin: 0 0 5px 0;"><strong>Duration:</strong> 17.08.2026 – ${applicationData?.course_degree_level === 'MASTER' ? '17.08.2028' : '17.08.2029'}</p>
+                        <p style="margin: 0 0 5px 0;"><strong>Total Credits:</strong> ${applicationData?.course_degree_level === 'MASTER' ? '120 ECTS' : '180 ECTS'}</p>
+                        <p style="margin: 0;"><strong>Student ID:</strong> ${applicationData?.student_id || ''}</p>
                     </div>
                     <p>This marks a significant milestone, and we are confident that you will thrive academically and personally as part of the Kestora community.</p>
                     <div style="margin: 20px 0;">

@@ -15,7 +15,7 @@ import {
     CircleNotch as Loader2
 } from "@phosphor-icons/react";
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { UserAvatar } from '@/components/ui/UserAvatar';
 
 export default function AdminPage() {
@@ -112,9 +112,9 @@ export default function AdminPage() {
             {/* Quick Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {stats.map((stat) => (
-                    <Link key={stat.label} href={stat.href} className="bg-white p-6 rounded-2xl border border-neutral-200 shadow-sm hover:border-black transition-all group">
+                    <Link key={stat.label} href={stat.href} className="bg-card p-6 rounded-2xl border border-neutral-200 hover:border-black transition-all group">
                         <div className="flex justify-between items-start mb-4">
-                            <div className={`p-3 rounded-xl ${stat.color} text-white shadow-lg`}>
+                            <div className={`p-3 rounded-xl ${stat.color} text-white`}>
                                 <stat.icon size={24} weight="bold" />
                             </div>
                             <span className="text-2xl font-black text-neutral-900">{stat.count || 0}</span>
@@ -139,9 +139,9 @@ export default function AdminPage() {
                         </Link>
                     </div>
 
-                    <div className="bg-white border border-neutral-200 rounded-2xl overflow-hidden shadow-sm">
+                    <div className="bg-card border border-neutral-200 rounded-2xl overflow-hidden">
                         <div className="overflow-x-auto">
-                            <table className="w-full text-left">
+                            <table className="w-full text-left min-w-[500px]">
                                 <thead className="bg-neutral-50 border-b border-neutral-100">
                                     <tr>
                                         <th className="p-4 text-xs font-bold text-neutral-400 uppercase">Student</th>
@@ -154,14 +154,11 @@ export default function AdminPage() {
                                         (pendingApps as any[]).map((a) => (
                                             <tr key={a.id} className="hover:bg-neutral-50 transition-colors">
                                                 <td className="p-4">
-                                                    <div className="flex items-center gap-3">
-                                                        <UserAvatar src={a.user?.avatar_url} firstName={a.user?.first_name} email={a.user?.email} size="sm" isLoggedIn={true} />
-                                                        <div>
-                                                            <div className="font-bold text-neutral-900 leading-none mb-1">
-                                                                {a.user?.first_name} {a.user?.last_name || a.user?.email?.split('@')[0]}
-                                                            </div>
-                                                            <div className="text-[10px] text-neutral-400 font-bold uppercase tracking-widest leading-none">{a.user?.email}</div>
+                                                    <div>
+                                                        <div className="font-bold text-neutral-900 leading-none mb-1">
+                                                            {a.user?.first_name} {a.user?.last_name || a.user?.email?.split('@')[0]}
                                                         </div>
+                                                        <div className="text-[10px] text-neutral-400 font-bold uppercase tracking-widest leading-none">{a.user?.email}</div>
                                                     </div>
                                                 </td>
                                                 <td className="p-4 text-sm text-neutral-600">{a.course?.title}</td>
@@ -186,7 +183,7 @@ export default function AdminPage() {
                 {/* Status Breakdown Card */}
                 <div className="space-y-6">
                     <h2 className="text-xl font-bold">Admissions Pipeline</h2>
-                    <div className="bg-neutral-900 p-8 rounded-3xl text-white shadow-2xl relative overflow-hidden group">
+                    <div className="bg-neutral-900 p-8 rounded-3xl text-white relative overflow-hidden group">
                         <Users className="absolute -right-4 -bottom-4 text-white/5 w-40 h-40 transform -rotate-12 group-hover:rotate-0 transition-transform duration-700" weight="fill" />
 
                         <div className="space-y-6 relative z-10">
@@ -224,7 +221,7 @@ export default function AdminPage() {
                         </div>
                     </div>
 
-                    <Link href="/admin/admissions" className="block p-4 bg-white border border-neutral-200 rounded-2xl text-center font-bold text-sm hover:bg-neutral-50 transition-colors">
+                    <Link href="/admin/admissions" className="block p-4 bg-card border border-neutral-200 rounded-2xl text-center font-bold text-sm hover:bg-neutral-50 transition-colors">
                         Manage All Admissions
                     </Link>
                 </div>

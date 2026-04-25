@@ -3,11 +3,11 @@
 import { useState, useEffect } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { formatToDDMMYYYY } from '@/utils/date';
 import { Plus, CreditCard, WarningCircle as AlertCircle, GraduationCap, SquaresFour as LayoutDashboard, FileText, Clock } from "@phosphor-icons/react/dist/ssr";
 import DeleteApplicationBtn from './DeleteApplicationBtn';
 import { ensureStudentId } from '../profile-actions';
+import { ProgressIndicator, Button, Link, List, Tag } from "@aalto-dx/react-components";
 
 export default function DashboardPage() {
     const [user, setUser] = useState<any>(null);
@@ -56,7 +56,7 @@ export default function DashboardPage() {
             if (studentRes.error) console.error('Student fetch error:', studentRes.error);
             if (admissionRes.error) console.error('Admissions fetch error:', admissionRes.error);
 
-            const admissionsMap = new Map((admissionRes.data || []).map(a => [a.program, a]));
+            const admissionsMap = new Map((admissionRes.data as any[] || []).map(a => [a.program, a]));
 
             if (profileRes.data) setProfile(profileRes.data);
             if (appsRes.data) {
@@ -91,7 +91,7 @@ export default function DashboardPage() {
     if (loading) {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                <ProgressIndicator size={32} />
             </div>
         );
     }
@@ -101,24 +101,26 @@ export default function DashboardPage() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <div className="flex items-center gap-2">
-                        <h1 className="text-xl font-semibold uppercase tracking-tight text-neutral-900 leading-none">My Applications</h1>
+                        <h1 className="text-xl font-semibold text-black leading-none">My Applications</h1>
                         {profile?.student_id && (
-                            <span className="border border-neutral-200 bg-neutral-50 px-2 py-0.5 rounded-sm text-[10px] font-black uppercase tracking-widest leading-none text-neutral-900">
-                                Student ID: {profile.student_id}
-                            </span>
+                            <Tag 
+                                label={`Student ID: ${profile.student_id}`}
+                                className="!font-black"
+                            />
                         )}
                     </div>
-                    <p className="text-neutral-600 text-xs font-medium uppercase tracking-widest mt-1">
-                        Welcome back, <span className="text-primary">{profile?.first_name || user?.email}</span>
+                    <p className="text-black text-sm font-medium mt-1">
+                        Welcome back, <span className="text-black">{profile?.first_name || user?.email}</span>
                     </p>
                 </div>
                 {!student && (
-                    <Link
+                    <Button
                         href="/portal/apply"
-                        className="border border-primary text-primary px-4 py-2 rounded-sm text-[10px] font-semibold uppercase tracking-widest hover:bg-neutral-50 transition-all self-start md:self-auto"
-                    >
-                        New Application
-                    </Link>
+                        type="outline"
+                        label="New Application"
+                        size="sm"
+                        className="self-start md:self-auto"
+                    />
                 )}
             </div>
 
@@ -127,19 +129,19 @@ export default function DashboardPage() {
                 <div className="flex items-start justify-between border-2 border-black p-6 md:p-8 rounded-sm text-black relative overflow-hidden bg-neutral-50">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10 w-full">
                         <div>
-                            <h4 className="font-black text-[10px] uppercase tracking-widest flex items-center gap-2">
+                            <h4 className="font-black text-[11px] flex items-center gap-2">
                                 <GraduationCap size={14} weight="bold" /> Active Student Status
                             </h4>
-                            <p className="text-neutral-600 text-[10px] font-bold uppercase tracking-tight mt-1">
+                            <p className="text-black text-[11px] font-bold mt-1">
                                 You are officially enrolled in <span className="text-black">{student.program?.title}</span>. Access your academic tools below.
                             </p>
                         </div>
-                        <Link
+                        <Button
                             href="/portal/student"
-                            className="bg-black text-white px-6 py-3 rounded-sm text-[10px] font-black uppercase tracking-widest hover:bg-neutral-800 transition-all whitespace-nowrap shadow-lg"
-                        >
-                            Enter Student Portal
-                        </Link>
+                            type="primary"
+                            label="Enter Student Portal"
+                            className="whitespace-nowrap shadow-lg"
+                        />
                     </div>
                 </div>
             )}
@@ -154,36 +156,38 @@ export default function DashboardPage() {
                                 <div className="flex items-start justify-between border-2 border-purple-600 p-6 md:p-8 rounded-sm text-purple-900 relative overflow-hidden bg-purple-50 mb-4 shadow-[6px_6px_0px_0px_rgba(147,51,234,0.3)] border-l-[8px]">
                                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10 w-full">
                                         <div>
-                                            <h4 className="font-black text-[12px] uppercase tracking-widest flex items-center gap-2">
+                                            <h4 className="font-black text-[13px] flex items-center gap-2">
                                                 <AlertCircle size={16} weight="bold" /> Additional Documents Requested
                                             </h4>
                                             {app.document_request_note && (
                                                 <div className="mt-3 bg-white/50 p-4 rounded-sm border border-purple-200/50 backdrop-blur-sm">
-                                                    <p className="text-[10px] font-black uppercase tracking-widest text-purple-600 mb-1 leading-none">Note from Admissions:</p>
-                                                    <p className="text-xs font-bold text-purple-900 leading-relaxed italic">"{app.document_request_note}"</p>
+                                                    <p className="text-[11px] font-black text-purple-600 mb-1 leading-none">Note from Admissions:</p>
+                                                    <p className="text-sm font-bold text-purple-900 leading-relaxed italic">"{app.document_request_note}"</p>
                                                 </div>
                                             )}
                                             {app.requested_documents && app.requested_documents.length > 0 ? (
                                                 <div className="mt-4 flex flex-wrap gap-2">
                                                     {app.requested_documents.map((docId: string) => (
-                                                        <span key={docId} className="bg-purple-100 text-purple-700 px-2 py-1 rounded-sm text-[9px] font-black uppercase tracking-tight border border-purple-200">
-                                                            {docId.replaceAll('_', ' ')}
-                                                        </span>
+                                                        <Tag 
+                                                            key={docId}
+                                                            label={docId.replaceAll('_', ' ')}
+                                                            className="bg-purple-100 text-purple-700 border-purple-200"
+                                                        />
                                                     ))}
                                                 </div>
                                             ) : (
-                                                <p className="text-purple-700 text-[10px] font-bold uppercase tracking-tight mt-1">
+                                                <p className="text-purple-700 text-[11px] font-bold mt-1">
                                                     The admissions team has requested additional documents. Please check your uploads.
                                                 </p>
                                             )}
                                         </div>
                                         <div className="flex flex-col md:flex-row gap-2">
-                                            <Link
+                                            <Button
                                                 href={`/portal/application?id=${app.id}&step=6`}
-                                                className="bg-purple-600 text-white px-8 py-4 rounded-sm text-[10px] font-black uppercase tracking-widest hover:bg-purple-700 transition-all whitespace-nowrap text-center shadow-lg"
-                                            >
-                                                Upload Missing Documents
-                                            </Link>
+                                                type="primary"
+                                                label="Upload Missing Documents"
+                                                className="bg-purple-600 hover:bg-purple-700 whitespace-nowrap shadow-lg px-8"
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -191,23 +195,22 @@ export default function DashboardPage() {
 
                             {/* Decision Alert Card - ADMITTED */}
                             {app.status === 'ADMITTED' && (
-                                <div className="flex items-start justify-between border-2 border-black p-6 md:p-8 rounded-sm text-black relative overflow-hidden bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] mb-4">
+                                <div className="flex items-start justify-between border-2 border-black p-6 md:p-8 rounded-sm text-black relative overflow-hidden bg-card shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] mb-4">
                                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10 w-full">
                                         <div>
-                                            <h4 className="font-black text-[12px] uppercase tracking-widest flex items-center gap-2">
+                                            <h4 className="font-black text-[13px] flex items-center gap-2">
                                                 <GraduationCap size={16} weight="bold" /> Formal Offer of Admission
                                             </h4>
-                                            <p className="text-neutral-500 text-[10px] font-bold uppercase tracking-tight mt-1">
+                                            <p className="text-black text-[11px] font-bold mt-1">
                                                 An official offer letter has been issued. Action is required to secure your place.
                                             </p>
                                         </div>
                                         <div className="flex flex-col md:flex-row gap-2">
                                             <Link
-                                                href={`/portal/application/letter?id=${app.id}`}
-                                                className="bg-black text-white px-8 py-4 rounded-sm text-[10px] font-black uppercase tracking-widest hover:bg-neutral-800 transition-all whitespace-nowrap text-center shadow-lg"
-                                            >
-                                                Accept Official Offer
-                                            </Link>
+                                                label="Accept Official Offer"
+                                                linkComponentProps={{ href: `/portal/application/letter?id=${app.id}` }}
+                                                className="bg-black text-white px-8 py-4 rounded-sm text-[11px] font-black hover:bg-neutral-800 transition-all whitespace-nowrap text-center shadow-lg"
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -215,7 +218,7 @@ export default function DashboardPage() {
 
                             {/* Payment Pending Alert Card - OFFER_ACCEPTED */}
                             {app.status === 'OFFER_ACCEPTED' && (
-                                <div className="flex items-start justify-between border border-neutral-200 p-6 md:p-8 rounded-sm text-neutral-900 relative overflow-hidden bg-white shadow-sm mb-4">
+                                <div className="flex items-start justify-between border border-neutral-200 p-6 md:p-8 rounded-sm text-neutral-900 relative overflow-hidden bg-card shadow-sm mb-4">
                                     {(() => {
                                         const offer = Array.isArray(app.offer) ? app.offer[0] : app.offer;
                                         const isInvoicePushed = offer?.invoice_pushed;
@@ -226,26 +229,24 @@ export default function DashboardPage() {
                                             return (
                                                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10 w-full">
                                                     <div>
-                                                        <h4 className="font-black text-[10px] uppercase tracking-widest flex items-center gap-2 text-neutral-500">
+                                                        <h4 className="font-normal text-[11px] flex items-center gap-2 text-black">
                                                             <CreditCard size={14} weight="bold" /> {invoiceType} Required: €{tuitionFee}
                                                         </h4>
-                                                        <p className="text-neutral-900 text-[10px] font-bold uppercase tracking-tight mt-1">
+                                                        <p className="text-black text-[11px] font-bold mt-1">
                                                             Your invoice has been generated. Complete your {invoiceType.toLowerCase()} payment to secure enrollment.
                                                         </p>
                                                     </div>
                                                     <div className="flex flex-col md:flex-row gap-2">
                                                         <Link
-                                                            href={`/portal/application/letter?id=${app.id}`}
-                                                            className="px-6 py-3 border border-neutral-200 text-neutral-600 rounded-sm text-[10px] font-black uppercase tracking-widest hover:bg-neutral-50 transition-all whitespace-nowrap text-center"
-                                                        >
-                                                            View Offer
-                                                        </Link>
+                                                            label="View Offer"
+                                                            linkComponentProps={{ href: `/portal/application/letter?id=${app.id}` }}
+                                                            className="px-6 py-3 border border-neutral-200 text-black rounded-sm text-[11px] font-black hover:bg-neutral-50 transition-all whitespace-nowrap text-center"
+                                                        />
                                                         <Link
-                                                            href={`/portal/application/payment?id=${app.id}`}
-                                                            className="bg-black text-white px-6 py-3 rounded-sm text-[10px] font-black uppercase tracking-widest hover:bg-neutral-800 transition-all whitespace-nowrap text-center"
-                                                        >
-                                                            Pay {invoiceType}
-                                                        </Link>
+                                                            label={`Pay ${invoiceType}`}
+                                                            linkComponentProps={{ href: `/portal/application/payment?id=${app.id}` }}
+                                                            className="bg-black text-white px-6 py-3 rounded-sm text-[11px] font-black hover:bg-neutral-800 transition-all whitespace-nowrap text-center"
+                                                        />
                                                     </div>
                                                 </div>
                                             );
@@ -253,20 +254,19 @@ export default function DashboardPage() {
                                             return (
                                                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10 w-full">
                                                     <div>
-                                                        <h4 className="font-black text-[10px] uppercase tracking-widest flex items-center gap-2 text-neutral-500">
+                                                        <h4 className="font-black text-[11px] flex items-center gap-2 text-black">
                                                             <Clock size={14} weight="bold" /> Pending Invoice
                                                         </h4>
-                                                        <p className="text-neutral-900 text-[10px] font-bold uppercase tracking-tight mt-1">
+                                                        <p className="text-black text-[11px] font-bold mt-1">
                                                             The Admissions Office is preparing your tuition invoice. You will be able to pay once it is sent shortly.
                                                         </p>
                                                     </div>
                                                     <div className="flex flex-col md:flex-row gap-2">
                                                         <Link
-                                                            href={`/portal/application/letter?id=${app.id}`}
-                                                            className="px-6 py-3 border border-neutral-200 text-neutral-600 rounded-sm text-[10px] font-black uppercase tracking-widest hover:bg-neutral-50 transition-all whitespace-nowrap text-center"
-                                                        >
-                                                            View Offer
-                                                        </Link>
+                                                            label="View Offer"
+                                                            linkComponentProps={{ href: `/portal/application/letter?id=${app.id}` }}
+                                                            className="px-6 py-3 border border-neutral-200 text-black rounded-sm text-[11px] font-black hover:bg-neutral-50 transition-all whitespace-nowrap text-center"
+                                                        />
                                                     </div>
                                                 </div>
                                             );
@@ -280,17 +280,17 @@ export default function DashboardPage() {
                                 <div className="flex items-start justify-between border border-neutral-200 p-6 md:p-8 rounded-sm text-black relative overflow-hidden bg-neutral-50 mb-4 shadow-sm">
                                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10 w-full">
                                         <div className="flex-1">
-                                            <h4 className="font-black text-[10px] uppercase tracking-widest flex items-center gap-2 text-black">
+                                            <h4 className="font-black text-[11px] flex items-center gap-2 text-black">
                                                 <AlertCircle size={14} weight="bold" /> Payment Verification Pending
                                             </h4>
-                                            <p className="text-neutral-500 text-[10px] font-bold uppercase tracking-tight mt-1">
+                                            <p className="text-black text-[11px] font-bold mt-1">
                                                 Your payment has been received. Our team is verifying the transaction before finalizing your enrollment.
                                             </p>
                                         </div>
                                         <div className="flex flex-col md:flex-row items-center gap-3">
                                             <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-neutral-200 whitespace-nowrap">
                                                 <span className="w-2 h-2 bg-black rounded-full animate-pulse" />
-                                                <span className="text-[10px] font-black uppercase tracking-widest text-black">Verifying</span>
+                                                <span className="text-[11px] font-black text-black">Verifying</span>
                                             </div>
                                         </div>
                                     </div>
@@ -300,35 +300,34 @@ export default function DashboardPage() {
                             {app.status === 'REJECTED' && (
                                 <div className="border border-neutral-200 p-6 rounded-sm transition-all flex flex-col md:flex-row md:items-center justify-between gap-6 mb-4">
                                     <div>
-                                        <h4 className="font-semibold text-[10px] uppercase tracking-widest">Decision updated</h4>
-                                        <p className="text-neutral-400 text-[10px] font-medium uppercase tracking-tight mt-0.5">A decision has been reached regarding your application.</p>
+                                        <h4 className="font-semibold text-[11px]">Decision updated</h4>
+                                        <p className="text-black text-[11px] font-medium mt-0.5">A decision has been reached regarding your application.</p>
                                     </div>
                                     <Link
-                                        href={`/portal/application?id=${app.id}`}
-                                        className="border border-neutral-200 text-neutral-600 px-4 py-2 rounded-sm text-[10px] font-semibold uppercase tracking-widest hover:bg-neutral-50 transition-all whitespace-nowrap"
-                                    >
-                                        Details
-                                    </Link>
+                                        label="Details"
+                                        linkComponentProps={{ href: `/portal/application?id=${app.id}` }}
+                                        className="border border-neutral-200 text-black px-4 py-2 rounded-sm text-[11px] font-semibold hover:bg-neutral-50 transition-all whitespace-nowrap"
+                                    />
                                 </div>
                             )}
 
                             <div className="bg-white p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all border-b border-neutral-100 hover:bg-neutral-50/50">
                                 <div>
                                     <div className="flex items-center gap-2 mb-0.5">
-                                        <h3 className="font-semibold text-sm uppercase tracking-tight text-neutral-900 leading-none">
+                                        <h3 className="font-semibold text-sm text-black leading-none">
                                             {app.course?.title || 'Untitled Application'}
                                             {app.course?.duration && (
-                                                <span className="text-neutral-500 font-medium lowercase"> — {app.course.duration}</span>
+                                                <span className="text-black font-medium"> — {app.course.duration}</span>
                                             )}
                                         </h3>
                                         {app.application_number && (
-                                            <span className="text-neutral-500 font-medium text-[10px]">#{app.application_number}</span>
+                                            <span className="text-neutral-500 font-medium text-[11px]">#{app.application_number}</span>
                                         )}
                                     </div>
-                                    <div className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-widest leading-none mt-1">
+                                    <div className="flex items-center gap-3 text-[11px] font-semibold leading-none mt-1">
                                         <span className={`${app.status === 'ADMITTED' || app.status === 'OFFER_ACCEPTED' || app.status === 'ENROLLED' ? 'text-black' :
                                             app.status === 'REJECTED' ? 'text-neutral-500' :
-                                                'text-neutral-600'
+                                                'text-black'
                                             }`}>
                                             {app.status.replaceAll('_', ' ')}
                                         </span>
@@ -339,32 +338,29 @@ export default function DashboardPage() {
                                     {/* Draft State */}
                                     {app.status === 'DRAFT' && (
                                         <Link
-                                            href={`/portal/application?id=${app.id}`}
-                                            className="px-4 py-2 border border-primary text-primary rounded-sm text-[10px] font-bold uppercase tracking-widest hover:bg-neutral-50 transition-all"
-                                        >
-                                            Continue
-                                        </Link>
+                                            label="Continue"
+                                            linkComponentProps={{ href: `/portal/application?id=${app.id}` }}
+                                            className="px-4 py-2 border border-black text-black rounded-sm text-[11px] font-bold hover:bg-neutral-50 transition-all"
+                                        />
                                     )}
 
                                     {/* Submitted / Under Review */}
                                     {(app.status === 'SUBMITTED' || app.status === 'UNDER_REVIEW') && (
                                         <Link
-                                            href={`/portal/application/view?id=${app.id}`}
-                                            className="px-4 py-2 border border-neutral-200 text-neutral-500 rounded-sm text-[10px] font-bold uppercase tracking-widest hover:bg-neutral-50 transition-all"
-                                        >
-                                            View Form
-                                        </Link>
+                                            label="View Form"
+                                            linkComponentProps={{ href: `/portal/application/view?id=${app.id}` }}
+                                            className="px-4 py-2 border border-neutral-200 text-black rounded-sm text-[11px] font-bold hover:bg-neutral-50 transition-all"
+                                        />
                                     )}
 
                                     {/* Decision / Pay Buttons */}
                                     {app.status === 'ADMITTED' && (
                                         <Link
-                                            href={`/portal/application/letter?id=${app.id}`}
-                                            className="px-4 py-2 bg-black text-white rounded-sm text-[10px] font-black uppercase tracking-widest hover:bg-neutral-800 transition-all flex items-center gap-2"
-                                        >
-                                            <CreditCard size={12} />
-                                            View Offer
-                                        </Link>
+                                            label="View Offer"
+                                            linkComponentProps={{ href: `/portal/application/letter?id=${app.id}` }}
+                                            className="px-4 py-2 bg-black text-white rounded-sm text-[11px] font-black hover:bg-neutral-800 transition-all flex items-center gap-2"
+                                            icon={<CreditCard size={12} />}
+                                        />
                                     )}
 
                                     {app.status === 'OFFER_ACCEPTED' && (() => {
@@ -374,20 +370,18 @@ export default function DashboardPage() {
                                         return (
                                         <div className="flex gap-2">
                                             <Link
-                                                href={`/portal/application/letter?id=${app.id}`}
-                                                className="px-4 py-2 border border-black text-black rounded-sm text-[10px] font-bold uppercase tracking-widest hover:bg-neutral-50 transition-all flex items-center gap-2"
-                                            >
-                                                <FileText size={12} weight="bold" />
-                                                View Offer
-                                            </Link>
+                                                label="View Offer"
+                                                linkComponentProps={{ href: `/portal/application/letter?id=${app.id}` }}
+                                                className="px-4 py-2 border border-black text-black rounded-sm text-[11px] font-bold hover:bg-neutral-50 transition-all flex items-center gap-2"
+                                                icon={<FileText size={12} weight="bold" />}
+                                            />
                                             {isInvoicePushed && (
                                                 <Link
-                                                    href={`/portal/application/payment?id=${app.id}`}
-                                                    className="px-4 py-2 bg-black text-white rounded-sm text-[10px] font-black uppercase tracking-widest hover:bg-neutral-800 transition-all flex items-center gap-2"
-                                                >
-                                                    <CreditCard size={12} weight="bold" />
-                                                    Pay Tuition
-                                                </Link>
+                                                    label="Pay Tuition"
+                                                    linkComponentProps={{ href: `/portal/application/payment?id=${app.id}` }}
+                                                    className="px-4 py-2 bg-black text-white rounded-sm text-[11px] font-black hover:bg-neutral-800 transition-all flex items-center gap-2"
+                                                    icon={<CreditCard size={12} weight="bold" />}
+                                                />
                                             )}
                                         </div>
                                     )})()}
@@ -396,38 +390,34 @@ export default function DashboardPage() {
                                     {app.status === 'ENROLLED' && (
                                         <div className="flex gap-2">
                                             <Link
-                                                href={`/portal/application/admission-letter/?id=${app.id}`}
-                                                className="px-4 py-2 border border-emerald-600 text-emerald-600 rounded-sm text-[10px] font-bold uppercase tracking-widest hover:bg-emerald-50 transition-all flex items-center gap-2"
-                                            >
-                                                <FileText size={12} weight="bold" />
-                                                Admission Letter
-                                            </Link>
+                                                label="Admission Letter"
+                                                linkComponentProps={{ href: `/portal/application/admission-letter/?id=${app.id}` }}
+                                                className="px-4 py-2 border border-emerald-600 text-emerald-600 rounded-sm text-[11px] font-bold hover:bg-emerald-50 transition-all flex items-center gap-2"
+                                                icon={<FileText size={12} weight="bold" />}
+                                            />
                                             <Link
-                                                href={`/portal/application/receipt?id=${app.id}`}
-                                                className="px-4 py-2 border border-neutral-200 text-neutral-600 rounded-sm text-[10px] font-bold uppercase tracking-widest hover:bg-neutral-50 transition-all flex items-center gap-2"
-                                            >
-                                                <FileText size={12} weight="bold" />
-                                                Receipt
-                                            </Link>
+                                                label="Receipt"
+                                                linkComponentProps={{ href: `/portal/application/receipt?id=${app.id}` }}
+                                                className="px-4 py-2 border border-neutral-200 text-black rounded-sm text-[11px] font-bold hover:bg-neutral-50 transition-all flex items-center gap-2"
+                                                icon={<FileText size={12} weight="bold" />}
+                                            />
                                             <Link
-                                                href={`/portal/student`}
-                                                className="px-4 py-2 bg-black text-white rounded-sm text-[10px] font-black uppercase tracking-widest hover:bg-neutral-800 transition-all flex items-center gap-2"
-                                            >
-                                                <LayoutDashboard size={12} weight="bold" />
-                                                Enter Portal
-                                            </Link>
+                                                label="Enter Portal"
+                                                linkComponentProps={{ href: `/portal/student` }}
+                                                className="px-4 py-2 bg-black text-white rounded-sm text-[11px] font-black hover:bg-neutral-800 transition-all flex items-center gap-2"
+                                                icon={<LayoutDashboard size={12} weight="bold" />}
+                                            />
                                         </div>
                                     )}
 
                                     {/* View Offer Letter link for non-enrolled states */}
-                                    {(app.status === 'OFFER_ACCEPTED' || app.status === 'PAYMENT_SUBMITTED') && (
+                                    {(app.status === 'PAYMENT_SUBMITTED') && (
                                         <Link
-                                            href={`/portal/application/letter?id=${app.id}`}
-                                            className="px-4 py-2 border border-neutral-200 text-neutral-500 rounded-sm text-[10px] font-bold uppercase tracking-widest hover:bg-neutral-50 transition-all flex items-center gap-2"
-                                        >
-                                            <FileText size={12} weight="bold" />
-                                            Offer Letter
-                                        </Link>
+                                            label="Offer Letter"
+                                            linkComponentProps={{ href: `/portal/application/letter?id=${app.id}` }}
+                                            className="px-4 py-2 border border-neutral-200 text-black rounded-sm text-[11px] font-bold hover:bg-neutral-50 transition-all flex items-center gap-2"
+                                            icon={<FileText size={12} weight="bold" />}
+                                        />
                                     )}
 
                                     {/* Delete Button for non-enrolled */}
@@ -441,22 +431,24 @@ export default function DashboardPage() {
                 </div>
             ) : (
                 <div className="p-12 text-center border border-neutral-100 rounded-sm">
-                    <h3 className="text-[10px] font-semibold uppercase tracking-widest text-neutral-400 mb-2">No active applications</h3>
+                    <h3 className="text-[11px] font-semibold text-black mb-2">No active applications</h3>
                     <Link
-                        href="/portal/apply"
-                        className="inline-block border border-primary text-primary px-6 py-2 rounded-sm text-[10px] font-semibold uppercase tracking-widest hover:bg-neutral-50 transition-all"
-                    >
-                        Start Journey
-                    </Link>
+                        label="Start Journey"
+                        linkComponentProps={{ href: "/portal/apply" }}
+                        className="inline-block border border-black text-black px-6 py-2 rounded-sm text-[11px] font-semibold hover:bg-neutral-50 transition-all"
+                    />
                 </div>
             )}
 
             <div className="mt-16 pt-8 text-center">
-                <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-semibold flex flex-wrap justify-center gap-6">
-                    <Link href="/student-handbook" className="hover:text-black transition-colors">Student Handbook</Link>
-                    <Link href="/code-of-conduct" className="hover:text-black transition-colors">Code of Conduct</Link>
-                    <Link href="/refund-withdrawal-policy/" className="hover:text-black transition-colors">Refund Policy</Link>
-                </p>
+                <List
+                    items={[
+                        { label: "Student Handbook", linkComponentProps: { href: "/student-handbook" } },
+                        { label: "Code of Conduct", linkComponentProps: { href: "/code-of-conduct" } },
+                        { label: "Refund Policy", linkComponentProps: { href: "/refund-withdrawal-policy/" } },
+                    ]}
+                    className="flex flex-wrap justify-center gap-6 space-y-0"
+                />
             </div>
         </div>
     );

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { Plus, CheckCircle as CheckCircle2, Copy, ArrowRight, CircleNotch as Loader2, Eye, EyeSlash } from "@phosphor-icons/react/dist/ssr";
 import { registerApplicant } from '../actions';
 import DateSelector from '@/components/ui/DateSelector';
@@ -57,28 +57,24 @@ export default function RegisterPage() {
     if (isRegistered && message?.type === 'success') {
         return (
             <div className="max-w-md mx-auto mt-12 bg-white p-8 border border-neutral-100 text-center space-y-6 animate-in zoom-in-95 duration-500 text-[#2d2d2d]">
-                <div className="w-16 h-16 bg-neutral-100 rounded-2xl flex items-center justify-center mx-auto text-neutral-900">
-                    <CheckCircle2 size={32} weight="bold" />
-                </div>
-
                 <div className="space-y-1">
                     <h1 className="text-2xl font-black uppercase tracking-tight">Welcome to Kestora</h1>
                     <p className="text-xs font-medium">Your account has been successfully created.</p>
                 </div>
 
-                <div className="p-6 bg-neutral-900 rounded-2xl text-white space-y-3 shadow-md">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-[#2d2d2d]" style={{ filter: 'invert(1) grayscale(1) brightness(2)' }}>Registration Complete</p>
+                <div className="p-6 bg-neutral-100 rounded-sm text-black space-y-3">
+                    <p className="text-[10px] font-black text-black">Registration Complete</p>
                     <div className="flex items-center justify-center gap-3">
-                        <span className="text-xl font-black tracking-tight text-white">{formData.email}</span>
+                        <span className="text-xl font-black tracking-tight text-black">{formData.email}</span>
                     </div>
-                    <p className="text-[9px] font-bold uppercase leading-tight pt-1">
+                    <p className="text-[9px] font-bold leading-tight pt-1">
                         You can now sign in using your email and password.
                     </p>
                 </div>
 
                 <div className="space-y-4">
                     <div className="p-3 bg-neutral-50 border border-neutral-100 flex items-center justify-center gap-3 text-center">
-                        <p className="text-[10px] font-bold uppercase tracking-widest leading-none">
+                        <p className="text-[10px] font-bold leading-none">
                             Success! Your account is active.
                         </p>
                     </div>
@@ -88,7 +84,7 @@ export default function RegisterPage() {
                             href="/portal/account/login"
                             className="w-full bg-neutral-900 text-white font-bold py-3.5 rounded-xl hover:bg-black transition-all flex items-center justify-center gap-2"
                         >
-                            Go to Login <ArrowRight size={16} weight="bold" />
+                            Go to Login
                         </Link>
                     </div>
                 </div>
@@ -97,12 +93,12 @@ export default function RegisterPage() {
     }
 
     return (
-        <div className="max-w-md mx-auto mt-12 bg-white p-8 border border-neutral-100 text-[#2d2d2d]">
+        <div className="max-w-md mx-auto mt-12 bg-white p-8 border border-neutral-100 text-black">
             <h1 className="text-2xl font-bold mb-2">Create Account</h1>
             <p className="mb-8">Start your application to Kestora University</p>
 
             {message && (
-                <div className={`p-4 mb-6 text-xs font-bold uppercase tracking-widest border ${message.type === 'success' ? 'bg-neutral-50 border-neutral-100' : 'bg-red-50 text-red-700 border-red-100'}`} style={message.type === 'success' ? { color: '#2d2d2d' } : {}}>
+                <div className={`p-4 rounded-sm mb-6 text-xs font-bold border ${message.type === 'success' ? 'bg-neutral-50 text-black border-neutral-100' : 'bg-red-50 text-red-700 border-red-100'}`}>
                     {message.text}
                 </div>
             )}

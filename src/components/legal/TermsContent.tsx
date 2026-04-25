@@ -96,7 +96,7 @@ export default function TermsContent() {
                         <div className="prose prose-neutral max-w-none space-y-8 md:space-y-24">
                             {/* 1. Acceptance of Terms */}
                             <section id="acceptance" className="scroll-mt-32">
-                                <h2 className="text-2xl font-bold mb-8 border-b border-black pb-10 pl-2">1. Acceptance of Terms</h2>
+                                <h2 className="text-2xl font-bold mb-8  pb-10 pl-2">1. Acceptance of Terms</h2>
                                 <div className="space-y-6 text-neutral-700 leading-relaxed">
                                     <p>
                                         By accessing or using Kestora University websites digital platforms and services users agree to comply with these Terms of Use and Conditions. If a user does not agree with these terms they should refrain from using the services.
@@ -106,7 +106,7 @@ export default function TermsContent() {
 
                             {/* 2. Scope of Application */}
                             <section id="scope" className="scroll-mt-32">
-                                <h2 className="text-2xl font-bold mb-8 border-b border-black pb-10 pl-2">2. Scope of Application</h2>
+                                <h2 className="text-2xl font-bold mb-8  pb-10 pl-2">2. Scope of Application</h2>
                                 <div className="space-y-6 text-neutral-700 leading-relaxed">
                                     <p>
                                         These Terms apply to all users of Kestora University digital services including prospective students enrolled students staff partners and visitors.
@@ -116,7 +116,7 @@ export default function TermsContent() {
 
                             {/* 3. Use of Digital Services */}
                             <section id="use-of-services" className="scroll-mt-32">
-                                <h2 className="text-2xl font-bold mb-8 border-b border-black pb-10 pl-2">3. Use of Digital Services</h2>
+                                <h2 className="text-2xl font-bold mb-8  pb-10 pl-2">3. Use of Digital Services</h2>
                                 <div className="space-y-6 text-neutral-700 leading-relaxed">
                                     <p>
                                         Users agree to use Kestora University services lawfully respectfully and in a manner that does not disrupt or harm systems content or other users.
@@ -129,7 +129,7 @@ export default function TermsContent() {
 
                             {/* 4. Intellectual Property */}
                             <section id="intellectual-property" className="scroll-mt-32">
-                                <h2 className="text-2xl font-bold mb-8 border-b border-black pb-10 pl-2">4. Intellectual Property</h2>
+                                <h2 className="text-2xl font-bold mb-8  pb-10 pl-2">4. Intellectual Property</h2>
                                 <div className="space-y-6 text-neutral-700 leading-relaxed">
                                     <p>
                                         All content on Kestora University websites including text images graphics logos documents and digital materials is the intellectual property of Kestora University or its licensors unless otherwise stated.
@@ -142,7 +142,7 @@ export default function TermsContent() {
 
                             {/* 5. User Generated Content */}
                             <section id="user-generated-content" className="scroll-mt-32">
-                                <h2 className="text-2xl font-bold mb-8 border-b border-black pb-10 pl-2">5. User Generated Content</h2>
+                                <h2 className="text-2xl font-bold mb-8  pb-10 pl-2">5. User Generated Content</h2>
                                 <div className="space-y-6 text-neutral-700 leading-relaxed">
                                     <p>
                                         Where users are permitted to submit content such as applications feedback or messages they are responsible for ensuring the accuracy legality and appropriateness of such content.
@@ -155,7 +155,7 @@ export default function TermsContent() {
 
                             {/* 6. Availability of Services */}
                             <section id="availability" className="scroll-mt-32">
-                                <h2 className="text-2xl font-bold mb-8 border-b border-black pb-10 pl-2">6. Availability of Services</h2>
+                                <h2 className="text-2xl font-bold mb-8  pb-10 pl-2">6. Availability of Services</h2>
                                 <div className="space-y-6 text-neutral-700 leading-relaxed">
                                     <p>
                                         Kestora University aims to ensure continuous availability of its digital services but does not guarantee uninterrupted access. Services may be temporarily unavailable due to maintenance technical issues or external factors.
@@ -165,7 +165,7 @@ export default function TermsContent() {
 
                             {/* 7. Limitation of Liability */}
                             <section id="limitation-of-liability" className="scroll-mt-32">
-                                <h2 className="text-2xl font-bold mb-8 border-b border-black pb-10 pl-2">7. Limitation of Liability</h2>
+                                <h2 className="text-2xl font-bold mb-8  pb-10 pl-2">7. Limitation of Liability</h2>
                                 <div className="space-y-6 text-neutral-700 leading-relaxed">
                                     <p>
                                         Kestora University is not liable for direct or indirect damages arising from the use or inability to use its digital services except where liability cannot be excluded under applicable law.
@@ -175,7 +175,7 @@ export default function TermsContent() {
 
                             {/* 8. Data Protection */}
                             <section id="data-protection" className="scroll-mt-32">
-                                <h2 className="text-2xl font-bold mb-8 border-b border-black pb-10 pl-2">8. Data Protection</h2>
+                                <h2 className="text-2xl font-bold mb-8  pb-10 pl-2">8. Data Protection</h2>
                                 <div className="space-y-6 text-neutral-700 leading-relaxed">
                                     <p>
                                         The processing of personal data is governed by the Kestora University Privacy Policy. Users are encouraged to review the Privacy Policy to understand how personal data is handled.
@@ -185,7 +185,7 @@ export default function TermsContent() {
 
                             {/* 9. External Links */}
                             <section id="external-links" className="scroll-mt-32">
-                                <h2 className="text-2xl font-bold mb-8 border-b border-black pb-10 pl-2">9. External Links</h2>
+                                <h2 className="text-2xl font-bold mb-8  pb-10 pl-2">9. External Links</h2>
                                 <div className="space-y-6 text-neutral-700 leading-relaxed">
                                     <p>
                                         Kestora University websites may contain links to external websites. Kestora University is not responsible for the content or data protection practices of external sites.
@@ -195,7 +195,7 @@ export default function TermsContent() {
 
                             {/* 10. Changes to the Terms */}
                             <section id="changes" className="scroll-mt-32">
-                                <h2 className="text-2xl font-bold mb-8 border-b border-black pb-10 pl-2">10. Changes to the Terms</h2>
+                                <h2 className="text-2xl font-bold mb-8  pb-10 pl-2">10. Changes to the Terms</h2>
                                 <div className="space-y-6 text-neutral-700 leading-relaxed">
                                     <p>
                                         Kestora University may update these Terms of Use and Conditions at any time. Updated terms will be published on the official website and apply from the date of publication.
@@ -205,7 +205,7 @@ export default function TermsContent() {
 
                             {/* 11. Governing Law */}
                             <section id="governing-law" className="scroll-mt-32">
-                                <h2 className="text-2xl font-bold mb-8 border-b border-black pb-10 pl-2">11. Governing Law and Jurisdiction</h2>
+                                <h2 className="text-2xl font-bold mb-8  pb-10 pl-2">11. Governing Law and Jurisdiction</h2>
                                 <div className="space-y-6 text-neutral-700 leading-relaxed">
                                     <p>
                                         These Terms are governed by the laws of Finland. Any disputes arising in connection with these Terms shall be subject to the jurisdiction of Finnish courts unless otherwise required by law.
@@ -215,7 +215,7 @@ export default function TermsContent() {
 
                             {/* 12. Contact Information */}
                             <section id="contact" className="scroll-mt-32">
-                                <h2 className="text-2xl font-bold mb-8 border-b border-black pb-10 pl-2">12. Contact Information</h2>
+                                <h2 className="text-2xl font-bold mb-8  pb-10 pl-2">12. Contact Information</h2>
                                 <div className="space-y-6 text-neutral-700 leading-relaxed">
                                     <p>
                                         For questions regarding these Terms of Use and Conditions please contact Kestora University through the official communication channels listed on the website.

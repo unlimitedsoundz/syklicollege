@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { createClient } from '@/utils/supabase/client';
 import { formatToDDMMYYYY } from '@/utils/date';
 import { Pencil, Plus, Trash } from "@phosphor-icons/react";

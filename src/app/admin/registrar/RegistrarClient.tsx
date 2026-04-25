@@ -21,8 +21,23 @@ import {
     CaretDoubleRight as ChevronsRight,
     CreditCard,
     X,
-    CircleNotch as Loader2
+    CircleNotch as Loader2,
+    MagnifyingGlass as Search,
+    Plus
 } from "@phosphor-icons/react/dist/ssr";
+import { SearchField } from '@/components/ui/SearchField';
+import {
+    updateWindowStatus,
+    saveWindow,
+    saveSemester,
+    updateSemesterStatus,
+    finalizeGrade,
+    updateStudentStatusRegistrar,
+    saveSession,
+    deleteSession,
+    deleteWindow,
+    deleteSemester
+} from './actions';
 
 interface RegistrarClientProps {
     semesters: any[];
@@ -64,6 +79,25 @@ export default function RegistrarClient({
         location_type: 'CAMPUS' as 'CAMPUS' | 'ONLINE',
         location_detail: ''
     });
+
+    const [showSemesterModal, setShowSemesterModal] = useState(false);
+    const [editingSemester, setEditingSemester] = useState<any>(null);
+    const [semesterFormData, setSemesterFormData] = useState({
+        name: '',
+        start_date: '',
+        end_date: '',
+        status: 'UPCOMING' as 'ACTIVE' | 'COMPLETED' | 'UPCOMING'
+    });
+
+    const [showWindowModal, setShowWindowModal] = useState(false);
+    const [editingWindow, setEditingWindow] = useState<any>(null);
+    const [windowFormData, setWindowFormData] = useState({
+        semester_id: '',
+        status: 'CLOSED' as 'OPEN' | 'CLOSED',
+        open_at: '',
+        close_at: '',
+        add_drop_deadline: ''
+    });
     const ITEMS_PER_PAGE = 10;
 
     useEffect(() => {
@@ -77,12 +111,7 @@ export default function RegistrarClient({
     const handleStatusUpdate = async (windowId: string, status: any) => {
         setIsLoading(true);
         try {
-            const supabase = createClient();
-            const { error } = await supabase
-                .from('registration_windows')
-                .update({ status })
-                .eq('id', windowId);
-            if (error) throw error;
+            await updateWindowStatus(windowId, status);
             window.location.reload();
         } catch (error: any) {
             alert(error.message);
@@ -94,15 +123,7 @@ export default function RegistrarClient({
     const handleFinalizeGrade = async (enrollmentId: string) => {
         setIsLoading(true);
         try {
-            const supabase = createClient();
-            const { error } = await supabase
-                .from('module_enrollments')
-                .update({
-                    grade_status: 'FINAL',
-                    finalized_at: new Date().toISOString()
-                })
-                .eq('id', enrollmentId);
-            if (error) throw error;
+            await finalizeGrade(enrollmentId);
             window.location.reload();
         } catch (error: any) {
             alert(error.message);
@@ -114,12 +135,7 @@ export default function RegistrarClient({
     const handleUpdateStudentStatus = async (studentId: string, status: string) => {
         setIsLoading(true);
         try {
-            const supabase = createClient();
-            const { error } = await supabase
-                .from('students')
-                .update({ enrollment_status: status })
-                .eq('id', studentId);
-            if (error) throw error;
+            await updateStudentStatusRegistrar(studentId, status);
             window.location.reload();
         } catch (error: any) {
             alert(error.message);
@@ -128,15 +144,36 @@ export default function RegistrarClient({
         }
     };
 
-    const handleUpdateSemesterStatus = async (semesterId: string, status: string) => {
+    const handleUpdateSemesterStatus = async (semesterId: string, status: any) => {
         setIsLoading(true);
         try {
-            const supabase = createClient();
-            const { error } = await supabase
-                .from('semesters')
-                .update({ status })
-                .eq('id', semesterId);
-            if (error) throw error;
+            await updateSemesterStatus(semesterId, status);
+            window.location.reload();
+        } catch (error: any) {
+            alert(error.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleSaveSemester = async () => {
+        setIsLoading(true);
+        try {
+            await saveSemester(semesterFormData, editingSemester?.id);
+            setShowSemesterModal(false);
+            window.location.reload();
+        } catch (error: any) {
+            alert(error.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleSaveWindow = async () => {
+        setIsLoading(true);
+        try {
+            await saveWindow(windowFormData, editingWindow?.id);
+            setShowWindowModal(false);
             window.location.reload();
         } catch (error: any) {
             alert(error.message);
@@ -148,19 +185,7 @@ export default function RegistrarClient({
     const handleSaveSession = async () => {
         setIsLoading(true);
         try {
-            const supabase = createClient();
-            if (editingSession) {
-                const { error } = await supabase
-                    .from('class_sessions')
-                    .update(sessionFormData)
-                    .eq('id', editingSession.id);
-                if (error) throw error;
-            } else {
-                const { error } = await supabase
-                    .from('class_sessions')
-                    .insert(sessionFormData);
-                if (error) throw error;
-            }
+            await saveSession(sessionFormData, editingSession?.id);
             setShowSessionModal(false);
             setEditingSession(null);
             setSessionFormData({
@@ -180,16 +205,24 @@ export default function RegistrarClient({
         }
     };
 
-    const handleDeleteSession = async (id: string) => {
-        if (!confirm('Are you sure you want to delete this session?')) return;
+    const handleDeleteWindow = async (id: string) => {
+        if (!confirm('Are you sure you want to delete this registration window?')) return;
         setIsLoading(true);
         try {
-            const supabase = createClient();
-            const { error } = await supabase
-                .from('class_sessions')
-                .delete()
-                .eq('id', id);
-            if (error) throw error;
+            await deleteWindow(id);
+            window.location.reload();
+        } catch (error: any) {
+            alert(error.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleDeleteSemester = async (id: string) => {
+        if (!confirm('Are you sure you want to delete this semester? This may affect linked data.')) return;
+        setIsLoading(true);
+        try {
+            await deleteSemester(id);
             window.location.reload();
         } catch (error: any) {
             alert(error.message);
@@ -253,6 +286,22 @@ export default function RegistrarClient({
                     <div className="lg:col-span-2 space-y-6">
                         <div className="flex items-center justify-between">
                             <h2 className="text-xl font-bold text-neutral-900">Registration Windows</h2>
+                            <button
+                                onClick={() => {
+                                    setEditingWindow(null);
+                                    setWindowFormData({
+                                        semester_id: semesters[0]?.id || '',
+                                        status: 'CLOSED',
+                                        open_at: new Date().toISOString().split('T')[0],
+                                        close_at: '',
+                                        add_drop_deadline: ''
+                                    });
+                                    setShowWindowModal(true);
+                                }}
+                                className="px-4 py-2 bg-black text-white rounded-lg text-[10px] font-bold uppercase tracking-widest hover:bg-neutral-800 transition-all flex items-center gap-2"
+                            >
+                                <Plus size={14} weight="bold" /> Configure Window
+                            </button>
                         </div>
                         <div className="space-y-4">
                             {windows.length === 0 ? (
@@ -261,7 +310,7 @@ export default function RegistrarClient({
                                 </div>
                             ) : (
                                 windows.map(window => (
-                                    <div key={window.id} className="bg-white border border-neutral-200 p-6 rounded-2xl shadow-sm hover:border-neutral-300 transition-all">
+                                    <div key={window.id} className="bg-white border border-neutral-200 p-6 rounded-2xl shadow-sm hover:border-neutral-300 transition-all relative group">
                                         <div className="flex justify-between items-start mb-6">
                                             <div>
                                                 <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest mb-1">
@@ -269,24 +318,58 @@ export default function RegistrarClient({
                                                 </p>
                                                 <h3 className="text-lg font-bold text-neutral-900">Course Selection Period</h3>
                                             </div>
-                                            <div className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${window.status === 'OPEN' ? 'bg-blue-100 text-primary' : 'bg-neutral-100 text-neutral-500'}`}>
-                                                {window.status}
+                                            <div className="flex items-center gap-3">
+                                                <div className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${window.status === 'OPEN' ? 'bg-blue-100 text-primary' : 'bg-neutral-100 text-neutral-500'}`}>
+                                                    {window.status}
+                                                </div>
+                                                <button
+                                                    onClick={() => {
+                                                        setEditingWindow(window);
+                                                        setWindowFormData({
+                                                            semester_id: window.semester_id,
+                                                            status: window.status,
+                                                            open_at: window.open_at?.split('T')[0] || '',
+                                                            close_at: window.close_at?.split('T')[0] || '',
+                                                            add_drop_deadline: window.add_drop_deadline?.split('T')[0] || ''
+                                                        });
+                                                        setShowWindowModal(true);
+                                                    }}
+                                                    className="p-2 text-neutral-400 hover:text-black hover:bg-neutral-100 rounded-lg transition-all"
+                                                >
+                                                    <Settings size={16} weight="bold" />
+                                                </button>
                                             </div>
                                         </div>
-                                        <div className="flex gap-2 pt-6 border-t border-neutral-50">
+
+                                        <div className="grid grid-cols-2 md:grid-cols-3 gap-6 py-6 border-y border-neutral-50">
+                                            <div>
+                                                <p className="text-[9px] font-bold text-neutral-400 uppercase tracking-widest mb-1">Opens On</p>
+                                                <p className="text-sm font-bold text-neutral-900">{window.open_at ? new Date(window.open_at).toLocaleDateString() : 'Not set'}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-[9px] font-bold text-neutral-400 uppercase tracking-widest mb-1">Closes On</p>
+                                                <p className="text-sm font-bold text-neutral-900">{window.close_at ? new Date(window.close_at).toLocaleDateString() : 'Not set'}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-[9px] font-bold text-neutral-400 uppercase tracking-widest mb-1">Drop Deadline</p>
+                                                <p className="text-sm font-bold text-neutral-900">{window.add_drop_deadline ? new Date(window.add_drop_deadline).toLocaleDateString() : 'Not set'}</p>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex gap-2 pt-6">
                                             <button
                                                 onClick={() => handleStatusUpdate(window.id, 'OPEN')}
                                                 disabled={isLoading || window.status === 'OPEN'}
                                                 className="px-4 py-2 bg-primary text-white rounded-lg text-[10px] font-bold uppercase tracking-widest hover:bg-blue-700 transition-all disabled:opacity-50"
                                             >
-                                                Open
+                                                Open Now
                                             </button>
                                             <button
-                                                onClick={() => handleStatusUpdate(window.id, 'CLOSED')}
-                                                disabled={isLoading || window.status === 'CLOSED'}
-                                                className="px-4 py-2 bg-neutral-900 text-white rounded-lg text-[10px] font-bold uppercase tracking-widest hover:bg-black transition-all disabled:opacity-50"
+                                                onClick={() => handleDeleteWindow(window.id)}
+                                                disabled={isLoading}
+                                                className="px-4 py-2 bg-red-50 text-red-600 border border-red-100 rounded-lg text-[10px] font-bold uppercase tracking-widest hover:bg-red-100 transition-all disabled:opacity-50 flex items-center gap-2"
                                             >
-                                                Close
+                                                <Trash size={14} weight="bold" /> Delete
                                             </button>
                                         </div>
                                     </div>
@@ -316,20 +399,16 @@ export default function RegistrarClient({
                 <div className="bg-white border border-neutral-200 rounded-2xl overflow-hidden shadow-sm">
                     <div className="p-6 border-b border-neutral-100 bg-neutral-50/50 flex items-center justify-between">
                         <h2 className="text-lg font-bold">Module Enrollment Oversight</h2>
-                        <div className="relative">
-                            <Filter size={14} weight="bold" className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
-                            <input
-                                key="module-filter"
-                                type="text"
+                        <div className="w-64">
+                            <SearchField
                                 placeholder="Filter modules..."
                                 value={moduleSearchTerm}
-                                onChange={(e) => setModuleSearchTerm(e.target.value)}
-                                className="pl-9 pr-4 py-2 border border-neutral-200 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-black"
+                                onChange={(v) => setModuleSearchTerm(v)}
                             />
                         </div>
                     </div>
                     <div className="overflow-x-auto">
-                        <table className="w-full text-left">
+                        <table className="w-full text-left min-w-[800px]">
                             <thead>
                                 <tr className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 bg-neutral-50/20">
                                     <th className="px-6 py-4">Code</th>
@@ -456,7 +535,7 @@ export default function RegistrarClient({
                         </div>
                     </div>
                     <div className="overflow-x-auto">
-                        <table className="w-full text-left">
+                        <table className="w-full text-left min-w-[800px]">
                             <thead>
                                 <tr className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 bg-neutral-50/20">
                                     <th className="px-6 py-4">Student</th>
@@ -506,20 +585,16 @@ export default function RegistrarClient({
                 <div className="bg-white border border-neutral-200 rounded-2xl overflow-hidden shadow-sm">
                     <div className="p-6 border-b border-neutral-100 bg-neutral-50/50 flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <h2 className="text-lg font-bold text-neutral-900">Student Registry</h2>
-                        <div className="relative w-full md:w-64">
-                            <Filter size={14} weight="bold" className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
-                            <input
-                                key="student-search"
-                                type="text"
+                        <div className="w-full md:w-64">
+                            <SearchField
                                 placeholder="Search students..."
                                 value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full pl-9 pr-4 py-2 border border-neutral-200 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-black"
+                                onChange={(v) => setSearchTerm(v)}
                             />
                         </div>
                     </div>
                     <div className="overflow-x-auto">
-                        <table className="w-full text-left">
+                        <table className="w-full text-left min-w-[900px]">
                             <thead>
                                 <tr className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 bg-neutral-50/20">
                                     <th className="px-6 py-4">Student ID / Name</th>
@@ -589,32 +664,61 @@ export default function RegistrarClient({
             ) : activeTab === 'calendar' ? (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <div className="bg-white border border-neutral-200 rounded-2xl overflow-hidden shadow-sm">
-                        <div className="p-6 border-b border-neutral-100 bg-neutral-50/50">
+                        <div className="p-6 border-b border-neutral-100 bg-neutral-50/50 flex items-center justify-between">
                             <h2 className="text-lg font-bold text-neutral-900">Academic Semesters</h2>
+                            <button
+                                onClick={() => {
+                                    setEditingSemester(null);
+                                    setSemesterFormData({
+                                        name: '',
+                                        start_date: '',
+                                        end_date: '',
+                                        status: 'UPCOMING'
+                                    });
+                                    setShowSemesterModal(true);
+                                }}
+                                className="px-4 py-2 bg-black text-white rounded-lg text-[10px] font-bold uppercase tracking-widest hover:bg-neutral-800 transition-all flex items-center gap-2"
+                            >
+                                <Plus size={14} weight="bold" /> Add Term
+                            </button>
                         </div>
                         <div className="divide-y divide-neutral-50">
-                            {semesters.map(semester => (
-                                <div key={semester.id} className="p-6 flex items-center justify-between hover:bg-neutral-50/50 transition-all">
-                                    <div>
-                                        <h3 className="font-bold text-neutral-900">{semester.name}</h3>
-                                        <p className="text-xs text-neutral-500">
-                                            {new Date(semester.start_date).toLocaleDateString()} - {new Date(semester.end_date).toLocaleDateString()}
-                                        </p>
-                                    </div>
-                                    <div className="flex items-center gap-4">
-                                        <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tight ${semester.status === 'ACTIVE' ? 'bg-blue-50 text-blue-600' : semester.status === 'COMPLETED' ? 'bg-neutral-100 text-neutral-600' : 'bg-amber-50 text-amber-600'}`}>
-                                            {semester.status}
-                                        </span>
-                                        <button
-                                            onClick={() => handleUpdateSemesterStatus(semester.id, semester.status === 'ACTIVE' ? 'COMPLETED' : 'ACTIVE')}
-                                            disabled={isLoading}
-                                            className="p-2 text-neutral-400 hover:text-black hover:bg-neutral-100 rounded-lg transition-all"
-                                        >
-                                            <Settings size={14} />
-                                        </button>
-                                    </div>
+                            {semesters.length === 0 ? (
+                                <div className="p-12 text-center text-neutral-400 font-bold uppercase text-[10px] tracking-widest">
+                                    No semesters defined.
                                 </div>
-                            ))}
+                            ) : (
+                                semesters.map(semester => (
+                                    <div key={semester.id} className="p-6 flex items-center justify-between hover:bg-neutral-50/50 transition-all">
+                                        <div>
+                                            <h3 className="font-bold text-neutral-900">{semester.name}</h3>
+                                            <p className="text-xs text-neutral-500">
+                                                {new Date(semester.start_date).toLocaleDateString()} - {new Date(semester.end_date).toLocaleDateString()}
+                                            </p>
+                                        </div>
+                                        <div className="flex items-center gap-4">
+                                            <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tight ${semester.status === 'ACTIVE' ? 'bg-blue-50 text-blue-600' : semester.status === 'COMPLETED' ? 'bg-neutral-100 text-neutral-600' : 'bg-amber-50 text-amber-600'}`}>
+                                                {semester.status}
+                                            </span>
+                                            <button
+                                                onClick={() => {
+                                                    setEditingSemester(semester);
+                                                    setSemesterFormData({
+                                                        name: semester.name,
+                                                        start_date: semester.start_date.split('T')[0],
+                                                        end_date: semester.end_date.split('T')[0],
+                                                        status: semester.status
+                                                    });
+                                                    setShowSemesterModal(true);
+                                                }}
+                                                className="p-2 text-neutral-400 hover:text-black hover:bg-neutral-100 rounded-lg transition-all"
+                                            >
+                                                <Settings size={14} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
                         </div>
                     </div>
                 </div>
@@ -630,7 +734,7 @@ export default function RegistrarClient({
                         </div>
                     </div>
                     <div className="overflow-x-auto">
-                        <table className="w-full text-left border-collapse">
+                        <table className="w-full text-left border-collapse min-w-[800px]">
                             <thead>
                                 <tr className="bg-neutral-50 border-b border-neutral-100">
                                     <th className="p-4 text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Date</th>
@@ -709,7 +813,7 @@ export default function RegistrarClient({
                         </button>
                     </div>
                     <div className="overflow-x-auto">
-                        <table className="w-full text-left">
+                        <table className="w-full text-left min-w-[800px]">
                             <thead className="bg-neutral-50 border-b border-neutral-100">
                                 <tr className="text-[10px] font-bold uppercase tracking-widest text-neutral-400">
                                     <th className="px-6 py-4">Day</th>
@@ -768,7 +872,7 @@ export default function RegistrarClient({
                                                         <Settings size={14} weight="bold" />
                                                     </button>
                                                     <button
-                                                        onClick={() => handleDeleteSession(session.id)}
+                                                        onClick={() => deleteSession(session.id)}
                                                         className="p-1 hover:text-red-600 hover:bg-neutral-100 rounded"
                                                     >
                                                         <Trash size={14} weight="bold" />
@@ -967,6 +1071,154 @@ export default function RegistrarClient({
                                 className="flex-1 px-8 py-4 rounded-xl text-[10px] font-black uppercase tracking-widest bg-black text-white hover:bg-neutral-800 transition-all shadow-xl shadow-black/10 flex items-center justify-center gap-2 disabled:opacity-50"
                             >
                                 {isLoading ? <Loader2 className="animate-spin" size={14} weight="bold" /> : (editingSession ? 'Update Session' : 'Save Session')}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {/* Semester Modal */}
+            {showSemesterModal && (
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-300">
+                        <div className="p-8 border-b border-neutral-100 flex justify-between items-center bg-neutral-50/50">
+                            <div>
+                                <h3 className="text-xl font-bold text-neutral-900">{editingSemester ? 'Edit Academic Term' : 'Add New Term'}</h3>
+                                <p className="text-[10px] text-neutral-400 font-bold uppercase tracking-widest mt-1">Calendar Configuration</p>
+                            </div>
+                            <button onClick={() => setShowSemesterModal(false)} className="p-2 hover:bg-neutral-100 rounded-xl transition-colors">
+                                <X size={20} weight="bold" />
+                            </button>
+                        </div>
+                        <div className="p-8 space-y-6">
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400 block ml-1">Term Name</label>
+                                <input
+                                    type="text"
+                                    placeholder="e.g. Autumn Semester 2026"
+                                    value={semesterFormData.name}
+                                    onChange={(e) => setSemesterFormData({ ...semesterFormData, name: e.target.value })}
+                                    className="w-full bg-neutral-50 border border-neutral-100 p-3 rounded-xl text-sm font-bold focus:ring-2 focus:ring-black outline-none transition-all"
+                                />
+                            </div>
+                            <div className="grid grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400 block ml-1">Start Date</label>
+                                    <input
+                                        type="date"
+                                        value={semesterFormData.start_date}
+                                        onChange={(e) => setSemesterFormData({ ...semesterFormData, start_date: e.target.value })}
+                                        className="w-full bg-neutral-50 border border-neutral-100 p-3 rounded-xl text-sm font-bold focus:ring-2 focus:ring-black outline-none transition-all"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400 block ml-1">End Date</label>
+                                    <input
+                                        type="date"
+                                        value={semesterFormData.end_date}
+                                        onChange={(e) => setSemesterFormData({ ...semesterFormData, end_date: e.target.value })}
+                                        className="w-full bg-neutral-50 border border-neutral-100 p-3 rounded-xl text-sm font-bold focus:ring-2 focus:ring-black outline-none transition-all"
+                                    />
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400 block ml-1">Initial Status</label>
+                                <select
+                                    value={semesterFormData.status}
+                                    onChange={(e) => setSemesterFormData({ ...semesterFormData, status: e.target.value as any })}
+                                    className="w-full bg-neutral-50 border border-neutral-100 p-3 rounded-xl text-sm font-bold focus:ring-2 focus:ring-black outline-none transition-all"
+                                >
+                                    <option value="UPCOMING">Upcoming</option>
+                                    <option value="ACTIVE">Active</option>
+                                    <option value="COMPLETED">Completed</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div className="p-8 bg-neutral-50/50 flex gap-4">
+                            <button onClick={() => setShowSemesterModal(false)} className="flex-1 px-8 py-4 rounded-xl text-[10px] font-black uppercase tracking-widest border border-neutral-200 hover:bg-neutral-100 transition-all">Cancel</button>
+                            <button onClick={handleSaveSemester} disabled={isLoading || !semesterFormData.name} className="flex-1 px-8 py-4 rounded-xl text-[10px] font-black uppercase tracking-widest bg-black text-white hover:bg-neutral-800 transition-all flex items-center justify-center gap-2">
+                                {isLoading ? <Loader2 className="animate-spin" size={14} weight="bold" /> : (editingSemester ? 'Update Term' : 'Save Term')}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Window Modal */}
+            {showWindowModal && (
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-300">
+                        <div className="p-8 border-b border-neutral-100 flex justify-between items-center bg-neutral-50/50">
+                            <div>
+                                <h3 className="text-xl font-bold text-neutral-900">{editingWindow ? 'Edit Selection Period' : 'Configure Selection Period'}</h3>
+                                <p className="text-[10px] text-neutral-400 font-bold uppercase tracking-widest mt-1">Course Registration Rules</p>
+                            </div>
+                            <button onClick={() => setShowWindowModal(false)} className="p-2 hover:bg-neutral-100 rounded-xl transition-colors">
+                                <X size={20} weight="bold" />
+                            </button>
+                        </div>
+                        <div className="p-8 space-y-6">
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400 block ml-1">Academic Semester</label>
+                                <select
+                                    value={windowFormData.semester_id}
+                                    onChange={(e) => setWindowFormData({ ...windowFormData, semester_id: e.target.value })}
+                                    className="w-full bg-neutral-50 border border-neutral-100 p-3 rounded-xl text-sm font-bold focus:ring-2 focus:ring-black outline-none transition-all"
+                                >
+                                    <option value="">Select Term...</option>
+                                    {semesters.map(s => (
+                                        <option key={s.id} value={s.id}>{s.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="grid grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400 block ml-1">Window Opens</label>
+                                    <input
+                                        type="date"
+                                        value={windowFormData.open_at}
+                                        onChange={(e) => setWindowFormData({ ...windowFormData, open_at: e.target.value })}
+                                        className="w-full bg-neutral-50 border border-neutral-100 p-3 rounded-xl text-sm font-bold focus:ring-2 focus:ring-black outline-none transition-all"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400 block ml-1">Window Closes</label>
+                                    <input
+                                        type="date"
+                                        value={windowFormData.close_at}
+                                        onChange={(e) => setWindowFormData({ ...windowFormData, close_at: e.target.value })}
+                                        className="w-full bg-neutral-50 border border-neutral-100 p-3 rounded-xl text-sm font-bold focus:ring-2 focus:ring-black outline-none transition-all"
+                                    />
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400 block ml-1">Add/Drop Deadline</label>
+                                <input
+                                    type="date"
+                                    value={windowFormData.add_drop_deadline}
+                                    onChange={(e) => setWindowFormData({ ...windowFormData, add_drop_deadline: e.target.value })}
+                                    className="w-full bg-neutral-50 border border-neutral-100 p-3 rounded-xl text-sm font-bold focus:ring-2 focus:ring-black outline-none transition-all"
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400 block ml-1">Window Status</label>
+                                <div className="flex gap-2">
+                                    {['OPEN', 'CLOSED'].map(t => (
+                                        <button
+                                            key={t}
+                                            type="button"
+                                            onClick={() => setWindowFormData({ ...windowFormData, status: t as any })}
+                                            className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${windowFormData.status === t ? 'bg-black text-white' : 'bg-neutral-100 text-neutral-400 hover:bg-neutral-200'}`}
+                                        >
+                                            {t}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="p-8 bg-neutral-50/50 flex gap-4">
+                            <button onClick={() => setShowWindowModal(false)} className="flex-1 px-8 py-4 rounded-xl text-[10px] font-black uppercase tracking-widest border border-neutral-200 hover:bg-neutral-100 transition-all">Cancel</button>
+                            <button onClick={handleSaveWindow} disabled={isLoading || !windowFormData.semester_id || !windowFormData.open_at || !windowFormData.close_at} className="flex-1 px-8 py-4 rounded-xl text-[10px] font-black uppercase tracking-widest bg-black text-white hover:bg-neutral-800 transition-all flex items-center justify-center gap-2">
+                                {isLoading ? <Loader2 className="animate-spin" size={14} weight="bold" /> : (editingWindow ? 'Update Window' : 'Create Window')}
                             </button>
                         </div>
                     </div>

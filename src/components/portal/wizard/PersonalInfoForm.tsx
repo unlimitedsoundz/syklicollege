@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { CaretRight as ChevronRight, CircleNotch as Loader2 } from "@phosphor-icons/react";
+import { CaretRight as ChevronRight } from "@phosphor-icons/react";
+import { ProgressIndicator } from "@aalto-dx/react-components";
 import { updateApplicationStep } from '@/app/portal/actions';
 import { useRouter } from 'next/navigation';
 import { nationalities } from '@/utils/nationalities';
@@ -66,24 +67,24 @@ export default function PersonalInfoForm({ applicationId, initialData, onUpdate 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 border border-neutral-100 rounded-sm">
                 <div>
-                    <label className="block text-xs font-semibold uppercase tracking-widest text-[#2d2d2d] mb-1">First Name</label>
+                    <label className="block text-[13px] font-semibold text-black mb-1">First Name <span className="text-red-500">*</span></label>
                     <input
                         {...form.register('firstName')}
                         className="w-full px-3 py-1.5 bg-neutral-50 rounded text-sm focus:ring-1 focus:ring-black outline-none font-medium"
                     />
                     {form.formState.errors.firstName && (
-                        <p className="text-red-500 text-xs font-semibold uppercase mt-1">{form.formState.errors.firstName.message}</p>
+                        <p className="text-red-500 text-xs font-semibold mt-1">{form.formState.errors.firstName.message}</p>
                     )}
                 </div>
 
                 <div>
-                    <label className="block text-xs font-semibold uppercase tracking-widest text-[#2d2d2d] mb-1">Last Name</label>
+                    <label className="block text-[13px] font-semibold text-black mb-1">Last Name <span className="text-red-500">*</span></label>
                     <input
                         {...form.register('lastName')}
                         className="w-full px-3 py-1.5 bg-neutral-50 rounded text-sm focus:ring-1 focus:ring-black outline-none font-medium"
                     />
                     {form.formState.errors.lastName && (
-                        <p className="text-red-500 text-xs font-semibold uppercase mt-1">{form.formState.errors.lastName.message}</p>
+                        <p className="text-red-500 text-xs font-semibold mt-1">{form.formState.errors.lastName.message}</p>
                     )}
                 </div>
 
@@ -102,12 +103,12 @@ export default function PersonalInfoForm({ applicationId, initialData, onUpdate 
                         )}
                     />
                     {form.formState.errors.dateOfBirth && (
-                        <p className="text-red-500 text-xs font-semibold uppercase mt-1">{form.formState.errors.dateOfBirth.message}</p>
+                        <p className="text-red-500 text-xs font-semibold mt-1">{form.formState.errors.dateOfBirth.message}</p>
                     )}
                 </div>
 
                 <div>
-                    <label className="block text-xs font-semibold uppercase tracking-widest text-[#2d2d2d] mb-1">Gender</label>
+                    <label className="block text-[13px] font-semibold text-black mb-1">Gender <span className="text-red-500">*</span></label>
                     <select
                         {...form.register('gender')}
                         className="w-full px-3 py-1.5 bg-neutral-50 rounded text-sm focus:ring-1 focus:ring-black outline-none font-medium"
@@ -118,12 +119,12 @@ export default function PersonalInfoForm({ applicationId, initialData, onUpdate 
                         <option value="other">Other</option>
                     </select>
                     {form.formState.errors.gender && (
-                        <p className="text-red-500 text-xs font-semibold uppercase mt-1">{form.formState.errors.gender.message}</p>
+                        <p className="text-red-500 text-xs font-semibold mt-1">{form.formState.errors.gender.message}</p>
                     )}
                 </div>
 
                 <div>
-                    <label className="block text-xs font-semibold uppercase tracking-widest text-[#2d2d2d] mb-1">Nationality</label>
+                    <label className="block text-[13px] font-semibold text-black mb-1">Nationality <span className="text-red-500">*</span></label>
                     <select
                         {...form.register('nationality')}
                         className="w-full px-3 py-1.5 bg-neutral-50 rounded text-sm focus:ring-1 focus:ring-black outline-none font-medium"
@@ -134,42 +135,23 @@ export default function PersonalInfoForm({ applicationId, initialData, onUpdate 
                         ))}
                     </select>
                     {form.formState.errors.nationality && (
-                        <p className="text-red-500 text-xs font-semibold uppercase mt-1">{form.formState.errors.nationality.message}</p>
+                        <p className="text-red-500 text-xs font-semibold mt-1">{form.formState.errors.nationality.message}</p>
                     )}
                 </div>
 
                 <div>
-                    <label className="block text-xs font-semibold uppercase tracking-widest text-[#2d2d2d] mb-1">Passport Number</label>
+                    <label className="block text-[13px] font-semibold text-black mb-1">Passport Number <span className="text-red-500">*</span></label>
                     <input
                         {...form.register('passportNumber')}
                         className="w-full px-3 py-1.5 bg-neutral-50 rounded text-sm focus:ring-1 focus:ring-black outline-none font-medium"
                     />
                     {form.formState.errors.passportNumber && (
-                        <p className="text-red-500 text-xs font-semibold uppercase mt-1">{form.formState.errors.passportNumber.message}</p>
+                        <p className="text-red-500 text-xs font-semibold mt-1">{form.formState.errors.passportNumber.message}</p>
                     )}
                 </div>
             </div>
 
-            <div className="bg-neutral-50/50 p-4 rounded-md border border-neutral-100 space-y-1">
-                <button
-                    type="button"
-                    onClick={async () => {
-                        const data = form.getValues();
-                        setIsSaving(true);
-                        try {
-                            await updateApplicationStep(applicationId, 'personal', data);
-                            router.push('/portal/dashboard');
-                        } catch (error) {
-                            console.error('Failed to save:', error);
-                        } finally {
-                            setIsSaving(false);
-                        }
-                    }}
-                    className="text-[#2d2d2d] hover:text-primary font-semibold text-xs uppercase tracking-widest transition-colors"
-                >
-                    Save & Exit
-                </button>
-            </div>
+
 
             <div className="flex items-center justify-between pt-6 border-t border-neutral-100">
                 <button
@@ -186,7 +168,7 @@ export default function PersonalInfoForm({ applicationId, initialData, onUpdate 
                             setIsSaving(false);
                         }
                     }}
-                    className="text-[#2d2d2d] hover:text-primary font-semibold text-xs uppercase tracking-widest transition-colors"
+                    className="text-black hover:text-black font-semibold text-[13px] transition-colors"
                 >
                     Save & Exit
                 </button>
@@ -194,11 +176,11 @@ export default function PersonalInfoForm({ applicationId, initialData, onUpdate 
                 <button
                     type="submit"
                     disabled={isSaving}
-                    className="w-full flex items-center justify-center gap-2 bg-primary text-white px-8 py-4 rounded-sm text-xs font-black uppercase tracking-widest hover:bg-blue-700 transition-all disabled:opacity-50"
+                    className="flex items-center justify-center gap-2 bg-black text-white px-8 py-4 rounded-sm text-[13px] font-black hover:bg-neutral-800 transition-all disabled:opacity-50 min-w-[200px]"
                 >
                     {isSaving ? (
                         <>
-                            <Loader2 className="animate-spin" size={16} weight="bold" />
+                            <ProgressIndicator size={16} variant="white" />
                             Saving...
                         </>
                     ) : (

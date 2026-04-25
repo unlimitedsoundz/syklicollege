@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -74,37 +74,37 @@ export default function AcademicHistoryForm({ applicationId, initialData, onUpda
                                 <Trash size={16} weight="regular" />
                             </button>
                         )}
-                        <h3 className="text-xs font-semibold uppercase tracking-widest text-[#2d2d2d] mb-4">
+                        <h3 className="text-[13px] font-semibold text-black mb-4">
                             Education Entry #{index + 1}
                         </h3>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="md:col-span-2">
-                                <label className="block text-xs font-semibold uppercase tracking-widest text-[#2d2d2d] mb-1">Institution Name</label>
+                                <label className="block text-[13px] font-semibold text-black mb-1">Institution Name <span className="text-red-500">*</span></label>
                                 <input
                                     {...form.register(`education.${index}.institution`)}
                                     className="w-full px-3 py-1.5 bg-neutral-50 rounded text-sm focus:ring-1 focus:ring-black outline-none font-medium"
                                     placeholder="e.g. Kestora University"
                                 />
                                 {form.formState.errors.education?.[index]?.institution && (
-                                    <p className="text-red-500 text-xs font-bold uppercase mt-1">{form.formState.errors.education[index]?.institution?.message}</p>
+                                    <p className="text-red-500 text-xs font-bold mt-1">{form.formState.errors.education[index]?.institution?.message}</p>
                                 )}
                             </div>
 
                             <div className="md:col-span-2">
-                                <label className="block text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-1">Degree / Qualification</label>
+                                <label className="block text-[13px] font-semibold text-black mb-1">Degree / Qualification <span className="text-red-500">*</span></label>
                                 <input
                                     {...form.register(`education.${index}.degree`)}
                                     className="w-full px-3 py-1.5 bg-neutral-50 rounded text-sm focus:ring-1 focus:ring-black outline-none font-medium"
                                     placeholder="e.g. Bachelor of Science"
                                 />
                                 {form.formState.errors.education?.[index]?.degree && (
-                                    <p className="text-red-500 text-xs font-bold uppercase mt-1">{form.formState.errors.education[index]?.degree?.message}</p>
+                                    <p className="text-red-500 text-xs font-bold mt-1">{form.formState.errors.education[index]?.degree?.message}</p>
                                 )}
                             </div>
 
                             <div>
-                                <label className="block text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-1">Start Year</label>
+                                <label className="block text-[13px] font-semibold text-black mb-1">Start Year <span className="text-red-500">*</span></label>
                                 <input
                                     type="number"
                                     {...form.register(`education.${index}.startYear`)}
@@ -112,12 +112,12 @@ export default function AcademicHistoryForm({ applicationId, initialData, onUpda
                                     placeholder="YYYY"
                                 />
                                 {form.formState.errors.education?.[index]?.startYear && (
-                                    <p className="text-red-500 text-xs font-bold uppercase mt-1">{form.formState.errors.education[index]?.startYear?.message}</p>
+                                    <p className="text-red-500 text-xs font-bold mt-1">{form.formState.errors.education[index]?.startYear?.message}</p>
                                 )}
                             </div>
 
                             <div>
-                                <label className="block text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-1">End Year</label>
+                                <label className="block text-[13px] font-semibold text-black mb-1">End Year <span className="text-red-500">*</span></label>
                                 <input
                                     type="number"
                                     {...form.register(`education.${index}.endYear`)}
@@ -125,12 +125,12 @@ export default function AcademicHistoryForm({ applicationId, initialData, onUpda
                                     placeholder="YYYY"
                                 />
                                 {form.formState.errors.education?.[index]?.endYear && (
-                                    <p className="text-red-500 text-xs font-bold uppercase mt-1">{form.formState.errors.education[index]?.endYear?.message}</p>
+                                    <p className="text-red-500 text-xs font-bold mt-1">{form.formState.errors.education[index]?.endYear?.message}</p>
                                 )}
                             </div>
 
                             <div className="md:col-span-2">
-                                <label className="block text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-1">GPA / Grade (Optional)</label>
+                                <label className="block text-[13px] font-semibold text-black mb-1">GPA / Grade <span className="text-red-500">*</span></label>
                                 <input
                                     {...form.register(`education.${index}.grade`)}
                                     className="w-full px-3 py-1.5 bg-neutral-50 rounded text-sm focus:ring-1 focus:ring-black outline-none font-medium"
@@ -144,7 +144,7 @@ export default function AcademicHistoryForm({ applicationId, initialData, onUpda
             <button
                 type="button"
                 onClick={() => append({ institution: '', degree: '', startYear: '', endYear: '', grade: '' })}
-                className="w-full py-4 border-2 border-dashed border-neutral-100 rounded-sm text-[#2d2d2d] font-semibold text-[10px] uppercase tracking-widest hover:border-primary hover:text-primary transition-all flex items-center justify-center gap-2 group"
+                className="w-fit px-8 py-4 border-2 border-dashed border-neutral-100 rounded-sm text-black font-semibold text-[11px] hover:border-black hover:text-black transition-all flex items-center justify-center gap-2 group"
             >
                 <Plus size={14} weight="bold" className="group-hover:rotate-90 transition-transform" />
                 Add another qualification
@@ -154,7 +154,7 @@ export default function AcademicHistoryForm({ applicationId, initialData, onUpda
                 <div className="flex items-center gap-4">
                     <Link
                         href={`?id=${applicationId}&step=3`}
-                        className="text-[#2d2d2d] hover:text-primary font-semibold text-xs uppercase tracking-widest transition-colors"
+                        className="text-black hover:text-black font-semibold text-[13px] transition-colors"
                     >
                         Back
                     </Link>
@@ -172,7 +172,7 @@ export default function AcademicHistoryForm({ applicationId, initialData, onUpda
                                 setIsSaving(false);
                             }
                         }}
-                        className="text-[#2d2d2d] hover:text-primary font-semibold text-xs uppercase tracking-widest transition-colors"
+                        className="text-black hover:text-black font-semibold text-[13px] transition-colors"
                     >
                         Save & Exit
                     </button>
@@ -181,7 +181,7 @@ export default function AcademicHistoryForm({ applicationId, initialData, onUpda
                 <button
                     type="submit"
                     disabled={isSaving}
-                    className="w-full flex items-center justify-center gap-2 bg-primary text-white px-8 py-4 rounded-sm text-xs font-black uppercase tracking-widest hover:bg-blue-700 transition-all disabled:opacity-50"
+                    className="flex items-center justify-center gap-2 bg-black text-white px-8 py-4 rounded-sm text-[13px] font-black hover:bg-neutral-800 transition-all disabled:opacity-50 min-w-[200px]"
                 >
                     {isSaving ? (
                         <>

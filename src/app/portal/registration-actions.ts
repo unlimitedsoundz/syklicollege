@@ -1,14 +1,16 @@
+'use server';
 
-import { createClient } from '@/utils/supabase/client';
-import { createAdminClient } from '@/utils/supabase/admin';
+import { createClient } from '@/utils/supabase/server';
+import { createServiceRoleClient } from '@/utils/supabase/server-admin';
 import { syncEnrollmentToLms } from './lms-actions';
+import { revalidatePath } from 'next/cache';
 
 /**
  * Register a student for a specific curriculum subject
  */
 export async function registerForModule(subjectId: string) {
     const supabase = await createClient();
-    const adminClient = createAdminClient();
+    const adminClient = createServiceRoleClient();
 
     const { data: { user: actor } } = await supabase.auth.getUser();
     if (!actor) throw new Error('Unauthorized');
@@ -44,7 +46,7 @@ export async function registerForModule(subjectId: string) {
             .eq('status', 'OPEN')
             .order('open_at', { ascending: false })
             .limit(1)
-            .single();
+            .maybeSingle();
 
         if (windowError || !window) throw new Error('Registration window is currently closed.');
 
@@ -112,6 +114,7 @@ export async function registerForModule(subjectId: string) {
         } catch (lmsSyncError) {
             console.error('LMS Course Sync failed:', lmsSyncError);
         }
+        revalidatePath('/portal/student/courses');
         return { success: true, message: `Successfully registered for ${subjectData.code}` };
 
     } catch (error: any) {
@@ -125,7 +128,7 @@ export async function registerForModule(subjectId: string) {
  */
 export async function dropModule(enrollmentId: string) {
     const supabase = await createClient();
-    const adminClient = createAdminClient();
+    const adminClient = createServiceRoleClient();
 
     const { data: { user: actor } } = await supabase.auth.getUser();
     if (!actor) throw new Error('Unauthorized');
@@ -144,7 +147,9 @@ export async function dropModule(enrollmentId: string) {
             .select('*')
             .eq('semester_id', enrollment.semester_id)
             .eq('status', 'OPEN')
-            .single();
+            .order('open_at', { ascending: false })
+            .limit(1)
+            .maybeSingle();
 
         if (windowError || !window) {
             throw new Error('Registration window is currently closed for this term.');
@@ -168,6 +173,7 @@ export async function dropModule(enrollmentId: string) {
             entity_id: enrollmentId,
             actor_id: actor.id
         });
+        revalidatePath('/portal/student/courses');
         return { success: true };
 
     } catch (error: any) {

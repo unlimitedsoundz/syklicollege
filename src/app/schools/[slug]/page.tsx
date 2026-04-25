@@ -4,6 +4,7 @@ import { School, Department, Course } from '@/types/database';
 import { notFound } from 'next/navigation';
 import { ArrowRight, PencilSimple as Edit } from "@phosphor-icons/react/dist/ssr";
 import FallbackImage from '@/components/ui/FallbackImage';
+import { ProfileCardCollection } from '@/components/ui/ProfileCardCollection';
 
 interface Props {
     params: Promise<{
@@ -46,6 +47,9 @@ interface ExtendedSchool extends School {
 }
 
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema';
+import { Breadcrumbs } from '@aalto-dx/react-modules';
+import { Hero } from '@/components/layout/Hero';
+import { Card } from '@/components/ui/Card';
 
 import { createStaticClient } from '@/lib/supabase/static';
 
@@ -99,84 +103,72 @@ export default async function SchoolDetails({ params }: Props) {
             ]} />
             {/* Hero (Split Style from Home) */}
 
-            <section className={`${slug === 'science' || slug === 'school-of-science' ? 'bg-blue-900' : (slug === 'technology' || slug === 'school-of-technology' ? 'bg-green-900' : 'bg-[#1c1c1c]')} text-white overflow-hidden`}>
-                <div className="container mx-auto px-0 lg:px-4 flex flex-col lg:flex-row items-center gap-8 lg:gap-16 pt-0 md:pt-20 lg:pt-24 pb-4 lg:pb-0 lg:py-0 min-h-[500px] lg:h-[550px] relative mb-12">
-                    {/* Left Content */}
-                    <div className="lg:w-1/2 space-y-4 relative z-10 flex flex-col justify-center h-full pt-8 lg:pt-0 px-4 lg:px-0">
-                        <h1 className="text-3xl md:text-5xl lg:text-5xl font-bold leading-[1.1] tracking-tight pt-0">
-                            {school.name}
-                        </h1>
-                        <p className="text-lg md:text-xl text-neutral-300 max-w-xl leading-relaxed my-2">
-                            {school.description}
-                        </p>
-                        <div className="space-y-3 pt-2">
-                            <Link href="/admissions" className="flex items-center gap-2 font-bold hover:underline group">
-                                <ArrowRight size={18} weight="bold" className="group-hover:translate-x-1 transition-transform" /> Apply now
-                            </Link>
-                            <Link href="/studies" className="flex items-center gap-2 font-bold hover:underline group">
-                                <ArrowRight size={18} weight="bold" className="group-hover:translate-x-1 transition-transform" /> Explore programs
-                            </Link>
-                        </div>
-
-                    </div>
-
-                    {/* Right Image */}
-                    <div className="lg:w-1/2 h-full w-full relative mt-0 lg:mt-0 lg:translate-y-16 z-20 flex justify-center lg:block order-first lg:order-none hero-image-mobile">
-                        <div className="relative w-full lg:h-full bg-neutral-800 shadow-2xl overflow-hidden hero-mobile-height">
-                                {school.imageUrl && (
-                                    <Image
-                                        src={school.imageUrl}
-                                        alt={school.name}
-                                        fill
-                                        priority
-                                        className="object-cover opacity-90"
-                                        sizes="(max-width: 1024px) 368px, 50vw"
-                                    />
-                                )}
-                        </div>
-                    </div>
+            <Hero
+                title={school.name}
+                body={school.description}
+                backgroundColor={slug === 'science' || slug === 'school-of-science' ? '#255236' : (slug === 'technology' || slug === 'school-of-technology' ? '#3f581f' : '#6c531b')}
+                tinted
+                lightText={true}
+                breadcrumbs={[
+                    { label: 'Home', href: '/' },
+                    { label: 'Schools', href: '/schools' },
+                    { label: school.name }
+                ]}
+                image={school.imageUrl ? {
+                    src: school.imageUrl,
+                    alt: school.name
+                } : undefined}
+            >
+                <div className="flex flex-wrap gap-4">
+                    <Link href="/admissions" className="text-aalto-3 font-bold underline underline-offset-8 decoration-white hover:opacity-70 transition-colors text-white inline-flex items-center gap-2">
+                        Apply now <ArrowRight size={20} weight="bold" />
+                    </Link>
+                    <Link href="/studies" className="text-aalto-3 font-bold underline underline-offset-8 decoration-white hover:opacity-70 transition-colors text-white inline-flex items-center gap-2">
+                        Explore programs <ArrowRight size={20} weight="bold" />
+                    </Link>
                 </div>
-            </section>
+            </Hero>
 
             <div className="container mx-auto px-4 py-8 md:py-16">
 
                 {/* Departments Grid */}
                 <section className="mb-20">
                     <div className="mb-12">
-                        <h2 className="text-4xl font-bold mb-4">Academic Departments</h2>
-                        <p className="text-neutral-600 text-lg max-w-2xl">Organised into specialized departments driving innovation and research excellence.</p>
+                        <h2 className="text-aalto-5 font-bold mb-aalto-p2 text-black">Academic Departments</h2>
+                        <p className="text-aalto-3 text-black leading-aalto-3 max-w-2xl">Organised into specialized departments driving innovation and research excellence.</p>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         {school.departments?.map((dept) => (
-                            <Link
+                            <Card
                                 key={dept.id}
-                                href={`/schools/${school.slug}/${dept.slug}`}
-                                className="bg-white p-10 flex flex-col justify-between group hover:shadow-xl transition-all duration-300 cursor-pointer border border-neutral-100 rounded-2xl"
-                            >
-                                <div>
-                                    <div className="aspect-[3/2] bg-neutral-100 mb-3 overflow-hidden relative rounded-xl">
-                                        <Image
-                                            src={dept.imageUrl || `/images/placeholders/${dept.slug}.png`}
-                                            alt={dept.name}
-                                            fill
-                                            className="object-cover opacity-80"
-                                            sizes="(max-width: 768px) 100vw, 33vw"
-                                        />
+                                title={`Department of ${dept.name.startsWith('Department of') ? dept.name.replace('Department of', '').trim() : dept.name}`}
+                                image={dept.imageUrl ? {
+                                    src: dept.imageUrl,
+                                    alt: dept.name
+                                } : {
+                                    src: `/images/placeholders/${dept.slug}.png`,
+                                    alt: dept.name
+                                }}
+                                body={
+                                    <div className="space-y-4">
+                                        <p className="line-clamp-3">
+                                            {dept.description || 'Pushing the boundaries of knowledge through intensive research and world-class education.'}
+                                        </p>
+                                        <div className="pt-2">
+                                            <p className="text-[10px] font-bold uppercase text-neutral-400 mb-1 tracking-widest">Head of Department</p>
+                                            <p className="text-base font-bold text-black">{dept.headOfDepartment?.name || 'To be appointed'}</p>
+                                            <p className="text-xs text-neutral-500">{dept.headOfDepartment?.role || 'Department Administration'}</p>
+                                        </div>
                                     </div>
-                                    <h3 className="text-xl font-bold mb-3 transition-colors">
-                                        Department of {dept.name.startsWith('Department of') ? dept.name.replace('Department of', '').trim() : dept.name}
-                                    </h3>
-                                    <p className="text-neutral-600 mb-6 leading-relaxed line-clamp-3 text-sm">
-                                        {dept.description || 'Pushing the boundaries of knowledge through intensive research and world-class education.'}
-                                    </p>
-                                </div>
-                                <div className="pt-6 pl-1 pb-1">
-                                    <p className="text-[10px] font-bold uppercase text-neutral-400 mb-1 tracking-widest">Head of Department</p>
-                                    <p className="text-base font-bold">{dept.headOfDepartment?.name || 'To be appointed'}</p>
-                                    <p className="text-xs text-neutral-500">{dept.headOfDepartment?.role || 'Department Administration'}</p>
-                                </div>
-                            </Link>
+                                }
+                                cta={{
+                                    label: "View Department",
+                                    linkComponentProps: {
+                                        href: `/schools/${school.slug}/${dept.slug}`
+                                    }
+                                }}
+                            />
                         ))}
                     </div>
                 </section>
@@ -185,11 +177,11 @@ export default async function SchoolDetails({ params }: Props) {
                 {courses && courses.length > 0 && (
                     <section>
                         <div className="flex justify-between items-end mb-10">
-                            <h2 className="text-3xl font-bold text-neutral-900 flex items-center gap-3">
+                            <h2 className="text-aalto-5 font-bold text-black flex items-center gap-3">
                                 Featured Programs
                             </h2>
-                            <Link href={`/studies?school=${school.id}`} className="text-neutral-500 hover:text-neutral-900 font-medium hidden md:block">
-                                View All Programs →
+                            <Link href={`/studies?school=${school.id}`} className="text-aalto-2 font-bold border-b border-black pb-1 hover:text-neutral-600 transition-colors hidden md:block">
+                                View All Programs
                             </Link>
                         </div>
 
@@ -201,7 +193,7 @@ export default async function SchoolDetails({ params }: Props) {
                                             src={course.imageUrl || school.imageUrl || '/images/placeholders/design.png'}
                                             fallbackSrc={school.imageUrl || '/images/placeholders/design.png'}
                                             fill
-                                            className="object-cover"
+                                            className="object-cover object-top"
                                             alt={`Study ${course.title} at Kestora University`}
                                             sizes="(max-width: 768px) 100vw, 25vw"
                                         />
@@ -238,31 +230,28 @@ export default async function SchoolDetails({ params }: Props) {
                 {/* Meet our people */}
                 <section className="py-8 md:py-24 bg-neutral-50 -mx-4 px-4 sm:mx-0 sm:px-0 sm:bg-transparent">
                     <div className="mb-12">
-                        <h2 className="text-4xl font-bold mb-4">Meet our people</h2>
-                        <p className="text-black max-w-2xl">The visionaries and creative experts shaping the future at {school.name}.</p>
+                        <h2 className="text-aalto-5 font-bold mb-aalto-p2 text-black">Meet our people</h2>
+                        <p className="text-aalto-3 text-black leading-aalto-3 max-w-2xl">The visionaries and creative experts shaping the future at {school.name}.</p>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {faculty?.map((person) => (
-                            <div key={person.id} className="bg-white border border-neutral-100 flex flex-col">
-                                <div className="p-10 flex-1 flex flex-col justify-between">
-                                    <div>
-                                        <h3 className="text-base font-bold mb-0.5">{person.name}</h3>
-                                        <p className="text-black text-[10px] font-bold uppercase tracking-wider mb-2">{person.role}</p>
-                                        <p className="text-black text-xs line-clamp-2 mb-4">{person.bio}</p>
-                                    </div>
-                                    {person.email && (
-                                        <div className="flex items-center justify-between py-3 border-t border-neutral-100 pl-1">
-                                            <span className="text-[11px] text-black truncate">{person.email}</span>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        ))}
-                        {(!faculty || faculty.length === 0) && (
-                            <p className="text-neutral-500">No faculty members found for this school.</p>
-                        )}
-                    </div>
+                    {faculty && faculty.length > 0 ? (
+                        <ProfileCardCollection
+                            tiles={faculty.map((person) => ({
+                                name: person.name,
+                                workTitle: person.role,
+                                description: person.bio || "Dedicated faculty member contributing to academic excellence.",
+                                avatar: {
+                                    image: "", // Not used
+                                    tooltip: person.name,
+                                },
+                                unit: school.name,
+                                email: person.email || "",
+                            }))}
+                            tilesPerRow={2}
+                        />
+                    ) : (
+                        <p className="text-neutral-500">No faculty members found for this school.</p>
+                    )}
                 </section>
 
             </div>
@@ -273,7 +262,7 @@ export default async function SchoolDetails({ params }: Props) {
                     <div className="grid lg:grid-cols-2 gap-8">
                         {/* Collaboration */}
                         <div className="bg-black text-white p-12">
-                            <h2 className="text-3xl font-bold mb-12 flex items-center gap-3">
+                            <h2 className="text-aalto-5 font-bold mb-aalto-p6 flex items-center gap-3 text-white tracking-tight">
                                 Collaboration & Partnerships
                             </h2>
                             <ul className="space-y-6">
@@ -294,7 +283,7 @@ export default async function SchoolDetails({ params }: Props) {
 
                         {/* Leadership */}
                         <div className="bg-black text-white p-12">
-                            <h2 className="text-3xl font-bold mb-8">Leadership & Administration</h2>
+                            <h2 className="text-aalto-5 font-bold mb-aalto-p4 text-white tracking-tight">Leadership & Administration</h2>
                             <div className="space-y-8">
                                 <div>
                                     <p className="text-xs font-mono uppercase tracking-[0.2em] text-[#f3e600] mb-2">Dean of the School</p>
@@ -331,7 +320,7 @@ export default async function SchoolDetails({ params }: Props) {
                     <div className="grid lg:grid-cols-2 gap-16">
                         {/* Why Section */}
                         <div className="bg-[#f3e600] p-16 text-black flex flex-col justify-center">
-                            <h2 className="text-4xl font-black mb-8 uppercase tracking-tighter">Why {school.name}?</h2>
+                            <h2 className="text-aalto-5 font-bold mb-aalto-p6 uppercase tracking-tight text-black">Why {school.name}?</h2>
                             <div className="space-y-6">
                                 {[
                                     "World-class faculty and research environment",
@@ -349,7 +338,7 @@ export default async function SchoolDetails({ params }: Props) {
 
                         {/* Contact Info */}
                         <div className="flex flex-col justify-center">
-                            <h2 className="text-4xl font-bold mb-8 underline underline-offset-8">Contact Information</h2>
+                            <h2 className="text-aalto-5 font-bold mb-aalto-p6 underline underline-offset-8 text-black tracking-tight">Contact Information</h2>
                             <div className="space-y-8">
                                 <div className="flex gap-4 items-start">
                                     <div className="bg-neutral-100 p-10 border border-black">

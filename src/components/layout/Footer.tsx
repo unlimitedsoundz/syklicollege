@@ -1,18 +1,24 @@
 'use client';
 
-import Link from "next/link"
+import { Link } from "@aalto-dx/react-components"
 import { usePathname } from "next/navigation"
 import { Logo } from "@/components/ui/Logo"
 import { LinkedinLogo as Linkedin, TiktokLogo as TikTok, SnapchatLogo as Snapchat, EnvelopeSimple, MapPin } from "@phosphor-icons/react"
 
 
+import GlobalNewsCards from "./GlobalNewsCards"
+
+
 export function Footer() {
     const pathname = usePathname();
     const isPortalOrAdmin = pathname.startsWith('/portal') || pathname.startsWith('/admin')
+    const isNewsPage = pathname === '/news'
 
     if (isPortalOrAdmin) return null;
     return (
-        <footer className="bg-black text-white">
+        <>
+            {!isNewsPage && <GlobalNewsCards />}
+            <footer className="bg-black text-white">
             {/* Main Footer Content */}
             <div className="container mx-auto px-4 pt-16 pb-10">
 
@@ -119,5 +125,6 @@ export function Footer() {
                 </div>
             </div>
         </footer >
+        </>
     )
 }

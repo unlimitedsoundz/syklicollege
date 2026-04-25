@@ -1,6 +1,6 @@
 
 import { CheckCircle, ArrowRight, Calendar, GraduationCap, Globe, Clock } from '@phosphor-icons/react/dist/ssr';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import Image from 'next/image';
 import ApplicationFAQ from '@/components/admissions/ApplicationFAQ';
 import GuideSidebarLayout from '@/components/layout/StudentGuideLayout';
@@ -14,6 +14,8 @@ const sections = [
     { id: 'evaluation', title: 'Evaluation & Decisions', content: '' },
     { id: 'faq', title: 'FAQ', content: '' },
 ];
+
+
 
 export const metadata = {
     title: 'How to Apply | Kestora University',
@@ -32,12 +34,12 @@ export default function ApplicationProcessPage() {
             <div className="min-h-screen bg-white text-black">
             {/* Hero Section */}
             <section className="text-black overflow-hidden" style={{ backgroundColor: '#DCFCE7' }}>
-                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-12 pb-12 lg:pb-0 h-auto lg:h-[600px] lg:py-0 relative mb-0">
+                <div className="container mx-auto flex flex-col lg:flex-row items-center gap-2 lg:gap-16 pt-0 md:pt-12 pb-12 lg:pb-0 h-auto lg:h-[600px] lg:py-0 relative mb-0">
                     {/* Left Content */}
-                    <div className="lg:w-1/2 space-y-6 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
+                    <div className="lg:w-1/2 space-y-6 relative z-10 flex flex-col justify-center h-full pt-2 lg:pt-0 px-4 md:px-0">
                         <DbPageContent
                             tagName="h1"
-                            className="font-bold leading-[1.1] tracking-tight pt-8 text-black"
+                            className="font-bold leading-[1.1] tracking-tight pt-2 text-black"
                             style={{ fontSize: '40px' }}
                             pageSlug={pageSlug}
                             sectionKey="hero_title"
@@ -59,15 +61,15 @@ export default function ApplicationProcessPage() {
 
                     {/* Right Image */}
                     <div className="lg:w-1/2 h-full w-full relative lg:translate-y-16 z-20 flex justify-center lg:block order-first lg:order-none">
-                        <div className="h-full">
-                            <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800">
+                        <div className="h-full w-full">
+                            <div className="relative w-full aspect-square md:aspect-auto lg:w-full lg:h-full bg-neutral-800">
                                 <Image
                                     src="/images/admissions/how_to_apply_hero.png"
                                     alt="Application Process"
                                     fill
                                     priority
-                                    className="object-cover"
-                                    sizes="(max-width: 1024px) 368px, 50vw"
+                                    className="object-cover object-top"
+                                    sizes="100vw"
                                 />
                             </div>
                         </div>
@@ -118,28 +120,28 @@ export default function ApplicationProcessPage() {
                     </section>
 
                       {/* NEW SECTION: Ready to Apply */}
-                      <section className="bg-gray-100 text-black p-8 md:p-16 mt-16 text-center space-y-6 md:space-y-8">
-                          <div>
+                      <section className="bg-gray-100 text-black p-8 md:p-16 mt-16 text-left sm:text-center space-y-6 md:space-y-8">
+                          <div className="flex flex-col items-start sm:items-center">
                               <h2 className="text-3xl md:text-3xl font-bold mb-4">Ready to Start Your Journey?</h2>
-                             <p className="text-sm md:text-base text-black max-w-xl mx-auto leading-relaxed">
+                             <p className="text-sm md:text-base text-black max-w-xl sm:mx-auto leading-relaxed">
                                  Join the next generation of global leaders at Kestora University. Create your portal account to begin your official application.
                              </p>
                          </div>
-                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                         <div className="flex flex-col sm:flex-row gap-4 sm:justify-center items-start sm:items-center">
                              <Link
                                  href="/portal/account/register"
-                                 className="bg-black text-white px-6 py-3 md:px-8 md:py-4 font-bold hover:bg-gray-600 transition-all inline-flex items-center gap-2 justify-center"
+                                 className="bg-black text-white px-6 py-3 md:px-8 md:py-4 font-bold hover:bg-gray-600 transition-all inline-flex items-center gap-2 justify-center w-fit"
                              >
                                  Create Portal Account
                              </Link>
                              <Link
                                  href="/portal/account/login"
-                                 className="bg-black text-white px-6 py-3 md:px-8 md:py-4 font-bold hover:bg-gray-600 transition-all inline-block"
+                                 className="bg-black text-white px-6 py-3 md:px-8 md:py-4 font-bold hover:bg-gray-600 transition-all inline-block w-fit"
                              >
                                  Existing Student? Log In
                              </Link>
                          </div>
-                         <p className="text-black text-xs">
+                         <p className="text-black text-xs sm:mx-auto max-w-xl">
                              Already have an account? Your progress will be saved automatically as you complete each step.
                          </p>
                       </section>
@@ -155,9 +157,13 @@ export default function ApplicationProcessPage() {
                           <ApplicationFAQ />
                        </section>
 
+
+
+
                 </div>
             </div>
         </div>
         </GuideSidebarLayout>
     );
 }
+

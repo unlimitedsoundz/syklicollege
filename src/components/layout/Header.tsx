@@ -2,7 +2,7 @@
 "use client"
 
 import * as React from "react"
-import Link from "next/link"
+import { Link } from "@aalto-dx/react-components"
 import { usePathname } from "next/navigation"
 import { Logo } from "@/components/ui/Logo"
 import { LanguageSelector } from "@/components/ui/LanguageSelector"

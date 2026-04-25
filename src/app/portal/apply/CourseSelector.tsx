@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { Course } from '@/types/database';
-import { ArrowRight, BookOpen, Lightning as Zap } from "@phosphor-icons/react/dist/ssr";
 import { getTuitionFee, calculateDiscountedFee, mapSchoolToTuitionField } from '@/utils/tuition';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
@@ -125,15 +124,15 @@ export default function CourseSelector({ initialCourses, initialSelected }: Cour
             {/* Filters & Search */}
             <div className="flex flex-col md:flex-row gap-4 justify-between items-end md:items-center bg-neutral-50 p-6 rounded-sm border border-neutral-100">
                 <div className="flex flex-col gap-2 w-full md:w-auto">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">Filter by Level</span>
+                    <span className="text-[11px] font-bold text-black">Filter by Level</span>
                     <div className="flex gap-2">
                         {(['ALL', 'BACHELOR', 'MASTER'] as const).map((level) => (
                             <button
                                 key={level}
                                 onClick={() => setFilter(level)}
-                                className={`px-4 py-2 text-[10px] font-bold uppercase tracking-widest rounded-sm border transition-all ${filter === level
-                                    ? 'bg-transparent text-neutral-900 border-neutral-900 shadow-sm'
-                                    : 'bg-white text-neutral-400 border-neutral-200 hover:border-neutral-400'
+                                className={`px-4 py-2 text-[13px] font-bold rounded-sm border transition-all ${filter === level
+                                    ? 'bg-transparent text-black border-neutral-900 shadow-sm'
+                                    : 'bg-white text-black border-neutral-200 hover:border-neutral-400'
                                     }`}
                             >
                                 {level === 'ALL' ? 'All Degrees' : level === 'BACHELOR' ? 'Bachelors' : 'Masters'}
@@ -143,13 +142,16 @@ export default function CourseSelector({ initialCourses, initialSelected }: Cour
                 </div>
 
                 <div className="flex flex-col gap-2 w-full md:w-64">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">Search Programme</span>
+                    <p className="text-black text-[11px] font-bold mb-10 leading-relaxed max-w-2xl">
+                Choose the programme you wish to apply for. Multiple active applications are permitted.
+                Ensure you meet the minimum entry requirements listed in the programme details.
+            </p>
                     <input
                         type="text"
-                        placeholder="NAME OR DEPARTMENT..."
+                        placeholder="Name or department..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="bg-white border border-neutral-200 px-4 py-2 text-[10px] font-bold uppercase tracking-widest focus:outline-none focus:border-neutral-900 transition-colors w-full"
+                        className="bg-white border border-neutral-200 px-4 py-2 text-[11px] font-bold text-black placeholder:text-black focus:outline-none focus:border-black transition-colors w-full"
                     />
                 </div>
             </div>
@@ -161,26 +163,25 @@ export default function CourseSelector({ initialCourses, initialSelected }: Cour
                         <div className="flex-1">
                             <div className="flex items-start justify-between mb-4">
                                 <div className="space-y-1">
-                                    <h3 className="text-lg font-bold uppercase tracking-tight text-neutral-900 leading-none group-hover:text-primary transition-colors">{course.title}</h3>
-                                    <p className="text-[10px] text-neutral-600 font-semibold uppercase tracking-widest leading-none">{course.school?.name}</p>
+                                    <h3 className="text-lg font-bold text-black leading-none group-hover:text-black transition-colors">{course.title}</h3>
+                                    <p className="text-[11px] text-black font-semibold leading-none">{course.school?.name}</p>
                                 </div>
-                                <span className={`px-2 py-1 rounded-sm text-[9px] font-bold uppercase tracking-widest border transition-colors ${course.degreeLevel === 'MASTER'
-                                    ? 'border-neutral-900 text-neutral-900'
-                                    : 'border-neutral-300 text-neutral-600'
+                                <span className={`px-2 py-1 rounded-sm text-[11px] font-bold border transition-colors ${course.degreeLevel === 'MASTER'
+                                    ? 'border-black text-black'
+                                    : 'border-neutral-300 text-black'
                                     }`}>
                                     {course.degreeLevel === 'MASTER' ? 'Masters' : 'Bachelors'}
                                 </span>
                             </div>
-                            <p className="text-xs text-neutral-700 font-medium mb-6 line-clamp-2 leading-relaxed uppercase tracking-tight">
+                            <p className="text-[13px] text-black font-medium mb-6 line-clamp-2 leading-relaxed">
                                 {course.description || "Advancing knowledge and innovation through world-class research and education."}
                             </p>
 
                             <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
-                                <span className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-neutral-600">
-                                    <BookOpen size={14} weight="regular" className="text-neutral-400" />
+                                <span className="flex items-center gap-2 text-[13px] font-bold text-black">
                                     {course.duration}
                                     {course.programType && (
-                                        <span className="ml-2 px-2 py-0.5 rounded-sm bg-neutral-100 text-neutral-500 group-hover:bg-primary/5 group-hover:text-primary transition-colors">
+                                        <span className="ml-2 px-2 py-0.5 rounded-sm bg-neutral-100 text-black group-hover:bg-black/5 group-hover:text-black transition-colors">
                                             {course.programType}
                                         </span>
                                     )}
@@ -194,12 +195,11 @@ export default function CourseSelector({ initialCourses, initialSelected }: Cour
 
                                     return (
                                         <div className="flex items-center gap-4">
-                                            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm border border-neutral-100 text-neutral-900 font-bold text-[10px] uppercase tracking-widest">
-                                                €{baseFee} <span className="text-[9px] text-neutral-500 font-medium lowercase">/ year</span>
+                                            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm border border-neutral-100 text-black font-bold text-[13px]">
+                                                €{baseFee} <span className="text-[11px] text-black font-medium lowercase">/ year</span>
                                             </div>
-                                            <div className="flex items-center gap-2 px-3 py-1.5 text-primary rounded-sm font-bold text-[10px] uppercase tracking-widest border border-primary/20 bg-primary/5">
-                                                <Zap size={12} weight="fill" className="text-primary" />
-                                                €{discountedFee} Early Rate
+                                            <div className="flex items-center gap-2 px-3 py-1.5 text-black rounded-sm font-bold text-[13px] border border-black/20 bg-black/5">
+                                                €{discountedFee} Early Bird Tuition
                                             </div>
                                         </div>
                                     );
@@ -211,17 +211,16 @@ export default function CourseSelector({ initialCourses, initialSelected }: Cour
                             <button
                                 onClick={() => handleSelectProgramme(course.id)}
                                 disabled={isSubmitting !== null}
-                                className="w-full bg-transparent border border-neutral-900 text-neutral-900 font-bold text-[10px] uppercase tracking-widest py-4 rounded-sm hover:bg-neutral-900 hover:text-white transition-all flex items-center justify-center gap-2 group/btn disabled:opacity-50"
+                                className="bg-transparent border border-neutral-900 text-black font-bold text-[13px] py-4 px-8 rounded-sm hover:bg-neutral-900 hover:text-white transition-all flex items-center justify-center gap-2 group/btn disabled:opacity-50 min-w-[200px]"
                             >
                                 {isSubmitting === course.id ? 'Processing...' : 'Select Programme'}
-                                {isSubmitting !== course.id && <ArrowRight size={14} weight="bold" className="group-hover/btn:translate-x-1 transition-transform" />}
                             </button>
                         </div>
                     </div>
                 ))}
 
                 {filteredCourses.length === 0 && (
-                    <div className="text-center py-20 text-[10px] font-bold uppercase tracking-widest text-neutral-600 border border-neutral-100 rounded-sm bg-neutral-50">
+                    <div className="text-center py-20 text-[11px] font-bold text-black border border-neutral-100 rounded-sm bg-neutral-50">
                         {searchQuery || filter !== 'ALL'
                             ? `No ${filter !== 'ALL' ? filter.toLowerCase() : ''} programmes match your search.`
                             : "No academic programmes currently available for application."}

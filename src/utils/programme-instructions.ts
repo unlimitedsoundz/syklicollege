@@ -8,7 +8,7 @@ export const PROGRAMME_INSTRUCTIONS: Record<string, ProgrammeInstruction> = {
         welcomeMessage: 'Welcome to the Kestora University Online Application.',
         instructions: [
             'Ensure you have scanned copies of your academic transcripts.',
-            'Prepare a digital copy of your passport or national ID.',
+            'Prepare a digital copy of your passport.',
             'You can save your progress and return at any time.',
             'Double-check all entries before final submission.'
         ]

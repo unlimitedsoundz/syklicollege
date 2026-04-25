@@ -2,7 +2,7 @@
 
 import { createClient } from '@/utils/supabase/client';
 import { PencilSimple as Edit, Buildings as SchoolIcon, CircleNotch as Loader2 } from "@phosphor-icons/react";
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import Image from 'next/image';
 import DeleteDepartmentButton from '@/components/admin/DeleteDepartmentButton';
 import { useState, useEffect } from 'react';
@@ -79,7 +79,7 @@ export default function AdminDepartmentsPage() {
                                             src={dept.imageUrl || `/images/placeholders/${dept.slug}.png`}
                                             alt={dept.name}
                                             fill
-                                            className="object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 grayscale group-hover:grayscale-0"
+                                            className="object-cover object-top opacity-80 group-hover:opacity-100 transition-all duration-700 grayscale group-hover:grayscale-0"
                                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                         />
                                         <div className="absolute top-4 right-4 flex gap-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -123,3 +123,4 @@ export default function AdminDepartmentsPage() {
         </div>
     );
 }
+

@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import { Application } from '@/types/database';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { CheckCircle as CheckCircle2, CaretRight as ChevronRight } from "@phosphor-icons/react/dist/ssr";
 import PersonalInfoForm from '@/components/portal/wizard/PersonalInfoForm';
 import ContactDetailsForm from '@/components/portal/wizard/ContactDetailsForm';
@@ -15,6 +15,7 @@ import ReviewStep from '@/components/portal/wizard/ReviewStep';
 import WelcomeStep from '@/components/portal/wizard/WelcomeStep';
 import { getProgrammeInstructions } from '@/utils/programme-instructions';
 import { ensureStudentId } from '../profile-actions';
+import { ProgressIndicator } from "@aalto-dx/react-components";
 
 function ApplicationWizardContent() {
     const router = useRouter();
@@ -123,7 +124,7 @@ function ApplicationWizardContent() {
     if (loading) {
         return (
             <div className="flex items-center justify-center min-h-[60vh]">
-                <div className="w-8 h-8 border-2 border-neutral-200 border-t-black rounded-full animate-spin"></div>
+                <ProgressIndicator size={32} />
             </div>
         );
     }
@@ -191,42 +192,51 @@ function ApplicationWizardContent() {
     return (
         <div className="max-w-5xl mx-auto">
             {/* Header */}
-            <div className="mb-8 border-b border-neutral-200 pb-6 text-neutral-900">
-                <div className="flex items-center gap-2 text-[10px] text-neutral-500 mb-2 uppercase font-bold tracking-widest">
+            <div className="mb-8 border-b border-neutral-200 pb-6 text-black">
+                <div className="flex items-center gap-2 text-[11px] text-black mb-2 font-bold">
                     <Link href="/portal/dashboard" className="hover:text-black transition-colors">Dashboard</Link>
                     <ChevronRight size={10} weight="bold" />
                     <span className="text-black">Application #{application.application_number || application.user?.student_id || 'Generating...'}</span>
                     {application.user?.student_id && (
                         <>
                             <span className="text-neutral-300">|</span>
-                            <span className="text-primary">Student ID: {application.user.student_id}</span>
+                            <span className="text-black">Student ID: {application.user.student_id}</span>
                         </>
                     )}
                 </div>
-                <h1 className="text-2xl font-black tracking-tighter uppercase leading-none mb-1">
+                <h1 className="text-2xl font-black tracking-tighter leading-none mb-1">
                     {application.course?.title}
                     {application.course?.programType && (
-                        <span className="text-primary font-bold lowercase"> — {application.course.programType}</span>
+                        <span className="text-black font-bold"> — {application.course.programType}</span>
                     )}
                     {application.course?.duration && (
-                        <span className="text-neutral-500 font-bold lowercase"> — {application.course.duration}</span>
+                        <span className="text-black font-bold"> — {application.course.duration}</span>
                     )}
                     {application.course?.school && (
-                        <span className="text-neutral-500 font-bold lowercase"> — {application.course.school.name}</span>
+                        <span className="text-black font-bold"> — {application.course.school.name}</span>
                     )}
                 </h1>
-                <p className="text-neutral-500 font-bold tracking-widest text-[10px] uppercase">Step {currentStepId} / {stepsConf.length}: {currentStep.name}</p>
+                <div className="flex items-center justify-between gap-4">
+                    <p className="text-black font-bold text-[11px]">Step {currentStepId} / {stepsConf.length}: {currentStep.name}</p>
+                    <span className="text-[11px] font-black text-black">{Math.round((currentStepId / stepsConf.length) * 100)}% Complete</span>
+                </div>
+                <div className="mt-3 w-full bg-neutral-100 h-1.5 rounded-full overflow-hidden">
+                    <div
+                        className="bg-black h-full transition-all duration-700 ease-in-out"
+                        style={{ width: `${(currentStepId / stepsConf.length) * 100}%` }}
+                    />
+                </div>
             </div>
 
             {application.status === 'ADMITTED' && (
                 <div className="mb-8 bg-emerald-50 border border-emerald-100 p-6 rounded-sm flex items-center justify-between">
                     <div>
-                        <h3 className="text-emerald-900 font-bold uppercase tracking-tight text-sm mb-1">Congratulations! You have an admission offer.</h3>
-                        <p className="text-emerald-700 text-xs font-medium uppercase tracking-widest">Please review your offer letter and accept it to proceed with your enrollment.</p>
+                        <h3 className="text-emerald-900 font-bold tracking-tight text-sm mb-1">Congratulations! You have an admission offer.</h3>
+                        <p className="text-emerald-700 text-xs font-medium">Please review your offer letter and accept it to proceed with your enrollment.</p>
                     </div>
                     <Link
                         href={`/portal/application/letter?id=${application.id}`}
-                        className="bg-emerald-600 text-white px-6 py-2 rounded-sm text-[10px] font-bold uppercase tracking-widest hover:bg-emerald-700 transition-all shadow-sm flex items-center gap-2"
+                        className="bg-emerald-600 text-white px-6 py-2 rounded-sm text-[11px] font-bold hover:bg-emerald-700 transition-all shadow-sm flex items-center gap-2"
                     >
                         <CheckCircle2 size={16} weight="bold" />
                         View Offer Letter
@@ -237,12 +247,12 @@ function ApplicationWizardContent() {
             {application.status === 'OFFER_ACCEPTED' && (
                 <div className="mb-8 bg-blue-50 border border-blue-100 p-6 rounded-sm flex items-center justify-between">
                     <div>
-                        <h3 className="text-blue-900 font-bold uppercase tracking-tight text-sm mb-1">Offer Accepted</h3>
-                        <p className="text-blue-700 text-xs font-medium uppercase tracking-widest">You have accepted the offer. Please finalize your tuition payment to complete enrollment.</p>
+                        <h3 className="text-blue-900 font-bold tracking-tight text-sm mb-1">Offer Accepted</h3>
+                        <p className="text-blue-700 text-xs font-medium">You have accepted the offer. Please finalize your tuition payment to complete enrollment.</p>
                     </div>
                     <Link
                         href={`/portal/application/payment?id=${application.id}`}
-                        className="bg-blue-600 text-white px-6 py-2 rounded-sm text-[10px] font-bold uppercase tracking-widest hover:bg-blue-700 transition-all shadow-sm flex items-center gap-2"
+                        className="bg-blue-600 text-white px-6 py-2 rounded-sm text-[11px] font-bold hover:bg-blue-700 transition-all shadow-sm flex items-center gap-2"
                     >
                         Proceed to Payment
                     </Link>
@@ -256,15 +266,15 @@ function ApplicationWizardContent() {
                         const isClickable = !step.isLocked;
                         const content = (
                             <div
-                                className={`flex items-center gap-2 p-2 rounded-sm text-[10px] font-bold transition-all ${step.status === 'current' ? 'bg-black text-white shadow-sm' :
+                                className={`flex items-center gap-3 p-3 rounded-sm text-[13px] font-bold transition-all ${step.status === 'current' ? 'bg-black text-white shadow-sm' :
                                     step.status === 'completed' ? 'text-black hover:bg-neutral-50' : 'text-neutral-400'
                                     } ${!isClickable ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                             >
-                                <div className={`w-4 h-4 rounded-full border flex items-center justify-center text-[9px] ${step.status === 'current' ? 'border-white' : 'border-current'
+                                <div className={`shrink-0 flex items-center justify-center ${step.status === 'current' ? 'text-white' : 'text-current'
                                     }`}>
-                                    {step.id}
+                                    <ChevronRight size={14} weight="bold" />
                                 </div>
-                                <span className="uppercase tracking-widest font-black">{step.name}</span>
+                                <span className="font-black leading-none">{step.name}</span>
                             </div>
                         );
 
@@ -278,7 +288,7 @@ function ApplicationWizardContent() {
                 {/* Main Content Area */}
                 <div className="lg:col-span-7 bg-white p-6 rounded-sm border border-neutral-100 h-fit space-y-6">
                     <div className="flex-1">
-                        <h2 className="text-sm font-semibold uppercase tracking-widest mb-6 pb-2 border-b border-neutral-100 text-neutral-900 leading-none">
+                        <h2 className="text-sm font-semibold mb-6 pb-2 border-b border-neutral-100 text-black leading-none">
                             {currentStep.name}
                         </h2>
 
@@ -341,13 +351,13 @@ function ApplicationWizardContent() {
                 {/* Summary Sidebar (Always On) */}
                 <div className="lg:col-span-3">
                     <div className="bg-white p-6 rounded-sm border border-neutral-100 lg:sticky lg:top-8">
-                        <h3 className="text-xs font-semibold uppercase tracking-widest text-[#2d2d2d] mb-4">Application Summary</h3>
+                        <h3 className="text-[13px] font-semibold text-black mb-4">Application Summary</h3>
 
                         <div className="space-y-4">
                             {application.personal_info && (
                                 <div className="space-y-1">
-                                    <p className="text-xs font-semibold text-[#2d2d2d] uppercase tracking-tight">Applicant</p>
-                                    <p className="text-sm font-semibold text-neutral-900 leading-tight">
+                                    <p className="text-[13px] font-semibold text-black tracking-tight">Applicant</p>
+                                    <p className="text-sm font-semibold text-black leading-tight">
                                         {application.personal_info.firstName} {application.personal_info.lastName}
                                     </p>
                                 </div>
@@ -355,11 +365,11 @@ function ApplicationWizardContent() {
 
                             {application.contact_details && (
                                 <div className="space-y-1">
-                                    <p className="text-xs font-semibold text-[#2d2d2d] uppercase tracking-tight">Contact</p>
-                                    <p className="text-sm font-semibold text-neutral-900 leading-tight">{application.contact_details.email}</p>
-                                    <p className="text-sm font-semibold text-neutral-900 leading-tight">{application.contact_details.phone}</p>
+                                    <p className="text-[13px] font-semibold text-black tracking-tight">Contact</p>
+                                    <p className="text-sm font-semibold text-black leading-tight">{application.contact_details.email}</p>
+                                    <p className="text-sm font-semibold text-black leading-tight">{application.contact_details.phone}</p>
                                     {(application.contact_details.city || application.contact_details.country) && (
-                                        <p className="text-xs text-neutral-500 mt-1">
+                                        <p className="text-xs text-black mt-1">
                                             {[application.contact_details.city, application.contact_details.country].filter(Boolean).join(', ')}
                                         </p>
                                     )}
@@ -368,8 +378,8 @@ function ApplicationWizardContent() {
 
                             {application.motivation && application.motivation.statementOfPurpose && (
                                 <div className="space-y-1">
-                                    <p className="text-xs font-semibold text-[#2d2d2d] uppercase tracking-tight">Statement</p>
-                                    <p className="text-xs font-medium text-neutral-500 line-clamp-2">
+                                    <p className="text-[13px] font-semibold text-black tracking-tight">Statement</p>
+                                    <p className="text-xs font-medium text-black line-clamp-2">
                                         {application.motivation.statementOfPurpose}
                                     </p>
                                 </div>
@@ -377,18 +387,18 @@ function ApplicationWizardContent() {
 
                             {application.education_history?.education?.[0] && (
                                 <div className="space-y-1">
-                                    <p className="text-xs font-semibold text-[#2d2d2d] uppercase tracking-tight">Latest Education</p>
-                                    <p className="text-sm font-semibold text-neutral-900 leading-tight">
+                                    <p className="text-[13px] font-semibold text-black tracking-tight">Latest Education</p>
+                                    <p className="text-sm font-semibold text-black leading-tight">
                                         {application.education_history.education[0].institution}
                                     </p>
-                                    <p className="text-xs text-[#2d2d2d] font-medium">
+                                    <p className="text-xs text-black font-medium">
                                         {application.education_history.education[0].degree}
                                     </p>
                                 </div>
                             )}
 
                             <div className="pt-4 border-t border-neutral-100 mt-2">
-                                <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-neutral-900">
+                                <div className="flex items-center justify-between text-[11px] font-black text-black">
                                     <span>Documents</span>
                                     <span className="flex items-center gap-1.5">
                                         {(() => {
@@ -399,7 +409,7 @@ function ApplicationWizardContent() {
                                             const totalRequired = allRequired.length;
                                             return (
                                                 <>
-                                                    <span className={uploadedCount >= totalRequired ? 'text-emerald-600' : 'text-primary'}>
+                                                    <span className={uploadedCount >= totalRequired ? 'text-emerald-600' : 'text-black'}>
                                                         {uploadedCount}
                                                     </span>
                                                     <span className="text-neutral-400">/</span>
@@ -411,7 +421,7 @@ function ApplicationWizardContent() {
                                 </div>
                                 <div className="mt-2 w-full bg-neutral-100 h-1 rounded-full overflow-hidden">
                                     <div
-                                        className="bg-primary h-full transition-all duration-500"
+                                        className="bg-black h-full transition-all duration-500"
                                         style={{
                                             width: `${Math.min(100, (
                                                 (() => {

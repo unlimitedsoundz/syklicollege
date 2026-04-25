@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import Image from 'next/image';
 import { GraduationCap, BookOpen, Users, ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import GuideSidebarLayout from '@/components/layout/StudentGuideLayout';
@@ -61,13 +61,13 @@ export default function DegreeProgrammesPage() {
                                             image: "/images/programs/design.jpg"
                                         }
                                     ].map((program, index) => (
-                                        <div key={index} className={`bg-white p-8 group flex flex-col ${index !== 2 ? 'border-b lg:border-b-0 lg:border-r border-black' : ''}`}>
+                                        <div key={index} className={`bg-card p-8 group flex flex-col ${index !== 2 ? 'border-b lg:border-b-0 lg:border-r border-black' : ''}`}>
                                             <div className="h-48 bg-neutral-100 mb-8 relative overflow-hidden border border-black/10">
                                                 <Image
                                                     src={program.image}
                                                     alt={program.title}
                                                     fill
-                                                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                                    className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
                                                     sizes="(max-width: 768px) 100vw, 33vw"
                                                 />
                                             </div>
@@ -104,13 +104,13 @@ export default function DegreeProgrammesPage() {
                                             image: "/images/programs/mit.jpg"
                                         }
                                     ].map((program, index) => (
-                                        <div key={index} className={`bg-white p-10 group flex flex-col ${index === 0 ? 'border-b md:border-b-0 md:border-r border-black' : ''}`}>
+                                        <div key={index} className={`bg-card p-10 group flex flex-col ${index === 0 ? 'border-b md:border-b-0 md:border-r border-black' : ''}`}>
                                             <div className="h-64 bg-neutral-100 mb-8 relative overflow-hidden border border-black/10">
                                                 <Image
                                                     src={program.image}
                                                     alt={program.title}
                                                     fill
-                                                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                                    className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
                                                     sizes="(max-width: 768px) 100vw, 50vw"
                                                 />
                                             </div>
@@ -132,7 +132,7 @@ export default function DegreeProgrammesPage() {
                             {/* Admission Requirements */}
                             <section id="admission" className="scroll-mt-32">
                                 <h2 className="text-3xl md:text-4xl font-bold mb-12 uppercase tracking-widest">Admission Requirements</h2>
-                                <div className="bg-white border border-black p-10 md:p-16">
+                                <div className="bg-card border border-black p-10 md:p-16">
                                     <div className="grid md:grid-cols-2 gap-16">
                                         <div>
                                             <h3 className="text-2xl font-bold mb-8 uppercase tracking-wide border-b border-black pb-4">Bachelor's</h3>
@@ -175,7 +175,7 @@ export default function DegreeProgrammesPage() {
                             <section id="fees" className="scroll-mt-32">
                                 <h2 className="text-3xl md:text-4xl font-bold mb-12 uppercase tracking-widest">Tuition & Fees</h2>
                                 <div className="grid md:grid-cols-2 gap-0 border border-black">
-                                    <div className="bg-white p-10 border-b md:border-b-0 md:border-r border-black">
+                                    <div className="bg-card p-10 border-b md:border-b-0 md:border-r border-black">
                                         <h3 className="text-2xl font-bold mb-8 uppercase tracking-wide">EU/EEA Students</h3>
                                         <div className="space-y-6">
                                             <div className="flex justify-between items-center border-b border-black/10 pb-4">
@@ -188,7 +188,7 @@ export default function DegreeProgrammesPage() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="bg-white p-10">
+                                    <div className="bg-card p-10">
                                         <h3 className="text-2xl font-bold mb-8 uppercase tracking-wide">Non-EU Students</h3>
                                         <div className="space-y-6">
                                             <div className="flex justify-between items-center border-b border-black/10 pb-4">
@@ -216,3 +216,4 @@ export default function DegreeProgrammesPage() {
         </GuideSidebarLayout>
     );
 }
+

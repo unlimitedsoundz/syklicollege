@@ -3,6 +3,7 @@
 import * as React from "react"
 import { useRouter } from "next/navigation"
 import { MagnifyingGlass as SearchIcon, X, ArrowRight } from "@phosphor-icons/react"
+import { SearchField } from "@/components/ui/SearchField"
 import { searchablePages, SearchablePage } from "@/lib/search-data"
 
 export function Search() {
@@ -73,20 +74,19 @@ export function Search() {
                     />
 
                     {/* Drop Modal */}
-                    <div className="fixed top-0 left-0 right-0 lg:absolute lg:top-12 lg:right-0 lg:left-auto lg:w-[450px] z-[101] bg-white border-b lg:border border-black shadow-2xl animate-in slide-in-from-top-2 duration-200">
+                    <div className="fixed top-0 left-0 right-0 lg:absolute lg:top-12 lg:right-0 lg:left-auto lg:w-[450px] z-[101] bg-white shadow-2xl animate-in slide-in-from-top-2 duration-200">
                         <div className="p-4">
-                            <div className="flex items-center gap-3 border-b border-black pb-2 mb-4">
-                                <SearchIcon size={18} weight="bold" className="text-neutral-400" />
-                                <input
-                                    ref={inputRef}
-                                    type="text"
-                                    value={query}
-                                    onChange={(e) => setQuery(e.target.value)}
-                                    placeholder="Search university pages..."
-                                    className="flex-1 bg-transparent text-lg font-bold outline-none placeholder:text-neutral-300 placeholder:italic"
-                                />
-                                <button onClick={() => setIsOpen(false)} className="p-1 hover:bg-neutral-100 rounded-full transition-colors">
-                                    <X size={18} weight="bold" />
+                            <div className="flex items-center gap-2 mb-4">
+                                <div className="flex-1">
+                                    <SearchField
+                                        placeholder="Search university pages..."
+                                        value={query}
+                                        onChange={(v) => setQuery(v)}
+                                        onEnter={() => results.length > 0 && handleNavigate(results[0].href)}
+                                    />
+                                </div>
+                                <button onClick={() => setIsOpen(false)} className="p-2 hover:bg-neutral-100 rounded-full transition-colors shrink-0">
+                                    <X size={24} weight="bold" />
                                 </button>
                             </div>
 

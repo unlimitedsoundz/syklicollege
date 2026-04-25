@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { CaretDown, CaretUp, Shield, ChartBar as BarChart3, Target, Lock } from "@phosphor-icons/react/dist/ssr";
 
 interface CookiePreferences {
@@ -75,7 +75,7 @@ export function CookieConsent() {
                             </button>
                             <button
                                 onClick={acceptNecessary}
-                                className="px-6 py-2.5 rounded-xl border border-black text-black font-bold text-sm hover:bg-neutral-50 transition-all cursor-pointer"
+                                className="px-6 py-2.5 rounded-xl border border-neutral-200 text-black font-bold text-sm hover:bg-neutral-50 transition-all cursor-pointer"
                             >
                                 Necessary Only
                             </button>
@@ -103,7 +103,7 @@ export function CookieConsent() {
                                 </div>
 
                                 {/* Analytics */}
-                                <div className={`p-4 rounded-2xl space-y-3 border-2 transition-all cursor-pointer ${prefs.analytics ? 'bg-black text-white border-black' : 'bg-neutral-50 border-transparent text-neutral-900 opacity-60'}`}
+                                <div className={`p-4 rounded-2xl space-y-3 border-2 transition-all cursor-pointer ${prefs.analytics ? 'bg-black text-white border-transparent' : 'bg-neutral-50 border-transparent text-neutral-900 opacity-60'}`}
                                     onClick={() => setPrefs({ ...prefs, analytics: !prefs.analytics })}>
                                     <div className="flex items-center justify-between">
                                         <div className={`w-8 h-4 rounded-full relative transition-colors ${prefs.analytics ? 'bg-white/20' : 'bg-neutral-300'}`}>
@@ -117,7 +117,7 @@ export function CookieConsent() {
                                 </div>
 
                                 {/* Marketing */}
-                                <div className={`p-4 rounded-2xl space-y-3 border-2 transition-all cursor-pointer ${prefs.marketing ? 'bg-black text-white border-black' : 'bg-neutral-50 border-transparent text-neutral-900 opacity-60'}`}
+                                <div className={`p-4 rounded-2xl space-y-3 border-2 transition-all cursor-pointer ${prefs.marketing ? 'bg-black text-white border-transparent' : 'bg-neutral-50 border-transparent text-neutral-900 opacity-60'}`}
                                     onClick={() => setPrefs({ ...prefs, marketing: !prefs.marketing })}>
                                     <div className="flex items-center justify-between">
                                         <div className={`w-8 h-4 rounded-full relative transition-colors ${prefs.marketing ? 'bg-white/20' : 'bg-neutral-300'}`}>

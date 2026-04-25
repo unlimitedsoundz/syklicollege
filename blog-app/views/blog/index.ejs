@@ -52,10 +52,54 @@
     </div>
 
     <div class="container mx-auto px-4 py-8 md:py-16 max-w-6xl">
-        <% if (tag) { %>
+        <% if (category) { %>
             <div class="mb-8">
-                <h2 class="text-2xl font-bold mb-4">Posts tagged with "<%= tag %>"</h2>
-                <a href="/blog" class="text-neutral-600 hover:text-black underline">← Back to all posts</a>
+                <h2 class="text-2xl font-bold mb-4">Posts in category "<%= category %>"</h2>
+                <a href="/" class="text-neutral-600 hover:text-black underline">← Back to all posts</a>
+            </div>
+        <% } %>
+
+        <!-- Search and Filter -->
+        <div class="mb-8 space-y-4">
+            <!-- Search Bar -->
+            <div class="max-w-md pb-6 md:pb-8">
+                <form method="GET" class="flex gap-2">
+                    <input
+                        type="text"
+                        name="search"
+                        value="<%= search || '' %>"
+                        placeholder="Search blog posts..."
+                        class="flex-1 px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
+                    />
+                    <% if (category) { %>
+                        <input type="hidden" name="category" value="<%= category %>" />
+                    <% } %>
+                    <button type="submit" class="px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors">
+                        Search
+                    </button>
+                </form>
+            </div>
+
+            <!-- Category Filter -->
+            <% if (categories && categories.length > 0) { %>
+            <div class="mb-8">
+                <h3 class="text-lg font-bold mb-4">Filter by Category</h3>
+                <div class="flex flex-wrap gap-2">
+            <a
+                href="/"
+                class="inline-block text-sm px-4 py-2 rounded-md capitalize transition-colors <%= !category ? 'bg-neutral-800 text-white ring-2 ring-black ring-offset-2' : 'bg-black text-white hover:bg-neutral-800' %>"
+            >
+                All Posts
+            </a>
+                    <% categories.forEach(cat => { %>
+                        <a
+                            href="/?category=<%= encodeURIComponent(cat) %>"
+                            class="inline-block text-sm px-4 py-2 rounded-md capitalize transition-colors <%= category === cat ? 'bg-neutral-800 text-white ring-2 ring-black ring-offset-2' : 'bg-black text-white hover:bg-neutral-800' %>"
+                        >
+                            <%= cat %>
+                        </a>
+                    <% }); %>
+                </div>
             </div>
         <% } %>
 
@@ -76,7 +120,7 @@
                             <img
                                 src="<%= post.imageUrl || '/images/admissions/events.jpg' %>"
                                 alt="<%= post.title %>"
-                                class="object-cover group-hover:scale-105 transition-transform duration-500 w-full h-full"
+                                class="object-cover group-hover:opacity-80 transition-opacity duration-300 w-full h-full"
                             />
                             <div class="absolute top-4 left-4">
                                 <span class="px-3 py-1 text-[10px] font-bold uppercase tracking-widest bg-black text-white">
@@ -86,7 +130,7 @@
                         </div>
 
                         <div class="p-6 flex flex-col flex-1">
-                            <div class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-3">
+                            <div class="flex items-center gap-2 text-[13px] uppercase tracking-widest text-black mb-3">
                                 <span><%= formatToDDMMYYYY(post.publishDate) %></span>
                             </div>
 
@@ -94,18 +138,21 @@
                                 <%= post.title %>
                             </h2>
 
-                            <p class="text-neutral-600 text-sm line-clamp-3 mb-4">
-                                <%= post.excerpt || post.content.replace(/<[^>]*>/g, '').slice(0, 150) %>...
+                            <p class="text-black text-sm mb-4">
+                                <%= post.excerpt || post.content.replace(/<[^>]*>/g, '').substring(0, 300) %>
+                                <% if ((post.excerpt || post.content.replace(/<[^>]*>/g, '')).length > 300) { %>
+                                    ...
+                                <% } %>
                             </p>
 
-                            <% if (post.tags && post.tags.length > 0) { %>
+                            <% if (post.categories && post.categories.length > 0) { %>
                                 <div class="flex flex-wrap gap-1 mb-3">
-                                    <% post.tags.slice(0, 3).forEach(tag => { %>
+                                    <% post.categories.slice(0, 3).forEach(category => { %>
                                         <a
-                                            href="/?tag=<%= encodeURIComponent(tag) %>"
+                                            href="/blog?category=<%= encodeURIComponent(category) %>"
                                             class="inline-block bg-black text-white text-xs px-2 py-1 rounded-full capitalize"
                                         >
-                                            <%= tag %>
+                                            <%= category %>
                                         </a>
                                     <% }); %>
                                 </div>
@@ -120,35 +167,26 @@
             </div>
 
             <% if (totalPages > 1) { %>
-                <div class="flex justify-center items-center gap-4 mt-12">
-                    <% if (currentPage > 1) { %>
-                        <a
-                            href="?page=<%= currentPage - 1 %><%= tag ? '&tag=' + encodeURIComponent(tag) : '' %>"
-                            class="flex items-center gap-2 px-4 py-2 border border-neutral-300 hover:bg-neutral-50 transition-colors"
-                        >
-                            ← Previous
-                        </a>
-                    <% } %>
+                <div class="flex justify-center mt-12">
+                    <nav class="flex items-center space-x-2">
+                        <% if (currentPage > 1) { %>
+                            <a href="<%= `/?${category ? `category=${encodeURIComponent(category)}&` : ''}${search ? `search=${encodeURIComponent(search)}&` : ''}page=${currentPage - 1}` %>" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors">
+                                Previous
+                            </a>
+                        <% } %>
 
-                    <div class="flex gap-2">
-                        <% for (let i = 1; i <= totalPages; i++) { %>
-                            <a
-                                href="?page=<%= i %><%= tag ? '&tag=' + encodeURIComponent(tag) : '' %>"
-                                class="px-3 py-2 border transition-colors <%= currentPage === i ? 'bg-black text-white border-black' : 'border-neutral-300 hover:bg-neutral-50' %>"
-                            >
+                        <% for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) { %>
+                            <a href="<%= `/?${category ? `category=${encodeURIComponent(category)}&` : ''}${search ? `search=${encodeURIComponent(search)}&` : ''}page=${i}` %>" class="<%= i === currentPage ? 'px-4 py-2 bg-black text-white rounded' : 'px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors' %>">
                                 <%= i %>
                             </a>
                         <% } %>
-                    </div>
 
-                    <% if (currentPage < totalPages) { %>
-                        <a
-                            href="?page=<%= currentPage + 1 %><%= tag ? '&tag=' + encodeURIComponent(tag) : '' %>"
-                            class="flex items-center gap-2 px-4 py-2 border border-neutral-300 hover:bg-neutral-50 transition-colors"
-                        >
-                            Next →
-                        </a>
-                    <% } %>
+                        <% if (currentPage < totalPages) { %>
+                            <a href="<%= `/?${category ? `category=${encodeURIComponent(category)}&` : ''}${search ? `search=${encodeURIComponent(search)}&` : ''}page=${currentPage + 1}` %>" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors">
+                                Next
+                            </a>
+                        <% } %>
+                    </nav>
                 </div>
             <% } %>
         <% } %>

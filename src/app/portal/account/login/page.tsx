@@ -2,10 +2,11 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { CircleNotch as Loader2, Eye, EyeSlash } from "@phosphor-icons/react/dist/ssr";
+import { Link } from "@aalto-dx/react-components";
+import { ProgressIndicator, Button } from "@aalto-dx/react-components";
 import { createClient } from '@/utils/supabase/client';
 import { signInWithEmailAndPassword } from '../actions';
+import { Eye, EyeSlash } from "@phosphor-icons/react";
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
@@ -47,18 +48,18 @@ export default function LoginPage() {
 
     return (
         <div className="max-w-md mx-auto mt-12 bg-white p-8 rounded-2xl shadow-sm border border-neutral-100 text-[#2d2d2d]">
-            <h1 className="text-2xl font-bold mb-2">Welcome Back</h1>
-            <p className="text-neutral-500 mb-8">Sign in to your application portal</p>
+            <h1 className="text-2xl font-semibold mb-1 text-black tracking-tight">Welcome Back</h1>
+            <p className="text-black text-[13px] font-normal mb-8">Sign in to your application portal</p>
 
             {message && (
-                <div className={`p-4 rounded-lg mb-6 text-xs font-bold uppercase tracking-widest border ${message.type === 'success' ? 'bg-neutral-50 text-neutral-900 border-neutral-100' : 'bg-red-50 text-red-700 border-red-100'}`}>
+                <div className={`p-4 rounded-none mb-6 text-[13px] font-medium border ${message.type === 'success' ? 'bg-neutral-50 text-black border-neutral-100' : 'bg-red-50 text-red-700 border-red-100'}`}>
                     {message.text}
                 </div>
             )}
 
             <form onSubmit={handleLogin} className="space-y-4">
                 <div>
-                    <label className="block text-sm font-medium text-neutral-700 mb-1">Email Address</label>
+                    <label className="block text-[13px] font-medium text-black mb-1">Email Address</label>
                     <input
                         type="email"
                         required
@@ -70,7 +71,7 @@ export default function LoginPage() {
                 </div>
 
                 <div className="relative">
-                    <label className="block text-sm font-medium text-neutral-700 mb-1">Password</label>
+                    <label className="block text-[13px] font-medium text-black mb-1">Password</label>
                     <div className="relative">
                         <input
                             type={showPassword ? 'text' : 'password'}
@@ -91,13 +92,13 @@ export default function LoginPage() {
                 </div>
 
                 <div className="pt-2">
-                    <button
-                        type="submit"
-                        disabled={isLoading}
-                        className="w-full bg-black text-white font-bold py-3 rounded-lg hover:bg-neutral-800 transition-colors flex items-center justify-center gap-2"
-                    >
-                        {isLoading ? <Loader2 className="animate-spin" size={20} /> : 'Sign In'}
-                    </button>
+                    <Button
+                        type="primary"
+                        htmlType="submit"
+                        label="Sign In"
+                        isLoading={isLoading}
+                        className="w-full rounded-lg"
+                    />
                 </div>
             </form>
 

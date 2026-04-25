@@ -1,14 +1,13 @@
-import Link from "next/link";
 import * as React from "react";
-import Image from "next/image"; // Added next/image
-import { Button } from "@/components/ui/Button";
+import Image from "next/image";
+import { Button, Link } from "@aalto-dx/react-components";
 import { ArrowRight, CaretRight as ChevronRight, CaretLeft as ChevronLeft } from "@phosphor-icons/react/dist/ssr";
+import { Hero } from "@/components/layout/Hero";
 import { createStaticClient } from "@/lib/supabase/static";
 import { formatToDDMMYYYY } from '@/utils/date';
-
-
 import { Metadata } from "next";
 import DynamicNewsSection from "@/components/news/DynamicNewsSection";
+import { Highlight } from "@/components/ui/Highlight";
 
 export const metadata: Metadata = {
   alternates: {
@@ -16,12 +15,9 @@ export const metadata: Metadata = {
   },
 };
 
-
 export default async function Home() {
-
   return (
-    <div className="flex flex-col min-h-screen bg-white text-black">
-      {/* 0. HOME PAGE SCHEMA */}
+    <div className="flex flex-col min-h-screen bg-white text-black font-sans">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -35,202 +31,175 @@ export default async function Home() {
         }}
       />
 
-      {/* 1. HERO SECTION (Dark Grey Split) */}
-      <section className="bg-[#1a1a1a] text-white">
-        <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-[1fr,600px] items-center gap-12 py-12 lg:py-0 lg:h-[650px] relative mb-12">
-          {/* Left Content */}
-          <div className="space-y-6 flex flex-col justify-center h-full">
-            <h1 className="font-bold leading-tight tracking-tight" style={{ fontSize: '40px' }}>
-              Kestora University – English-Taught Bachelor’s & Master’s Degrees in Finland
-            </h1>
-            <p className="text-lg md:text-xl text-white/90 max-w-xl leading-relaxed">
-              Kestora University is an independent higher education institution based in Helsinki, Finland, offering internationally focused Bachelor’s and Master’s degree programmes taught in English for students from around the world.
-            </p>
-            <div className="pt-4">
-              <Link href="/admissions" className="inline-flex items-center gap-2 text-xl font-bold underline hover:opacity-70 group">
-                <ArrowRight size={20} weight="bold" className="group-hover:translate-x-1 transition-transform" /> Start your application
-              </Link>
-            </div>
-          </div>
-
-          {/* Right Image */}
-          <div className="w-full h-[400px] lg:h-full flex justify-center lg:block order-first lg:order-none">
-            <div className="relative w-full h-full bg-neutral-800 shadow-2xl overflow-hidden">
-              <Image
-                src="/images/kestora hero.png"
-                alt="Student studying at Kestora University campus in Finland"
-                fill
-                priority
-                className="object-cover opacity-90"
-                sizes="(max-width: 768px) 100vw, 600px"
-              />
-            </div>
-          </div>
+      {/* HERO SECTION */}
+      <Hero
+        title="Welcome to Kestora"
+        body="Kestora University is an independent higher education institution based in Helsinki, Finland, offering internationally focused Bachelor’s and Master’s degree programmes taught in English."
+        backgroundColor="#392d56"
+        tinted
+        lightText={true}
+        image={{
+          src: "/images/kestora hero.png",
+          alt: "Student studying at Kestora University campus in Finland"
+        }}
+      >
+        <div className="pt-4">
+          <Button
+            href="/admissions"
+            type="link-white"
+            label="Start your application"
+            size="none"
+            className="text-aalto-3"
+            icon={<ArrowRight size={20} weight="bold" />}
+          />
         </div>
-      </section>
+      </Hero>
 
       {/* 2. SCHOOLS GRID */}
-      <section className="py-8 md:py-24 container mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-8">Discover the four campuses</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Card 1: Arts */}
-          <Link href="/schools/arts" className="group flex bg-neutral-100 hover:bg-neutral-200 transition-colors h-[82px] md:h-[160px] overflow-hidden shadow-none">
-            <div className="flex-1 p-4 md:p-6 flex flex-col justify-center md:justify-between">
-              <h3 className="text-xl font-bold group-hover:underline leading-tight">School of Arts & Design</h3>
-              <p className="hidden md:block text-sm text-neutral-600">Fusing creative excellence with modern design and professional practice.</p>
-            </div>
-            <div className="w-1/3 relative">
-              <Image src="/images/school-arts.png" alt="Arts" fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
-            </div>
-          </Link>
-
-          {/* Card 2: Business */}
-          <Link href="/schools/business" className="group flex bg-neutral-100 hover:bg-neutral-200 transition-colors h-[82px] md:h-[160px] overflow-hidden shadow-none">
-            <div className="flex-1 p-4 md:p-6 flex flex-col justify-center md:justify-between">
-              <h3 className="text-xl font-bold group-hover:underline leading-tight">School of Business</h3>
-              <p className="hidden md:block text-sm text-neutral-600">Developing innovative leaders for global markets and digital entrepreneurship.</p>
-            </div>
-            <div className="w-1/3 relative">
-              <Image src="/images/school-business.png" alt="Business" fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
-            </div>
-          </Link>
-
-          {/* Card 3: Technology */}
-          <Link href="/schools/technology" className="group flex bg-neutral-100 hover:bg-neutral-200 transition-colors h-[82px] md:h-[160px] overflow-hidden shadow-none">
-            <div className="flex-1 p-4 md:p-6 flex flex-col justify-center md:justify-between">
-              <h3 className="text-xl font-bold group-hover:underline leading-tight">School of Technology</h3>
-              <p className="hidden md:block text-sm text-neutral-600">Pioneering advanced engineering and smart-city technical solutions.</p>
-            </div>
-            <div className="w-1/3 relative">
-              <Image src="/images/school-technology.png" alt="Technology" fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
-            </div>
-          </Link>
-
-          {/* Card 4: Science */}
-          <Link href="/schools/science" className="group flex bg-neutral-100 hover:bg-neutral-200 transition-colors h-[82px] md:h-[160px] overflow-hidden shadow-none">
-            <div className="flex-1 p-4 md:p-6 flex flex-col justify-center md:justify-between">
-              <h3 className="text-xl font-bold group-hover:underline leading-tight">School of Science</h3>
-              <p className="hidden md:block text-sm text-neutral-600">Advancing applied research and innovation for a changing global landscape.</p>
-            </div>
-            <div className="w-1/3 relative">
-              <Image src="/images/school-science.png" alt="Science" fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
-            </div>
-          </Link>
-        </div>
-      </section>
-
-      {/* 3. SPOTLIGHT SECTION (Vibrant) */}
-      <section className="pb-24 container mx-auto px-4">
-        <div className="flex justify-between items-end mb-12">
-          <div>
-            <h2 className="text-[28px] font-bold mb-4">Limelight</h2>
-            <p className="text-[21px] font-bold text-black max-w-xl">The news page has more current news.</p>
-          </div>
-          <div className="hidden md:flex gap-4">
-            <Link
-              href="/news"
-              className="inline-flex items-center gap-2 px-6 py-3 border border-black text-sm font-bold uppercase tracking-wider hover:bg-black hover:text-white transition-all duration-300 group"
+      <section className="py-24 container mx-auto px-4">
+        <h2 className="text-aalto-5 font-bold mb-aalto-p6 text-black tracking-tight">Discover our campuses</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {[
+            { name: "Arts & Design", href: "/schools/arts", img: "/images/school-arts.png", desc: "Creative excellence and professional practice." },
+            { name: "Business", href: "/schools/business", img: "/images/school-business.png", desc: "Innovative leadership and entrepreneurship." },
+            { name: "Technology", href: "/schools/technology", img: "/images/school-technology.png", desc: "Advanced engineering and smart-city solutions." },
+            { name: "Science", href: "/schools/science", img: "/images/school-science.png", desc: "Applied research and transformative innovation." },
+          ].map((school) => (
+            <Link 
+              key={school.name} 
+              linkComponentProps={{ href: school.href }}
+              className="group flex bg-card hover:bg-neutral-100 transition-all h-[200px] overflow-hidden border border-neutral-100"
             >
-              See all Kestora University news
-              <ArrowRight size={18} weight="bold" className="transform group-hover:translate-x-1 transition-transform" />
+              <div className="flex-1 p-8 flex flex-col justify-center">
+                <h3 className="text-2xl font-bold group-hover:underline leading-tight">School of {school.name}</h3>
+              </div>
+              <div className="w-1/3 relative">
+                <Image src={school.img} alt={school.name} fill className="object-cover object-top" sizes="33vw" />
+              </div>
             </Link>
-          </div>
-        </div>
-
-        <div className="min-h-[400px]">
-          <DynamicNewsSection limit={9} />
-        </div>
-
-        {/* Mobile View All Button - visible only on small screens */}
-        <div className="flex md:hidden mt-10 justify-center">
-          <Link
-            href="/news"
-            className="inline-flex items-center gap-2 px-6 py-3 border border-black text-sm font-bold uppercase tracking-wider hover:bg-black hover:text-white transition-all duration-300 group w-full justify-center text-center"
-          >
-            See all Kestora University news
-            <ArrowRight size={18} className="transform group-hover:translate-x-1 transition-transform" />
-          </Link>
+          ))}
         </div>
       </section>
 
-      {/* 3.5. VOICES FROM KESTORA SECTION */}
+      {/* 3. NEWS SECTION */}
       <section className="pb-24 container mx-auto px-4">
-        <div className="flex justify-between items-end mb-12">
+        <div className="flex justify-between items-end mb-16">
           <div>
-            <h2 className="text-[28px] font-bold mb-4">Voices from Kestora University: read our international blogs</h2>
-            <p className="text-[21px] font-bold text-black max-w-xl">Experiences on studying in Finland</p>
+            <h2 className="text-aalto-5 font-bold mb-4 tracking-tight">Limelight</h2>
+            <p className="text-aalto-3 font-medium text-neutral-600">Latest news and stories from Kestora University.</p>
           </div>
+          <Button
+            href="/news"
+            type="link"
+            label="All news"
+            size="none"
+            className="hidden md:flex text-xs uppercase tracking-widest"
+            icon={<ArrowRight size={20} weight="bold" />}
+          />
         </div>
 
-        <div className="bg-neutral-50 p-8 md:p-12 rounded-lg">
-          <p className="text-lg md:text-xl text-neutral-700 mb-6 leading-relaxed">
-            My decision to move to Finland has been one of the best decisions of my life.<br />I am so happy to be in Finland.
-          </p>
-           <Link
-             href="https://ourblogs.kestora.online/"
-             className="inline-flex items-center gap-2 px-6 py-3 border border-black text-sm font-bold uppercase tracking-wider hover:bg-black hover:text-white transition-all duration-300 group"
-           >
-            Read more from Student Ambassadors blog
-            <ArrowRight size={18} weight="bold" className="transform group-hover:translate-x-1 transition-transform" />
-          </Link>
+        <DynamicNewsSection limit={3} contentType="news" />
+      </section>
+
+      {/* 3.5. HIGHLIGHT QUOTE */}
+      <section className="pb-24 container mx-auto px-4">
+        <Highlight
+          body="My decision to move to Finland and study at Kestora has been one of the best decisions of my life. The community here is truly international and supportive."
+          source="Elena, Student Ambassador"
+          alignment="left"
+        />
+        <div className="flex justify-start">
+          <Button
+            href="/student-guide/chat-with-kestora-students"
+            type="primary"
+            label="Chat with our students"
+            icon={<ArrowRight size={20} weight="bold" />}
+          />
         </div>
+      </section>
+
+      {/* 3.6. EVENTS SECTION */}
+      <section className="pb-24 container mx-auto px-4">
+        <div className="flex justify-between items-end mb-16">
+          <div>
+            <h2 className="text-aalto-5 font-bold mb-4 tracking-tight">Upcoming Events</h2>
+            <p className="text-aalto-3 font-medium text-neutral-600">Join our webinars and campus tours.</p>
+          </div>
+          <Button
+            href="/news"
+            type="link"
+            label="All events"
+            size="none"
+            className="hidden md:flex text-xs uppercase tracking-widest"
+            icon={<ArrowRight size={20} weight="bold" />}
+          />
+        </div>
+
+        <DynamicNewsSection limit={3} contentType="event" />
       </section>
 
       {/* 4. CAMPUS SECTION */}
-      <section className="py-8 md:py-24 bg-white">
-        <div className="container mx-auto px-4 flex flex-col lg:flex-row gap-16 items-center">
+      <section className="py-24 bg-card">
+        <div className="container mx-auto px-4 flex flex-col lg:flex-row gap-20 items-center">
           <div className="w-full lg:w-1/2">
-            <div className="relative h-[300px] md:h-[500px] overflow-hidden rounded-2xl">
+            <div className="relative aspect-square overflow-hidden border border-neutral-200">
               <Image
                 src="/images/campus-welcome-v2.png"
                 alt="Kestora campus"
                 fill
-                className="object-cover"
+                className="object-cover object-top"
               />
             </div>
           </div>
-          <div className="lg:w-1/2 space-y-6">
-            <h2 className="text-[28px] font-bold">Welcome to our campus!</h2>
-            <p className="text-lg text-neutral-600">
-              Are you hosting a group or organizing a visit? Contact our admissions team to arrange a tour or discover how to maximize your time on the Kestora campus.
+          <div className="lg:w-1/2 space-y-8">
+            <h2 className="text-aalto-6 font-bold tracking-tight text-black">Welcome to our campus</h2>
+            <p className="text-aalto-3 text-black leading-aalto-3 font-medium">
+              Are you hosting a group or organizing a visit? Our campus in Helsinki is a vibrant hub of learning and innovation.
             </p>
-            <p className="text-lg text-neutral-600">
-              Kestora University welcomes prospective Bachelor’s and Master’s degree students to learn more about studying in Finland through guided visits and virtual consultations.
+            <p className="text-aalto-3 text-black font-medium leading-relaxed">
+              We welcome prospective students to learn more about studying in Finland through guided visits and consultations.
             </p>
+            <Button
+              href="/contact"
+              type="primary"
+              label="Book a visit"
+              icon={<ArrowRight size={20} weight="bold" />}
+            />
           </div>
         </div>
-
-
-
       </section>
 
-      {/* 5. BLACK FOOTER BAR */}
-      <section className="bg-black text-white py-8 md:py-16">
-        <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+      {/* 5. CTA BAR */}
+      <section className="bg-black text-white py-20">
+        <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-12">
           <div className="max-w-2xl">
-            <h2 className="text-2xl md:text-3xl font-bold leading-tight">
-              Study at Kestora University in Helsinki, Finland
+            <h2 className="text-aalto-6 font-bold tracking-tight">
+              Study at Kestora University
             </h2>
-            <p className="text-white/50 text-sm mt-4">
-              An independent higher education institution offering English-taught Bachelor's and Master's degree programmes focused on engineering, technology, business, science, and the arts.
+            <p className="text-neutral-400 text-aalto-2 mt-4 font-medium max-w-xl">
+              Join a community of innovators in the heart of Helsinki. Offering English-taught degree programmes across four specialized schools.
             </p>
           </div>
 
-          <div className="space-y-4 md:space-y-2 w-full md:w-auto">
+          <div className="flex flex-col gap-6 w-full md:w-auto">
             {[
               { label: "Study at Kestora", href: "/studies" },
               { label: "Open positions", href: "/careers" },
               { label: "Contact us", href: "/contact" }
-            ].map((link) => (
-              <Link key={link.label} href={link.href} className="flex justify-between md:justify-start items-center gap-8 py-2 md:py-0 border-b border-white/20 md:border-none group">
-                <span className="font-bold text-lg group-hover:underline">{link.label}</span>
-                <ArrowRight size={20} weight="bold" className="transform group-hover:translate-x-1 transition-transform" />
+            ].map((item) => (
+              <Link 
+                key={item.label} 
+                linkComponentProps={{ href: item.href }}
+                className="flex justify-between items-center gap-12 group border-b border-neutral-800 pb-4"
+              >
+                <span className="font-bold text-xl group-hover:underline">{item.label}</span>
+                <ArrowRight size={24} weight="bold" className="transform group-hover:translate-x-2 transition-transform" />
               </Link>
             ))}
           </div>
         </div>
       </section>
-
     </div>
   );
 }
+

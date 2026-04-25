@@ -80,7 +80,7 @@ export default function AvatarUpload({ userId, currentAvatarUrl, firstName, emai
                         src={previewUrl}
                         alt="Profile"
                         fill
-                        className="object-cover"
+                        className="object-cover object-top"
                     />
                 ) : (
                     initial
@@ -114,3 +114,4 @@ export default function AvatarUpload({ userId, currentAvatarUrl, firstName, emai
         </div>
     );
 }
+

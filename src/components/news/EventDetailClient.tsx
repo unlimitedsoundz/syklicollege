@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { Event } from '@/types/database';
 import { createClient } from '@/utils/supabase/client';
 import { formatToDDMMYYYY } from '@/utils/date';
@@ -25,21 +25,21 @@ export default function EventDetailClient({ initialEvent }: EventDetailClientPro
                 .single();
 
             if (data && !error) {
-                if (data.updatedAt !== initialEvent.updatedAt || data.content !== initialEvent.content) {
+                if (data.updated_at !== initialEvent.updated_at || data.content !== initialEvent.content) {
                     setEvent(data as Event);
                 }
             }
         }
         fetchLatest();
-    }, [initialEvent.id, initialEvent.updatedAt, initialEvent.content]);
+        }, [initialEvent.id, initialEvent.updated_at, initialEvent.content]);
 
     return (
         <div className="min-h-screen bg-white">
             {/* HERO SECTION */}
             <section className="text-black overflow-hidden" style={{ backgroundColor: '#FDF2F8' }}>
-                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-12 pb-12 lg:pb-0 h-auto lg:h-[600px] lg:py-0 relative mb-0">
+                <div className="container mx-auto flex flex-col lg:flex-row items-center gap-2 lg:gap-16 pt-0 md:pt-12 pb-12 lg:pb-0 h-auto lg:h-[600px] lg:py-0 relative mb-0">
                     {/* Left Content */}
-                    <div className="lg:w-1/2 space-y-6 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
+                    <div className="lg:w-1/2 space-y-6 relative z-10 flex flex-col justify-center h-full pt-2 lg:pt-0 px-4 md:px-0">
                         <div className="text-sm font-bold text-black uppercase tracking-wider mb-2">
                             {currentEvent.category || 'Event'} • {formatToDDMMYYYY(currentEvent.date)}
                         </div>
@@ -62,8 +62,8 @@ export default function EventDetailClient({ initialEvent }: EventDetailClientPro
 
                     {/* Right Image */}
                     <div className="lg:w-1/2 h-full w-full relative lg:translate-y-16 z-20 flex justify-center lg:block order-first lg:order-none">
-                        <div className="h-full">
-                            <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800">
+                        <div className="h-full w-full">
+                            <div className="relative w-full aspect-square md:aspect-auto lg:w-full lg:h-full bg-neutral-800">
                                 {currentEvent.imageUrl && (
                                     <Image
                                         src={currentEvent.imageUrl}
@@ -71,8 +71,8 @@ export default function EventDetailClient({ initialEvent }: EventDetailClientPro
                                         fill
                                         priority
                                         unoptimized
-                                        className="object-cover"
-                                        sizes="(max-width: 1024px) 368px, 50vw"
+                                        className="object-cover object-top"
+                                        sizes="100vw"
                                     />
                                 )}
                             </div>
@@ -126,3 +126,4 @@ export default function EventDetailClient({ initialEvent }: EventDetailClientPro
         </div>
     );
 }
+

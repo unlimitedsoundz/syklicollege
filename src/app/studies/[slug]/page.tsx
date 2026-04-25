@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: Props) {
 
     return {
         title: `${course.title} — ${course.degreeType} | Kestora University`,
-        description: course.description?.replace(/Kestora C\x6Fllege/gi, 'Kestora University').substring(0, 160) || `Study ${course.title} (${course.degreeType}, ${course.ects} ECTS) at Kestora University.`,
+        description: course.description?.replace(/Kestora C\x6Fllege|SYKLI|College/gi, 'Kestora University').substring(0, 160) || `Study ${course.title} (${course.degreeType}, ${course.ects} ECTS) at Kestora University.`,
         alternates: {
             canonical: `https://kestora.online/studies/${slug}/`,
         },
@@ -45,6 +45,7 @@ export async function generateMetadata({ params }: Props) {
 }
 
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema';
+import { Breadcrumbs } from '@aalto-dx/react-modules';
 
 export default async function CourseDetailPage({ params }: Props) {
     const { slug } = await params;
@@ -133,23 +134,35 @@ export default async function CourseDetailPage({ params }: Props) {
                         <span className={`${isLight ? 'bg-black text-white' : 'bg-white text-black'} px-3 py-1 rounded-none uppercase tracking-widest`}>{c.school?.name}</span>
                     </div>
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 max-w-4xl pt-8 leading-tight">{c.title}</h1>
-                    <div className="flex flex-wrap gap-8 md:gap-16 text-black">
+                    <div className={`flex flex-wrap gap-8 md:gap-16 ${isLight ? 'text-black' : 'text-white'}`}>
                         <div className="flex flex-col gap-1">
-                            <p className="text-xs uppercase tracking-[0.2em] font-bold text-black/50">Duration</p>
+                            <p className={`text-xs uppercase tracking-[0.2em] font-bold ${isLight ? 'text-black/50' : 'text-white'}`}>Duration</p>
                             <p className="text-lg font-bold">{c.duration}</p>
                         </div>
                         <div className="flex flex-col gap-1">
-                            <p className="text-xs uppercase tracking-[0.2em] font-bold text-black/50">Language</p>
+                            <p className={`text-xs uppercase tracking-[0.2em] font-bold ${isLight ? 'text-black/50' : 'text-white'}`}>Language</p>
                             <p className="text-lg font-bold">{c.language}</p>
                         </div>
                         <div className="flex flex-col gap-1">
-                            <p className="text-xs uppercase tracking-[0.2em] font-bold text-black/50">Credits</p>
-                            <p className="text-lg font-bold">{c.credits || c.subjects?.reduce((acc, s) => acc + s.creditUnits, 0) || 0} ECTS</p>
+                            <p className={`text-xs uppercase tracking-[0.2em] font-bold ${isLight ? 'text-black/50' : 'text-white'}`}>Credits</p>
+                            <p className="text-lg font-bold">{c.credits || c.subjects?.reduce((acc: number, s: any) => acc + (s.creditUnits || 0), 0) || 0} ECTS</p>
                         </div>
                     </div>
                 </div>
             </div>
 
+
+            <div className="border-b border-neutral-100 bg-white">
+                <div className="container mx-auto px-4 py-3">
+                    <Breadcrumbs 
+                        items={[
+                            { icon: 'home', linkComponentProps: { href: '/' } },
+                            { label: 'Studies', linkComponentProps: { href: '/studies' } },
+                            { label: c.title }
+                        ]} 
+                    />
+                </div>
+            </div>
 
             {/* Back Navigation */}
             <div className="container mx-auto px-4 py-8">
@@ -202,7 +215,7 @@ export default async function CourseDetailPage({ params }: Props) {
                                     <h2 className="text-3xl font-bold mb-8 text-black pb-10 border-b-2 border-black uppercase tracking-widest">{section.title}</h2>
                                      <div
                                          className="prose prose-lg text-black max-w-none prose-headings:font-bold prose-a:text-black hover:prose-a:opacity-70 transition-opacity prose-arrows"
-                                         dangerouslySetInnerHTML={{ __html: section.content.replace(/Kestora C\x6Fllege/g, 'Kestora University') }}
+                                         dangerouslySetInnerHTML={{ __html: section.content.replace(/Kestora C\x6Fllege|SYKLI|College/g, 'Kestora University') }}
                                      />
                                 </section>
                             ))}
@@ -213,7 +226,7 @@ export default async function CourseDetailPage({ params }: Props) {
                             <section>
                                 <h2 className="text-3xl font-bold mb-8 text-black pb-10 border-b-2 border-black uppercase tracking-widest">Program Overview</h2>
                                  <div className="prose prose-lg text-black max-w-none leading-relaxed prose-arrows">
-                                     <p>{c.description?.replace(/Kestora C\x6Fllege/g, 'Kestora University')}</p>
+                                     <p>{c.description?.replace(/Kestora C\x6Fllege|SYKLI|College/g, 'Kestora University')}</p>
                                  </div>
                             </section>
 
@@ -231,7 +244,7 @@ export default async function CourseDetailPage({ params }: Props) {
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-black/10">
-                                            {c.subjects?.sort((a, b) => (a.code || a.name).localeCompare(b.code || b.name)).map((subject) => (
+                                            {c.subjects?.sort((a: any, b: any) => (a.code || a.name || "").localeCompare(b.code || b.name || "")).map((subject: any) => (
                                                 <tr key={subject.id} className="hover:bg-neutral-100 transition-colors bg-white">
                                                     {subject.code && <td className="p-5 text-black border-r border-black/10 font-medium">{subject.code}</td>}
                                                     {subject.area && <td className="p-5 font-bold border-r border-black/10 uppercase text-sm tracking-widest">{subject.area}</td>}
@@ -257,7 +270,7 @@ export default async function CourseDetailPage({ params }: Props) {
                                 <h2 className="text-3xl font-bold mb-8 text-black pb-10 border-b-2 border-black uppercase tracking-widest">Career Prospects</h2>
                                  <div className="bg-white p-10 border-l-4 border-black border-y border-r border-black/10">
                                      <p className="text-black font-bold uppercase tracking-widest mb-4">Potential Roles:</p>
-                                     <p className="text-black text-lg leading-relaxed">{c.careerPaths?.replace(/Kestora C\x6Fllege/g, 'Kestora University')}</p>
+                                     <p className="text-black text-lg leading-relaxed">{c.careerPaths?.replace(/Kestora C\x6Fllege|SYKLI|College/g, 'Kestora University')}</p>
                                  </div>
                             </section>
                         </>

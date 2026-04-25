@@ -177,7 +177,7 @@ serve(async (req) => {
 
         // ---- Tuition Fee Computation (from degree level + school) ----
         const TUITION_FEES: Record<string, Record<string, number>> = {
-            BACHELOR: { BUSINESS: 4000, ARTS: 4000, TECHNOLOGY: 6000, SCIENCE: 7500 },
+            BACHELOR: { BUSINESS: 6000, ARTS: 6000, TECHNOLOGY: 6000, SCIENCE: 9500 },
             MASTER: { BUSINESS: 6000, ARTS: 6000, TECHNOLOGY: 6000, SCIENCE: 9500 },
         };
         const EARLY_DISCOUNT_PERCENT = 25;
@@ -194,9 +194,12 @@ serve(async (req) => {
         const schoolSlug = app.course?.school?.slug || '';
         const courseDegreeLevel = app.course?.degreeLevel || 'BACHELOR';
         const tuitionField = schoolSlugToField(schoolSlug);
-        const computedBaseFee = TUITION_FEES[courseDegreeLevel]?.[tuitionField] || 6000;
-        const computedDiscount = Math.round(computedBaseFee * EARLY_DISCOUNT_PERCENT / 100);
-        const computedNetFee = computedBaseFee - computedDiscount;
+        
+        // Use offerData fee if available (since it contains full program calc if applicable)
+        const computedBaseFee = offerData?.tuition_fee || TUITION_FEES[courseDegreeLevel]?.[tuitionField] || 6000;
+        const computedDiscount = offerData?.discount_amount || Math.round(computedBaseFee * EARLY_DISCOUNT_PERCENT / 100);
+        const computedNetFee = computedBaseFee; // The tuition_fee in DB is already the net fee if coming from offerData
+
 
         if (isOffer) {
             // ==========================================================
@@ -207,11 +210,17 @@ serve(async (req) => {
             const dl = [
                 { label: 'FULL NAME (PASSPORT MATCH)', value: fullName },
                 { label: 'INTENDED PROGRAMME', value: programTitle },
+                { label: 'PROGRAMME START DATE', value: '17.08.2026' },
+                { label: 'TOTAL CREDITS', value: courseDegreeLevel === 'MASTER' ? '120 ECTS' : '180 ECTS' },
             ];
             const dr = [
                 { label: 'INTAKE & YEAR', value: 'Autumn Semester 2026' },
                 { label: 'DEGREE LEVEL', value: degreeLevel },
+                { label: 'PROGRAMME END DATE', value: courseDegreeLevel === 'MASTER' ? '17.08.2028' : '17.08.2029' },
+                { label: 'CAMPUS LOCATION', value: 'Helsinki, Finland' },
             ];
+
+
             for (let i = 0; i < dl.length; i++) {
                 page.drawText(dl[i].label, { x: margin, y, size: 7, font: boldFont, color: lightGrey });
                 page.drawText(dl[i].value, { x: margin, y: y - 13, size: 10, font: boldFont, color: black });
@@ -245,7 +254,12 @@ serve(async (req) => {
 
             // Tuition info — computed from programme data
             y = drawSectionHeading(page, 'TUITION & FINANCIAL INFORMATION', margin, y, cw, boldFont, black);
-            const computedDeposit = Math.round(computedBaseFee * 0.5);
+            // If offer is for DEPOSIT, fee is the deposit. If for FULL, it's the whole thing.
+            // But we display the deposit (50%) in the table below usually.
+            const isDepositOffer = offerData?.offer_type === 'DEPOSIT';
+            const displayTotalFee = isDepositOffer ? computedBaseFee * 2 : computedBaseFee + computedDiscount;
+            const computedDeposit = Math.round(displayTotalFee * 0.5);
+
             y = drawParagraph(page, 'The following tuition information is provided for your reference based on the programme and degree level.', margin, y, regularFont, 8, cw, grey);
             y -= 8;
 
@@ -368,8 +382,12 @@ serve(async (req) => {
                 { label: 'Date of Admission', value: dateStr },
                 { label: 'Academic Year', value: '2026 - 2027' },
                 { label: 'Intake', value: 'Autumn 2026' },
+                { label: 'Programme Start Date', value: '17.08.2026' },
+                { label: 'Programme End Date', value: courseDegreeLevel === 'MASTER' ? '17.08.2028' : '17.08.2029' },
+                { label: 'Total ECTS', value: courseDegreeLevel === 'MASTER' ? '120 ECTS' : '180 ECTS' },
                 { label: 'Programme of Study', value: `${programTitle} (${app.course?.programType || 'Full-time'})` },
             ];
+
 
             for (const d of details) {
                 page.drawText(d.label, { x: margin, y, size: 9, font: boldFont, color: black });

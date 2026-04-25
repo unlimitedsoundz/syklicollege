@@ -4,7 +4,8 @@
 import { useState } from 'react';
 import { deleteCourse } from '../actions';
 import { Trash, PencilSimple as Edit, MagnifyingGlass as Search, CaretLeft as ChevronLeft, CaretRight as ChevronRight, CaretDoubleLeft as ChevronsLeft, CaretDoubleRight as ChevronsRight, GraduationCap } from "@phosphor-icons/react/dist/ssr";
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
+import { SearchField } from '@/components/ui/SearchField';
 import { Course } from '@/types/database';
 
 interface CoursesClientProps {
@@ -28,42 +29,39 @@ export default function CoursesClient({ courses }: CoursesClientProps) {
         currentPage * ITEMS_PER_PAGE
     );
 
-    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(e.target.value);
-        setCurrentPage(1);
-    };
 
     return (
-        <div className="pt-12 pl-12">
-            <div className="flex justify-between items-center mb-8">
+        <div className="space-y-8">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
                 <div>
-                    <h1 className="text-3xl font-bold text-neutral-900">Manage Courses</h1>
+                    <h1 className="text-3xl font-bold text-neutral-900 leading-tight">Manage Courses</h1>
                     <p className="text-neutral-500 mt-1 text-sm uppercase font-bold tracking-widest">Academic Curricula & Programs</p>
                 </div>
-                <Link href="/admin/courses/edit" className="bg-neutral-900 text-white px-4 py-2 rounded-lg font-bold hover:bg-neutral-800 transition-colors">
+                <Link href="/admin/courses/editor?id=new" className="bg-neutral-900 text-white px-4 py-2 rounded-lg font-bold hover:bg-neutral-800 transition-colors shrink-0">
                     + New Course
                 </Link>
             </div>
 
             <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
                 {/* Search Bar */}
-                <div className="p-4 border-b border-neutral-100 bg-neutral-50/50 flex items-center justify-between">
-                    <div className="relative w-full max-w-md">
-                        <Search size={16} weight="bold" className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
-                        <input
-                            type="text"
-                            placeholder="Search courses by title, degree, or school..."
+                <div className="p-4 border-b border-neutral-100 bg-neutral-50/50 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                    <div className="w-full max-w-md">
+                        <SearchField
+                            placeholder="Search courses..."
                             value={searchTerm}
-                            onChange={handleSearchChange}
-                            className="w-full pl-10 pr-4 py-2 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-black"
+                            onChange={(v) => {
+                                setSearchTerm(v);
+                                setCurrentPage(1);
+                            }}
                         />
                     </div>
-                    <div className="text-xs font-bold text-neutral-400 uppercase tracking-widest">
+                    <div className="text-[10px] font-black text-neutral-400 uppercase tracking-widest shrink-0">
                         Total Programs: {filteredCourses.length}
                     </div>
                 </div>
 
-                <table className="w-full text-left">
+                <div className="overflow-x-auto">
+                    <table className="w-full text-left min-w-[800px]">
                     <thead className="bg-neutral-50 border-b border-neutral-200">
                         <tr>
                             <th className="p-4 font-semibold text-neutral-600">Title</th>
@@ -103,6 +101,7 @@ export default function CoursesClient({ courses }: CoursesClientProps) {
                         ))}
                     </tbody>
                 </table>
+            </div>
 
                 {filteredCourses.length === 0 && (
                     <div className="p-12 text-center text-neutral-400 font-bold uppercase text-[10px] tracking-widest flex flex-col items-center">

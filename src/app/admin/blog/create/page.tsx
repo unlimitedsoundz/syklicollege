@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import dynamic from 'next/dynamic';
 import { createClient } from '@/utils/supabase/client';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { ArrowLeft } from "@phosphor-icons/react";
 import '@/styles/ckeditor-content.css';
 
@@ -131,7 +131,7 @@ export default function CreateBlogPost() {
                         className="mb-2"
                     />
                     {uploading && <p>Uploading...</p>}
-                    {imageUrl && <img src={imageUrl} alt="Preview" className="w-32 h-32 object-cover" />}
+                    {imageUrl && <img src={imageUrl} alt="Preview" className="w-32 h-32 object-cover object-top" />}
                     <input {...register('imageUrl')} type="hidden" />
                 </div>
 
@@ -194,7 +194,7 @@ export default function CreateBlogPost() {
                                     className="mb-2"
                                 />
                                 {uploading && <p>Uploading...</p>}
-                                {ogImageUrl && <img src={ogImageUrl} alt="OG Preview" className="w-32 h-32 object-cover" />}
+                                {ogImageUrl && <img src={ogImageUrl} alt="OG Preview" className="w-32 h-32 object-cover object-top" />}
                                 <input {...register('og_image')} type="hidden" />
                                 <p className="text-sm text-gray-500 mt-1">Recommended size: 1200x630px. Leave empty to use the blog post image</p>
                             </div>
@@ -207,3 +207,4 @@ export default function CreateBlogPost() {
         </div>
     );
 }
+

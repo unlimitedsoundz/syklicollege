@@ -12,15 +12,49 @@ function formatToDDMMYYYY(dateString) {
   const day = String(date.getDate()).padStart(2, '0');
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const year = date.getFullYear();
-  return `${day}/${month}/${year}`;
+  return `${day}.${month}.${year}`;
 }
+
+// API endpoint for loading more posts
+router.get('/api/posts', async (req, res) => {
+  try {
+    const category = req.query.category;
+    const search = req.query.search;
+    const offset = parseInt(req.query.offset) || 0;
+    const limit = parseInt(req.query.limit) || 3;
+
+    let query = supabase
+      .from('blogs')
+      .select('*')
+      .eq('published', true)
+      .order('publishDate', { ascending: false });
+
+    if (category) {
+      query = query.or(`title.ilike.%${category}%,content.ilike.%${category}%,excerpt.ilike.%${category}%`);
+    }
+
+    if (search) {
+      query = query.or(`title.ilike.%${search}%,content.ilike.%${search}%,excerpt.ilike.%${search}%`);
+    }
+
+    const { data: posts, error } = await query.range(offset, offset + limit - 1);
+
+    if (error) throw error;
+
+    res.json({ posts: posts || [] });
+  } catch (error) {
+    console.error('Error fetching more posts:', error);
+    res.status(500).json({ error: 'Error loading posts' });
+  }
+});
 
 // Blog list page
 router.get('/', async (req, res) => {
   try {
-    const tag = req.query.tag;
+    const category = req.query.category;
+    const search = req.query.search;
     const page = parseInt(req.query.page) || 1;
-    const postsPerPage = 9;
+    const postsPerPage = 6; // Show 6 initially
     const offset = (page - 1) * postsPerPage;
 
     let query = supabase
@@ -29,26 +63,57 @@ router.get('/', async (req, res) => {
       .eq('published', true)
       .order('publishDate', { ascending: false });
 
-    if (tag) {
-      query = query.contains('tags', tag);
+    if (category) {
+      query = query.or(`title.ilike.%${category}%,content.ilike.%${category}%,excerpt.ilike.%${category}%`);
+    }
+
+    if (search) {
+      query = query.or(`title.ilike.%${search}%,content.ilike.%${search}%,excerpt.ilike.%${search}%`);
     }
 
     const { data: posts, error } = await query.range(offset, offset + postsPerPage - 1);
 
     if (error) throw error;
 
-    // Get total count for pagination
+    // Get total count
     let countQuery = supabase
       .from('blogs')
       .select('*', { count: 'exact', head: true })
       .eq('published', true);
 
-    if (tag) {
-      countQuery = countQuery.contains('tags', tag);
+    if (category) {
+      countQuery = countQuery.or(`title.ilike.%${category}%,content.ilike.%${category}%,excerpt.ilike.%${category}%`);
+    }
+
+    if (search) {
+      countQuery = countQuery.or(`title.ilike.%${search}%,content.ilike.%${search}%,excerpt.ilike.%${search}%`);
     }
 
     const { count } = await countQuery;
     const totalPages = Math.ceil(count / postsPerPage);
+    const hasMorePosts = count > postsPerPage;
+
+    // Get all unique categories for filtering (Currently disabled as categories column does not exist)
+    const { data: allBlogs } = await supabase
+      .from('blogs')
+      .select('id')
+      .eq('published', true);
+
+    const categoriesSet = new Set();
+    if (allBlogs) {
+      allBlogs.forEach(blog => {
+        if (blog.categories && Array.isArray(blog.categories)) {
+          blog.categories.forEach(cat => categoriesSet.add(cat));
+        }
+      });
+    }
+    const categories = [
+      'Student Life',
+      'Finland',
+      'University',
+      'Education',
+      'International Students'
+    ].sort();
 
     // Render the blog content
     const ejs = require('ejs');
@@ -57,14 +122,20 @@ router.get('/', async (req, res) => {
 
     const blogContent = await ejs.renderFile(path.join(__dirname, '../views/blog/index.ejs'), {
       posts: posts || [],
+      currentOffset: offset,
+      hasMorePosts,
+      category,
+      categories,
+      search,
       currentPage: page,
       totalPages,
-      tag,
       formatToDDMMYYYY
     });
 
     const fullPage = await ejs.renderFile(path.join(__dirname, '../views/layouts/main.ejs'), {
-      title: tag ? `Blog - ${tag}` : 'Kestora Blog',
+      title: category ? `Blog - ${category} | Kestora Blog` : (search ? `Search: ${search} | Kestora Blog` : 'Kestora Blog'),
+      metaDescription: category ? `Read articles about ${category} from Kestora University student ambassadors.` : 'Stories and insights from Kestora University student ambassadors sharing their experiences studying and living in Finland.',
+      ogImage: null,
       body: blogContent
     });
 
@@ -160,7 +231,9 @@ router.get('/:slug', async (req, res) => {
     });
 
     const fullPage = await ejs.renderFile(path.join(__dirname, '../views/layouts/main.ejs'), {
-      title: `${post.title} | Kestora Blog`,
+      title: post.meta_title || `${post.title} | Kestora Blog`,
+      metaDescription: post.meta_description || post.excerpt,
+      ogImage: post.og_image || post.imageUrl,
       body: blogContent
     });
 

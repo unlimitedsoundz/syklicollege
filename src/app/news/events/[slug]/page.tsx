@@ -8,10 +8,12 @@ import { Calendar, MapPin, Clock, Tag, CaretLeft as ChevronLeft } from "@phospho
 import EventDetailClient from '@/components/news/EventDetailClient';
 
 export async function generateStaticParams() {
-    return [
-        { slug: "spring-career-fair-2026" },
-        { slug: "orientation-2026" }
-    ];
+    const supabase = createStaticClient();
+    const { data: events } = await supabase
+        .from('Event')
+        .select('slug');
+    
+    return events?.map(({ slug }) => ({ slug })) || [];
 }
 
 export const dynamicParams = false;

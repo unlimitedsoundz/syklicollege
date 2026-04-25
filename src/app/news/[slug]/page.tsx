@@ -39,9 +39,9 @@ export async function generateMetadata({ params }: Props) {
 }
 
 interface Props {
-    params: {
+    params: Promise<{
         slug: string;
-    };
+    }>;
 }
 
 export default async function NewsArticlePage({ params }: Props) {

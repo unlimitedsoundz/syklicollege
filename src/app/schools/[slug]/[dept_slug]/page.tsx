@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Department, School, Faculty, Course } from '@/types/database';
 import { notFound } from 'next/navigation';
 import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
+import { Breadcrumbs } from '@aalto-dx/react-modules';
 
 export async function generateStaticParams() {
     const supabase = createStaticClient();
@@ -169,7 +170,7 @@ export default async function DepartmentDetailPage({ params }: Props) {
                             {dept.name}
                         </h1>
                         <p className="text-lg md:text-xl text-white/90 max-w-xl leading-relaxed my-2">
-                            {dept.description || "Advancing knowledge and innovation through world-class research and education."}
+                            {(dept.description || "Advancing knowledge and innovation through world-class research and education.").replace(/SYKLI|College/g, 'Kestora University')}
                         </p>
 
                     </div>
@@ -184,7 +185,7 @@ export default async function DepartmentDetailPage({ params }: Props) {
                                     alt={dept.name}
                                     fill
                                     priority
-                                    className="object-cover opacity-90"
+                                    className="object-cover object-top opacity-90"
                                     sizes="(max-width: 1024px) 100vw, 50vw"
                                 />
                             ) : (
@@ -204,6 +205,19 @@ export default async function DepartmentDetailPage({ params }: Props) {
                     </div>
                 </div>
             </section>
+
+            <div className="border-b border-neutral-100 bg-white">
+                <div className="container mx-auto px-4 py-3">
+                    <Breadcrumbs 
+                        items={[
+                            { icon: 'home', linkComponentProps: { href: '/' } },
+                            { label: 'Schools', linkComponentProps: { href: '/schools' } },
+                            { label: school.name, linkComponentProps: { href: `/schools/${slug}` } },
+                            { label: dept.name }
+                        ]} 
+                    />
+                </div>
+            </div>
 
             {/* Back Navigation (Below Hero) */}
             <div className="container mx-auto px-4 py-6">
@@ -230,7 +244,7 @@ export default async function DepartmentDetailPage({ params }: Props) {
                                     <div className="flex justify-between items-start">
                                         <div>
                                             <h3 className="text-xl font-bold text-white mb-1">{course.title}</h3>
-                                            <p className="text-white text-sm line-clamp-2 mb-4">{course.description}</p>
+                                            <p className="text-white text-sm line-clamp-2 mb-4">{(course.description || "").replace(/SYKLI|College/g, 'Kestora University')}</p>
 
                                             {/* Program Details Grid */}
                                             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 text-sm mt-4 pt-4 border-t border-white/10">

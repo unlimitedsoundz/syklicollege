@@ -35,7 +35,7 @@ export default function RequirementsPage() {
                                     alt="Entry Requirements"
                                     fill
                                     priority
-                                    className="object-cover"
+                                    className="object-cover object-top"
                                     sizes="(max-width: 1024px) 368px, 50vw"
                                 />
                             </div>
@@ -104,3 +104,4 @@ export default function RequirementsPage() {
         </div>
     );
 }
+

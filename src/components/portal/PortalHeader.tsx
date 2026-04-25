@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { usePathname } from 'next/navigation';
 import { SignOut as LogOut, Layout, User, FileText, CaretRight as ChevronRight, List as Menu, X, GraduationCap, House as Home, BookOpen, Buildings as Building2, CreditCard, Calendar } from "@phosphor-icons/react";
 import { createClient } from '@/utils/supabase/client';
@@ -139,7 +139,7 @@ export default function PortalHeader() {
                                     <Link
                                         key={item.href}
                                         href={item.href}
-                                        className={`px-3 py-1 rounded text-xs font-semibold uppercase tracking-widest transition-colors ${isActive
+                                        className={`px-3 py-1 rounded text-[13px] font-semibold transition-colors ${isActive
                                             ? 'bg-black text-white'
                                             : 'text-black hover:opacity-70 hover:bg-black/5'
                                             }`}
@@ -164,7 +164,7 @@ export default function PortalHeader() {
                         {isAccountPage && (
                             <button
                                 onClick={isLoggedIn ? handleSignOut : () => router.push('/portal/account/login')}
-                                className="hidden md:block px-2 py-1 text-black hover:opacity-50 text-xs font-semibold uppercase tracking-widest transition-all"
+                                className="hidden md:block px-2 py-1 text-black hover:opacity-50 text-[13px] font-semibold transition-all"
                             >
                                 {isLoggedIn ? 'Log Out' : 'Log In'}
                             </button>
@@ -176,11 +176,11 @@ export default function PortalHeader() {
 
                         <div className="flex items-center gap-2 md:gap-3">
                             <div className="hidden sm:flex flex-col items-end">
-                                <span className="text-[10px] font-semibold uppercase tracking-widest text-black/40 leading-none">User</span>
+                                <span className="text-[11px] font-semibold text-black/40 leading-none">User</span>
                                 <div className="flex items-center gap-2 mt-1">
-                                    <span className="text-xs font-black text-neutral-900 leading-none">{firstName || userEmail?.split('@')[0]}</span>
+                                    <span className="text-[13px] font-black text-black leading-none">{firstName || userEmail?.split('@')[0]}</span>
                                     {studentId && (
-                                        <span className="text-[10px] font-semibold text-primary border border-primary px-1.5 py-0.5 rounded-sm leading-none">
+                                        <span className="text-[11px] font-semibold text-black border border-black px-1.5 py-0.5 rounded-sm leading-none">
                                             ID: {studentId}
                                         </span>
                                     )}
@@ -207,7 +207,7 @@ export default function PortalHeader() {
                         <div className="flex items-center gap-3 mb-4">
                             <UserAvatar src={avatarUrl} firstName={firstName} email={userEmail} size="md" isLoggedIn={isLoggedIn} />
                             <div>
-                                <h3 className="text-sm font-bold uppercase tracking-wide text-neutral-900">Menu</h3>
+                                <h3 className="text-[15px] font-black text-black">Menu</h3>
                                 <button
                                     onClick={() => setMobileMenuOpen(false)}
                                     className="p-1 text-neutral-400 hover:text-black transition-colors hidden"
@@ -218,10 +218,10 @@ export default function PortalHeader() {
                         </div>
                         {userEmail && (
                             <div className="space-y-1">
-                                <span className="text-[10px] font-semibold uppercase tracking-widest text-black/40 leading-none">Signed in as</span>
-                                <p className="text-xs font-black text-neutral-900 leading-tight">{firstName || userEmail}</p>
+                                <span className="text-[11px] font-semibold text-black/40 leading-none">Signed in as</span>
+                                <p className="text-[13px] font-black text-black leading-tight">{firstName || userEmail}</p>
                                 {studentId && (
-                                    <span className="inline-block text-[10px] font-semibold text-primary border border-primary px-1.5 py-0.5 rounded-sm mt-1">
+                                    <span className="inline-block text-[11px] font-semibold text-black border border-black px-1.5 py-0.5 rounded-sm mt-1">
                                         ID: {studentId}
                                     </span>
                                 )}
@@ -253,7 +253,7 @@ export default function PortalHeader() {
                     <div className="border-t border-neutral-100">
                         <button
                             onClick={() => setExpandedMobileSections(prev => ({ ...prev, language: !prev.language }))}
-                            className="w-full text-left px-6 py-4 text-sm font-bold uppercase flex items-center justify-between hover:bg-neutral-50"
+                            className="w-full text-left px-6 py-4 text-sm font-bold flex items-center justify-between hover:bg-neutral-50"
                         >
                             Language
                             {expandedMobileSections.language ? <Minus size={16} weight="bold" /> : <Plus size={16} weight="bold" />}

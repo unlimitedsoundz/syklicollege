@@ -91,7 +91,7 @@ export default function CookiesContent() {
                         <div className="prose prose-neutral max-w-none space-y-8 md:space-y-24">
                             {/* 1. Introduction */}
                             <section id="introduction" className="scroll-mt-32">
-                                <h2 className="text-2xl font-bold mb-8 border-b border-black pb-10 pl-2">1. Introduction</h2>
+                                <h2 className="text-2xl font-bold mb-8  pb-10 pl-2">1. Introduction</h2>
                                 <div className="space-y-6 text-neutral-700 leading-relaxed">
                                     <p>
                                         Kestora University uses cookies and similar technologies on its website and digital platforms to ensure proper functionality improve user experience analyse usage and support institutional services. This Cookie Policy explains what cookies are how they are used and the choices available to users.
@@ -104,7 +104,7 @@ export default function CookiesContent() {
 
                             {/* 2. What Are Cookies */}
                             <section id="what-are-cookies" className="scroll-mt-32">
-                                <h2 className="text-2xl font-bold mb-8 border-b border-black pb-10 pl-2">2. What Are Cookies</h2>
+                                <h2 className="text-2xl font-bold mb-8  pb-10 pl-2">2. What Are Cookies</h2>
                                 <div className="space-y-6 text-neutral-700 leading-relaxed">
                                     <p>
                                         Cookies are small text files stored on a user’s device when visiting a website. Cookies help websites remember user preferences enable core functions and collect information about how services are used.
@@ -117,7 +117,7 @@ export default function CookiesContent() {
 
                             {/* 3. Types of Cookies Used */}
                             <section id="types-of-cookies" className="scroll-mt-32">
-                                <h2 className="text-2xl font-bold mb-8 border-b border-black pb-10 pl-2">3. Types of Cookies Used</h2>
+                                <h2 className="text-2xl font-bold mb-8  pb-10 pl-2">3. Types of Cookies Used</h2>
                                 <div className="space-y-8 text-neutral-700 leading-relaxed">
                                     <div>
                                         <h3 className="text-lg font-bold text-black mb-4">Essential Cookies</h3>
@@ -148,7 +148,7 @@ export default function CookiesContent() {
 
                             {/* 4. Legal Basis for Cookie Use */}
                             <section id="legal-basis" className="scroll-mt-32">
-                                <h2 className="text-2xl font-bold mb-8 border-b border-black pb-10 pl-2">4. Legal Basis for Cookie Use</h2>
+                                <h2 className="text-2xl font-bold mb-8  pb-10 pl-2">4. Legal Basis for Cookie Use</h2>
                                 <div className="space-y-6 text-neutral-700 leading-relaxed">
                                     <p>
                                         The use of essential cookies is based on legitimate interest and technical necessity. Non essential cookies such as analytics or functional cookies are used based on user consent where required by law.
@@ -158,7 +158,7 @@ export default function CookiesContent() {
 
                             {/* 5. Managing Cookies */}
                             <section id="managing-cookies" className="scroll-mt-32">
-                                <h2 className="text-2xl font-bold mb-8 border-b border-black pb-10 pl-2">5. Managing Cookies</h2>
+                                <h2 className="text-2xl font-bold mb-8  pb-10 pl-2">5. Managing Cookies</h2>
                                 <div className="space-y-6 text-neutral-700 leading-relaxed">
                                     <p>
                                         Users can manage or disable cookies through their browser settings. Blocking cookies may affect the functionality and usability of Kestora University digital services.
@@ -171,7 +171,7 @@ export default function CookiesContent() {
 
                             {/* 6. Changes to the Cookie Policy */}
                             <section id="changes" className="scroll-mt-32">
-                                <h2 className="text-2xl font-bold mb-8 border-b border-black pb-10 pl-2">6. Changes to the Cookie Policy</h2>
+                                <h2 className="text-2xl font-bold mb-8  pb-10 pl-2">6. Changes to the Cookie Policy</h2>
                                 <div className="space-y-6 text-neutral-700 leading-relaxed">
                                     <p>
                                         Kestora University may update this Cookie Policy to reflect changes in legal requirements or digital services. The latest version will always be published on the official website.
@@ -181,7 +181,7 @@ export default function CookiesContent() {
 
                             {/* 7. Contact Information */}
                             <section id="contact" className="scroll-mt-32">
-                                <h2 className="text-2xl font-bold mb-8 border-b border-black pb-10 pl-2">7. Contact Information</h2>
+                                <h2 className="text-2xl font-bold mb-8  pb-10 pl-2">7. Contact Information</h2>
                                 <div className="space-y-6 text-neutral-700 leading-relaxed">
                                     <p>
                                         Questions regarding this Cookie Policy can be directed to Kestora University through official contact channels listed on the website.

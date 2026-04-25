@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import { createClient } from '@/utils/supabase/client';
 import RichTextEditor from '@/components/RichTextEditor';
 import { pageContentPages, pageContentSectionsByPage, type PageContentSection } from '@/lib/pageContentConfig';

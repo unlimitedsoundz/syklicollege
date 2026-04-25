@@ -1,11 +1,16 @@
-
-import Link from 'next/link';
+import { Link } from "@aalto-dx/react-components";
 import Image from 'next/image';
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import TableOfContents from '@/components/course/TableOfContents';
 import StudentStoriesCarousel from '@/components/admissions/StudentStoriesCarousel';
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema';
 import { SchemaLD } from '@/components/seo/SchemaLD';
+import { Breadcrumbs } from '@aalto-dx/react-modules';
+import { Hero } from '@/components/layout/Hero';
+import DbPageContent from '@/components/DbPageContent';
+import { getPageContentSection } from '@/lib/pageContentConfig';
+import { Card } from '@/components/ui/Card';
+import { ContentBox } from '@/components/ui/ContentBox';
 
 export const metadata = {
     title: 'Admissions | Kestora University',
@@ -24,8 +29,10 @@ const tocSections = [
     { id: 'campus', title: 'Studying on Campus', content: '' },
     { id: 'careers', title: 'Career Opportunities', content: '' },
     { id: 'online-opportunities', title: 'Online & Onsite', content: '' },
-    { id: 'student-life', title: 'Student Life', content: '' },
+    { id: 'community', title: 'Vibrant Community', content: '' },
+    { id: 'graduation', title: 'After Graduation', content: '' },
     { id: 'study-in-finland', title: 'Study in Finland', content: '' },
+
     { id: 'multidisciplinary', title: 'Multidisciplinary', content: '' },
     { id: 'lifelong', title: 'Lifelong Learning', content: '' },
     { id: 'summer', title: 'Summer Education', content: '' },
@@ -34,6 +41,9 @@ const tocSections = [
 ];
 
 export default function AdmissionsPage() {
+    const pageSlug = 'admissions';
+    const getSectionDefault = (sectionKey: string) => getPageContentSection(pageSlug, sectionKey)?.defaultContent ?? '';
+
     return (
         <div className="flex flex-col min-h-screen bg-white text-black font-sans">
             <BreadcrumbSchema items={[
@@ -70,45 +80,44 @@ export default function AdmissionsPage() {
                 }
             }} />
 
-
-            {/* HERO SECTION (Sky Blue Split) */}
-            <section className="text-black overflow-hidden" style={{ backgroundColor: '#0EA5E9' }}>
-                <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-16 pt-12 pb-12 lg:pb-0 h-auto lg:h-[600px] lg:py-0 relative mb-0">
-                    {/* Left Content */}
-                    <div className="lg:w-1/2 space-y-6 relative z-10 flex flex-col justify-center h-full pt-0 lg:pt-0">
-                        <h1 className="font-bold leading-[1.1] tracking-tight pt-8 text-black" style={{ fontSize: '40px' }}>
-                            Admissions to Kestora University
-                        </h1>
-                        <p className="text-[21px] text-black max-w-xl leading-relaxed">
-                            Apply to Kestora University Helsinki and begin your Bachelor’s or Master’s studies in an internationally focused learning environment. Our admissions process is transparent, supportive, and open to students from around the world.
-                        </p>
-                        <div className="flex flex-wrap gap-6 pt-4">
-                            <Link href="#how-to-apply" className="text-lg font-bold underline underline-offset-8 decoration-black hover:opacity-70 transition-colors text-black inline-flex items-center gap-2">
-                                Apply now <ArrowRight size={20} weight="bold" />
-                            </Link>
-                            <Link href="#degree-programmes" className="text-lg font-bold underline underline-offset-8 decoration-black hover:opacity-70 transition-colors text-black inline-flex items-center gap-2">
-                                Explore programmes <ArrowRight size={20} weight="bold" />
-                            </Link>
-                        </div>
-                    </div>
-
-                    {/* Right Image */}
-                    <div className="lg:w-1/2 h-full w-full relative lg:translate-y-16 z-20 flex justify-center lg:block order-first lg:order-none">
-                        <div className="h-full">
-                            <div className="relative w-[368px] h-[368px] lg:w-full lg:h-full bg-neutral-800">
-                                <Image
-                                    src="/images/admissions/hero-main.png"
-                                    alt="Admissions at Kestora University"
-                                    fill
-                                    priority
-                                    className="object-cover"
-                                    sizes="(max-width: 1024px) 368px, 50vw"
-                                />
-                            </div>
-                        </div>
-                    </div>
+            <Hero
+                title={
+                    <DbPageContent
+                        tagName="span"
+                        pageSlug={pageSlug}
+                        sectionKey="hero_title"
+                        fallbackContent={getSectionDefault('hero_title')}
+                    />
+                }
+                body={
+                    <DbPageContent
+                        tagName="span"
+                        pageSlug={pageSlug}
+                        sectionKey="hero_subtitle"
+                        fallbackContent={getSectionDefault('hero_subtitle')}
+                    />
+                }
+                backgroundColor="#472247"
+                tinted
+                lightText={true}
+                breadcrumbs={[
+                    { label: 'Home', href: '/' },
+                    { label: 'Admissions' }
+                ]}
+                image={{
+                    src: "/images/admissions/hero-main.png",
+                    alt: "Admissions to Kestora University"
+                }}
+            >
+                <div className="flex flex-wrap gap-4">
+                    <Link href="/admissions/bachelor" className="text-aalto-3 font-bold underline underline-offset-8 decoration-white hover:opacity-70 transition-colors text-white inline-flex items-center gap-2">
+                        Bachelor's Admissions <ArrowRight size={20} weight="bold" />
+                    </Link>
+                    <Link href="/admissions/master" className="text-aalto-3 font-bold underline underline-offset-8 decoration-white hover:opacity-70 transition-colors text-white inline-flex items-center gap-2">
+                        Master's Admissions <ArrowRight size={20} weight="bold" />
+                    </Link>
                 </div>
-            </section>
+            </Hero>
 
             <div className="container mx-auto px-4 py-16 md:py-24">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
@@ -118,8 +127,8 @@ export default function AdmissionsPage() {
                             <TableOfContents sections={tocSections} />
                             <div className="bg-black text-white p-10 border-0">
                                 <h3 className="font-bold text-lg mb-2 text-white uppercase tracking-wider">Admissions Office</h3>
-                                <p className="text-sm text-neutral-400 mb-6 font-light">Questions? We are here to help.</p>
-                                <Link href="/contact" className="text-sm font-bold underline underline-offset-4 hover:text-neutral-300 transition-colors">Contact Us</Link>
+                                <p className="text-sm text-white opacity-40 mb-6 font-light">Questions? We are here to help.</p>
+                                <Link href="/contact" className="text-sm font-bold underline underline-offset-4 hover:text-white transition-colors">Contact Us</Link>
                             </div>
                         </div>
                     </div>
@@ -128,77 +137,95 @@ export default function AdmissionsPage() {
                     <div className="lg:col-span-9 space-y-8 md:space-y-24 px-0 md:px-0">
 
                         <section id="overview" className="scroll-mt-32">
-                            <h2 className="text-3xl font-bold mb-6">Explore our fields</h2>
-                            <p className="text-lg text-neutral-700 leading-relaxed mb-4">
+                            <h2 className="text-aalto-5 font-bold mb-aalto-p4 text-black tracking-tight">Explore our fields</h2>
+                            <p className="text-lg text-black leading-relaxed mb-4">
                                 Studying at Kestora University offers a rich academic experience where innovation, multidisciplinary collaboration, and student community thrive together. You can pursue degree education at all levels Bachelor’s and Master’s as well as various lifelong learning options. In the Kestora University community, students have the freedom to specialise in one field or combine courses across several fields.
                             </p>
                         </section>
 
                         <section id="degree-programmes" className="scroll-mt-32">
-                            <h2 className="text-3xl font-bold mb-6">Degree Programmes & Fields of Study</h2>
-                            <p className="text-lg text-neutral-700 mb-6">Kestora University offers degree programmes across multiple fields:</p>
+                            <h2 className="text-aalto-5 font-bold mb-aalto-p4 text-black tracking-tight">Degree Programmes & Fields of Study</h2>
+                            <p className="text-lg text-black mb-6">Degree Programmes & Fields of Study</p>
                             <div className="grid md:grid-cols-3 gap-6 mb-6">
-                                <div className="bg-neutral-100 p-10">
-                                    <h3 className="font-bold text-xl mb-2">Business and Economics</h3>
-                                </div>
-                                <div className="bg-neutral-100 p-10">
-                                    <h3 className="font-bold text-xl mb-2">Arts, Design and Creative Industries</h3>
-                                </div>
-                                <div className="bg-neutral-100 p-10">
-                                    <h3 className="font-bold text-xl mb-2">Engineering, Technology and Sciences</h3>
-                                </div>
+                                <ContentBox
+                                    icon="chartBar"
+                                    title="Business and Economics"
+                                    body="Innovative leadership, digital entrepreneurship, and global market strategies."
+                                />
+                                <ContentBox
+                                    icon="palette"
+                                    title="Arts, Design and Creative Industries"
+                                    body="Fusing creative excellence with modern design and professional practice."
+                                />
+                                <ContentBox
+                                    icon="cpu"
+                                    title="Engineering, Technology and Sciences"
+                                    body="Pioneering advanced engineering and applied research for global challenges."
+                                />
                             </div>
-                            <p className="text-neutral-700">
+                            <p className="text-black">
                                 Students can pursue degrees in their chosen field or explore courses across fields, gaining new perspectives and collaborative opportunities as part of a multidisciplinary community.
                             </p>
                         </section>
 
                         <section id="how-to-apply" className="scroll-mt-32">
-                            <h2 className="text-3xl font-bold mb-6">How to Apply</h2>
-                            <p className="text-lg text-neutral-700 mb-6">
+                            <h2 className="text-aalto-5 font-bold mb-aalto-p4 text-black tracking-tight">How to Apply</h2>
+                            <p className="text-lg text-black mb-6">
                                 Ready to apply to <Link href="/" className="underline font-medium hover:text-black hover:no-underline transition-colors">Kestora University Helsinki</Link>? Learn more about our programmes and campus in Finland.
                             </p>
-                            <p className="text-lg text-neutral-700 mb-6">You can explore admissions details and requirements for:</p>
+                            <p className="text-lg text-black mb-6">You can explore admissions details and requirements for:</p>
                             <div className="flex flex-col md:flex-row gap-6 mb-6">
                                 <Link href="/admissions/bachelor" className="flex-1 bg-black text-white p-10 hover:bg-neutral-800 transition-colors group">
                                     <h3 className="font-bold text-xl mb-2 flex justify-between items-center">Bachelor's Admissions <ArrowRight weight="bold" className="group-hover:translate-x-1 transition-transform" /></h3>
-                                    <p className="text-neutral-400">Undergraduate programmes in English</p>
+                                    <p className="text-white opacity-40">Undergraduate programmes in English</p>
                                 </Link>
                                 <Link href="/admissions/master" className="flex-1 bg-black text-white p-10 hover:bg-neutral-800 transition-colors group">
                                     <h3 className="font-bold text-xl mb-2 flex justify-between items-center">Master's Admissions <ArrowRight weight="bold" className="group-hover:translate-x-1 transition-transform" /></h3>
-                                    <p className="text-neutral-400">Graduate programmes and advanced studies</p>
+                                    <p className="text-white opacity-40">Graduate programmes and advanced studies</p>
                                 </Link>
                             </div>
-                            <p className="text-neutral-700">
+                            <p className="text-black">
                                 The application process, deadlines, and eligibility criteria vary by degree level and study option. Full details can be found in the Kestora University admissions guide.
                             </p>
                         </section>
 
-                        <section id="events" className="scroll-mt-32 bg-black text-white p-12 border-0 relative overflow-hidden">
-                            <h2 className="text-3xl font-bold mb-6 text-white uppercase tracking-widest">Events for Applicants</h2>
-                            <p className="text-neutral-300 mb-8">Kestora University regularly organises events designed to help prospective students learn more about studying and applying:</p>
-                            <ul className="space-y-4">
-                                {[
-                                    { title: "Webinars on degree programmes", desc: "Interact with programme heads and faculty" },
-                                    { title: "Student chats", desc: "Peer ambassadors share study experiences" },
-                                    { title: "Campus events", desc: "Tailored to applicants" },
-                                    { title: "Applicant newsletters", desc: "And Q&A sessions" },
-                                ].map((item) => (
-                                    <li key={item.title} className="flex gap-4 items-start border-0 pl-0">
-                                        <ArrowRight size={20} weight="bold" className="mt-1 text-white" />
-                                        <div>
-                                            <strong className="block text-lg text-white font-bold">{item.title}</strong>
-                                            <span className="text-neutral-400 font-light">{item.desc}</span>
-                                        </div>
-                                    </li>
-                                ))}
-                            </ul>
+                        <section id="events" className="scroll-mt-32">
+                            <ContentBox
+                                size="large"
+                                icon="calendar"
+                                title="Events for Applicants"
+                                body={
+                                    <div className="space-y-6">
+                                        <p className="text-black">Kestora University regularly organises events designed to help prospective students learn more about studying and applying:</p>
+                                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            {[
+                                                { title: "Webinars on degree programmes", desc: "Interact with programme heads" },
+                                                { title: "Student chats", desc: "Peer ambassadors share experiences" },
+                                                { title: "Campus events", desc: "Tailored to applicants" },
+                                                { title: "Applicant newsletters", desc: "And Q&A sessions" },
+                                            ].map((item) => (
+                                                <li key={item.title} className="flex gap-3 items-start border-0">
+                                                    <ArrowRight size={18} weight="bold" className="mt-1 text-black flex-shrink-0" />
+                                                    <div>
+                                                        <strong className="block text-black font-bold">{item.title}</strong>
+                                                        <span className="text-black opacity-40 text-sm font-light">{item.desc}</span>
+                                                    </div>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                }
+                                image={{
+                                    src: "/images/admissions/events.jpg",
+                                    alt: "Students at Kestora University event"
+                                }}
+                            />
                         </section>
 
                         <section id="student-stories" className="scroll-mt-32">
                             <div>
-                                <h2 className="text-3xl font-bold mb-6">Student Stories</h2>
-                                <p className="text-lg text-neutral-700 mb-8">
+                                <h2 className="text-aalto-5 font-bold mb-aalto-p4 text-black tracking-tight">Student Stories</h2>
+                                <p className="text-lg text-black mb-8">
                                     Hear first-hand experiences from current students and alumni about life at Kestora University, academic projects, internships, and perspectives on how the University supports personal and professional growth.
                                 </p>
                             </div>
@@ -206,132 +233,139 @@ export default function AdmissionsPage() {
                         </section>
 
                         <section id="campus" className="scroll-mt-32">
-                            <h2 className="text-3xl font-bold mb-6">Studying on Campus</h2>
-                            <p className="text-lg text-neutral-700 leading-relaxed">
+                            <h2 className="text-aalto-5 font-bold mb-aalto-p4 text-black tracking-tight">Studying on Campus</h2>
+                            <p className="text-lg text-black leading-relaxed">
                                 Kestora University’s campus provides vibrant learning spaces, studios, libraries, and collaborative hubs where students experience academic life and community activities. The campus environment supports both study and leisure, encouraging a balanced student experience.
                             </p>
                         </section>
 
                         <section id="careers" className="scroll-mt-32">
-                            <h2 className="text-3xl font-bold mb-6">Career Opportunities</h2>
-                            <p className="text-lg text-neutral-700 mb-8">
+                            <h2 className="text-aalto-5 font-bold mb-aalto-p4 text-black tracking-tight">Career Opportunities</h2>
+                            <p className="text-lg text-black mb-8">
                                 Kestora University offers support and services to help students plan and pursue careers after graduation. Our strong industry ties ensure your education translates into real-world success.
                             </p>
                             <div className="grid md:grid-cols-3 gap-8">
                                 {[
-                                    { title: "Industry Collaboration", image: "/images/about/student-collab.jpg", desc: "Work on real projects with our global partners.", credit: "Kestora University" },
-                                    { title: "Alumni Networks", image: "/images/admissions/alumni_success.png", desc: "Connect with graduates working in leading industries.", credit: "Saara Virtanen" },
-                                    { title: "Career Services", image: "/images/admissions-hero.png", desc: "Expert guidance for your professional journey.", credit: "Markus Hakala" }
+                                    { title: "Industry Collaboration", image: "/images/about/student-collab.jpg", desc: "Work on real projects with our global partners." },
+                                    { title: "Alumni Networks", image: "/images/admissions/alumni_success.png", desc: "Connect with graduates working in leading industries." },
+                                    { title: "Career Services", image: "/images/admissions-hero.png", desc: "Expert guidance for your professional journey." }
                                 ].map(item => (
-                                    <div key={item.title} className="bg-neutral-50 flex flex-col group border-0">
-                                        <div className="h-56 w-full relative overflow-hidden">
-                                            <Image
-                                                src={item.image}
-                                                alt={`${item.title} at Kestora University`}
-                                                fill
-                                                className="object-cover"
-                                            />
-                                        </div>
-                                        <div className="p-10">
-                                            <h3 className="font-bold text-xl mb-3 uppercase tracking-tight">{item.title}</h3>
-                                            <p className="text-neutral-600 text-sm leading-relaxed font-light">{item.desc}</p>
-                                        </div>
-                                    </div>
+                                    <Card
+                                        key={item.title}
+                                        title={item.title}
+                                        image={{
+                                            src: item.image,
+                                            alt: item.title
+                                        }}
+                                        body={item.desc}
+                                        cta={{
+                                            label: "Learn more",
+                                            linkComponentProps: {
+                                                href: "/contact"
+                                            }
+                                        }}
+                                    />
                                 ))}
                             </div>
                         </section>
 
                         <section id="online-opportunities" className="scroll-mt-32">
-                            <h2 className="text-3xl font-bold mb-6">Explore Online and Onsite Opportunities</h2>
+                            <h2 className="text-aalto-5 font-bold mb-aalto-p4 text-black tracking-tight">Explore Online and Onsite Opportunities</h2>
                             <div className="space-y-8">
                                 <div>
                                     <h3 className="text-xl font-bold mb-2">Webinars on Degree Programmes</h3>
-                                    <p className="text-neutral-700">Prospective students can join interactive webinars where programme content, learning outcomes, and study paths are explained by faculty and programme heads.</p>
+                                    <p className="text-black">Prospective students can join interactive webinars where programme content, learning outcomes, and study paths are explained by faculty and programme heads.</p>
                                 </div>
                                 <div>
                                     <h3 className="text-xl font-bold mb-2">Podcasts About Studying</h3>
-                                    <p className="text-neutral-700">Listen to podcasts where current students and staff discuss what it’s like to study at Kestora University, how programmes are structured, and tips for success.</p>
+                                    <p className="text-black">Listen to podcasts where current students and staff discuss what it’s like to study at Kestora University, how programmes are structured, and tips for success.</p>
                                 </div>
                                 <div>
                                     <h3 className="text-xl font-bold mb-2">Chat with Students</h3>
-                                    <p className="text-neutral-700">Student ambassadors are available for online chats and Q&A sessions for prospective students, offering realistic insights into student life, academics and campus culture.</p>
+                                    <p className="text-black">Student ambassadors are available for online chats and Q&A sessions for prospective students, offering realistic insights into student life, academics and campus culture.</p>
                                 </div>
                             </div>
                         </section>
 
-                        <section id="student-life" className="scroll-mt-32">
-                            <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-8">
-                                <div className="max-w-2xl">
-                                    <h2 className="text-3xl font-bold mb-4">Student Life</h2>
-                                    <p className="text-lg text-neutral-700 leading-relaxed">
-                                        Discover stories and highlights about student life, community projects, extracurricular activities, and how students grow beyond academics at Kestora University.
-                                    </p>
-                                </div>
-                                <Link href="/student-life" className="text-sm font-bold uppercase tracking-widest border-b-2 border-black pb-1 hover:bg-black hover:text-white transition-all">
-                                    Full Student Guide
-                                </Link>
-                            </div>
-                            <div className="relative h-[400px] w-full overflow-hidden group">
-                                <Image
-                                    src="/images/954d1cf73abfe97a2a762968d006f45b.jpg"
-                                    alt="Life Beyond the Classroom at Kestora University"
-                                    fill
-                                    className="object-cover"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent flex items-center p-8 md:p-16">
-                                    <div className="max-w-md text-white">
-                                        <p className="text-sm font-bold uppercase tracking-[0.2em] mb-4 text-neutral-400">Vibrant Community</p>
-                                        <h3 className="text-3xl font-bold mb-4 uppercase tracking-tight">Life Beyond the Classroom</h3>
-                                        <p className="text-neutral-200 font-light">From music festivals to tech hackathons, your time at Kestora is about more than just studies.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
+                        {/* Vibrant Community */}
+                         <section id="community" className="scroll-mt-32">
+                             <div className="grid lg:grid-cols-2 gap-0 overflow-hidden">
+                                 {/* Left: Text Content */}
+                                 <div className="p-12 md:p-16 flex flex-col justify-center bg-gray-100 text-black">
+                                     <h2 className="text-3xl font-bold mb-6 text-black">Vibrant Community</h2>
+                                     <h3 className="text-xl font-bold mb-4 text-black">Life Beyond the Classroom</h3>
+                                     <p className="text-lg text-black leading-relaxed font-medium">
+                                         From music festivals to tech hackathons, your time at Kestora is about more than just studies.
+                                     </p>
+                                 </div>
+
+                                 {/* Right: Image */}
+                                 <div className="relative aspect-square lg:aspect-auto overflow-hidden">
+                                     <Image
+                                         src="/images/news/helsinki_study_hero_1771086748710.png"
+                                         alt="Kestora Community"
+                                         fill
+                                         className="object-cover object-top"
+                                         sizes="(max-width: 1024px) 100vw, 50vw"
+                                     />
+                                 </div>
+                             </div>
+                         </section>
+
+                         {/* After Graduation */}
+                          <section id="graduation" className="scroll-mt-32 bg-gray-100 text-black p-10 md:p-16 rounded-3xl relative overflow-hidden">
+                              <h2 className="text-3xl md:text-4xl font-bold mb-6 relative z-10">After Graduation</h2>
+                              <p className="text-black text-lg leading-relaxed max-w-2xl mb-10 relative z-10">
+                                 Kestora University supports your transition to working life. We offer resources for job seeking, career guidance, and alumni networking both in Finland and internationally.
+                             </p>
+                             <Link href="#" className="inline-flex items-center gap-2 bg-black text-white px-8 py-4 rounded-xl font-bold relative z-10">
+                                Explore Career Services <ArrowRight size={20} weight="bold" />
+                            </Link>
+                         </section>
+
 
                         <section id="study-in-finland" className="scroll-mt-32">
-                            <div className="bg-neutral-100 text-black overflow-hidden">
-                                <div className="grid md:grid-cols-2">
-                                    <div className="p-12 md:p-16 flex flex-col justify-center">
-                                        <h2 className="text-3xl font-bold mb-8">Study in Finland with Kestora University</h2>
-                                        <ul className="space-y-6 mb-8">
+                            <ContentBox
+                                size="large"
+                                icon="globeHemisphereWest"
+                                title="Study in Finland with Kestora University"
+                                body={
+                                    <div className="space-y-8">
+                                        <div className="grid grid-cols-1 gap-6">
                                             {[
                                                 { title: "Quality & Safety", desc: "World-leading education in a safe, equal society." },
                                                 { title: "Practical Innovation", desc: "Focus on independent study and real-world application." },
                                                 { title: "Life Balance", desc: "Flexibility to shape your own unique academic path." }
                                             ].map(item => (
-                                                <li key={item.title} className="flex gap-4 items-start">
-                                                    <ArrowRight size={20} weight="bold" className="mt-1.5 flex-shrink-0" />
+                                                <div key={item.title} className="flex gap-4 items-start">
+                                                    <ArrowRight size={18} weight="bold" className="mt-1 text-black flex-shrink-0" />
                                                     <div>
-                                                        <strong className="block text-lg mb-1">{item.title}</strong>
-                                                        <span className="text-neutral-600 text-sm">{item.desc}</span>
+                                                        <strong className="block text-black font-bold">{item.title}</strong>
+                                                        <span className="text-black opacity-60 text-sm">{item.desc}</span>
                                                     </div>
-                                                </li>
+                                                </div>
                                             ))}
-                                        </ul>
-                                         <Link href="/student-guide/international" className="inline-flex items-center gap-2 font-bold underline underline-offset-4 hover:text-neutral-500 transition-colors">
-                                             Read Our International Student Guide <ArrowRight size={20} weight="bold" className="align-middle" />
-                                         </Link>
+                                        </div>
+                                        <Link href="/student-guide/international" className="inline-flex items-center gap-2 font-bold underline underline-offset-4 hover:opacity-50 transition-colors text-black">
+                                            Read Our International Student Guide <ArrowRight size={20} weight="bold" />
+                                        </Link>
                                     </div>
-                                    <div className="relative h-[400px] md:h-auto min-h-[400px]">
-                                        <Image
-                                            src="/images/admissions/finland_bus.jpg"
-                                            alt="Finland Campus"
-                                            fill
-                                            className="object-cover"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
+                                }
+                                image={{
+                                    src: "/images/admissions/finland_bus.jpg",
+                                    alt: "Finland Campus"
+                                }}
+                            />
                         </section>
 
                         <section id="multidisciplinary" className="scroll-mt-32">
-                            <h2 className="text-3xl font-bold mb-6">Multidisciplinary Study Environment</h2>
+                            <h2 className="text-aalto-5 font-bold mb-aalto-p4 text-black tracking-tight">Multidisciplinary Study Environment</h2>
                             <div className="flex flex-col md:flex-row gap-8 items-center">
                                 <div className="flex-1">
-                                    <p className="text-lg text-neutral-700 mb-4">
+                                    <p className="text-lg text-black mb-4">
                                         Kestora University encourages cross-field learning. You can take courses in areas such as business, arts, technology, and design, enabling you to create a personalised and comprehensive academic pathway.
                                     </p>
-                                    <p className="text-neutral-700">
+                                    <p className="text-black">
                                         Students are encouraged to combine studies across fields to gain broader perspectives and prepare for diverse career environments.
                                     </p>
                                 </div>
@@ -342,46 +376,47 @@ export default function AdmissionsPage() {
                         </section>
 
                         <section id="lifelong" className="scroll-mt-32">
-                            <h2 className="text-3xl font-bold mb-6">Lifewide and Lifelong Learning</h2>
-                            <p className="text-lg text-neutral-700 mb-8">Education is a journey that never ends. Explore our flexible learning paths:</p>
+                            <h2 className="text-aalto-5 font-bold mb-aalto-p4 text-black tracking-tight">Lifewide and Lifelong Learning</h2>
+                            <p className="text-lg text-black mb-8">Education is a journey that never ends. Explore our flexible learning paths:</p>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 {[
-                                    { title: "Professional Modules", image: "/images/admissions/lifelong_learning_adult.png", desc: "Deepen your expertise with specialized short courses.", credit: "Timo Partanen" },
-                                    { title: "Online Learning", image: "/images/admissions/online_learning.png", desc: "Flexible content accessible from anywhere in the world.", credit: "Emma Laakso" },
-                                    { title: "Campus Workshops", image: "/images/campus-workshops.png", desc: "Hands-on learning in our state-of-the-art labs.", credit: "Janne Salmi" },
-                                    { title: "Custom Training", image: "/images/custom-training.png", desc: "Tailored solutions for organizational growth.", credit: "Sonja Mikkola" }
+                                    { title: "Professional Modules", image: "/images/admissions/lifelong_learning_adult.png", desc: "Deepen your expertise with specialized short courses." },
+                                    { title: "Online Learning", image: "/images/admissions/online_learning.png", desc: "Flexible content accessible from anywhere in the world." },
+                                    { title: "Campus Workshops", image: "/images/campus-workshops.png", desc: "Hands-on learning in our state-of-the-art labs." },
+                                    { title: "Custom Training", image: "/images/custom-training.png", desc: "Tailored solutions for organizational growth." }
                                 ].map(item => (
-                                    <div key={item.title} className="flex flex-col md:flex-row bg-neutral-50 overflow-hidden group border-0">
-                                        <div className="md:w-1/3 h-48 md:h-auto relative overflow-hidden">
-                                            <Image
-                                                src={item.image}
-                                                alt={item.title}
-                                                fill
-                                                className="object-cover"
-                                            />
-                                        </div>
-                                        <div className="md:w-2/3 p-6 flex flex-col justify-center">
-                                            <h4 className="font-bold text-lg mb-2 uppercase tracking-tight">{item.title}</h4>
-                                            <p className="text-sm text-neutral-500 font-light">{item.desc}</p>
-                                        </div>
-                                    </div>
+                                    <Card
+                                        key={item.title}
+                                        title={item.title}
+                                        image={{
+                                            src: item.image,
+                                            alt: item.title
+                                        }}
+                                        body={item.desc}
+                                        cta={{
+                                            label: "View Path",
+                                            linkComponentProps: {
+                                                href: "#lifelong"
+                                            }
+                                        }}
+                                    />
                                 ))}
                             </div>
                         </section>
 
                         <section id="summer" className="scroll-mt-32">
-                            <h2 className="text-3xl font-bold mb-6">Summer and Continuing Education</h2>
-                            <p className="text-lg text-neutral-700 leading-relaxed">
+                            <h2 className="text-aalto-5 font-bold mb-aalto-p4 text-black tracking-tight">Summer and Continuing Education</h2>
+                            <p className="text-lg text-black leading-relaxed">
                                 Kestora University hosts summer courses and programmes that allow students and professionals to deepen specific skills and knowledge in compact, high-impact formats. These programmes offer valuable opportunities for networking and learning from experienced faculty and industry experts.
                             </p>
                         </section>
 
                         <section id="collaboration" className="scroll-mt-32">
-                            <h2 className="text-3xl font-bold mb-6">Collaboration and Community</h2>
-                            <p className="text-lg text-neutral-700 leading-relaxed mb-4">
+                            <h2 className="text-aalto-5 font-bold mb-aalto-p4 text-black tracking-tight">Collaboration and Community</h2>
+                            <p className="text-lg text-black leading-relaxed mb-4">
                                 Kestora University actively partners with industries, research institutions, and international universities to provide students with collaborative projects, internships, and global exchange opportunities.
                             </p>
-                            <p className="text-neutral-700">
+                            <p className="text-black">
                                 Students benefit from a connected academic community that supports innovation, entrepreneurship and real-world problem solving.
                             </p>
                         </section>
@@ -392,7 +427,7 @@ export default function AdmissionsPage() {
                                 <p className="text-lg mb-6">
                                     Prospective and current students can find support and contact information for admissions, campus visits, and student services through the official Kestora University contact pages.
                                 </p>
-                                <p className="text-neutral-300 mb-6">
+                                <p className="text-white opacity-60 mb-6">
                                     Whether you’re planning a campus visit or seeking guidance on admissions, resources are available to help guide your academic journey.
                                 </p>
                                 <div className="flex flex-wrap gap-x-8 gap-y-4">
@@ -424,3 +459,4 @@ export default function AdmissionsPage() {
         </div>
     );
 }
+
