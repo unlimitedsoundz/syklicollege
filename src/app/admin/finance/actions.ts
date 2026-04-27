@@ -75,3 +75,32 @@ export async function pushInvoice(applicationId: string, customFee: number, invo
 
     return { success: true };
 }
+
+export async function getSystemSetting(key: string) {
+    const supabase = createClient();
+    const { data, error } = await supabase
+        .from('system_settings')
+        .select('value')
+        .eq('key', key)
+        .single();
+
+    if (error) {
+        console.error(`Error fetching setting ${key}:`, error);
+        return null;
+    }
+    return data.value;
+}
+
+export async function updateSystemSetting(key: string, value: string) {
+    const supabase = createClient();
+    const { error } = await supabase
+        .from('system_settings')
+        .update({ value, updatedAt: new Date().toISOString() })
+        .eq('key', key);
+
+    if (error) {
+        console.error(`Error updating setting ${key}:`, error);
+        throw new Error(`Failed to update setting ${key}`);
+    }
+    return { success: true };
+}

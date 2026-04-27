@@ -23,21 +23,43 @@ export default function AdmissionsContactInfo() {
                         {/* Sidebar */}
                         <aside className="lg:w-1/4">
                             <div className="sticky top-32">
-                                <h2 className="text-xs font-bold uppercase tracking-widest text-black mb-6">Admission Services</h2>
-                                <ul className="space-y-4">
-                                    <li><Link href="/admissions" className="underline block py-2 text-black hover:text-black transition-colors">Study at Kestora</Link></li>
-                                    <li><Link href="/schools" className="underline block py-2 text-black hover:text-black transition-colors font-medium">Degree programmes</Link></li>
+                                <h2 className="text-xs uppercase tracking-widest text-black mb-8 px-4">Admission Services</h2>
+                                <ul className="space-y-1">
                                     <li>
-                                        <Link href="/admissions" className="underline flex items-center justify-between py-2 text-black font-semibold">
-                                            How to apply
-                                            <CaretRight size={14} weight="bold" className="rotate-90" />
+                                        <Link href="/admissions" className="block py-2 px-4 text-black hover:opacity-70 transition-opacity">
+                                            Study at Kestora
                                         </Link>
-                                        <ul className="pl-4 mt-2 space-y-2">
-                                            <li><Link href="/admissions/contact-information/" className="underline block py-1 text-black font-semibold pl-3 px-3 bg-neutral-50 rounded-sm">Contact Admission Services</Link></li>
-                                        </ul>
                                     </li>
-                                    <li><Link href="/admissions" className="underline block py-2 text-black hover:text-black transition-colors">Events for applicants</Link></li>
-                                    <li><Link href="https://ourblogs.kestora.online/" target="_blank" className="underline block py-2 text-black hover:text-black transition-colors">Student stories</Link></li>
+                                    <li>
+                                        <Link href="/schools" className="block py-2 px-4 text-black hover:opacity-70 transition-opacity">
+                                            Degree programmes
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <div>
+                                            <Link href="/admissions" className="flex items-center justify-between py-2 px-4 text-black">
+                                                How to apply
+                                                <CaretRight size={14} className="rotate-90" />
+                                            </Link>
+                                            <ul className="mt-1 space-y-1">
+                                                <li>
+                                                    <Link href="/admissions/contact-information/" className="block py-2 px-8 text-black">
+                                                        Contact Admission Services
+                                                    </Link>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <Link href="/admissions" className="block py-2 px-4 text-black hover:opacity-70 transition-opacity">
+                                            Events for applicants
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href="https://ourblogs.kestora.online/" target="_blank" className="block py-2 px-4 text-black hover:opacity-70 transition-opacity">
+                                            Student stories
+                                        </Link>
+                                    </li>
                                 </ul>
                             </div>
                         </aside>
@@ -156,12 +178,12 @@ export default function AdmissionsContactInfo() {
 
                             {/* Secondary Liftups */}
                             <div className="grid sm:grid-cols-2 gap-6 mb-16">
-                                <Link href="/admissions/bachelor" className="underline group block bg-neutral-100 rounded-xl p-6 pb-2 transition-all hover:bg-neutral-200 text-black">
+                                <Link href="/admissions/bachelor" className="group block bg-neutral-100 rounded-xl p-6 pb-2 transition-all hover:bg-neutral-200 text-black">
                                     <h3 className="font-bold text-lg mb-2">Bachelor's Admissions</h3>
                                     <p className="text-sm text-black mb-4 font-medium">Explore undergraduate programmes and admission requirements.</p>
                                     <span className="flex items-center gap-1 text-black font-bold uppercase tracking-widest text-[10px] group-hover:translate-x-1 inline-block transition-transform">Read more <ArrowRight size={12} weight="bold" /></span>
                                 </Link>
-                                <Link href="/admissions/master" className="underline group block bg-neutral-100 rounded-xl p-6 pb-2 transition-all hover:bg-neutral-200 text-black">
+                                <Link href="/admissions/master" className="group block bg-neutral-100 rounded-xl p-6 pb-2 transition-all hover:bg-neutral-200 text-black">
                                     <h3 className="font-bold text-lg mb-2">Master's Admissions</h3>
                                     <p className="text-sm text-black mb-4 font-medium">Find information on graduate programs and how to apply.</p>
                                     <span className="flex items-center gap-1 text-black font-bold uppercase tracking-widest text-[10px] group-hover:translate-x-1 inline-block transition-transform">Read more <ArrowRight size={12} weight="bold" /></span>

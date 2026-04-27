@@ -101,6 +101,24 @@ export default function PayGoWireCheckout({
     const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
     const [selectedMethod, setSelectedMethod] = useState<PaymentMethod | null>(null);
     const [expandedInfo, setExpandedInfo] = useState<string | null>(null);
+    const [ngnEnabled, setNgnEnabled] = useState<boolean>(true);
+
+    useEffect(() => {
+        async function fetchSettings() {
+            const { createClient } = await import('@/utils/supabase/client');
+            const supabase = createClient();
+            const { data } = await supabase
+                .from('system_settings')
+                .select('value')
+                .eq('key', 'ngn_payment_enabled')
+                .single();
+            
+            if (data) {
+                setNgnEnabled(data.value === 'true');
+            }
+        }
+        fetchSettings();
+    }, []);
 
     const handleStepChange = (nextStep: Step) => {
         setLoadingStep(step);
@@ -134,7 +152,7 @@ export default function PayGoWireCheckout({
             methods.push({ id: 'in_bank', name: 'Net Banking', description: 'Direct transfer from Indian banks', type: 'BANK', icon: BankIcon, processingTime: '1-2 business days' });
         } else if (country === 'Finland' || country === 'France' || country === 'Germany') {
             if (country === 'Finland') methods.push({ id: 'nordea', name: 'Nordea Online', description: 'Local Finnish bank login', type: 'BANK', icon: BankIcon, processingTime: 'Instant' });
-        } else if (country === 'Nigeria') {
+        } else if (country === 'Nigeria' && ngnEnabled) {
             methods.unshift({ 
                 id: 'ng_bank', 
                 name: 'Online Bank Transfer in Nigerian Naira (NGN)', 
@@ -174,7 +192,7 @@ export default function PayGoWireCheckout({
 
     const countryMethods = useMemo(() => {
         return selectedCountry ? getMethodsForCountry(selectedCountry) : [];
-    }, [selectedCountry]);
+    }, [selectedCountry, ngnEnabled]);
 
     // FX Data Logic (Mocked)
     const fxData = useMemo(() => {

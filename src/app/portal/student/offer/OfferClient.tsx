@@ -39,12 +39,12 @@ export function OfferClient({ admission }: OfferClientProps) {
                 if (decision === 'ACCEPTED') {
                     const result = await acceptApplicationOffer(admission.application_id);
                     if (result.success) {
-                        setDecisionFeedback('Offer Accepted! Redirecting to payment...');
+                        setDecisionFeedback('Offer Accepted! Redirecting to dashboard...');
                         window.scrollTo({ top: 0, behavior: 'smooth' });
 
-                        // Redirect to payment page after a short delay
+                        // Redirect to dashboard after a short delay
                         setTimeout(() => {
-                            window.location.href = `/portal/application/payment?id=${admission.application_id}`;
+                            window.location.href = `/portal/dashboard`;
                         }, 2000);
                     }
                 } else {

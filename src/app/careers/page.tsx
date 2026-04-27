@@ -4,6 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { Link } from "@aalto-dx/react-components";
 import { Leaf, ArrowRight, Briefcase, Globe, GraduationCap } from '@phosphor-icons/react';
+import { CTA } from "@aalto-dx/react-modules";
 import { Hero } from '@/components/layout/Hero';
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema';
 import { SchemaLD } from '@/components/seo/SchemaLD';
@@ -157,28 +158,16 @@ export default function CareersPage() {
 
                     {/* CTA Section */}
                     <section>
-                        <ContentBox
-                            backgroundColor="#255236"
-                            title={<span className="text-white">Ready to apply?</span>}
-                            body={
-                                <div className="space-y-8">
-                                    <p className="text-neutral-400 font-bold leading-relaxed">
-                                        If you don't see a position that fits your profile but believe you'd be a great addition to the team, send us an open application.
-                                    </p>
-                                    <div className="flex flex-col md:flex-row items-center gap-8">
-                                        <a
-                                            href="mailto:careers@kestora.online"
-                                            className="px-10 py-5 bg-white text-black font-bold uppercase tracking-widest text-sm hover:bg-neutral-200 transition-all"
-                                        >
-                                            Send your CV
-                                        </a>
-                                        <p className="text-neutral-500 font-bold text-sm tracking-widest">
-                                            CAREERS@KESTORA.ONLINE
-                                        </p>
-                                    </div>
-                                </div>
-                            }
-                        />
+                            <CTA
+                                title="Ready to apply?"
+                                body="If you don't see a position that fits your profile but believe you'd be a great addition to the team, send us an open application."
+                                cta={{
+                                    label: "Send your CV",
+                                    linkComponentProps: {
+                                        href: "mailto:careers@kestora.online",
+                                    },
+                                }}
+                            />
                     </section>
                 </div>
             </div>

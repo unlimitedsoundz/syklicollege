@@ -28,10 +28,8 @@ const nextConfig = {
     output: 'export',
     trailingSlash: true,
     skipTrailingSlashRedirect: true,
-    skipMiddlewareUrlNormalize: true,
-    experimental: {
-        serverComponentsExternalPackages: [],
-    },
+    skipProxyUrlNormalize: true,
+    serverExternalPackages: [],
 
     typescript: {
         ignoreBuildErrors: true,

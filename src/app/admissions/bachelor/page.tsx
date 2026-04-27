@@ -167,6 +167,7 @@ export default function BachelorAdmissionsPage() {
                                      pageSlug={pageSlug}
                                      sectionKey="more_content"
                                      fallbackContent={getSectionDefault('more_content')}
+                                     className="no-underline-links"
                                  />
                              </div>
                          </section>

@@ -52,7 +52,7 @@ export default function ResearchPage() {
                 <div className="container mx-auto px-4 grid md:grid-cols-2 gap-20 items-center">
                     <div>
                         <h2 className="text-4xl font-semibold mb-12 text-black uppercase tracking-tighter">Core Exploration</h2>
-                        <ul className="space-y-6 prose-arrows">
+                        <ul className="space-y-6">
                             {[
                                 "Turn curiosity into meaningful action",
                                 "Connect theory with hands-on practice",
@@ -60,7 +60,7 @@ export default function ResearchPage() {
                                 "Empower students to challenge norms and create alternatives"
                             ].map((item, i) => (
                                 <li key={i} className="flex items-center gap-4 text-black font-bold uppercase tracking-widest text-sm">
-                                    <div className="w-2 h-2 bg-black shrink-0"></div>
+                                    <ArrowRight size={20} weight="bold" className="shrink-0" />
                                     <span>{item}</span>
                                 </li>
                             ))}
@@ -226,7 +226,7 @@ export default function ResearchPage() {
                 <div className="grid md:grid-cols-2 gap-20">
                     <div>
                         <h2 className="text-4xl font-semibold mb-10 uppercase tracking-tighter">Tangible Impact</h2>
-                        <ul className="space-y-4 mb-12 prose-arrows">
+                        <ul className="space-y-4 mb-12">
                             {[
                                 "Publications and policy insights",
                                 "Prototypes and digital tools",
@@ -235,7 +235,7 @@ export default function ResearchPage() {
                                 "Global community projects"
                             ].map((item, i) => (
                                 <li key={i} className="flex items-center gap-4 text-black font-bold uppercase tracking-widest text-sm">
-                                    <div className="w-2 h-2 bg-black shrink-0"></div>
+                                    <ArrowRight size={20} weight="bold" className="shrink-0" />
                                     <span>{item}</span>
                                 </li>
                             ))}
@@ -253,8 +253,8 @@ export default function ResearchPage() {
                         <h3 className="text-2xl font-semibold uppercase tracking-tighter mb-6">Support Infrastructure</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                              {["Interdisciplinary labs", "Industry partnerships", "Global networks", "Research platforms"].map((item, idx) => (
-                                 <div key={item} className={`p-8 bg-neutral-50 text-sm font-medium uppercase tracking-widest flex items-center gap-4`}>
-                                     <div className="w-2 h-2 bg-black"></div>
+                                 <div key={item} className={`text-sm font-bold uppercase tracking-widest flex items-center gap-4`}>
+                                     <ArrowRight size={20} weight="bold" className="shrink-0" />
                                      {item}
                                  </div>
                              ))}

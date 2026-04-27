@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { Link } from "@aalto-dx/react-components";
+import { CTA } from "@aalto-dx/react-modules";
 import { Hero } from '@/components/layout/Hero';
 import { ArrowRight, Globe, Users, GraduationCap, Heart, Briefcase } from "@phosphor-icons/react/dist/ssr";
 import { Card } from '@/components/ui/Card';
@@ -39,6 +40,7 @@ export default function AlumniPage() {
                     src: "https://i.pinimg.com/1200x/40/7b/43/407b43fe5af80de6a8f6bdc4da7d1104.jpg",
                     alt: "Kestora Alumni"
                 }}
+                imagePosition="object-top"
             />
 
             <div className="container mx-auto px-4 py-16 md:py-24 max-w-6xl">
@@ -82,11 +84,11 @@ export default function AlumniPage() {
                                     <p className="text-aalto-2 text-black/70 font-bold leading-relaxed">
                                         Master’s Alumni of Kestora University have access to continued engagement opportunities that support lifelong growth and connection.
                                     </p>
-                                    <ul className="grid sm:grid-cols-2 gap-4">
+                                    <ul className="grid sm:grid-cols-2 gap-x-12 gap-y-6">
                                         {benefits.map((benefit, i) => (
-                                            <li key={i} className="flex items-start gap-3 bg-white p-4 rounded-none border border-neutral-100 shadow-sm">
-                                                <div className="w-2 h-2 bg-black mt-1.5 shrink-0" />
-                                                <span className="text-sm font-medium text-black leading-tight">{benefit}</span>
+                                            <li key={i} className="flex items-start gap-4">
+                                                <ArrowRight size={20} weight="bold" className="shrink-0 text-black mt-0.5" />
+                                                <span className="text-base font-bold text-black leading-tight">{benefit}</span>
                                             </li>
                                         ))}
                                     </ul>
@@ -105,19 +107,15 @@ export default function AlumniPage() {
                                 </p>
                             </div>
 
-                            <ContentBox
-                                backgroundColor="#255236"
-                                title={<span className="text-white">Stay Connected with Kestora Alumni</span>}
-                                body={
-                                    <div className="space-y-8">
-                                        <p className="text-neutral-400 font-bold max-w-2xl">
-                                            Master’s graduates are encouraged to remain active members of our alumni community. By staying connected, you strengthen professional networks and support future students.
-                                        </p>
-                                        <Link href="/contact" className="inline-flex items-center gap-2 bg-white text-black px-8 py-4 rounded-none font-medium hover:bg-neutral-200 transition-colors group">
-                                            Join the Network <ArrowRight size={20} weight="bold" />
-                                        </Link>
-                                    </div>
-                                }
+                            <CTA
+                                title="Stay Connected with Kestora Alumni"
+                                body="Master’s graduates are encouraged to remain active members of our alumni community. By staying connected, you strengthen professional networks and support future students."
+                                cta={{
+                                    label: "Join the Network",
+                                    linkComponentProps: {
+                                        href: "/contact",
+                                    },
+                                }}
                             />
                         </div>
                     </section>

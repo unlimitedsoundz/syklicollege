@@ -1,5 +1,6 @@
-import Image from 'next/image';
 import { Link } from "@aalto-dx/react-components";
+import { CTA } from "@aalto-dx/react-modules";
+import Image from 'next/image';
 import { CaretLeft, GraduationCap, Globe, ShieldCheck, Lightbulb, Leaf, Briefcase, Buildings, Heart, MapTrifold, Certificate } from "@phosphor-icons/react/dist/ssr";
 import { Info } from '@/components/ui/Info';
 import { Highlight } from '@/components/ui/Highlight';
@@ -81,7 +82,7 @@ export default function WhyStudyInFinlandPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-transparent to-transparent opacity-90" />
                 <div className="absolute bottom-0 left-0 w-full p-8 md:p-16 text-white max-w-5xl">
-                    <h1 className="text-aalto-7 font-bold mb-4 leading-aalto-7 tracking-aalto-3">
+                    <h1 className="text-4xl lg:text-aalto-7 font-bold mb-4 leading-[1.1] lg:leading-aalto-7 tracking-aalto-3">
                         Why Study in Finland?
                     </h1>
                     <p className="text-neutral-300 text-aalto-4 max-w-2xl leading-aalto-2">
@@ -173,19 +174,17 @@ export default function WhyStudyInFinlandPage() {
                 <div className="my-20 border-t border-neutral-100" />
 
                 {/* CTA Section */}
-                <div className="bg-black text-white p-12 md:p-16 text-left">
-                    <h2 className="text-aalto-6 font-bold mb-6 tracking-tight">Ready to Start Your Journey?</h2>
-                    <p className="text-aalto-3 text-neutral-400 mb-10 max-w-2xl font-medium leading-aalto-3">
-                        Kestora University offers world-class English-taught programmes in Business, Technology, Science, and Arts & Architecture. Applications for Autumn 2026 are now open.
-                    </p>
-                    <div className="flex flex-wrap gap-6">
-                        <Link href="/admissions" className="bg-white text-black px-10 py-5 font-bold hover:bg-neutral-200 transition-all uppercase tracking-widest text-sm">
-                            Apply Now
-                        </Link>
-                        <Link href="/studies" className="border border-neutral-700 text-white px-10 py-5 font-bold hover:border-white transition-all uppercase tracking-widest text-sm">
-                            Explore Programmes
-                        </Link>
-                    </div>
+                <div className="py-12">
+                    <CTA
+                        title="Ready to Start Your Journey?"
+                        body="Kestora University offers world-class English-taught programmes in Business, Technology, Science, and Arts & Architecture. Applications for Autumn 2026 are now open."
+                        cta={{
+                            label: "Apply Now",
+                            linkComponentProps: {
+                                href: "/admissions",
+                            },
+                        }}
+                    />
                 </div>
 
                 {/* Related links */}

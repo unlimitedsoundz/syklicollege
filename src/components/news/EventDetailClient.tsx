@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Link } from "@aalto-dx/react-components";
+import { CTA } from "@aalto-dx/react-modules";
 import { Event } from '@/types/database';
 import { createClient } from '@/utils/supabase/client';
 import { formatToDDMMYYYY } from '@/utils/date';
@@ -43,7 +44,7 @@ export default function EventDetailClient({ initialEvent }: EventDetailClientPro
                         <div className="text-sm font-bold text-black uppercase tracking-wider mb-2">
                             {currentEvent.category || 'Event'} • {formatToDDMMYYYY(currentEvent.date)}
                         </div>
-                        <h1 className="font-bold leading-[1.1] tracking-tight pt-0 text-black" style={{ fontSize: '40px' }}>
+                        <h1 className="font-bold text-4xl lg:text-[40px] leading-[1.1] tracking-tight pt-0 text-black">
                             {currentEvent.title}
                         </h1>
                         <div className="flex flex-wrap gap-6 items-center text-black font-bold">
@@ -99,15 +100,14 @@ export default function EventDetailClient({ initialEvent }: EventDetailClientPro
                     {/* Sidebar / CTA */}
                     <div className="md:col-span-1">
                         <div className="sticky top-32 space-y-8">
-                            <div className="bg-neutral-900 text-white p-8 rounded-2xl shadow-xl">
-                                <h3 className="font-bold text-xl mb-4 text-white">Interested?</h3>
-                                <p className="text-neutral-400 text-sm mb-6">
-                                    Join us for this exciting event at Kestora University. No registration required unless specified.
-                                </p>
-                                <button className="w-full bg-white text-black py-4 rounded-xl font-bold hover:bg-neutral-200 transition-colors">
-                                    Add to Calendar
-                                </button>
-                            </div>
+                            <CTA
+                                title="Interested?"
+                                body="Join us for this exciting event at Kestora University. No registration required unless specified."
+                                cta={{
+                                    label: "Add to Calendar",
+                                    onClick: () => { /* Handle calendar logic */ }
+                                }}
+                            />
 
                             <div className="p-8 border border-neutral-200 rounded-2xl">
                                 <h4 className="font-bold mb-4 flex items-center gap-2">
@@ -126,4 +126,3 @@ export default function EventDetailClient({ initialEvent }: EventDetailClientPro
         </div>
     );
 }
-

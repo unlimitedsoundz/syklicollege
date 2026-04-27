@@ -184,10 +184,10 @@ export default function InternationalGuidePage() {
                                     <div>
                                         <h4 className="font-bold text-black mb-4 uppercase tracking-widest text-xs">Post-Arrival Checklist</h4>
                                         <ul className="space-y-4 text-sm font-bold">
-                                            <li className="flex gap-4 items-center"><ArrowRight size={14} weight="bold" /> Pick up keys for housing</li>
-                                            <li className="flex gap-4 items-center"><ArrowRight size={14} weight="bold" /> Register at DVV</li>
-                                            <li className="flex gap-4 items-center"><ArrowRight size={14} weight="bold" /> Pay Student Union fee</li>
-                                            <li className="flex gap-4 items-center"><ArrowRight size={14} weight="bold" /> Get HSL transport card</li>
+                                            <li className="flex gap-4 items-center"><ArrowRight size={20} weight="bold" className="shrink-0" /> Pick up keys for housing</li>
+                                            <li className="flex gap-4 items-center"><ArrowRight size={20} weight="bold" className="shrink-0" /> Register at DVV</li>
+                                            <li className="flex gap-4 items-center"><ArrowRight size={20} weight="bold" className="shrink-0" /> Pay Student Union fee</li>
+                                            <li className="flex gap-4 items-center"><ArrowRight size={20} weight="bold" className="shrink-0" /> Get HSL transport card</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -201,12 +201,12 @@ export default function InternationalGuidePage() {
                              Living in Finland
                          </h2>
                         <div className="mb-12">
-                             <div className="relative aspect-[21/9] overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
+                             <div className="relative aspect-video overflow-hidden border border-neutral-100">
                                 <Image
                                     src="/images/news/helsinki_study_hero_1771086631952.png"
                                     alt="Students enjoying life in Helsinki, Finland"
                                     fill
-                                    className="object-cover object-top"
+                                    className="object-cover"
                                     sizes="(max-width: 1024px) 100vw, 1200px"
                                 />
                             </div>

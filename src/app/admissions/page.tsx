@@ -1,4 +1,5 @@
 import { Link } from "@aalto-dx/react-components";
+import { CTA } from "@aalto-dx/react-modules";
 import Image from 'next/image';
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import TableOfContents from '@/components/course/TableOfContents';
@@ -313,15 +314,18 @@ export default function AdmissionsPage() {
                          </section>
 
                          {/* After Graduation */}
-                          <section id="graduation" className="scroll-mt-32 bg-gray-100 text-black p-10 md:p-16 rounded-3xl relative overflow-hidden">
-                              <h2 className="text-3xl md:text-4xl font-bold mb-6 relative z-10">After Graduation</h2>
-                              <p className="text-black text-lg leading-relaxed max-w-2xl mb-10 relative z-10">
-                                 Kestora University supports your transition to working life. We offer resources for job seeking, career guidance, and alumni networking both in Finland and internationally.
-                             </p>
-                             <Link href="#" className="inline-flex items-center gap-2 bg-black text-white px-8 py-4 rounded-xl font-bold relative z-10">
-                                Explore Career Services <ArrowRight size={20} weight="bold" />
-                            </Link>
-                         </section>
+                          <section id="graduation" className="scroll-mt-32">
+                              <CTA
+                                  title="After Graduation"
+                                  body="Kestora University supports your transition to working life. We offer resources for job seeking, career guidance, and alumni networking both in Finland and internationally."
+                                  cta={{
+                                      label: "Explore Career Services",
+                                      linkComponentProps: {
+                                          href: "/careers",
+                                      },
+                                  }}
+                              />
+                          </section>
 
 
                         <section id="study-in-finland" className="scroll-mt-32">

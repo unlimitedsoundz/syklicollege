@@ -26,7 +26,7 @@ export function Footer() {
                 <div className="mb-12 pb-10 border-b border-white/10">
                     <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
                         <div>
-                            <Logo className="h-16 md:h-20 text-white mb-4" />
+                            <Logo className="h-12 md:h-16 text-white mb-4" />
                             <p className="text-neutral-400 text-sm max-w-md leading-relaxed">
                                 Kestora University is an independent higher education institution in Helsinki, Finland, offering English-taught Bachelor’s and Master’s degree programmes focused on engineering, technology, business, science, and the arts.
                             </p>

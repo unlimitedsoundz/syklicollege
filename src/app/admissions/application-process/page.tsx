@@ -1,6 +1,7 @@
 
 import { CheckCircle, ArrowRight, Calendar, GraduationCap, Globe, Clock } from '@phosphor-icons/react/dist/ssr';
 import { Link } from "@aalto-dx/react-components";
+import { CTA } from "@aalto-dx/react-modules";
 import Image from 'next/image';
 import ApplicationFAQ from '@/components/admissions/ApplicationFAQ';
 import GuideSidebarLayout from '@/components/layout/StudentGuideLayout';
@@ -119,31 +120,18 @@ export default function ApplicationProcessPage() {
                         />
                     </section>
 
-                      {/* NEW SECTION: Ready to Apply */}
-                      <section className="bg-gray-100 text-black p-8 md:p-16 mt-16 text-left sm:text-center space-y-6 md:space-y-8">
-                          <div className="flex flex-col items-start sm:items-center">
-                              <h2 className="text-3xl md:text-3xl font-bold mb-4">Ready to Start Your Journey?</h2>
-                             <p className="text-sm md:text-base text-black max-w-xl sm:mx-auto leading-relaxed">
-                                 Join the next generation of global leaders at Kestora University. Create your portal account to begin your official application.
-                             </p>
-                         </div>
-                         <div className="flex flex-col sm:flex-row gap-4 sm:justify-center items-start sm:items-center">
-                             <Link
-                                 href="/portal/account/register"
-                                 className="bg-black text-white px-6 py-3 md:px-8 md:py-4 font-bold hover:bg-gray-600 transition-all inline-flex items-center gap-2 justify-center w-fit"
-                             >
-                                 Create Portal Account
-                             </Link>
-                             <Link
-                                 href="/portal/account/login"
-                                 className="bg-black text-white px-6 py-3 md:px-8 md:py-4 font-bold hover:bg-gray-600 transition-all inline-block w-fit"
-                             >
-                                 Existing Student? Log In
-                             </Link>
-                         </div>
-                         <p className="text-black text-xs sm:mx-auto max-w-xl">
-                             Already have an account? Your progress will be saved automatically as you complete each step.
-                         </p>
+                      {/* Standardized CTA Section */}
+                      <section className="mt-16">
+                          <CTA
+                              title="Ready to Start Your Journey?"
+                              body="Join the next generation of global leaders at Kestora University. Create your portal account to begin your official application."
+                              cta={{
+                                  label: "Create Portal Account",
+                                  linkComponentProps: {
+                                      href: "/portal/account/register",
+                                  },
+                              }}
+                          />
                       </section>
 
                       {/* Section: Frequently Asked Questions */}

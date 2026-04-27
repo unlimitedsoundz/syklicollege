@@ -64,13 +64,13 @@ export default function ExchangeStudentsPage() {
                                             <h4 className="font-bold text-lg mb-2 flex items-center gap-2">
                                                 <Users size={24} /> International Office
                                             </h4>
-                                            <p className="text-sm text-neutral-600 font-bold">Our exchange coordinators are here to support you with learning agreements and general advice.</p>
+                                            <p className="text-sm text-black font-bold">Our exchange coordinators are here to support you with learning agreements and general advice.</p>
                                         </div>
                                         <div>
                                             <h4 className="font-bold text-lg mb-2 flex items-center gap-2">
                                                 <Users size={24} /> Student Tutors
                                             </h4>
-                                            <p className="text-sm text-neutral-600 font-bold">Every exchange student is assigned a local buddy to help you settle in and meet new friends.</p>
+                                            <p className="text-sm text-black font-bold">Every exchange student is assigned a local buddy to help you settle in and meet new friends.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -112,7 +112,7 @@ export default function ExchangeStudentsPage() {
                                 icon="bookOpen"
                                 title="Learning Agreement"
                                 body={
-                                    <ul className="space-y-3 text-sm font-bold text-neutral-700">
+                                    <ul className="space-y-3 text-sm font-bold text-black">
                                         <li>• Signed by home university & Kestora before arrival.</li>
                                         <li>• Updateable during the first 2 weeks.</li>
                                         <li>• Standard workload: 30 ECTS per semester.</li>
@@ -149,15 +149,15 @@ export default function ExchangeStudentsPage() {
                             title="Housing & Arrival"
                             body={
                                 <div className="space-y-6 text-left">
-                                    <p className="text-sm font-bold text-neutral-700">Apply for housing through foundations (HOAS/KUNI) as soon as you receive your acceptance letter.</p>
+                                    <p className="text-sm font-bold text-black">Apply for housing through foundations (HOAS/KUNI) as soon as you receive your acceptance letter.</p>
                                     <div className="grid sm:grid-cols-2 gap-8">
                                         <div>
                                             <h4 className="font-bold text-black mb-2">Travel to Campus</h4>
-                                            <p className="text-xs text-neutral-500 font-bold"> commuter train or shuttle from Helsinki-Vantaa (HEL).</p>
+                                            <p className="text-xs text-black font-bold"> commuter train or shuttle from Helsinki-Vantaa (HEL).</p>
                                         </div>
                                         <div>
                                             <h4 className="font-bold text-black mb-2">When to Arrive?</h4>
-                                            <p className="text-xs text-neutral-500 font-bold">2-3 days before Orientation Week recommended.</p>
+                                            <p className="text-xs text-black font-bold">2-3 days before Orientation Week recommended.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -206,7 +206,7 @@ export default function ExchangeStudentsPage() {
                                             </li>
                                         ))}
                                     </ul>
-                                    <p className="text-neutral-500 text-sm italic">Questions? Contact exchange@kestora.online</p>
+                                    <p className="text-white text-sm italic">Questions? Contact exchange@kestora.online</p>
                                 </div>
                             }
                         />

@@ -41,7 +41,7 @@ export default function NewsDetailClient({ initialNews }: NewsDetailClientProps)
                 <div className="container mx-auto flex flex-col lg:flex-row items-center gap-2 lg:gap-16 pt-0 md:pt-12 pb-12 lg:pb-0 h-auto lg:h-[600px] lg:py-0 relative mb-0">
                     {/* Left Content */}
                     <div className="lg:w-1/2 space-y-6 relative z-10 flex flex-col justify-center h-full pt-2 lg:pt-0 px-4 md:px-0">
-                        <h1 className="font-bold leading-aalto-7 tracking-aalto-3 text-aalto-7 text-black">
+                        <h1 className="font-bold text-4xl lg:text-aalto-7 leading-[1.1] lg:leading-aalto-7 tracking-aalto-3 text-black">
                             {currentNews.title}
                         </h1>
                     </div>

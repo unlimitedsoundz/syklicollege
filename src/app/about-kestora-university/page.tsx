@@ -1,5 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { Link } from "@aalto-dx/react-components";
+import { CTA } from "@aalto-dx/react-modules";
 import Image from 'next/image';
 import { ArrowRight, MapPin, Calendar } from "@phosphor-icons/react/dist/ssr";
 import { formatToDDMMYYYY } from '@/utils/date';
@@ -87,9 +88,9 @@ export default async function AboutPage() {
                                             "Practice-oriented learning models",
                                             "An international student community in Helsinki"
                                         ].map((item, i) => (
-                                            <li key={i} className="flex items-start gap-3">
-                                                <div className="w-2 h-2 bg-black mt-1.5 shrink-0" />
-                                                <span className="text-sm">{item}</span>
+                                            <li key={i} className="flex items-start gap-4">
+                                                <ArrowRight size={20} weight="bold" className="shrink-0 text-black mt-0.5" />
+                                                <span className="text-base font-bold text-black leading-tight">{item}</span>
                                             </li>
                                         ))}
                                     </ul>
@@ -111,9 +112,9 @@ export default async function AboutPage() {
                                     "Multidisciplinary study opportunities",
                                     "A balance between academic foundations and applied skills"
                                 ].map((item, i) => (
-                                    <li key={i} className="flex items-start gap-3 text-gray-800 p-6 bg-gray-50 rounded-2xl border border-gray-200">
-                                        <div className="w-2 h-2 bg-black mt-2 shrink-0" />
-                                        <span className="font-medium">{item}</span>
+                                    <li key={i} className="flex items-start gap-4">
+                                        <ArrowRight size={20} weight="bold" className="shrink-0 text-black mt-0.5" />
+                                        <span className="text-lg font-bold text-black leading-tight">{item}</span>
                                     </li>
                                 ))}
                             </ul>
@@ -124,20 +125,15 @@ export default async function AboutPage() {
                     </div>
 
                     <section id="graduation" className="scroll-mt-32 mb-16">
-                        <ContentBox
-                            size="large"
-                            icon="graduationCap"
+                        <CTA
                             title="After Graduation"
-                            body={
-                                <div className="space-y-8">
-                                    <p>
-                                        Kestora University supports your transition to working life. We offer resources for job seeking, career guidance, and alumni networking both in Finland and internationally.
-                                    </p>
-                                    <Link href="/careers" className="inline-flex items-center gap-2 bg-black text-white px-8 py-4 rounded-xl font-bold transition-all hover:bg-neutral-800">
-                                        Explore Career Services <ArrowRight size={20} weight="bold" />
-                                    </Link>
-                                </div>
-                            }
+                            body="Kestora University supports your transition to working life. We offer resources for job seeking, career guidance, and alumni networking both in Finland and internationally."
+                            cta={{
+                                label: "Explore Career Services",
+                                linkComponentProps: {
+                                    href: "/careers"
+                                }
+                            }}
                         />
                     </section>
 

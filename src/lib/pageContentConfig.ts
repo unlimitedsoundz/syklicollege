@@ -174,11 +174,11 @@ export const pageContentSections: PageContentSection[] = [
         sectionKey: 'more_content',
         label: 'Learn More Section',
         defaultContent: `<div class="grid grid-cols-2 md:grid-cols-5 gap-6 text-left">
-    <a href="/student-life#facilities" class="p-4 bg-card rounded-xl hover:bg-neutral-100 transition-colors block no-underline"><h4 class="font-bold mb-1">Modern Campus</h4><p class="text-xs text-black">State-of-the-art facilities</p></a>
-    <a href="/student-life#services" class="p-4 bg-card rounded-xl hover:bg-neutral-100 transition-colors block no-underline"><h4 class="font-bold mb-1">Support</h4><p class="text-xs text-black">Advisors and counseling</p></a>
-    <a href="/student-life#organizations" class="p-4 bg-card rounded-xl hover:bg-neutral-100 transition-colors block no-underline"><h4 class="font-bold mb-1">Community</h4><p class="text-xs text-black">Global network</p></a>
-    <a href="/collaboration" class="p-4 bg-card rounded-xl hover:bg-neutral-100 transition-colors block no-underline"><h4 class="font-bold mb-1">Careers</h4><p class="text-xs text-black">Internships and mentoring</p></a>
-    <a href="/student-life" class="p-4 bg-card rounded-xl hover:bg-neutral-100 transition-colors block no-underline"><h4 class="font-bold mb-1">Student Life</h4><p class="text-xs text-black">Clubs and sports</p></a>
+    <a href="/student-life#facilities" style="text-decoration: none !important;" class="p-4 bg-card rounded-xl hover:bg-neutral-100 transition-colors block"><h4 class="font-bold mb-1">Modern Campus</h4><p class="text-xs text-black">State-of-the-art facilities</p></a>
+    <a href="/student-life#services" style="text-decoration: none !important;" class="p-4 bg-card rounded-xl hover:bg-neutral-100 transition-colors block"><h4 class="font-bold mb-1">Support</h4><p class="text-xs text-black">Advisors and counseling</p></a>
+    <a href="/student-life#organizations" style="text-decoration: none !important;" class="p-4 bg-card rounded-xl hover:bg-neutral-100 transition-colors block"><h4 class="font-bold mb-1">Community</h4><p class="text-xs text-black">Global network</p></a>
+    <a href="/collaboration" style="text-decoration: none !important;" class="p-4 bg-card rounded-xl hover:bg-neutral-100 transition-colors block"><h4 class="font-bold mb-1">Careers</h4><p class="text-xs text-black">Internships and mentoring</p></a>
+    <a href="/student-life" style="text-decoration: none !important;" class="p-4 bg-card rounded-xl hover:bg-neutral-100 transition-colors block"><h4 class="font-bold mb-1">Student Life</h4><p class="text-xs text-black">Clubs and sports</p></a>
 </div>`,
     },
     {

@@ -121,7 +121,7 @@ export function Header() {
         >
             <div className="container mx-auto px-4 h-20 flex items-center justify-between">
                 <Logo
-                    className={`h-14 md:h-16 ${isAdmissionsPage ? 'text-white' : ''}`}
+                    className={`h-10 md:h-14 ${isAdmissionsPage ? 'text-white' : ''}`}
                     onClick={() => setIsMobileMenuOpen(false)}
                 />
 

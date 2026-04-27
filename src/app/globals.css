@@ -249,13 +249,13 @@
   --color-black: #000000;
   --color-neutral-900: #2d2d2d;
   --color-background: #ffffff;
-  --color-foreground: #2d2d2d;
+  --color-foreground: #000000;
 
   --color-muted: #f8fafc;
-  --color-muted-foreground: #64748b;
+  --color-muted-foreground: #000000;
 
   --color-card: #f2f2f2;
-  --color-card-foreground: #2d2d2d;
+  --color-card-foreground: #000000;
 
   --color-border: #e2e8f0;
   --color-input: #e2e8f0;
@@ -341,7 +341,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  border-radius: 9999px;
+  border-radius: 9999px !important;
 }
 
 /* Nuclear override: remove all shadows and visual effects across the entire site */
@@ -641,4 +641,23 @@ strong, b {
 .blog-content table tr:last-child td,
 .prose-arrows table tr:last-child td {
   border-bottom: none;
+}
+
+/* Global CTA overflow fixes */
+.no-underline-links a {
+  text-decoration: none !important;
+  text-underline-offset: 0 !important;
+}
+
+.aalto-cta {
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+  white-space: normal !important;
+}
+
+.aalto-cta h2, 
+.aalto-cta p, 
+.aalto-cta div {
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
 }

@@ -10,14 +10,14 @@ export function Logo({ className = "", onClick }: { className?: string, onClick?
             className={`flex items-center gap-2 group ${className}`}
             onClick={onClick}
         >
-            <div className={`relative transition-all duration-300 ${isDarkBackground ? 'invert' : ''}`}>
+            <div className={`relative h-full transition-all duration-300 ${isDarkBackground ? 'invert' : ''}`}>
 
                 <Image
                     src="/logo-kestora.png"
                     alt="Kestora University"
                     width={120}
                     height={120}
-                    className="object-contain w-auto h-12"
+                    className="object-contain w-auto h-full"
                     priority
                 />
             </div>

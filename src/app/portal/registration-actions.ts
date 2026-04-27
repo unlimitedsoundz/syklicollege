@@ -1,14 +1,23 @@
-'use server';
+// Removed 'use server' for static export compatibility.
 
-import { createClient } from '@/utils/supabase/server';
-import { createServiceRoleClient } from '@/utils/supabase/server-admin';
-import { syncEnrollmentToLms } from './lms-actions';
-import { revalidatePath } from 'next/cache';
+// Moved imports inside functions for static export compatibility.
+// import { createClient } from '@/utils/supabase/server';
+// import { createServiceRoleClient } from '@/utils/supabase/server-admin';
+// import { syncEnrollmentToLms } from './lms-actions';
+// import { revalidatePath } from 'next/cache';
 
 /**
  * Register a student for a specific curriculum subject
  */
 export async function registerForModule(subjectId: string) {
+    if (typeof window !== 'undefined') {
+        throw new Error('Server actions cannot be executed in a static export.');
+    }
+    const { createClient } = await import('@/utils/supabase/server');
+    const { createServiceRoleClient } = await import('@/utils/supabase/server-admin');
+    const { revalidatePath } = await import('next/cache');
+    const { syncEnrollmentToLms } = await import('./lms-actions');
+
     const supabase = await createClient();
     const adminClient = createServiceRoleClient();
 
@@ -127,6 +136,13 @@ export async function registerForModule(subjectId: string) {
  * Drop a module before the deadline
  */
 export async function dropModule(enrollmentId: string) {
+    if (typeof window !== 'undefined') {
+        throw new Error('Server actions cannot be executed in a static export.');
+    }
+    const { createClient } = await import('@/utils/supabase/server');
+    const { createServiceRoleClient } = await import('@/utils/supabase/server-admin');
+    const { revalidatePath } = await import('next/cache');
+
     const supabase = await createClient();
     const adminClient = createServiceRoleClient();
 

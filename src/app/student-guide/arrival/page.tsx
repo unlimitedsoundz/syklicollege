@@ -5,6 +5,7 @@ import Image from 'next/image';
 import GuideSidebarLayout from '@/components/layout/StudentGuideLayout';
 import { Card } from '@/components/ui/Card';
 import { ContentBox } from '@/components/ui/ContentBox';
+import { CTA } from "@aalto-dx/react-modules";
 
 export const metadata = {
     title: 'Arrival Guide | Kestora University',
@@ -84,18 +85,18 @@ export default function ArrivalGuidePage() {
                                 <div className="space-y-8 text-left">
                                     <div className="bg-white p-8 rounded-2xl border border-neutral-200">
                                         <h4 className="font-bold text-xl mb-4 text-black">Airport & Transit</h4>
-                                        <p className="text-sm text-neutral-700 leading-relaxed font-bold">
+                                        <p className="text-sm text-black leading-relaxed font-bold">
                                             Use public transport based on instructions from your accommodation. Taxi services are available but expensive.
                                         </p>
                                     </div>
                                     <div className="grid md:grid-cols-2 gap-8">
                                         <div>
                                             <h4 className="font-bold text-lg mb-2">First Days</h4>
-                                            <p className="text-sm text-neutral-600 font-bold">Move into your home, register with local authorities, and consider opening a bank account.</p>
+                                            <p className="text-sm text-black font-bold">Move into your home, register with local authorities, and consider opening a bank account.</p>
                                         </div>
                                         <div>
                                             <h4 className="font-bold text-lg mb-2">Locale</h4>
-                                            <p className="text-sm text-neutral-600 font-bold">Familiarise yourself with nearby public transport routes, grocery stores, and essential services.</p>
+                                            <p className="text-sm text-black font-bold">Familiarise yourself with nearby public transport routes, grocery stores, and essential services.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -113,13 +114,13 @@ export default function ArrivalGuidePage() {
                                 <div className="grid md:grid-cols-2 gap-12 text-left">
                                     <div>
                                         <h4 className="font-bold text-xl mb-4">Orientation Week</h4>
-                                        <p className="text-sm text-neutral-700 leading-relaxed font-bold">
+                                        <p className="text-sm text-black leading-relaxed font-bold">
                                             Orientation sessions help you understand your programme, meet faculty and fellow students, and learn to navigate campus systems.
                                         </p>
                                     </div>
                                     <div>
                                         <h4 className="font-bold text-xl mb-4">Student Services</h4>
-                                        <p className="text-sm text-neutral-700 leading-relaxed font-bold">
+                                        <p className="text-sm text-black leading-relaxed font-bold">
                                             Access academic advising, wellbeing services, career guidance, and international support.
                                         </p>
                                     </div>
@@ -142,46 +143,31 @@ export default function ArrivalGuidePage() {
                             />
                         </div>
                         <div className="mt-12">
-                            <ContentBox
-                                icon="globe"
-                                title="Learn the Language"
-                                body={
-                                    <div className="space-y-6 text-left">
-                                        <p className="text-sm font-bold text-neutral-700 leading-relaxed">
-                                            While English is widely spoken, learning Finnish or Swedish will make your stay more rewarding and improve your career options significantly.
-                                        </p>
-                                        <div className="bg-[#f2f2f2] p-6 rounded-xl border-l-4 border-black">
-                                            <p className="text-sm font-bold italic">
-                                                "Kielibuusti" provides practical, research-based models and tools for language learners.
-                                            </p>
-                                        </div>
-                                        <Link href="https://www.kielibuusti.fi" target="_blank" className="font-bold underline text-sm inline-flex items-center gap-2">
-                                            Visit Kielibuusti <ArrowRight size={14} />
-                                        </Link>
-                                    </div>
-                                }
-                            />
+                        <CTA
+                            title="Learn the Language"
+                            body="While English is widely spoken, learning Finnish or Swedish will make your stay more rewarding and improve your career options significantly."
+                            cta={{
+                                label: "Visit Kielibuusti",
+                                linkComponentProps: {
+                                    href: "https://www.kielibuusti.fi",
+                                    target: "_blank",
+                                },
+                            }}
+                        />
                         </div>
                     </section>
 
                     {/* Welcome Message */}
-                    <section id="welcome" className="scroll-mt-32 pt-20">
-                        <ContentBox
-                            backgroundColor="#472247"
-                            title={<span className="text-white">We Are Glad You Are Here</span>}
-                            body={
-                                <div className="space-y-8">
-                                    <p className="text-neutral-400 font-bold text-lg max-w-2xl">
-                                        "Arriving in a new place can feel overwhelming, but Kestora University is here to support you from arrival through graduation."
-                                    </p>
-                                    <Link
-                                        href="/student-guide"
-                                        className="inline-flex items-center gap-2 bg-white text-black px-8 py-4 rounded-xl font-bold hover:bg-neutral-200 transition-all"
-                                    >
-                                        Explore Student Guide <ArrowRight size={16} weight="bold" />
-                                    </Link>
-                                </div>
-                            }
+                    <section id="welcome" className="scroll-mt-32">
+                        <CTA
+                            title="We Are Glad You Are Here"
+                            body="Arriving in a new place can feel overwhelming, but Kestora University is here to support you from arrival through graduation."
+                            cta={{
+                                label: "Explore Student Guide",
+                                linkComponentProps: {
+                                    href: "/student-guide",
+                                },
+                            }}
                         />
                     </section>
                 </div>

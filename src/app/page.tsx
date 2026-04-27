@@ -42,6 +42,7 @@ export default async function Home() {
           src: "/images/kestora hero.png",
           alt: "Student studying at Kestora University campus in Finland"
         }}
+        imagePosition="object-center"
       >
         <div className="pt-4">
           <Button
