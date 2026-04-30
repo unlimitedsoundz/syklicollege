@@ -307,11 +307,18 @@
   --radius-full: 9999px;
 }
 
-/* Force zero border radius on everything that might have it */
-*,
-*::before,
-*::after {
+/* Force zero border radius on everything except specific pill/circle utilities */
+*:not(.rounded-full):not(.force-circle):not(.tag-pill) {
   border-radius: 0 !important;
+}
+
+/* Remove all neutral/grey borders globally */
+[class*="border-neutral-"], 
+[class*="border-gray-"], 
+[class*="border-zinc-"], 
+[class*="border-slate-"] {
+  border-color: transparent !important;
+  border-width: 0 !important;
 }
 
 .force-circle {

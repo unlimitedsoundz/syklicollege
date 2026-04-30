@@ -7,10 +7,11 @@ import { formatToDDMMYYYY } from '@/utils/date';
 import { HousingBuilding, HousingRoom, HousingAssignment, HousingApplication, Semester } from '@/types/database';
 import { Link } from "@aalto-dx/react-components";
 import { createClient } from '@/utils/supabase/client';
+import { BUILDINGS_CATALOG } from '../../portal/student/housing/HousingCatalogView';
 
 interface HousingManagementClientProps {
     applications: any[];
-    availableRooms: any[];
+    rooms: any[]; // Now includes all rooms
     assignments: any[];
     buildings: any[];
     onRefresh: () => Promise<void>;
@@ -18,7 +19,7 @@ interface HousingManagementClientProps {
 
 export default function HousingManagementClient({
     applications,
-    availableRooms,
+    rooms,
     assignments,
     buildings,
     onRefresh
@@ -32,13 +33,14 @@ export default function HousingManagementClient({
     const [showAddBuildingModal, setShowAddBuildingModal] = useState(false);
     const [showAddRoomModal, setShowAddRoomModal] = useState(false);
     const [newBuilding, setNewBuilding] = useState({ name: '', campus_location: '' });
-    const [newRoom, setNewRoom] = useState({ building_id: '', room_number: '', capacity: 1, monthly_rate: 600 });
+    const [newRoom, setNewRoom] = useState({ building_id: '', room_number: '', room_type: 'Room', size: '15m²', capacity: 1, monthly_rate: 600 });
 
     // Editing State
     const [editingBuildingId, setEditingBuildingId] = useState<string | null>(null);
     const [editBuildingData, setEditBuildingData] = useState({ name: '', campus_location: '' });
     const [editingRoomId, setEditingRoomId] = useState<string | null>(null);
-    const [editRoomData, setEditRoomData] = useState({ room_number: '', capacity: 1, monthly_rate: 600 });
+    const [editRoomData, setEditRoomData] = useState({ room_number: '', room_type: 'Room', size: '15m²', capacity: 1, monthly_rate: 600 });
+    const [deletedAppIds, setDeletedAppIds] = useState<string[]>([]);
 
     // Filter for applications that need action (Pending OR Approved but not yet assigned)
     // Relaxed filter: Show all PENDING apps, and APPROVED apps that aren't assigned.
@@ -49,16 +51,21 @@ export default function HousingManagementClient({
         return false;
     });
 
-    const pendingApplications = actionableApplications; // Maintain variable name for UI compatibility or rename if preferred
-    const approvedApplications = applications.filter(app => app.status === 'APPROVED');
-    const rejectedApplications = applications.filter(app => app.status === 'REJECTED');
+    const pendingApps = applications.filter(app => app.status === 'PENDING');
+    const approvedApps = applications.filter(app => app.status === 'APPROVED');
+    const rejectedApps = applications.filter(app => app.status === 'REJECTED');
+    
+    // Applications that need room assignment
+    const unassignedApps = [...pendingApps, ...approvedApps]
+        .filter(app => !assignments.some(a => a.application_id === app.id))
+        .filter(app => !deletedAppIds.includes(app.id));
 
     const stats = {
         totalApplications: applications.length,
-        pending: pendingApplications.length,
-        approved: approvedApplications.length,
+        pending: pendingApps.length,
+        approved: approvedApps.length,
         totalAssignments: assignments.length,
-        availableRooms: availableRooms.length,
+        availableRooms: rooms.filter(r => r.status === 'AVAILABLE').length,
         totalBuildings: buildings.length
     };
 
@@ -96,70 +103,31 @@ export default function HousingManagementClient({
 
             if (roomError || !room) throw new Error('Room not available');
 
-            // 4. Create assignment
-            const { error: assignmentError } = await supabase
-                .from('housing_assignments')
-                .insert({
-                    application_id: applicationId,
-                    room_id: roomId,
-                    student_id: student.id,
-                    start_date: application.move_in_date,
-                    end_date: application.move_out_date,
-                    status: 'ASSIGNED'
-                });
+            // 4. Calculate dates
+            const startDate = new Date(application.move_in_date);
+            const duration = application.lease_duration || 1;
+            const endDate = new Date(startDate);
+            endDate.setMonth(startDate.getMonth() + duration);
 
-            if (assignmentError) throw assignmentError;
+            // 5. Call Edge Function for assignment and email
+            const { data: result, error: functionError } = await supabase.functions.invoke('handle-housing-assignment', {
+                body: {
+                    applicationId,
+                    roomId,
+                    studentId: student.id,
+                    startDate: startDate.toISOString(),
+                    endDate: endDate.toISOString(),
+                    monthlyRate: room.monthly_rate
+                }
+            });
 
-            // 5. Generate Invoice
-            const dueDate = new Date();
-            dueDate.setDate(dueDate.getDate() + 14); // Due in 14 days by default
-            const referenceNumber = `INV-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
-
-            const { data: invoice, error: invoiceError } = await supabase
-                .from('housing_invoices')
-                .insert({
-                    student_id: student.id,
-                    application_id: applicationId,
-                    reference_number: referenceNumber,
-                    total_amount: room.monthly_rate,
-                    paid_amount: 0,
-                    currency: 'EUR', // Default currency
-                    status: 'PENDING',
-                    due_date: dueDate.toISOString(),
-                    description: `Housing Rent - ${room.building?.name} Room ${room.room_number}`,
-                    metadata: {
-                        month: new Date().toLocaleString('default', { month: 'long', year: 'numeric' }),
-                        room_id: roomId
-                    }
-                })
-                .select()
-                .single();
-
-            if (invoiceError) throw new Error(`Assignment created, but invoice failed: ${invoiceError.message}`);
-
-            // 6. Create Invoice Item
-            if (invoice) {
-                const { error: itemError } = await supabase
-                    .from('housing_invoice_items')
-                    .insert({
-                        invoice_id: invoice.id,
-                        description: `Monthly Rent - Room ${room.room_number}`,
-                        amount: room.monthly_rate,
-                        quantity: 1,
-                        item_type: 'MONTHLY_RENT'
-                    });
-
-                if (itemError) console.error("Failed to create invoice item:", itemError);
+            if (functionError || !result?.success) {
+                throw new Error(functionError?.message || result?.error || 'Failed to assign room');
             }
 
-            // 7. Update statuses
-            await Promise.all([
-                supabase.from('housing_applications').update({ status: 'APPROVED' }).eq('id', applicationId),
-                supabase.from('housing_rooms').update({ status: 'OCCUPIED' }).eq('id', roomId)
-            ]);
-
             setShowAssignModal(false);
-            await onRefresh();
+            if (onRefresh) await onRefresh();
+            else window.location.reload();
         } catch (err: any) {
             setError(err.message || 'An error occurred');
         } finally {
@@ -168,38 +136,32 @@ export default function HousingManagementClient({
     };
 
     const handleDeleteApplication = async (id: string) => {
-        if (!window.confirm('Are you sure you want to PERMANENTLY delete this housing application? This will also remove associated invoices and payment records.')) return;
+        if (!window.confirm('Are you sure you want to PERMANENTLY delete this housing application? This will also remove associated invoices, assignments, and payment records.')) return;
         setAssignLoading(true);
         try {
             const supabase = createClient();
 
-            // 1. Get associated invoices
-            const { data: invoices } = await supabase.from('housing_invoices').select('id').eq('application_id', id);
-            if (invoices && invoices.length > 0) {
-                const ids = invoices.map(i => i.id);
-                await supabase.from('housing_payments').delete().in('invoice_id', ids);
-                await supabase.from('housing_invoice_items').delete().in('invoice_id', ids);
-                await supabase.from('housing_invoices').delete().in('id', ids);
-            }
-
-            // 2. Free up room if assigned
+            // 1. Free up room if assigned (before deletion)
             const { data: assignments } = await supabase.from('housing_assignments').select('room_id').eq('application_id', id);
             if (assignments && assignments.length > 0) {
-                await supabase.from('housing_rooms').update({ status: 'AVAILABLE' }).in('id', assignments.map(a => a.room_id));
+                const roomIds = assignments.map(a => a.room_id);
+                await supabase.from('housing_rooms').update({ status: 'AVAILABLE' }).in('id', roomIds);
             }
 
-            // 3. Delete related
-            await supabase.from('housing_deposits').delete().eq('application_id', id);
-            await supabase.from('housing_assignments').delete().eq('application_id', id);
-            await supabase.from('housing_audit_logs').delete().eq('target_id', id);
-
-            // 4. Delete application
+            // 2. Delete application (Cascade will handle invoices, deposits, assignments, etc.)
             const { error } = await supabase.from('housing_applications').delete().eq('id', id);
             if (error) throw error;
 
+            // 3. Optimistic update
+            setDeletedAppIds(prev => [...prev, id]);
+
+            // 4. Refresh data
+            console.log('Deletion successful, calling onRefresh...');
             await onRefresh();
+            console.log('onRefresh completed');
         } catch (err: any) {
-            alert(err.message);
+            console.error('Deletion error:', err);
+            alert(`Failed to delete: ${err.message}`);
         } finally {
             setAssignLoading(false);
         }
@@ -392,7 +354,7 @@ export default function HousingManagementClient({
                             : 'text-neutral-400 hover:text-neutral-600'
                             }`}
                     >
-                        Applications ({pendingApplications.length})
+                        Applications ({unassignedApps.length})
                     </button>
                     <button
                         onClick={() => setSelectedTab('assignments')}
@@ -419,14 +381,14 @@ export default function HousingManagementClient({
             {
                 selectedTab === 'applications' ? (
                     <div className="space-y-4">
-                        {pendingApplications.length === 0 ? (
+                        {unassignedApps.length === 0 ? (
                             <div className="bg-neutral-50 border-2 border-neutral-200 p-12 rounded-sm text-center">
                                 <Clock size={48} weight="regular" className="mx-auto text-neutral-300 mb-4" />
                                 <h3 className="text-xl font-black uppercase mb-2">No Applications Requiring Action</h3>
                                 <p className="text-sm text-neutral-600">All applications are either pending payment or already assigned.</p>
                             </div>
                         ) : (
-                            pendingApplications.map((app) => (
+                            unassignedApps.map((app) => (
                                 <div key={app.id} className="bg-white border-2 border-black p-6 rounded-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)]">
                                     <div className="flex items-start justify-between mb-4">
                                         <div className="flex-1">
@@ -443,14 +405,30 @@ export default function HousingManagementClient({
                                         </span>
                                     </div>
 
-                                    <div className="grid md:grid-cols-2 gap-4 mb-4">
+                                    <div className="grid md:grid-cols-4 gap-4 mb-4">
                                         <div>
-                                            <p className="text-[10px] font-black uppercase text-neutral-400 mb-1">Semester</p>
-                                            <p className="font-bold">{app.semester?.name}</p>
+                                            <p className="text-[10px] font-black uppercase text-neutral-400 mb-1">Room Type</p>
+                                            <p className="font-bold text-blue-600">{app.room_type || 'N/A'}</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-[10px] font-black uppercase text-neutral-400 mb-1">Lease Duration</p>
+                                            <p className="font-bold">{app.lease_duration || 1} {app.lease_duration === 1 ? 'Month' : 'Months'}</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-[10px] font-black uppercase text-neutral-400 mb-1">Monthly Rate</p>
+                                            <p className="font-bold">€{(app.total_contract_value / (app.lease_duration || 1)).toFixed(2)}</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-[10px] font-black uppercase text-neutral-400 mb-1">Total Contract</p>
+                                            <p className="font-bold text-lg">€{app.total_contract_value || 'N/A'}</p>
                                         </div>
                                         <div>
                                             <p className="text-[10px] font-black uppercase text-neutral-400 mb-1">Preferred Building</p>
                                             <p className="font-bold">{app.preferred_building?.name || 'No Preference'}</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-[10px] font-black uppercase text-neutral-400 mb-1">Semester</p>
+                                            <p className="font-bold">{app.semester?.name}</p>
                                         </div>
                                         <div>
                                             <p className="text-[10px] font-black uppercase text-neutral-400 mb-1">Move-in Date</p>
@@ -543,10 +521,17 @@ export default function HousingManagementClient({
                 ) : (
                     <div className="grid md:grid-cols-2 gap-6">
                         {buildings.map((building) => {
-                            const buildingRooms = availableRooms.filter(r => r.building_id === building.id);
-                            const buildingAssignments = assignments.filter(a => a.room?.building_id === building.id);
-                            const totalRooms = 10; // Placeholder until we have room count from DB properly
-                            const occupancyRate = totalRooms > 0 ? Math.round((buildingAssignments.length / totalRooms) * 100) : 0;
+                            const buildingRooms = rooms.filter(r => r.building_id === building.id);
+                            const availableRooms = buildingRooms.filter(r => r.status === 'AVAILABLE');
+                            
+                            // Get info from catalog
+                            const catalogBuilding = BUILDINGS_CATALOG.find(b => 
+                                b.name.toLowerCase() === building.name.toLowerCase() || 
+                                b.id === building.id
+                            );
+                            const catalogTotal = catalogBuilding?.apartments.reduce((sum, apt) => sum + apt.quantity, 0) || buildingRooms.length;
+                            
+                            const occupancyRate = catalogTotal > 0 ? Math.round(((catalogTotal - availableRooms.length) / catalogTotal) * 100) : 0;
 
                             return (
                                 <div key={building.id} className="bg-white border-2 border-black p-6 rounded-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)]">
@@ -608,22 +593,15 @@ export default function HousingManagementClient({
                                         </div>
                                     </div>
 
-                                    <div className="grid grid-cols-2 gap-4 mb-6">
-                                        <div>
-                                            <p className="text-[10px] font-black uppercase text-neutral-400 mb-1">Occupancy</p>
-                                            <div className="flex items-center gap-2">
-                                                <div className="flex-1 h-2 bg-neutral-100 rounded-full overflow-hidden">
-                                                    <div
-                                                        className="h-full bg-black transition-all"
-                                                        style={{ width: `${occupancyRate}%` }}
-                                                    />
-                                                </div>
-                                                <span className="text-xs font-bold">{occupancyRate}%</span>
-                                            </div>
+                                    <div className="grid grid-cols-2 gap-4 text-center">
+                                        <div className="p-3 bg-neutral-50 border border-neutral-100">
+                                            <p className="text-[10px] font-black uppercase text-neutral-400 mb-1">Available Pcs</p>
+                                            <p className="text-xl font-black">{availableRooms.length} / {catalogTotal}</p>
+                                            <p className="text-[8px] font-bold text-neutral-400 uppercase mt-1">From Catalog</p>
                                         </div>
-                                        <div>
-                                            <p className="text-[10px] font-black uppercase text-neutral-400 mb-1">Avail. Rooms</p>
-                                            <p className="text-lg font-black">{buildingRooms.length}</p>
+                                        <div className="p-3 bg-neutral-50 border border-neutral-100">
+                                            <p className="text-[10px] font-black uppercase text-neutral-400 mb-1">Occupancy</p>
+                                            <p className="text-xl font-black">{occupancyRate}%</p>
                                         </div>
                                     </div>
 
@@ -668,7 +646,7 @@ export default function HousingManagementClient({
 
                         <div className="space-y-4">
                             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                                {availableRooms.filter(r => r.building_id === selectedBuilding.id).map((room) => (
+                                {rooms.filter(r => r.building_id === selectedBuilding.id && r.status === 'AVAILABLE').map((room) => (
                                     <div key={room.id} className="p-4 border-2 border-green-200 bg-green-50 rounded-sm relative group">
                                         <div className="flex justify-between items-start mb-2">
                                             {editingRoomId === room.id ? (
@@ -692,6 +670,8 @@ export default function HousingManagementClient({
                                                                 setEditingRoomId(room.id);
                                                                 setEditRoomData({
                                                                     room_number: room.room_number,
+                                                                    room_type: room.room_type || 'Room',
+                                                                    size: room.size || '15m²',
                                                                     capacity: room.capacity,
                                                                     monthly_rate: room.monthly_rate
                                                                 });
@@ -725,6 +705,8 @@ export default function HousingManagementClient({
                                                 </div>
                                             ) : (
                                                 <>
+                                                    <p className="font-bold text-blue-600 uppercase text-[10px]">{room.room_type || 'Room'}</p>
+                                                    <p className="font-bold uppercase text-neutral-500">Size: {room.size || 'N/A'}</p>
                                                     <p className="font-bold uppercase text-neutral-500">Capacity: {room.capacity}</p>
                                                     <p className="font-bold uppercase text-neutral-500">Rate: €{room.monthly_rate}/mo</p>
                                                 </>
@@ -775,12 +757,12 @@ export default function HousingManagementClient({
                                 <strong>Preferred Building:</strong> {selectedApplication.preferred_building?.name || 'No preference'}
                             </p>
                             <p className="text-sm">
-                                <strong>Available Rooms:</strong> {availableRooms.length}
+                                <strong>Available Rooms:</strong> {rooms.filter(r => r.status === 'AVAILABLE').length}
                             </p>
                         </div>
 
                         <div className="space-y-3 mb-6 max-h-96 overflow-y-auto">
-                            {availableRooms.map((room) => (
+                            {rooms.filter(r => r.status === 'AVAILABLE').map((room) => (
                                 <button
                                     key={room.id}
                                     onClick={() => handleAssignRoom(selectedApplication.id, room.id)}
@@ -790,8 +772,8 @@ export default function HousingManagementClient({
                                     <div className="flex items-center justify-between">
                                         <div>
                                             <p className="font-black">{room.building?.name} - Room {room.room_number}</p>
-                                            <p className="text-sm text-neutral-600">{room.building?.campus_location}</p>
-                                            <p className="text-xs text-neutral-500 mt-1">Capacity: {room.capacity} | €{room.monthly_rate}/month</p>
+                                            <p className="font-black text-blue-600 uppercase text-[10px] mt-1">{room.room_type || 'Room'}</p>
+                                            <p className="text-xs text-neutral-500 mt-1">Size: {room.size || 'N/A'} | Capacity: {room.capacity} | €{room.monthly_rate}/month</p>
                                         </div>
                                         <Bed className="text-neutral-400" size={24} weight="regular" />
                                     </div>
@@ -895,6 +877,29 @@ export default function HousingManagementClient({
                                     onChange={(e) => setNewRoom({ ...newRoom, room_number: e.target.value })}
                                     placeholder="e.g. 101"
                                 />
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-[10px] font-black uppercase text-neutral-400 mb-1">Room Type</label>
+                                    <select
+                                        className="w-full px-4 py-2 border-2 border-black font-bold outline-none"
+                                        value={newRoom.room_type}
+                                        onChange={(e) => setNewRoom({ ...newRoom, room_type: e.target.value })}
+                                    >
+                                        <option value="Room">Room</option>
+                                        <option value="Studio">Studio</option>
+                                        <option value="Two-room apartment">Two-room apartment</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-[10px] font-black uppercase text-neutral-400 mb-1">Size</label>
+                                    <input
+                                        className="w-full px-4 py-2 border-2 border-black font-bold outline-none"
+                                        value={newRoom.size}
+                                        onChange={(e) => setNewRoom({ ...newRoom, size: e.target.value })}
+                                        placeholder="e.g. 15m²"
+                                    />
+                                </div>
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
